@@ -65,7 +65,7 @@ sidebar_position: 5
 6. User receives a confirmation email, and the user taps on the link to confirm the user’s email
 
 # User Story 1: The Group Project
-Johnson, a student at Temple University studying Math, will like to meet with select students from his class to form a group to study with for the upcoming finals. He normally has a hard time keeping up with his own schedule, much less remembering others. For the next class, he got 5 minutes of everyone’s time and recommended they use the GroupMeet App. On this application, he explained that everyone will be able to sign in and create/join a group using a code. In this group, everyone will have access to a Calendar in which they can place their availability. The Calendar will then sync everyone’s submission and portray the availability of when everyone would be free to meet.
+As a user I want an event management app to help determine a good time frame for my group to meet up, so that I can have a completed product within the given timeframe with minimal hassle.
 
 # User Story 2: Friends
-Christy, age 32, has been longing for a vacation with her friends. As they are all in different states, it’s hard to keep up with each other, much less get on the phone for a conversation. In the group chat they have on Telegram, she sent the GroupMeet app link so all the girls can download it. She texted that this app will allow them to sync their personal static calendars into a group calendar for ease of visibility. This syncing will not reveal specific details of their normal schedule but mark dates and times where they’re available. She also told them that if something comes up on the fly that will cause an unavailability, they can instantly place it in the GroupMeet app calendar which will reflect on everyone else’s end.
+As a user I want a calendar assistant to help find a good time for all of my friends to meet up so that I can have a vacation getaway with memories that will last a lifetime.
