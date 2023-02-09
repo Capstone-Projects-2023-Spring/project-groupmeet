@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Use-case descriptions
 
-## Use case 1: Assigned Group Project
+## Use case 1: Last Second Changes
 1. Students gather together after being assigned a group project.
 2. One student logs into the GroupMeet app and creates a new group.
 3. A code/QR code/link is generated, and the one student shares their screen with the rest of the group.
@@ -17,7 +17,7 @@ sidebar_position: 5
 10. Upon overriding this decision, a notification is sent to all group members with a suggestion that GroupMeet makes as to what other time(s) would work.
 11. Example: “Something came up for Adam and he can no longer make it on FRIDAY 27TH from 7PM – 9PM. How does SATURDAY 28TH from 2PM – 4PM sound?” in which Saturday 28th from 2PM – 4PM is the next time where everyone is available.
 
-## Use case 2: Busy Friends
+## Use case 2: Calendar Integration
 1. A friend group has been trying to get together for dinner for a long time, but nobody is dedicated enough to coordinate everyone’s schedules.
 2. One friend texts a link to the friend group chat to install GroupMeet.
 3. Each friend installs GroupMeet, creates an account and syncs their Google calendars.
@@ -26,7 +26,7 @@ sidebar_position: 5
 6. This friend gets to see a pre-released static calendar in which they see when everyone else is available. They then simply look at all of the available times and quickly fill in all of their available times manually.
 7. Once this friend is finished filling times manually, the static calendar is generated and released to the entire group.
 
-## Use case 3: User seeks to set/change longevity of project for Group 2
+## Use case 3: Modification of Project Lifespan
 1. User enters the GroupMeet app
 2. The Home Screen is displayed
 3. User selects the Group Tab
@@ -44,7 +44,7 @@ sidebar_position: 5
 15. A message is shown confirming the change of timeline
 16. User receives a message from the Group 2 Chat with new timeline adjustments
 
-## Use case 4: User would like to check if a meeting for a specific day is still scheduled one hour prior
+## Use case 4: Push Notifications and Reminders
 1. User receives a message from the GroupMeet app reminding them that there is a Meeting to be held at 4 pm in which he offered to attend.
 2. User taps on the message
 3. User is instantly taken to the applications home page
@@ -56,7 +56,7 @@ sidebar_position: 5
 9. The pop-up menu disappears.
 10. User is now on the home page of the GroupMeet app 
 
-## Use case 5: User would like to sign up for the GroupMeet app for the first time
+## Use case 5: Registration
 1. User opens the app
 2. User taps on the "Sign Up" button
 3. User is presented with a form where they are asked to provide their email address, password, and social media account.
