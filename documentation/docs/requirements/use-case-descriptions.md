@@ -4,7 +4,7 @@ sidebar_position: 5
 
 ## Use-case descriptions
 
-# Use case 1: Assigned Group Project
+## Use case 1: Assigned Group Project
 1. Students gather together after being assigned a group project.
 2. One student logs into the GroupMeet app and creates a new group.
 3. A code/QR code/link is generated, and the one student shares their screen with the rest of the group.
