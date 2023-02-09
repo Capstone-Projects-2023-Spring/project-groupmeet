@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-## Use-case descriptions
+# Use-case descriptions
 
 ## Use case 1: Assigned Group Project
 1. Students gather together after being assigned a group project.
