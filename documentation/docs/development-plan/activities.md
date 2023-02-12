@@ -57,3 +57,4 @@ sidebar_position: 1
 - Widget testing will ensure each widget will work as intended in a medium-scale overview
 - Integration testing will check the application on a large scale, making sure multiple widgets interact with each other as expected in given conditions.
 - The team will perform tests on all calendar syncing/calendar creation features and implementations with a variety of different calendar inputs and sample groups
+- 
