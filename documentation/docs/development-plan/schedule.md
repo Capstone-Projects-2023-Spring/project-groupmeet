@@ -18,6 +18,22 @@ gantt
         section Development 
          Software Development Plan Assignment: milestone, done, 2023-02-12, 1d
         section Development 
+         Generate Welcome Page:  done, 2023-02-08, 1d
+        section Development 
+         Create Account Page:  done, 2023-02-08, 1d
+        section Development 
+         Integrate Firebase:  , 2023-02-08, 1w
+        section Development 
+         Firebase test db established:  , 2023-02-08, 1w
+        section Development 
+         Account Creation Page:  , 2023-02-08, 1w
+        section Development 
+         Foundational social media integration:  , 2023-02-08, 1w
+        section Development 
+         Design Prototype:  , 2023-02-08, 1w
+        section Development 
+         Documentation Maintenance:  , 2023-02-08, 1w
+        section Development 
          Sprint 1: , 2023-02-15, 2w
         section Development 
          Group creation Development:  , 2023-02-15, 1d
