@@ -4,14 +4,14 @@ sidebar_position: 1
 
 # Activities
 
-# Requirements Gathering
+## Requirements Gathering
 
 For the requirements gathering portion of the initial development and planning phase, members of the team researched the following:
 - Compatible databases for the app to be hosted on
 - Functionally similar entities such as Calendar.com, and official calendar integrations such as Microsoft Office's Calendar and Google Calendar
 - Possible calendar sources that could be integrated into the app for syncing with a convenient user experience in mind
 
-# Top-level Design
+## Top-level Design
 
 1. Establish Google Firebase for a cloud-hosted database that can host the app
 2. Generate foundational app features such as welcome, account creation and login pages
@@ -21,7 +21,7 @@ For the requirements gathering portion of the initial development and planning p
 6. Develop miscellaneous features to fulfill scenarios that could occur in user flows
 7. Notification integration at certain stages of user flow
 
-# Detailed Design
+## Detailed Design
 
 1. Establish Google Firebase for a cloud-hosted database that can host the app app
     - Hosting our application on Google Firebase for login authentication and overall uptime
@@ -48,8 +48,11 @@ For the requirements gathering portion of the initial development and planning p
         - For example, send notifications to users 1 day before meeting time asking for their RSVP
         - For example, send notifications to users 15 minutes before meeting time
 
-# Test
+## Test
 
-- Unit tests will be created to test foundational features of the application to measure for basic functionality
+- All tests will be done with the Flutter framework testing suite.
+- Unit testing will be created to test foundational features of the application to measure for basic functionality
     - After all major development sessions conclude, functionality tests will be performed to avoid app-breaking contributions
+- Widget testing will ensure each widget will work as intended in a medium-scale overview
+- Integration testing will check the application on a large scale, making sure multiple widgets interact with each other as expected in given conditions.
 - The team will perform tests on all calendar syncing/calendar creation features and implementations with a variety of different calendar inputs and sample groups
