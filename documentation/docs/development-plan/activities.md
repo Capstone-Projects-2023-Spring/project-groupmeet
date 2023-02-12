@@ -6,14 +6,14 @@ sidebar_position: 1
 
 # Requirements Gathering
 
-For the requirements gathering portion of our intial development and planning, members of the team performed research on:
-- Compatible databases for our app to be hosted on
+For the requirements gathering portion of the initial development and planning phase, members of the team researched the following:
+- Compatible databases for the app to be hosted on
 - Functionally similar entities such as Calendar.com, and official calendar integrations such as Microsoft Office's Calendar and Google Calendar
-- Possible calendar sources that we could integrate in our app for syncing with a convenient user experience in mind
+- Possible calendar sources that could be integrated into the app for syncing with a convenient user experience in mind
 
 # Top-level Design
 
-1. Establish Google Firebase for a cloud-hosted database that we can host our app on
+1. Establish Google Firebase for a cloud-hosted database that can host the app
 2. Generate foundational app features such as welcome, account creation and login pages
 3. Group creation and code/link sharing feature development
 4. Create group finalization algorithm(s) and develop procedures performed at this stage
@@ -23,10 +23,10 @@ For the requirements gathering portion of our intial development and planning, m
 
 # Detailed Design
 
-1. Establish Google Firebase for a cloud-hosted database that we can host our app on
+1. Establish Google Firebase for a cloud-hosted database that can host the app app
     - Hosting our application on Google Firebase for login authentication and overall uptime
 2. Generate foundational app features such as welcome, account creation and login pages
-    - Making sure that we establish foundational features and connecting pages for the user flow so that we may get a real-time grasp on the user's experience throughout development
+    - Making sure that foundational features are established and connecting pages for the user flow so that user experience is kept as a top priority throughout development.
     - Users will be able to link their social media profiles and/or contact informations to be shared later
     - Users will be able to create static profiles where they can preemptively sync their calendars or chart out their availabilities
 3. Group creation and code/link sharing feature development
@@ -52,4 +52,4 @@ For the requirements gathering portion of our intial development and planning, m
 
 - Unit tests will be created to test foundational features of the application to measure for basic functionality
     - After all major development sessions conclude, functionality tests will be performed to avoid app-breaking contributions
-- Our team will perform tests on our calendar syncing/calendar creation algorithms with a variety of different calendar inputs and sample groups
+- The team will perform tests on all calendar syncing/calendar creation features and implementations with a variety of different calendar inputs and sample groups
