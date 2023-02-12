@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Tasks
 
-1. Establish Google Firebase for a cloud-hosted database that we can host our app on
+1. Establish Google Firebase for a cloud-hosted database that the app can be hosted on
     - Create GroupMeet Firebase account and generate project(s)
 2. Generate foundational app features such as welcome, account creation and login pages
     - Establish project in Flutter
