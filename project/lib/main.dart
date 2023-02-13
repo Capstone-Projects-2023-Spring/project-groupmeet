@@ -1,10 +1,10 @@
 // ignore_for_file: avoid_unnecessary_containers
-
 import 'package:flutter/material.dart';
 import 'account_info.dart';
 import 'create_account.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,9 +47,20 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  //have to clean up the controllers after DISPOSE
+  late DatabaseReference ref;
+
+  // delete below - automatically writes to database for each user that logs in 
+  Future<void> writeIntitialValueToDatabase() async {
+    await ref.set({
+      "name": "John",
+      "age": 18,
+      "address": {"line1": "100 Mountain View"}
+    });
+  }
   final _emailCont = TextEditingController();
   final _passwordCont = TextEditingController();
+
+  String? uid;
 
   Future<void> login() async {
     try {
@@ -60,6 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
       );
       _emailCont.dispose();
       _passwordCont.dispose();
+
+      // DELETE BELOW - writes to pathway associated with individual user
+      uid = FirebaseAuth.instance.currentUser?.uid;
+      ref = FirebaseDatabase.instance.ref("users/$uid");
+      writeIntitialValueToDatabase();
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -92,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 children: <Widget>[
                   TextField(
-                      controller: _emailCont ,
+                      controller: _emailCont,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
