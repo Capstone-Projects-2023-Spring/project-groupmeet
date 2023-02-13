@@ -46,34 +46,20 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
-  //have to clean up the controllers after DISPOSE
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
 
-  Future<void> createAccount() async {
-    try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  //have to clean up the controllers after DISPOSE
+  final _emailCont = TextEditingController();
+  final _passwordCont = TextEditingController();
 
   Future<void> login() async {
     try {
+      print('inside Login');
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        //will want to have separate controllers?
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+        email: _emailCont.text.trim(),
+        password: _passwordCont.text.trim(),
       );
+      _emailCont.dispose();
+      _passwordCont.dispose();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -82,10 +68,10 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
   }
+
   Future<void> logout() async {
     print("logging out");
     await FirebaseAuth.instance.signOut();
-
   }
 
   @override
@@ -105,16 +91,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               child: Column(
                 children: <Widget>[
-                   TextField(
-                      controller: _emailController ,
+                  TextField(
+                      controller: _emailCont ,
                       keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Username",
                       )),
                   TextField(
-                    //try visiblePassword and then try text?
-                    controller: _passwordController,
+                    controller: _passwordCont,
                     keyboardType: TextInputType.visiblePassword,
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
@@ -122,18 +107,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     obscureText: true,
                   ),
-                  TextButton(
-                    onPressed: () {
-                      createAccount();
-                    },
-                    child: const Text("Click here to register"),
-                  ),
-                  ElevatedButton(onPressed: () {
-                    login();
-                  }, child: const Text("LOGIN")),
-                  ElevatedButton(onPressed: (){
-                    logout();
-                  }, child: const Text("Logout")),
+                  ElevatedButton(
+                      onPressed: () {
+                        login();
+                      },
+                      child: const Text("Login")),
+                  ElevatedButton(
+                      onPressed: () {
+                        logout();
+                      },
+                      child: const Text("Logout")),
                 ],
               ),
             ),
