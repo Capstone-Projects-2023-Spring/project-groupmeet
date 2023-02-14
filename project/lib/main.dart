@@ -49,14 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late DatabaseReference ref;
 
-  // delete below - automatically writes to database for each user that logs in 
-  Future<void> writeIntitialValueToDatabase() async {
-    await ref.set({
-      "name": "John",
-      "age": 18,
-      "address": {"line1": "100 Mountain View"}
-    });
-  }
   final _emailCont = TextEditingController();
   final _passwordCont = TextEditingController();
 
@@ -72,10 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
       _emailCont.dispose();
       _passwordCont.dispose();
 
-      // DELETE BELOW - writes to pathway associated with individual user
+      // this is the path that each user's information is stored at
+      // not doing anything with it while logging in right now
       uid = FirebaseAuth.instance.currentUser?.uid;
       ref = FirebaseDatabase.instance.ref("users/$uid");
-      writeIntitialValueToDatabase();
+    
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
