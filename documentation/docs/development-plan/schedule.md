@@ -22,19 +22,19 @@ gantt
         section Development 
          Create Account Page:  done, 2023-02-08, 1w
         section Development 
-         Integrate Firebase:  , 2023-02-08, 1w
+         Integrate Firebase:  done, 2023-02-08, 1w
         section Development 
-         Firebase test db established:  , 2023-02-08, 1w
+         Firebase test db established:  done, 2023-02-08, 1w
         section Development 
-         Account Creation Page:  , 2023-02-08, 1w
+         Account Creation Page:  done, 2023-02-08, 1w
         section Development 
-         Foundational social media integration:  , 2023-02-08, 1w
-        section Development 
-         Documentation Maintenance:  , 2023-02-08, 1w
+         Documentation Maintenance:  done, 2023-02-08, 1w
         section Development 
          Sprint 1: , 2023-02-15, 2w
         section Development 
          Design Prototype:  , 2023-02-08, 3w
+        section Development 
+         Foundational social media integration:  , 2023-02-15, 1w
         section Development 
          Group creation Development:  , 2023-02-15, 1d
         section Development 
