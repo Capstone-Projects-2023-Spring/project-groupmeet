@@ -12,15 +12,15 @@ gantt
         section Development 
          Sprint 0: , 2023-02-08, 1w
         section Development 
-         Establish Google Firebase:  done, 2023-02-08, 1d
+         Establish Google Firebase:  done, 2023-02-08, 1w
         section Development 
-         Generate foundational app features:  done, 2023-02-08, 1d
+         Generate foundational app features:  done, 2023-02-08, 1w
         section Development 
          Software Development Plan Assignment: milestone, done, 2023-02-12, 1d
         section Development 
-         Generate Welcome Page:  done, 2023-02-08, 1d
+         Generate Welcome Page:  done, 2023-02-08, 1w
         section Development 
-         Create Account Page:  done, 2023-02-08, 1d
+         Create Account Page:  done, 2023-02-08, 1w
         section Development 
          Integrate Firebase:  , 2023-02-08, 1w
         section Development 
@@ -30,11 +30,11 @@ gantt
         section Development 
          Foundational social media integration:  , 2023-02-08, 1w
         section Development 
-         Design Prototype:  , 2023-02-08, 1w
-        section Development 
          Documentation Maintenance:  , 2023-02-08, 1w
         section Development 
          Sprint 1: , 2023-02-15, 2w
+        section Development 
+         Design Prototype:  , 2023-02-08, 3w
         section Development 
          Group creation Development:  , 2023-02-15, 1d
         section Development 
@@ -81,3 +81,7 @@ gantt
          Final Grade Submissions 🎓 :  , 2023-05-12, 1d
         
 ```
+Milestone 1 Goals:
+ - First pass of prototype.
+ - First pass of design awaiting feedback from UX.
+ - Database able to pull and store groups.
