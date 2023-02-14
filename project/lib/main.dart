@@ -1,8 +1,14 @@
+// ignore_for_file: avoid_unnecessary_containers
 import 'package:flutter/material.dart';
 import 'account_info.dart';
 import 'create_account.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -41,6 +47,43 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  late DatabaseReference ref;
+
+  final _emailCont = TextEditingController();
+  final _passwordCont = TextEditingController();
+
+  String? uid;
+
+  Future<void> login() async {
+    try {
+      print('inside Login');
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailCont.text.trim(),
+        password: _passwordCont.text.trim(),
+      );
+      _emailCont.dispose();
+      _passwordCont.dispose();
+
+      // this is the path that each user's information is stored at
+      // not doing anything with it while logging in right now
+      uid = FirebaseAuth.instance.currentUser?.uid;
+      ref = FirebaseDatabase.instance.ref("users/$uid");
+    
+
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+  }
+
+  Future<void> logout() async {
+    print("logging out");
+    await FirebaseAuth.instance.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,45 +94,56 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(
-              image: NetworkImage("https://cdn.pixabay.com/photo/2016/09/09/23/27/the-ostrich-1658267_960_720.jpg"),
+            const Image(
+              image: NetworkImage(
+                  "https://cdn.pixabay.com/photo/2016/09/09/23/27/the-ostrich-1658267_960_720.jpg"),
             ),
             Container(
               child: Column(
                 children: <Widget>[
                   TextField(
-                      decoration: InputDecoration(
+                      controller: _emailCont,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Username",
-                      )
-                  ),
+                      )),
                   TextField(
-                    decoration: InputDecoration(
+                    controller: _passwordCont,
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: const InputDecoration(
                       border: OutlineInputBorder(),
                       labelText: "Password",
                     ),
                     obscureText: true,
                   ),
-                  TextButton(
-                    onPressed: (){},
-                    child: Text("Click here to register"),
-                  ),
-                  ElevatedButton(onPressed: (){}, child: Text("LOGIN")),
+                  ElevatedButton(
+                      onPressed: () {
+                        login();
+                      },
+                      child: const Text("Login")),
+                  ElevatedButton(
+                      onPressed: () {
+                        logout();
+                      },
+                      child: const Text("Logout")),
                 ],
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:[
+              children: [
                 Container(
                   child: Column(
                     children: [
                       Text("Account creation"),
                       IconButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const CreateAccount(title: "Create Account")),
+                            MaterialPageRoute(
+                                builder: (context) => const CreateAccount(
+                                    title: "Create Account")),
                           );
                         },
                         icon: Icon(Icons.create),
@@ -102,10 +156,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Text("My Account"),
                       IconButton(
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const AccountInfo(title: "My Account")),
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const AccountInfo(title: "My Account")),
                           );
                         },
                         icon: Icon(Icons.create),
