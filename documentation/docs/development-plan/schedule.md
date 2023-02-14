@@ -12,23 +12,26 @@ gantt
         section Development 
          Sprint 0: , 2023-02-08, 1w
         section Development 
-         Establish Google Firebase:  done, 2023-02-08, 1w
-        section Development 
-         Generate foundational app features:  done, 2023-02-08, 1w
-        section Development 
-         Software Development Plan Assignment: milestone, done, 2023-02-12, 1d
-        section Development 
-         Generate Welcome Page:  done, 2023-02-08, 1w
+         Account Creation Page:  done, 2023-02-08, 1w
         section Development 
          Create Account Page:  done, 2023-02-08, 1w
         section Development 
-         Integrate Firebase:  done, 2023-02-08, 1w
+         Documentation Maintenance:  done, 2023-02-08, 1w
+        section Development 
+         Establish Google Firebase:  done, 2023-02-08, 1w
+        section Development 
+         Firebase prototype integration to app:  done, 2023-02-08, 1w
         section Development 
          Firebase test db established:  done, 2023-02-08, 1w
         section Development 
-         Account Creation Page:  done, 2023-02-08, 1w
+         Generate foundational app features:  done, 2023-02-08, 1w
         section Development 
-         Documentation Maintenance:  done, 2023-02-08, 1w
+         Generate Welcome Page:  done, 2023-02-08, 1w
+        section Development 
+         Integrate Firebase:  done, 2023-02-08, 1w
+        section Development 
+         Software Development Plan Assignment: milestone, done, 2023-02-12, 1d
+         
         section Development 
          Sprint 1: , 2023-02-15, 2w
         section Development 
@@ -43,6 +46,7 @@ gantt
          Design Document Part 1 (Architecture) Assignment: milestone, , 2023-02-19, 1d
         section Development 
          Design Document Part 2 (API) Assignment: milestone, , 2023-02-26, 1d
+         
         section Development 
          Sprint 2: , 2023-03-01, 1w
         section Development 
@@ -53,12 +57,14 @@ gantt
          Spring Break (no classes held): done, 2023-03-06, 1d
         section Development 
          Milestone Demo 1 :crit, milestone,  , 2023-03-14, 1d
+         
         section Development 
          Sprint 3: , 2023-03-15, 2w
         section Development 
          Establish Google Calendar sync integration:  , 2023-03-15, 1d
         section Development 
          Milestone Demo 2 :crit, milestone,  , 2023-03-28, 1d
+         
         section Development 
          Sprint 4: , 2023-03-29, 2w
         section Development 
@@ -67,6 +73,7 @@ gantt
          Notification integration:  , 2023-03-29, 1d
         section Development 
          Milestone Demo 3 :crit, milestone,  , 2023-04-11, 1d
+         
         section Development 
          Sprint 5: , 2023-04-12, 16d
         section Development 
