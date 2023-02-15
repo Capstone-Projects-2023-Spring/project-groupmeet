@@ -18,7 +18,7 @@ sidebar_position: 5
 3. GroupMeet prompts the user for information such as the name of the group and projected end-date of the group.
 4. This prompted information is then stored within the Groups settings.
 
-## Use case 2: Invite Other Users
+## Use case 3: Invite Other Users
 1. Original user logs in to GroupMeet and creates a new group.
 2. A code/QR code/link is generated, and the one student shares their screen with the rest of the group.
 3. Every other student in the group has free choice of writing down the code and inputting later, scanning the QR code immediately, clicking on the link and instantly redirecting to joining on the app, etc.
