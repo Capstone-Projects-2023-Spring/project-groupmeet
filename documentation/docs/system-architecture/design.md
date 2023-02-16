@@ -62,8 +62,8 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor User
+    actor UserX
     participant System
-    participant Group_Chat
 
     User->>System: Logs in
     User->>System: Navigates to Group Settings
@@ -73,8 +73,8 @@ sequenceDiagram
     System->>User: Prompts user with calendar
     User->>System: User selects new timeline date
     User->>System: User saves new timeline
-    System->>Group_Chat: Sends message to Group Chat with new timeline adjustments
-    Group_Chat->>System: Receives message from System
+    System->>UserX: Sends message to Group Chat with new timeline adjustments
+    UserX->>System: Receives message from System
     System->>User: Confirms change of timeline
 ```
 **Use Case 7: Push Notifications and Reminders**
@@ -83,6 +83,7 @@ sequenceDiagram
     actor User
     participant GroupMeet App
     participant Message Server
+
     GroupMeet App->>User: Receives a meeting reminder message
     User->>GroupMeet App: Taps on the message
     GroupMeet App->>Message Server: Fetches details about the meeting
