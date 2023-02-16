@@ -51,7 +51,7 @@ sidebar_position: 1
 
 ## Test
 
-- All tests will be done with the Flutter framework testing suite.
+- All tests will be done with the Flutter framework testing suite using the flutter_test package.
 - Unit testing will be created to test foundational features of the application to measure for basic functionality
     - After all major development sessions conclude, functionality tests will be performed to avoid app-breaking contributions
 - Widget testing will ensure each widget will work as intended in a medium-scale overview
