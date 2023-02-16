@@ -16,6 +16,23 @@ For each component provide class diagrams showing the classes to be developed (o
 
 Sequence diagrams showing the data flow for _all_ use cases. One sequence diagram corresponds to one use case and different use cases should have different corresponding sequence diagrams.
 
+###Use Case 2: Event Creation
+```mermaid
+sequenceDiagram
+    actor User
+    participant GroupMeet App
+    participant Firebase Authentication
+    participant Realtime Database
+    User->>+ GroupMeet App: login()
+    GroupMeet App->>+Firebase Authentication: signInWithEmailAndPassword()
+    
+    User->>+GroupMeet App: Presses button to create a new group
+    GroupMeet App -->> User: prompts user for group information
+    User->>+GroupMeet App: Enters group information
+
+    GroupMeet App->>+Realtime Database : update() to group settings
+```
+
 Describe algorithms employed in your project, e.g. neural network paradigm, training and training data set, etc.
 
 If there is a database:
