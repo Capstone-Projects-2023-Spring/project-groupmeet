@@ -39,9 +39,9 @@ gantt
         section Development 
          Foundational social media integration:  , 2023-02-15, 1w
         section Development 
-         Group creation Development:  , 2023-02-15, 1d
+         Group creation Development:  , 2023-02-15, 2w
         section Development 
-         Code/link sharing feature Development:  , 2023-02-15, 1d
+         Code/link sharing feature Development:  , 2023-02-15, 2w
         section Development 
          Design Document Part 1 (Architecture) Assignment: milestone, , 2023-02-19, 1d
         section Development 
