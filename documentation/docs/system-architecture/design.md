@@ -55,9 +55,24 @@ sequenceDiagram
     TODO
 ``` -->
 **Use Case 5: Last Second Changes**
-<!-- ```mermaid
-    TODO
-``` -->
+```mermaid
+sequenceDiagram
+    actor Group
+    actor UserX
+    actor UserY
+    participant GroupMeet App
+
+    Group->>GroupMeet App: All users join the group
+    GroupMeet App->>+ GroupMeet App: Static Calendar is generated with everyone's schedules
+    UserX->>GroupMeet App: Selects "green" time (where everyone is available), clicking on the time and proposing it
+    GroupMeet App->>Group: Sends notifications to all members, asking for time approval
+    Group->>GroupMeet App: All users approve meeting time
+    UserY->>GroupMeet App: User later realizes that they actually cannot make that time
+    UserY->>GroupMeet App: Cancels the current meeting time
+    GroupMeet App->>Group: Sends notifications to all members
+    GroupMeet App->>Group: Notification includes notice of cancellation and suggestion for next best time to meet
+
+```
 **Use Case 6: Modification of Project Lifespan**
 ```mermaid
 sequenceDiagram
