@@ -37,7 +37,7 @@ gantt
         section Development 
          Design Prototype:  , 2023-02-08, 3w
         section Development 
-         Foundational social media integration:  , 2023-02-15, 1w
+         Foundational social media integration:  , 2023-02-15, 2w
         section Development 
          Group creation Development:  , 2023-02-15, 2w
         section Development 
