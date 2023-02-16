@@ -24,8 +24,8 @@ sidebar_position: 1
 
 ## Detailed Design
 
-1. Establish Google Firebase for a cloud-hosted database that can host the app app\n
-    1.1 Hosting our application on Google Firebase for login authentication and overall uptime
+1. Establish Google Firebase for a cloud-hosted database that can host the app app<br /> 
+    1.1 Hosting our application on Google Firebase for login authentication and overall uptime<br /> 
 2. Generate foundational app features such as welcome, account creation and login pages
     2.1 Making sure that foundational features are established and connecting pages for the user flow so that user experience is kept as a top priority throughout development.
     2.2 Users will be able to link their social media profiles and/or contact informations to be shared later
@@ -57,4 +57,3 @@ sidebar_position: 1
 - Widget testing will ensure each widget will work as intended in a medium-scale overview
 - Integration testing will check the application on a large scale, making sure multiple widgets interact with each other as expected in given conditions.
 - The team will perform tests on all calendar syncing/calendar creation features and implementations with a variety of different calendar inputs and sample groups
-- 
