@@ -24,7 +24,7 @@ sidebar_position: 1
 
 ## Detailed Design
 
-1. Establish Google Firebase for a cloud-hosted database that can host the app app
+1. Establish Google Firebase for a cloud-hosted database that can host the app app\n
     1.1 Hosting our application on Google Firebase for login authentication and overall uptime
 2. Generate foundational app features such as welcome, account creation and login pages
     2.1 Making sure that foundational features are established and connecting pages for the user flow so that user experience is kept as a top priority throughout development.
