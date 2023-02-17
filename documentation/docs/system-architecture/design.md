@@ -13,6 +13,7 @@ In addition to the general requirements the Design Document - Part I Architectur
 A description the different components and their interfaces. For example: client, server, database.
 
 **Class Diagrams**
+**Diagram 1**
 ```mermaid
 classDiagram
     MyApp-->MyHomePage
