@@ -14,6 +14,8 @@ gantt
         section Development 
          Firebase prototype integration to app:  done, 2023-02-08, 1d
         section Development 
+         Create Account Page UI:  done, 2023-02-09, 3d
+        section Development 
          Account Creation Page information:  done, 2023-02-08, 6d
         section Development 
          Establish Google Firebase:  done, 2023-02-08, 6d
@@ -23,8 +25,6 @@ gantt
          Generate Welcome Page:  done, 2023-02-08, 4d
         section Development 
          Integrate Firebase:  done, 2023-02-08, 6d
-        section Development 
-         Create Account Page UI:  done, 2023-02-09, 3d
         section Development 
          Documentation Maintenance:  done, 2023-02-08, 1w
         section Development 
