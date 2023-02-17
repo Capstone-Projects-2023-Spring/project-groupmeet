@@ -77,7 +77,7 @@ classDiagram
     }
 ```
 
-##Sequence Diagrams
+##Sequence Diagrams##
 **Use Case 1: Registration**
 <!-- ```mermaid
     TODO
