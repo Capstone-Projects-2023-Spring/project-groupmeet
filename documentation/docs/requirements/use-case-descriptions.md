@@ -9,7 +9,7 @@ sidebar_position: 5
 2. User taps on the "Sign Up" button
 3. User is presented with a form where they are asked to provide their email address, password, and social media account.
 4. User carefully fills out the form and clicks the next button
-5. User is asked to sign in to the social media account making sure that the user identity is correct
+5. User is asked to sign in to their social media accounts using external validation
 6. User receives a confirmation email, and the user taps on the link to confirm the user’s email
 
 ## Use case 2: Event Creation
