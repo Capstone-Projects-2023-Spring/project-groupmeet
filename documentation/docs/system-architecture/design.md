@@ -12,7 +12,7 @@ In addition to the general requirements the Design Document - Part I Architectur
 
 A description the different components and their interfaces. For example: client, server, database.
 
-##Class Diagrams
+**Class Diagrams**
 ```mermaid
 classDiagram
     MyApp-->MyHomePage
@@ -77,7 +77,7 @@ classDiagram
     }
 ```
 
-##Sequence Diagrams##
+**Sequence Diagrams**
 **Use Case 1: Registration**
 <!-- ```mermaid
     TODO
