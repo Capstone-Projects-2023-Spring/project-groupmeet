@@ -12,14 +12,6 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _fnameController = TextEditingController();
