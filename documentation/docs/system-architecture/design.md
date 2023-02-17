@@ -80,7 +80,7 @@ classDiagram
 
 **Sequence Diagrams**
 **Use Case 1: Registration**
-<!-- ```mermaid
+```mermaid
 sequenceDiagram
     actor User
     User->>GroupMeet: Open application
@@ -92,12 +92,12 @@ sequenceDiagram
     GroupMeet-->>-User: Prompts to confirm email address
     User->>+GroupMeet: Validates email address
     GroupMeet-->>-User: Confirms validation, thanks user
-``` -->
+```
 **Use Case 2: Login**
-<!-- ```mermaid
+```mermaid
 sequenceDiagram
     
-``` -->
+```
 **Use Case 3: Event Creation**
 ```mermaid
 sequenceDiagram
