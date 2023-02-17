@@ -12,21 +12,21 @@ gantt
         section Development 
          Sprint 0: , 2023-02-08, 1w
         section Development 
-         Account Creation Page:  done, 2023-02-08, 1w
+         Account Creation Page information:  done, 2023-02-08, 4d
         section Development 
-         Create Account Page:  done, 2023-02-08, 1w
+         Create Account Page UI:  done, 2023-02-09, 3d
         section Development 
          Documentation Maintenance:  done, 2023-02-08, 1w
         section Development 
-         Establish Google Firebase:  done, 2023-02-08, 1w
+         Establish Google Firebase:  done, 2023-02-08, 4d
         section Development 
-         Firebase prototype integration to app:  done, 2023-02-08, 1w
+         Firebase prototype integration to app:  done, 2023-02-08, 1d
         section Development 
-         Firebase test db established:  done, 2023-02-08, 1w
+         Firebase test db established:  done, 2023-02-08,4d
         section Development 
          Generate foundational app features:  done, 2023-02-08, 1w
         section Development 
-         Generate Welcome Page:  done, 2023-02-08, 1w
+         Generate Welcome Page:  done, 2023-02-08, 4d
         section Development 
          Integrate Firebase:  done, 2023-02-08, 1w
         section Development 
