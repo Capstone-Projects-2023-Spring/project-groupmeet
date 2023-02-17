@@ -12,9 +12,72 @@ In addition to the general requirements the Design Document - Part I Architectur
 
 A description the different components and their interfaces. For example: client, server, database.
 
-For each component provide class diagrams showing the classes to be developed (or used) and their relationship.
+##Class Diagrams
+```mermaid
+classDiagram
+    MyApp-->MyHomePage
+    MyHomePage --|> StatefulWidget
+    note for StatefulWidget "Library in Flutter"
+    _MyHomePageState --|> State
+    note for State "Library in Flutter"
+    _MyHomePageState<--MyHomePage
 
-Sequence diagrams showing the data flow for _all_ use cases. One sequence diagram corresponds to one use case and different use cases should have different corresponding sequence diagrams.
+    class MyApp{
+      -key
+      +build(context)
+    }
+
+    class MyHomePage{
+      +title
+      +createState()
+    }
+
+    class _MyHomePageState{
+        +DatabaseReference
+        +_emailCont
+        +_passwordCont
+        +userCredential
+        +uid
+        +login()
+        +logout()
+        +build(context)
+    }
+
+    AccountInfo --|> StatefulWidget
+    _AccountInfoState --|> State
+    AccountInfo-->_AccountInfoState
+    
+    class AccountInfo{
+        +title
+        +createState()
+    }
+
+    class _AccountInfoState{
+        +build(context)
+    }
+
+    CreateAccount --|> StatefulWidget
+    _CreateAccountState --|> State
+    CreateAccount-->_CreateAccountState
+
+    class CreateAccount{
+        +title
+        +createState()
+    }
+
+    class _CreateAccountState{
+        +_emailController
+        +_passwordController
+        +_fnameController
+        +_lnameController
+        +ref
+        +uid
+        +createUserProfile()
+        +build()
+    }
+```
+
+##Sequence Diagrams
 **Use Case 1: Registration**
 <!-- ```mermaid
     TODO
