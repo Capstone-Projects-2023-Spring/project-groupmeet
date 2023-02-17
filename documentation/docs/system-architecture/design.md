@@ -96,7 +96,20 @@ sequenceDiagram
 **Use Case 2: Login**
 ```mermaid
 sequenceDiagram
-    
+    actor User
+    User->>GroupMeet: Open application
+    User->>+GroupMeet: Login
+    GroupMeet->>+FirebaseAuthentication: signInWithEmailAndPassword()
+    FirebaseAuthentication->>+RealtimeDatabase: Queries Database
+    RealtimeDatabase-->>-FirebaseAuthentication: Query Successful
+    FirebaseAuthentication-->>-GroupMeet: Account found
+    GroupMeet->>+RealtimeDatabase: Queries for any linked social media
+    RealtimeDatabase-->>-GroupMeet: No results found
+    GroupMeet-->>-User: Prompts user to link social media
+    User->>+GroupMeet: Validates social media accounts
+    GroupMeet->>+RealtimeDatabase: adds accounts to entry
+    RealtimeDatabase-->>-GroupMeet: entry updated
+    GroupMeet-->>-User: Thanks user for information
 ```
 **Use Case 3: Event Creation**
 ```mermaid
