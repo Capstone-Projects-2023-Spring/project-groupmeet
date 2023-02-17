@@ -81,9 +81,24 @@ classDiagram
 **Sequence Diagrams**
 **Use Case 1: Registration**
 <!-- ```mermaid
-    TODO
+sequenceDiagram
+    actor User
+    User->>GroupMeet: Open application
+    User->>+GroupMeet: Registers using form field
+    GroupMeet->>+FirebaseAuthentication: createUserWithEmailAndPassword()
+    FirebaseAuthentication->>+RealtimeDatabase: Creates a new entry
+    RealtimeDatabase-->>-FirebaseAuthentication: Creation Successful
+    FirebaseAuthentication-->>-GroupMeet: Account Created
+    GroupMeet-->>-User: Prompts to confirm email address
+    User->>+GroupMeet: Validates email address
+    GroupMeet-->>-User: Confirms validation, thanks user
 ``` -->
-**Use Case 2: Event Creation**
+**Use Case 2: Login**
+<!-- ```mermaid
+sequenceDiagram
+    
+``` -->
+**Use Case 3: Event Creation**
 ```mermaid
 sequenceDiagram
     actor User
@@ -98,7 +113,7 @@ sequenceDiagram
     User->>+GroupMeet App: Enters group information
     GroupMeet App->>+Realtime Database : Update information to group settings
 ```
-**Use Case 3: Invite Other Users**
+**Use Case 4: Invite Other Users**
 ```mermaid
 sequenceDiagram
     actor User1
@@ -114,11 +129,11 @@ sequenceDiagram
     User2->>+ User2: Scan the QR code and click the link
     User2->>+ GroupMeet App: Join scheduling group
 ```
-**Use Case 4: Time Block Selection**
+**Use Case 5: Time Block Selection**
 <!-- ```mermaid
     TODO
 ``` -->
-**Use Case 5: Last Second Changes**
+**Use Case 6: Last Second Changes**
 ```mermaid
 sequenceDiagram
     actor Group
@@ -137,7 +152,7 @@ sequenceDiagram
     GroupMeet App->>Group: Notification includes notice of cancellation and suggestion for next best time to meet
 
 ```
-**Use Case 6: Modification of Project Lifespan**
+**Use Case 7: Modification of Project Lifespan**
 ```mermaid
 sequenceDiagram
     actor User
@@ -156,7 +171,7 @@ sequenceDiagram
     UserX->>System: Receives message from System
     System->>User: Confirms change of timeline
 ```
-**Use Case 7: Push Notifications and Reminders**
+**Use Case 8: Push Notifications and Reminders**
 ```mermaid
 sequenceDiagram
     actor User
