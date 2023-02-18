@@ -116,7 +116,7 @@ Describe algorithms employed in your project, e.g. neural network paradigm, trai
 If there is a database:
 
 **Entity-relation diagram
-```
+```mermaid
 erDiagram
     Users{
         string uid 
