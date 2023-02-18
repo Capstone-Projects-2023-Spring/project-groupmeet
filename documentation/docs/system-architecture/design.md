@@ -115,7 +115,24 @@ Describe algorithms employed in your project, e.g. neural network paradigm, trai
 
 If there is a database:
 
-Entity-relation diagram.
+**Entity-relation diagram
+```
+erDiagram
+    Users{
+        string uid 
+        string name
+        string email    
+        Object socialMedia[]
+        string teamIds[]
+    }
+    Teams{
+        string teamId 
+        string teamName
+        string teamAdmin
+        string uids[]
+    }
+    Users }|..|{ Teams: have
+   ```
 
 Table design.
 
