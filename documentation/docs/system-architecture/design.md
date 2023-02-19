@@ -12,14 +12,106 @@ In addition to the general requirements the Design Document - Part I Architectur
 
 A description the different components and their interfaces. For example: client, server, database.
 
-For each component provide class diagrams showing the classes to be developed (or used) and their relationship.
+**Class Diagrams**
+**Diagram 1**
+```mermaid
+classDiagram
+    MyApp-->MyHomePage
+    MyHomePage --|> StatefulWidget
+    note for StatefulWidget "Library in Flutter"
+    _MyHomePageState --|> State
+    note for State "Library in Flutter"
+    _MyHomePageState<--MyHomePage
 
-Sequence diagrams showing the data flow for _all_ use cases. One sequence diagram corresponds to one use case and different use cases should have different corresponding sequence diagrams.
+    class MyApp{
+      -key
+      +build(context)
+    }
+
+    class MyHomePage{
+      +title
+      +createState()
+    }
+
+    class _MyHomePageState{
+        +DatabaseReference
+        +_emailCont
+        +_passwordCont
+        +userCredential
+        +uid
+        +login()
+        +logout()
+        +build(context)
+    }
+
+    AccountInfo --|> StatefulWidget
+    _AccountInfoState --|> State
+    AccountInfo-->_AccountInfoState
+    
+    class AccountInfo{
+        +title
+        +createState()
+    }
+
+    class _AccountInfoState{
+        +build(context)
+    }
+
+    CreateAccount --|> StatefulWidget
+    _CreateAccountState --|> State
+    CreateAccount-->_CreateAccountState
+
+    class CreateAccount{
+        +title
+        +createState()
+    }
+
+    class _CreateAccountState{
+        +_emailController
+        +_passwordController
+        +_fnameController
+        +_lnameController
+        +ref
+        +uid
+        +createUserProfile()
+        +build()
+    }
+```
+
+**Sequence Diagrams**
 **Use Case 1: Registration**
-<!-- ```mermaid
-    TODO
-``` -->
-**Use Case 2: Event Creation**
+```mermaid
+sequenceDiagram
+    actor User
+    User->>GroupMeet: Open application
+    User->>+GroupMeet: Registers using form field
+    GroupMeet->>+FirebaseAuthentication: createUserWithEmailAndPassword()
+    FirebaseAuthentication->>+RealtimeDatabase: Creates a new entry
+    RealtimeDatabase-->>-FirebaseAuthentication: Creation Successful
+    FirebaseAuthentication-->>-GroupMeet: Account Created
+    GroupMeet-->>-User: Prompts to confirm email address
+    User->>+GroupMeet: Validates email address
+    GroupMeet-->>-User: Confirms validation, thanks user
+```
+**Use Case 2: Login**
+```mermaid
+sequenceDiagram
+    actor User
+    User->>GroupMeet: Open application
+    User->>+GroupMeet: Login
+    GroupMeet->>+FirebaseAuthentication: signInWithEmailAndPassword()
+    FirebaseAuthentication->>+RealtimeDatabase: Queries Database
+    RealtimeDatabase-->>-FirebaseAuthentication: Query Successful
+    FirebaseAuthentication-->>-GroupMeet: Account found
+    GroupMeet->>+RealtimeDatabase: Queries for any linked social media
+    RealtimeDatabase-->>-GroupMeet: No results found
+    GroupMeet-->>-User: Prompts user to link social media
+    User->>+GroupMeet: Validates social media accounts
+    GroupMeet->>+RealtimeDatabase: adds accounts to entry
+    RealtimeDatabase-->>-GroupMeet: entry updated
+    GroupMeet-->>-User: Thanks user for information
+```
+**Use Case 3: Event Creation**
 ```mermaid
 sequenceDiagram
     actor User
@@ -34,7 +126,7 @@ sequenceDiagram
     User->>+GroupMeet App: Enters group information
     GroupMeet App->>+Realtime Database : Update information to group settings
 ```
-**Use Case 3: Invite Other Users**
+**Use Case 4: Invite Other Users**
 ```mermaid
 sequenceDiagram
     actor User1
@@ -50,11 +142,11 @@ sequenceDiagram
     User2->>+ User2: Scan the QR code and click the link
     User2->>+ GroupMeet App: Join scheduling group
 ```
-**Use Case 4: Time Block Selection**
+**Use Case 5: Time Block Selection**
 <!-- ```mermaid
     TODO
 ``` -->
-**Use Case 5: Last Second Changes**
+**Use Case 6: Last Second Changes**
 ```mermaid
 sequenceDiagram
     actor Group
@@ -73,7 +165,7 @@ sequenceDiagram
     GroupMeet App->>Group: Notification includes notice of cancellation and suggestion for next best time to meet
 
 ```
-**Use Case 6: Modification of Project Lifespan**
+**Use Case 7: Modification of Project Lifespan**
 ```mermaid
 sequenceDiagram
     actor User
@@ -92,7 +184,7 @@ sequenceDiagram
     UserX->>System: Receives message from System
     System->>User: Confirms change of timeline
 ```
-**Use Case 7: Push Notifications and Reminders**
+**Use Case 8: Push Notifications and Reminders**
 ```mermaid
 sequenceDiagram
     actor User
