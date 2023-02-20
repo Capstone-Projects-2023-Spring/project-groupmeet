@@ -157,15 +157,13 @@ sequenceDiagram
     GroupMeet App->>+Google Calendar: Request Calendar Info
     Google Calendar->>-GroupMeet App: Send's Calendar Info
     GroupMeet App->>+user3: Request to Sync Calendar
-    user3-->>+GroupMeet App: Denies Requests
+    user3->>+GroupMeet App: Denies Requests
     GroupMeet App->>+GroupMeet App: Syncs Calendar Info
     GroupMeet App->>+GroupMeet App: Places Participants in Group
-    GroupMeet App->>+user3: Prompts User to Selected From Static
-    Calendar
+    GroupMeet App->>+user3: Prompts User to Selected From Static Calendar
     user3->>+GroupMeet App: User Completes Calendar Filling Request
     GroupMeet App->>+GroupMeet App: Finalizes Calendar
-    GroupMeet App->>+GroupMeet App: Publishes Times of Best Fitted
-    Availability in Internalize Group
+    GroupMeet App->>+GroupMeet App: Publishes Times of Best Fitted Availability in Internalize Group
 ``` 
 **Use Case 6: Last Second Changes**
 ```mermaid
