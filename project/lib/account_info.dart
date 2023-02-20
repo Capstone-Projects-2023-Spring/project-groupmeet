@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'socials.dart';
 
 class AccountInfo extends StatefulWidget {
   const AccountInfo({super.key, required this.title});
@@ -27,7 +28,18 @@ class _AccountInfoState extends State<AccountInfo> {
       body: Center(
         child: Column(
           children: [
-            Text("You got this!"),
+            Text("Edit Social Media Accounts"),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SocialMedia(
+                          title: "Social Media")),
+                );
+              },
+              icon: Icon(Icons.create),
+            ),
           ],
         ),
       ),
