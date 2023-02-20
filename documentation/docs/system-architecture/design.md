@@ -2,15 +2,13 @@
 sidebar_position: 1
 ---
 
-**Purpose**
+**Components**
 
-The Design Document - Part I Architecture describes the software architecture and how the requirements are mapped into the design. This document will be a combination of diagrams and text that describes what the diagrams are showing.
+GroupMeet is a iOS/Android application that utilizes Google Firebase for the backend, and Flutter for the frontend.
 
-**Requirements**
+**Algorithms**
 
-In addition to the general requirements the Design Document - Part I Architecture will contain:
-
-A description the different components and their interfaces. For example: client, server, database.
+GroupMeet plans to implement a complex sorting algorithm to generate a static calendar to display the most convenient meetup times for our groups.
 
 **Class Diagrams**
 **Diagram 1**
