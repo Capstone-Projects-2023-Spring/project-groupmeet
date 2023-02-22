@@ -14,13 +14,6 @@ GroupMeet plans to implement a complex sorting algorithm to generate a static ca
 **Diagram 1**
 ```mermaid
 classDiagram
-    MyApp-->MyHomePage
-    MyHomePage --|> StatefulWidget
-    note for StatefulWidget "Library in Flutter"
-    _MyHomePageState --|> State
-    note for State "Library in Flutter"
-    _MyHomePageState<--MyHomePage
-
     class MyApp{
       -key
       +build(context)
@@ -41,10 +34,6 @@ classDiagram
         +logout()
         +build(context)
     }
-
-    AccountInfo --|> StatefulWidget
-    _AccountInfoState --|> State
-    AccountInfo-->_AccountInfoState
     
     class AccountInfo{
         +title
@@ -55,8 +44,6 @@ classDiagram
         +build(context)
     }
 
-    CreateAccount --|> StatefulWidget
-    _CreateAccountState --|> State
     CreateAccount-->_CreateAccountState
 
     class CreateAccount{
@@ -74,6 +61,27 @@ classDiagram
         +createUserProfile()
         +build()
     }
+
+    MyApp-->MyHomePage
+    _MyHomePageState<--MyHomePage
+
+    AccountInfo-->_AccountInfoState
+```
+
+**Diagram 2**
+```mermaid
+classDiagram
+    class State
+    class StatefulWidget
+    
+    class GenericPage
+    class _GenericPageState
+    
+    GenericPage --|> StatefulWidget
+    note for State "Library in Flutter"
+    note for StatefulWidget "Library in Flutter"
+    _GenericPageState --|> State
+    GenericPage --> _GenericPageState
 ```
 
 **Sequence Diagrams**
