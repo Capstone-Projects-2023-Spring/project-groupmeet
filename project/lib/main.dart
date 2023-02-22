@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers
 import 'package:flutter/material.dart';
+import 'package:groupmeet/code_sharing.dart';
 import 'account_info.dart';
 import 'create_account.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -68,8 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // not doing anything with it while logging in right now
       uid = FirebaseAuth.instance.currentUser?.uid;
       ref = FirebaseDatabase.instance.ref("users/$uid");
-    
-
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -165,6 +164,24 @@ class _MyHomePageState extends State<MyHomePage> {
                           );
                         },
                         icon: Icon(Icons.create),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: [
+                      Text("Code Sharing Page"),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CodeSharing(title: "Code Sharing")),
+                          );
+                        },
+                        icon: Icon(Icons.qr_code),
                       ),
                     ],
                   ),
