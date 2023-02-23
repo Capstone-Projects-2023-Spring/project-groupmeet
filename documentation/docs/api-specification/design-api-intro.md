@@ -145,59 +145,327 @@ A short, textual description of this widget.
 
 inherited
 
+MyHomePage class
+=========================================================================================================
 
-    MyHomePage constructor - MyHomePage - main library - Dart API      
+**Purpose**
+First page that is generated when the application opens.
 
- 
+**Inheritance**
 
-1.  [groupmeet](../../index.html)
-2.  [main](../../main/main-library.html)
-3.  [MyHomePage](../../main/MyHomePage-class.html)
-4.  MyHomePage const constructor
+*   [Object](https://api.flutter.dev/flutter/dart-core/Object-class.html)
+*   [DiagnosticableTree](https://api.flutter.dev/flutter/foundation/DiagnosticableTree-class.html)
+*   [Widget](https://api.flutter.dev/flutter/widgets/Widget-class.html)
+*   [StatefulWidget](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html)
+*   MyHomePage
 
-MyHomePage
+Constructors
+------------
 
-MyHomePage constructor [Null safety](https://dart.dev/null-safety "Supports the null safety language feature.")
-===============================================================================================================
+[MyHomePage](../main/MyHomePage/MyHomePage.html)({[Key](https://api.flutter.dev/flutter/foundation/Key-class.html)? key, required [String](https://api.flutter.dev/flutter/dart-core/String-class.html) title})
 
-const MyHomePage(
+const
 
-1.  {[Key](https://api.flutter.dev/flutter/foundation/Key-class.html)? key,
-2.  required [String](https://api.flutter.dev/flutter/dart-core/String-class.html) title}
+Properties
+----------
 
-)
+[hashCode](https://api.flutter.dev/flutter/widgets/Widget/hashCode.html) → [int](https://api.flutter.dev/flutter/dart-core/int-class.html)
 
-Implementation
---------------
+The hash code for this object.
 
-    const MyHomePage({super.key, required this.title});
+@[nonVirtual](https://pub.dev/documentation/meta/1.8.0/meta/nonVirtual-constant.html), read-only, inherited
 
-1.  [groupmeet](../../index.html)
-2.  [main](../../main/main-library.html)
-3.  [MyHomePage](../../main/MyHomePage-class.html)
-4.  MyHomePage const constructor
+[key](https://api.flutter.dev/flutter/widgets/Widget/key.html) → [Key](https://api.flutter.dev/flutter/foundation/Key-class.html)?
 
-##### MyHomePage class
+Controls how one widget replaces another widget in the tree.
 
-1.  [Constructors](../../main/MyHomePage-class.html#constructors)
-2.  [MyHomePage](../../main/MyHomePage/MyHomePage.html)
-3.  [Properties](../../main/MyHomePage-class.html#instance-properties)
-4.  [hashCode](https://api.flutter.dev/flutter/widgets/Widget/hashCode.html)
-5.  [key](https://api.flutter.dev/flutter/widgets/Widget/key.html)
-6.  [runtimeType](https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html)
-7.  [title](../../main/MyHomePage/title.html)
-8.  [Methods](../../main/MyHomePage-class.html#instance-methods)
-9.  [createElement](https://api.flutter.dev/flutter/widgets/StatefulWidget/createElement.html)
-10.  [createState](../../main/MyHomePage/createState.html)
-11.  [debugDescribeChildren](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/debugDescribeChildren.html)
-12.  [debugFillProperties](https://api.flutter.dev/flutter/widgets/Widget/debugFillProperties.html)
-13.  [noSuchMethod](https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html)
-14.  [toDiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toDiagnosticsNode.html)
-15.  [toString](https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html)
-16.  [toStringDeep](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringDeep.html)
-17.  [toStringShallow](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringShallow.html)
-18.  [toStringShort](https://api.flutter.dev/flutter/widgets/Widget/toStringShort.html)
-19.  [Operators](../../main/MyHomePage-class.html#operators)
-20.  [operator ==](https://api.flutter.dev/flutter/widgets/Widget/operator_equals.html)
+final, inherited
 
-groupmeet 1.0.0+1
+[runtimeType](https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html) → [Type](https://api.flutter.dev/flutter/dart-core/Type-class.html)
+
+A representation of the runtime type of the object.
+
+read-only, inherited
+
+[title](../main/MyHomePage/title.html) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+final
+
+Methods
+-------
+
+[createElement](https://api.flutter.dev/flutter/widgets/StatefulWidget/createElement.html)() → [StatefulElement](https://api.flutter.dev/flutter/widgets/StatefulElement-class.html)
+
+Creates a [StatefulElement](https://api.flutter.dev/flutter/widgets/StatefulElement-class.html) to manage this widget's location in the tree.
+
+inherited
+
+[createState](../main/MyHomePage/createState.html)() → [State](https://api.flutter.dev/flutter/widgets/State-class.html)<[MyHomePage](../main/MyHomePage-class.html)\>
+
+Creates the mutable state for this widget at a given location in the tree.
+
+override
+
+[debugDescribeChildren](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/debugDescribeChildren.html)() → [List](https://api.flutter.dev/flutter/dart-core/List-class.html)<[DiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticsNode-class.html)\>
+
+Returns a list of `DiagnosticsNode` objects describing this node's children.
+
+@[protected](https://pub.dev/documentation/meta/1.8.0/meta/protected-constant.html), inherited
+
+[debugFillProperties](https://api.flutter.dev/flutter/widgets/Widget/debugFillProperties.html)([DiagnosticPropertiesBuilder](https://api.flutter.dev/flutter/foundation/DiagnosticPropertiesBuilder-class.html) properties) → void
+
+Add additional properties associated with the node.
+
+inherited
+
+[noSuchMethod](https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html)([Invocation](https://api.flutter.dev/flutter/dart-core/Invocation-class.html) invocation) → dynamic
+
+Invoked when a non-existent method or property is accessed.
+
+inherited
+
+[toDiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toDiagnosticsNode.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html)? name, [DiagnosticsTreeStyle](https://api.flutter.dev/flutter/foundation/DiagnosticsTreeStyle.html)? style}) → [DiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticsNode-class.html)
+
+Returns a debug representation of the object that is used by debugging tools and by [DiagnosticsNode.toStringDeep](https://api.flutter.dev/flutter/foundation/DiagnosticsNode/toStringDeep.html).
+
+inherited
+
+[toString](https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html)({[DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.info}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+A string representation of this object.
+
+inherited
+
+[toStringDeep](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringDeep.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html) prefixLineOne = '', [String](https://api.flutter.dev/flutter/dart-core/String-class.html)? prefixOtherLines, [DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.debug}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+Returns a string representation of this node and its descendants.
+
+inherited
+
+[toStringShallow](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringShallow.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html) joiner = ', ', [DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.debug}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+Returns a one-line detailed description of the object.
+
+inherited
+
+[toStringShort](https://api.flutter.dev/flutter/widgets/Widget/toStringShort.html)() → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+A short, textual description of this widget.
+
+inherited
+
+CreateAccount class
+============================================================================================================
+**Purpose**
+The page that allows the user to register a new account.
+
+**Inheritance**
+
+*   [Object](https://api.flutter.dev/flutter/dart-core/Object-class.html)
+*   [DiagnosticableTree](https://api.flutter.dev/flutter/foundation/DiagnosticableTree-class.html)
+*   [Widget](https://api.flutter.dev/flutter/widgets/Widget-class.html)
+*   [StatefulWidget](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html)
+*   CreateAccount
+
+Constructors
+------------
+
+[CreateAccount](../create_account/CreateAccount/CreateAccount.html)({[Key](https://api.flutter.dev/flutter/foundation/Key-class.html)? key, required [String](https://api.flutter.dev/flutter/dart-core/String-class.html) title})
+
+const
+
+Properties
+----------
+
+[hashCode](https://api.flutter.dev/flutter/widgets/Widget/hashCode.html) → [int](https://api.flutter.dev/flutter/dart-core/int-class.html)
+
+The hash code for this object.
+
+@[nonVirtual](https://pub.dev/documentation/meta/1.8.0/meta/nonVirtual-constant.html), read-only, inherited
+
+[key](https://api.flutter.dev/flutter/widgets/Widget/key.html) → [Key](https://api.flutter.dev/flutter/foundation/Key-class.html)?
+
+Controls how one widget replaces another widget in the tree.
+
+final, inherited
+
+[runtimeType](https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html) → [Type](https://api.flutter.dev/flutter/dart-core/Type-class.html)
+
+A representation of the runtime type of the object.
+
+read-only, inherited
+
+[title](../create_account/CreateAccount/title.html) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+final
+
+Methods
+-------
+
+[createElement](https://api.flutter.dev/flutter/widgets/StatefulWidget/createElement.html)() → [StatefulElement](https://api.flutter.dev/flutter/widgets/StatefulElement-class.html)
+
+Creates a [StatefulElement](https://api.flutter.dev/flutter/widgets/StatefulElement-class.html) to manage this widget's location in the tree.
+
+inherited
+
+[createState](../create_account/CreateAccount/createState.html)() → [State](https://api.flutter.dev/flutter/widgets/State-class.html)<[CreateAccount](../create_account/CreateAccount-class.html)\>
+
+Creates the mutable state for this widget at a given location in the tree.
+
+override
+
+[debugDescribeChildren](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/debugDescribeChildren.html)() → [List](https://api.flutter.dev/flutter/dart-core/List-class.html)<[DiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticsNode-class.html)\>
+
+Returns a list of `DiagnosticsNode` objects describing this node's children.
+
+@[protected](https://pub.dev/documentation/meta/1.8.0/meta/protected-constant.html), inherited
+
+[debugFillProperties](https://api.flutter.dev/flutter/widgets/Widget/debugFillProperties.html)([DiagnosticPropertiesBuilder](https://api.flutter.dev/flutter/foundation/DiagnosticPropertiesBuilder-class.html) properties) → void
+
+Add additional properties associated with the node.
+
+inherited
+
+[noSuchMethod](https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html)([Invocation](https://api.flutter.dev/flutter/dart-core/Invocation-class.html) invocation) → dynamic
+
+Invoked when a non-existent method or property is accessed.
+
+inherited
+
+[toDiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toDiagnosticsNode.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html)? name, [DiagnosticsTreeStyle](https://api.flutter.dev/flutter/foundation/DiagnosticsTreeStyle.html)? style}) → [DiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticsNode-class.html)
+
+Returns a debug representation of the object that is used by debugging tools and by [DiagnosticsNode.toStringDeep](https://api.flutter.dev/flutter/foundation/DiagnosticsNode/toStringDeep.html).
+
+inherited
+
+[toString](https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html)({[DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.info}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+A string representation of this object.
+
+inherited
+
+[toStringDeep](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringDeep.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html) prefixLineOne = '', [String](https://api.flutter.dev/flutter/dart-core/String-class.html)? prefixOtherLines, [DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.debug}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+Returns a string representation of this node and its descendants.
+
+inherited
+
+[toStringShallow](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringShallow.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html) joiner = ', ', [DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.debug}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+Returns a one-line detailed description of the object.
+
+inherited
+
+[toStringShort](https://api.flutter.dev/flutter/widgets/Widget/toStringShort.html)() → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+A short, textual description of this widget.
+
+inherited
+
+AccountInfo class
+=================
+**Purpose**
+Page that allows the user to display their current information.
+
+**Inheritance**
+
+*   [Object](https://api.flutter.dev/flutter/dart-core/Object-class.html)
+*   [DiagnosticableTree](https://api.flutter.dev/flutter/foundation/DiagnosticableTree-class.html)
+*   [Widget](https://api.flutter.dev/flutter/widgets/Widget-class.html)
+*   [StatefulWidget](https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html)
+*   AccountInfo
+
+Constructors
+------------
+
+[AccountInfo](../account_info/AccountInfo/AccountInfo.html)({[Key](https://api.flutter.dev/flutter/foundation/Key-class.html)? key, required [String](https://api.flutter.dev/flutter/dart-core/String-class.html) title})
+
+const
+
+Properties
+----------
+
+[hashCode](https://api.flutter.dev/flutter/widgets/Widget/hashCode.html) → [int](https://api.flutter.dev/flutter/dart-core/int-class.html)
+
+The hash code for this object.
+
+@[nonVirtual](https://pub.dev/documentation/meta/1.8.0/meta/nonVirtual-constant.html), read-only, inherited
+
+[key](https://api.flutter.dev/flutter/widgets/Widget/key.html) → [Key](https://api.flutter.dev/flutter/foundation/Key-class.html)?
+
+Controls how one widget replaces another widget in the tree.
+
+final, inherited
+
+[runtimeType](https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html) → [Type](https://api.flutter.dev/flutter/dart-core/Type-class.html)
+
+A representation of the runtime type of the object.
+
+read-only, inherited
+
+[title](../account_info/AccountInfo/title.html) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+final
+
+Methods
+-------
+
+[createElement](https://api.flutter.dev/flutter/widgets/StatefulWidget/createElement.html)() → [StatefulElement](https://api.flutter.dev/flutter/widgets/StatefulElement-class.html)
+
+Creates a [StatefulElement](https://api.flutter.dev/flutter/widgets/StatefulElement-class.html) to manage this widget's location in the tree.
+
+inherited
+
+[createState](../account_info/AccountInfo/createState.html)() → [State](https://api.flutter.dev/flutter/widgets/State-class.html)<[AccountInfo](../account_info/AccountInfo-class.html)\>
+
+Creates the mutable state for this widget at a given location in the tree.
+
+override
+
+[debugDescribeChildren](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/debugDescribeChildren.html)() → [List](https://api.flutter.dev/flutter/dart-core/List-class.html)<[DiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticsNode-class.html)\>
+
+Returns a list of `DiagnosticsNode` objects describing this node's children.
+
+@[protected](https://pub.dev/documentation/meta/1.8.0/meta/protected-constant.html), inherited
+
+[debugFillProperties](https://api.flutter.dev/flutter/widgets/Widget/debugFillProperties.html)([DiagnosticPropertiesBuilder](https://api.flutter.dev/flutter/foundation/DiagnosticPropertiesBuilder-class.html) properties) → void
+
+Add additional properties associated with the node.
+
+inherited
+
+[noSuchMethod](https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html)([Invocation](https://api.flutter.dev/flutter/dart-core/Invocation-class.html) invocation) → dynamic
+
+Invoked when a non-existent method or property is accessed.
+
+inherited
+
+[toDiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toDiagnosticsNode.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html)? name, [DiagnosticsTreeStyle](https://api.flutter.dev/flutter/foundation/DiagnosticsTreeStyle.html)? style}) → [DiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticsNode-class.html)
+
+Returns a debug representation of the object that is used by debugging tools and by [DiagnosticsNode.toStringDeep](https://api.flutter.dev/flutter/foundation/DiagnosticsNode/toStringDeep.html).
+
+inherited
+
+[toString](https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html)({[DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.info}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+A string representation of this object.
+
+inherited
+
+[toStringDeep](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringDeep.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html) prefixLineOne = '', [String](https://api.flutter.dev/flutter/dart-core/String-class.html)? prefixOtherLines, [DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.debug}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+Returns a string representation of this node and its descendants.
+
+inherited
+
+[toStringShallow](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringShallow.html)({[String](https://api.flutter.dev/flutter/dart-core/String-class.html) joiner = ', ', [DiagnosticLevel](https://api.flutter.dev/flutter/foundation/DiagnosticLevel.html) minLevel = DiagnosticLevel.debug}) → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+Returns a one-line detailed description of the object.
+
+inherited
+
+[toStringShort](https://api.flutter.dev/flutter/widgets/Widget/toStringShort.html)() → [String](https://api.flutter.dev/flutter/dart-core/String-class.html)
+
+A short, textual description of this widget.
+
+inherited
