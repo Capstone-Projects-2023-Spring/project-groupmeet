@@ -92,3 +92,25 @@ Milestone 1 Goals:
  - First pass of prototype.
  - First pass of design awaiting feedback from UX.
  - Database able to pull and store groups.
+ - Authentication of users and storage of user-specific information
+ - Successful integration of Firebase Authentication
+ - Successful integration of Firebase Realtime Databasing
+ - First pass of group creation
+ - First pass of group page designs
+
+Milestone 2 Goals:
+ - First pass of Calendar Integration
+ - First pass of Scheduling algorithm
+ - First pass of push notifications to user (time found)
+ - First pass of confirmations and Setting time/date for all users
+ - Second pass of design awaiting feedback from UX
+ - Second pass of group creation/design
+
+Milestone 3 Goals:
+ - First pass of "Unforeseen events" that cause changes in scheduling
+ - Second pass of Calendar Integration
+ - Second pass of Scheduling algorithm
+ - Second pass of push notification to user
+ - Second pass of user confirmations
+ - Final pass of design
+ - Final pass of group creation
