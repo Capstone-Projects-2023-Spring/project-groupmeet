@@ -88,43 +88,43 @@ gantt
          Final Grade Submissions 🎓 :  , 2023-05-12, 1d
         
 ```
-Milestone 1 Goals:
- F: Design.
- R: First pass of design awaiting feedback from UX.
- F: Authentication of users and storage of user-specific information
- R: Database able to pull and store groups.
- R: Successful integration of Firebase Authentication
- R: Successful integration of Firebase Realtime Databasing
- F: Group creation
- R: First pass of group page designs
- R: First pass of group storage
- R: First pass of group registration
+Milestone 1 Goals:<br/>
+ F: Design<br/>
+ R: First pass of design awaiting feedback from UX<br/>
+ F: Authentication of users and storage of user-specific information<br/>
+ R: Database able to pull and store groups<br/>
+ R: Successful integration of Firebase Authentication<br/>
+ R: Successful integration of Firebase Realtime Databasing<br/>
+ F: Group creation<br/>
+ R: First pass of group page designs<br/>
+ R: First pass of group storage<br/>
+ R: First pass of group registration <br/>
 
-Milestone 2 Goals:
- F: Calendar Integration
- R: Able to combine multiple of the same kind of calendar
- R: Able to create event on calendar
- F: Scheduling algorithm
- R: Able to recognize a free time slot
- F: Push notifications to user
- R: Able to notify users of a time and prompt for if it's a good time
- F: Design
- R: Second pass of design awaiting feedback from UX
- F: Group creation
- R: Second pass of registration
- R: Second pass of storage
- R: Second pass of design
+Milestone 2 Goals:<br/>
+ F: Calendar Integration<br/>
+ R: Able to combine multiple of the same kind of calendar<br/>
+ R: Able to create event on calendar<br/>
+ F: Scheduling algorithm<br/>
+ R: Able to recognize a free time slot<br/>
+ F: Push notifications to user<br/>
+ R: Able to notify users of a time and prompt for if it's a good time<br/>
+ F: Design<br/>
+ R: Second pass of design awaiting feedback from UX<br/>
+ F: Group creation<br/>
+ R: Second pass of registration<br/>
+ R: Second pass of storage<br/>
+ R: Second pass of design<br/>
 
-Milestone 3 Goals:
- F: Calendar Integration
- R: First pass of "Unforeseen events" that cause changes in scheduling
- R: Able to integrate multiple calendars
- F: Scheduling algorithm
- R: Able to find new time if first time does not work
- F: Push notification to user
- R: Able to notify user of time being cancelled, and prompt with new time
- R: Second pass of user confirmations
- F: Design
- R: Final pass of design
- F: Group creation
- R: Final pass of group creation
+Milestone 3 Goals:<br/>
+ F: Calendar Integration<br/>
+ R: First pass of "Unforeseen events" that cause changes in scheduling<br/>
+ R: Able to integrate multiple calendars<br/>
+ F: Scheduling algorithm<br/>
+ R: Able to find new time if first time does not work<br/>
+ F: Push notification to user<br/>
+ R: Able to notify user of time being cancelled, and prompt with new time<br/>
+ R: Second pass of user confirmations<br/>
+ F: Design<br/>
+ R: Final pass of design<br/>
+ F: Group creation<br/>
+ R: Final pass of group creation<br/>
