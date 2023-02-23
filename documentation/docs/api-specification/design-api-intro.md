@@ -40,19 +40,11 @@ This group developed their API documentation by hand ([Design Document Part 2 AP
 
 \*At the top level, or where appropriate, all exceptions should be caught and an error message that is meaningful to the user generated. It is not OK to say ("xxxx has encountered a problem and will now close (OK?)". Error messages and recovery procedures should be documented in the User’s Manual.
 
-
-    MyApp class - main library - Dart API      
-
- 
-
-1.  [groupmeet](../index.html)
-2.  [main](../main/main-library.html)
-3.  MyApp class
-
-MyApp
-
-MyApp class [Null safety](https://dart.dev/null-safety "Supports the null safety language feature.")
+MyApp class
 ====================================================================================================
+
+**Purpose**
+To start the application and create the home page.
 
 Inheritance
 
@@ -152,46 +144,3 @@ inherited
 A short, textual description of this widget.
 
 inherited
-
-Operators
----------
-
-[operator ==](https://api.flutter.dev/flutter/widgets/Widget/operator_equals.html)([Object](https://api.flutter.dev/flutter/dart-core/Object-class.html) other) → [bool](https://api.flutter.dev/flutter/dart-core/bool-class.html)
-
-The equality operator.
-
-@[nonVirtual](https://pub.dev/documentation/meta/1.8.0/meta/nonVirtual-constant.html), inherited
-
-1.  [groupmeet](../index.html)
-2.  [main](../main/main-library.html)
-3.  MyApp class
-
-##### main library
-
-1.  [Classes](../main/main-library.html#classes)
-2.  [MyApp](../main/MyApp-class.html)
-3.  [MyHomePage](../main/MyHomePage-class.html)
-4.  [Functions](../main/main-library.html#functions)
-5.  [main](../main/main.html)
-
-1.  [Constructors](../main/MyApp-class.html#constructors)
-2.  [MyApp](../main/MyApp/MyApp.html)
-3.  [Properties](../main/MyApp-class.html#instance-properties)
-4.  [hashCode](https://api.flutter.dev/flutter/widgets/Widget/hashCode.html)
-5.  [key](https://api.flutter.dev/flutter/widgets/Widget/key.html)
-6.  [runtimeType](https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html)
-7.  [Methods](../main/MyApp-class.html#instance-methods)
-8.  [build](../main/MyApp/build.html)
-9.  [createElement](https://api.flutter.dev/flutter/widgets/StatelessWidget/createElement.html)
-10.  [debugDescribeChildren](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/debugDescribeChildren.html)
-11.  [debugFillProperties](https://api.flutter.dev/flutter/widgets/Widget/debugFillProperties.html)
-12.  [noSuchMethod](https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html)
-13.  [toDiagnosticsNode](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toDiagnosticsNode.html)
-14.  [toString](https://api.flutter.dev/flutter/foundation/Diagnosticable/toString.html)
-15.  [toStringDeep](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringDeep.html)
-16.  [toStringShallow](https://api.flutter.dev/flutter/foundation/DiagnosticableTree/toStringShallow.html)
-17.  [toStringShort](https://api.flutter.dev/flutter/widgets/Widget/toStringShort.html)
-18.  [Operators](../main/MyApp-class.html#operators)
-19.  [operator ==](https://api.flutter.dev/flutter/widgets/Widget/operator_equals.html)
-
-groupmeet 1.0.0+1
