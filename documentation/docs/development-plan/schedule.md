@@ -89,46 +89,46 @@ gantt
         
 ```
 Milestone 1 Goals:<br/>
-*Tabspace*F: Login and Account Creation<br/>
-    R: Able to register new account<br/>
-    R: Able to login with existing account<br/>
-    R: Able to update account<br/>
-    R: Able to view account information<br/>
-*Tabspace*F: Group creation<br/>
-    R: First pass of user accessing group<br/>
-    R: First pass of group registration <br/>
-    R: First pass of group creation <br/>
-*Tabspace*F: Social Media<br/>
-     R: Able to view all social media accounts of all users in the groups<br/>
-     R: Able to broadcast the most common platform<br/>
+| F: Login and Account Creation<br/>
+|   R: Able to register new account<br/>
+|   R: Able to login with existing account<br/>
+|   R: Able to update account<br/>
+|   R: Able to view account information<br/>
+| F: Group creation<br/>
+|   R: First pass of user accessing group<br/>
+|   R: First pass of group registration <br/>
+|   R: First pass of group creation <br/>
+| F: Social Media<br/>
+|    R: Able to view all social media accounts of all users in the groups<br/>
+|    R: Able to broadcast the most common platform<br/>
 
 Milestone 2 Goals:<br/>
-*Tabspace*F: Calendar Integration<br/>
-     R: Able to combine multiple of the same kind of calendar<br/>
-     R: Able to create event on calendar<br/>
-     R: Able to recognize a free time slot<br/>
-*Tabspace*F: Push notifications to user<br/>
-    R: Able to notify users of a time<br/>
-    R: Able to prompt the user if the selected time is good<br/>
-*Tabspace*F: Group creation<br/>
-    R: Second pass of Milestone 1 Requirements<br/>
+| F: Calendar Integration<br/>
+|    R: Able to combine multiple of the same kind of calendar<br/>
+|    R: Able to create event on calendar<br/>
+|    R: Able to recognize a free time slot<br/>
+| F: Push notifications to user<br/>
+|   R: Able to notify users of a time<br/>
+|   R: Able to prompt the user if the selected time is good<br/>
+| F: Group creation<br/>
+|   R: Second pass of Milestone 1 Requirements<br/>
 
 Milestone 3 Goals:<br/>
-*Tabspace*F: Calendar Integration<br/>
-    R: First pass of "Unforeseen events" that cause changes in scheduling<br/>
-    R: Able to integrate multiple calendars<br/>
-    R: Able to find new time if first time does not work<br/>
-*Tabspace*F: Push notification to user<br/>
-    R: Able to notify user of time being cancelled, and prompt with new time<br/>
-    R: Second pass of user confirmations<br/>
-*Tabspace*F: Group creation<br/>
-    R: Final pass<br/>
-*Tabspace*F: Social Media<br/>
-    R: Able to generate a clipboard with all user handles of specified platform<br/>
-    R: Able to send users directly to platform of interest (if they have mobile app)<br/>
+| F: Calendar Integration<br/>
+|   R: First pass of "Unforeseen events" that cause changes in scheduling<br/>
+|   R: Able to integrate multiple calendars<br/>
+|   R: Able to find new time if first time does not work<br/>
+| : Push notification to user<br/>
+|   R: Able to notify user of time being cancelled, and prompt with new time<br/>
+|   R: Second pass of user confirmations<br/>
+| F: Group creation<br/>
+|   R: Final pass<br/>
+| F: Social Media<br/>
+|   R: Able to generate a clipboard with all user handles of specified platform<br/>
+|   R: Able to send users directly to platform of interest (if they have mobile app)<br/>
     
 Milestone 4 Goals:<br/>
-*Tabspace*F: Calendar Integration<br/>
-    R: Final pass<br/>
-*Tabspace*F: Social Media<br/>
-    R: Able to create group when applicable
+| F: Calendar Integration<br/>
+|   R: Final pass<br/>
+| F: Social Media<br/>
+|   R: Able to create group when applicable
