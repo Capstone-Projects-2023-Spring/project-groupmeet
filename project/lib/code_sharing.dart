@@ -20,19 +20,23 @@ class _CodeSharingState extends State<CodeSharing> {
     });
   }
 
+// grab all user information when they are logged in instead of making multiple calls?
   @override
   void initState() {
     super.initState();
-    grabTeamId();
+    _grabGroupId();
   }
 
-  String? teamId;
-  Future<void> grabTeamId() async {
+  String? _groupId;
+  Future<void> _grabGroupId() async {
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     DatabaseReference ref = FirebaseDatabase.instance.ref("users/$uid");
-    final snapshot = await ref.child('teamId').get();
+    final snapshot = await ref.child('groupId').get();
     if (snapshot.exists) {
-      teamId = (snapshot.value).toString();
+      setState(() {
+        _groupId = (snapshot.value).toString();
+      });
+
       print(snapshot.value);
     } else {
       print('No data available.');
@@ -50,15 +54,24 @@ class _CodeSharingState extends State<CodeSharing> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             const Icon(size: 250, Icons.qr_code_2),
-            Text("$teamId"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Join Group: $_groupId"),
+                IconButton(
+                    onPressed: () {
+                      print("doing nothing1");
+                    },
+                    icon: const Icon(size: 30, Icons.content_copy_rounded))
+              ],
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text("Link Here"),
                 IconButton(
                     onPressed: () {
-                      print("calling grabTeamId");
-                      grabTeamId();
+                      print("doing nothing2");
                     },
                     icon: const Icon(size: 30, Icons.content_copy_rounded))
               ],
