@@ -91,13 +91,13 @@ Describes the part of the user interface represented by this widget.
 
 override
 
-[createElement]() → [StatelessElement]
+[createElement] → [StatelessElement]
 
 Creates a [StatelessElement] to manage this widget's location in the tree.
 
 inherited
 
-[debugDescribeChildren]() → [List]<[DiagnosticsNode]\>
+[debugDescribeChildren] → [List]<[DiagnosticsNode]\>
 
 Returns a list of `DiagnosticsNode` objects describing this node's children.
 
@@ -139,7 +139,7 @@ Returns a one-line detailed description of the object.
 
 inherited
 
-[toStringShort]() → [String]
+[toStringShort] → [String]
 
 A short, textual description of this widget.
 
@@ -194,19 +194,19 @@ final
 Methods
 -------
 
-[createElement]() → [StatefulElement]
+[createElement] → [StatefulElement]
 
 Creates a [StatefulElement] to manage this widget's location in the tree.
 
 inherited
 
-[createState]() → [State]<[MyHomePage]\>
+[createState] → [State]<[MyHomePage]\>
 
 Creates the mutable state for this widget at a given location in the tree.
 
 override
 
-[debugDescribeChildren]() → [List]<[DiagnosticsNode]\>
+[debugDescribeChildren] → [List]<[DiagnosticsNode]\>
 
 Returns a list of `DiagnosticsNode` objects describing this node's children.
 
@@ -248,7 +248,7 @@ Returns a one-line detailed description of the object.
 
 inherited
 
-[toStringShort]() → [String]
+[toStringShort] → [String]
 
 A short, textual description of this widget.
 
@@ -302,19 +302,19 @@ final
 Methods
 -------
 
-[createElement]() → [StatefulElement]
+[createElement] → [StatefulElement]
 
 Creates a [StatefulElement] to manage this widget's location in the tree.
 
 inherited
 
-[createState]() → [State]<[CreateAccount]\>
+[createState] → [State]<[CreateAccount]\>
 
 Creates the mutable state for this widget at a given location in the tree.
 
 override
 
-[debugDescribeChildren]() → [List]<[DiagnosticsNode]\>
+[debugDescribeChildren] → [List]<[DiagnosticsNode]\>
 
 Returns a list of `DiagnosticsNode` objects describing this node's children.
 
@@ -356,7 +356,7 @@ Returns a one-line detailed description of the object.
 
 inherited
 
-[toStringShort]() → [String]
+[toStringShort] → [String]
 
 A short, textual description of this widget.
 
@@ -410,19 +410,19 @@ final
 Methods
 -------
 
-[createElement]() → [StatefulElement]
+[createElement] → [StatefulElement]
 
 Creates a [StatefulElement] to manage this widget's location in the tree.
 
 inherited
 
-[createState]() → [State]<[AccountInfo]\>
+[createState] → [State]<[AccountInfo]\>
 
 Creates the mutable state for this widget at a given location in the tree.
 
 override
 
-[debugDescribeChildren]() → [List]<[DiagnosticsNode]\>
+[debugDescribeChildren] → [List]<[DiagnosticsNode]\>
 
 Returns a list of `DiagnosticsNode` objects describing this node's children.
 
@@ -464,7 +464,7 @@ Returns a one-line detailed description of the object.
 
 inherited
 
-[toStringShort]() → [String]
+[toStringShort] → [String]
 
 A short, textual description of this widget.
 
