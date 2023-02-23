@@ -39,24 +39,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+  ///reference to the database for login
   late DatabaseReference ref;
 
+  ///controller to see email information
   final _emailCont = TextEditingController();
+  ///controller to see password information
   final _passwordCont = TextEditingController();
 
+  ///string containing id to access database
   String? uid;
 
+  ///Asynchronous method using Firebase framework to authenticate a user using their email and password.
   Future<void> login() async {
     try {
-      print('inside Login');
+      print("logging in");
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailCont.text.trim(),
         password: _passwordCont.text.trim(),
@@ -79,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  ///Asynchronous method to log the user out of their account
   Future<void> logout() async {
     print("logging out");
     await FirebaseAuth.instance.signOut();
