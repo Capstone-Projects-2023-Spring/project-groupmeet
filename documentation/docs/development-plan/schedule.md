@@ -89,46 +89,46 @@ gantt
         
 ```
 Milestone 1 Goals:<br/>
-&nbsp;F: Login and Account Creation<br/>
-|   R: Able to register new account<br/>
-|   R: Able to login with existing account<br/>
-|   R: Able to update account<br/>
-|   R: Able to view account information<br/>
-| F: Group creation<br/>
-|   R: First pass of user accessing group<br/>
-|   R: First pass of group registration <br/>
-|   R: First pass of group creation <br/>
-| F: Social Media<br/>
-|    R: Able to view all social media accounts of all users in the groups<br/>
-|    R: Able to broadcast the most common platform<br/>
+&ensp;F: Login and Account Creation<br/>
+&ensp;&ensp;R: Able to register new account<br/>
+&ensp;&ensp;R: Able to login with existing account<br/>
+&ensp;&ensp;R: Able to update account<br/>
+&ensp;&ensp;R: Able to view account information<br/>
+&ensp;F: Group creation<br/>
+&ensp;&ensp;R: First pass of user accessing group<br/>
+&ensp;&ensp;R: First pass of group registration <br/>
+&ensp;&ensp;R: First pass of group creation <br/>
+&ensp;F: Social Media<br/>
+&ensp;&ensp;R: Able to view all social media accounts of all users in the groups<br/>
+&ensp;&ensp;R: Able to broadcast the most common platform<br/>
 
 Milestone 2 Goals:<br/>
-| F: Calendar Integration<br/>
-|    R: Able to combine multiple of the same kind of calendar<br/>
-|    R: Able to create event on calendar<br/>
-|    R: Able to recognize a free time slot<br/>
-| F: Push notifications to user<br/>
-|   R: Able to notify users of a time<br/>
-|   R: Able to prompt the user if the selected time is good<br/>
-| F: Group creation<br/>
-|   R: Second pass of Milestone 1 Requirements<br/>
+&ensp;F: Calendar Integration<br/>
+&ensp;&ensp;R: Able to combine multiple of the same kind of calendar<br/>
+&ensp;&ensp;R: Able to create event on calendar<br/>
+&ensp;&ensp;R: Able to recognize a free time slot<br/>
+&ensp;F: Push notifications to user<br/>
+&ensp;&ensp;R: Able to notify users of a time<br/>
+&ensp;&ensp;R: Able to prompt the user if the selected time is good<br/>
+&ensp;F: Group creation<br/>
+&ensp;&ensp;R: Second pass of Milestone 1 Requirements<br/>
 
 Milestone 3 Goals:<br/>
-| F: Calendar Integration<br/>
-|   R: First pass of "Unforeseen events" that cause changes in scheduling<br/>
-|   R: Able to integrate multiple calendars<br/>
-|   R: Able to find new time if first time does not work<br/>
-| : Push notification to user<br/>
-|   R: Able to notify user of time being cancelled, and prompt with new time<br/>
-|   R: Second pass of user confirmations<br/>
-| F: Group creation<br/>
-|   R: Final pass<br/>
-| F: Social Media<br/>
-|   R: Able to generate a clipboard with all user handles of specified platform<br/>
-|   R: Able to send users directly to platform of interest (if they have mobile app)<br/>
+&ensp;F: Calendar Integration<br/>
+&ensp;&ensp;R: First pass of "Unforeseen events" that cause changes in scheduling<br/>
+&ensp;&ensp;R: Able to integrate multiple calendars<br/>
+&ensp;&ensp;R: Able to find new time if first time does not work<br/>
+&ensp;F: Push notification to user<br/>
+&ensp;&ensp;R: Able to notify user of time being cancelled, and prompt with new time<br/>
+&ensp;&ensp;R: Second pass of user confirmations<br/>
+&ensp;F: Group creation<br/>
+&ensp;&ensp;R: Final pass<br/>
+&ensp;F: Social Media<br/>
+&ensp;&ensp;R: Able to generate a clipboard with all user handles of specified platform<br/>
+&ensp;&ensp;R: Able to send users directly to platform of interest (if they have mobile app)<br/>
     
 Milestone 4 Goals:<br/>
-| F: Calendar Integration<br/>
-|   R: Final pass<br/>
-| F: Social Media<br/>
-|   R: Able to create group when applicable
+&ensp;F: Calendar Integration<br/>
+&ensp;&ensp;R: Final pass<br/>
+&ensp;F: Social Media<br/>
+&ensp;&ensp;R: Able to create group when applicable
