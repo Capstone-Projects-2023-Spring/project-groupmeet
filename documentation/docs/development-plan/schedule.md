@@ -89,28 +89,42 @@ gantt
         
 ```
 Milestone 1 Goals:
- - First pass of prototype.
- - First pass of design awaiting feedback from UX.
- - Database able to pull and store groups.
- - Authentication of users and storage of user-specific information
- - Successful integration of Firebase Authentication
- - Successful integration of Firebase Realtime Databasing
- - First pass of group creation
- - First pass of group page designs
+ F: Design.
+ R: First pass of design awaiting feedback from UX.
+ F: Authentication of users and storage of user-specific information
+ R: Database able to pull and store groups.
+ R: Successful integration of Firebase Authentication
+ R: Successful integration of Firebase Realtime Databasing
+ F: Group creation
+ R: First pass of group page designs
+ R: First pass of group storage
+ R: First pass of group registration
 
 Milestone 2 Goals:
- - First pass of Calendar Integration
- - First pass of Scheduling algorithm
- - First pass of push notifications to user (time found)
- - First pass of confirmations and Setting time/date for all users
- - Second pass of design awaiting feedback from UX
- - Second pass of group creation/design
+ F: Calendar Integration
+ R: Able to combine multiple of the same kind of calendar
+ R: Able to create event on calendar
+ F: Scheduling algorithm
+ R: Able to recognize a free time slot
+ F: Push notifications to user
+ R: Able to notify users of a time and prompt for if it's a good time
+ F: Design
+ R: Second pass of design awaiting feedback from UX
+ F: Group creation
+ R: Second pass of registration
+ R: Second pass of storage
+ R: Second pass of design
 
 Milestone 3 Goals:
- - First pass of "Unforeseen events" that cause changes in scheduling
- - Second pass of Calendar Integration
- - Second pass of Scheduling algorithm
- - Second pass of push notification to user
- - Second pass of user confirmations
- - Final pass of design
- - Final pass of group creation
+ F: Calendar Integration
+ R: First pass of "Unforeseen events" that cause changes in scheduling
+ R: Able to integrate multiple calendars
+ F: Scheduling algorithm
+ R: Able to find new time if first time does not work
+ F: Push notification to user
+ R: Able to notify user of time being cancelled, and prompt with new time
+ R: Second pass of user confirmations
+ F: Design
+ R: Final pass of design
+ F: Group creation
+ R: Final pass of group creation
