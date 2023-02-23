@@ -89,7 +89,7 @@ gantt
         
 ```
 Milestone 1 Goals:<br/>
-| F: Login and Account Creation<br/>
+&nbsp;F: Login and Account Creation<br/>
 |   R: Able to register new account<br/>
 |   R: Able to login with existing account<br/>
 |   R: Able to update account<br/>
