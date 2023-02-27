@@ -1,22 +1,25 @@
-// ignore_for_file: avoid_unnecessary_containers
 import 'package:flutter/material.dart';
 import 'package:groupmeet/code_sharing.dart';
-import 'account_info.dart';
-import 'create_account.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'account_info.dart';
+import 'create_account.dart';
+import 'group_creation.dart';
+
+// Initialize the app and run it.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
+// The main app widget.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  // Build the app widget.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,28 +33,32 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// The home page widget for the app.
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
+  // The home page widget for the app.
   final String title;
 
+  // Create a state object for the home page widget.
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  ///reference to the database for login
+  // Reference to the database for login.
   late DatabaseReference ref;
 
-  ///controller to see email information
+  // Controller to see email information.
   final _emailCont = TextEditingController();
-  ///controller to see password information
+
+  // Controller to see password information.
   final _passwordCont = TextEditingController();
 
-  ///string containing id to access database
+  // String containing id to access database.
   String? uid;
 
-  ///Asynchronous method using Firebase framework to authenticate a user using their email and password.
+  // Asynchronous method using Firebase framework to authenticate a user using their email and password.
   Future<void> login() async {
     try {
       print("logging in");
@@ -59,12 +66,16 @@ class _MyHomePageState extends State<MyHomePage> {
         email: _emailCont.text.trim(),
         password: _passwordCont.text.trim(),
       );
+      print(credential);
       _emailCont.dispose();
       _passwordCont.dispose();
 
-      // this is the path that each user's information is stored at
       // not doing anything with it while logging in right now
+
+      // Store the current user's id.
       uid = FirebaseAuth.instance.currentUser?.uid;
+
+      // Store a reference to the current user's information in the database.
       ref = FirebaseDatabase.instance.ref("users/$uid");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -75,120 +86,131 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  ///Asynchronous method to log the user out of their account
+  // Asynchronous method to log the user out of their account.
   Future<void> logout() async {
     print("logging out");
     await FirebaseAuth.instance.signOut();
   }
 
+  // Build the home page widget.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Image(
-              image: NetworkImage(
-                  "https://cdn.pixabay.com/photo/2016/09/09/23/27/the-ostrich-1658267_960_720.jpg"),
-            ),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  TextField(
-                      controller: _emailCont,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Username",
-                      )
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Image(
+            image: NetworkImage(
+                "https://cdn.pixabay.com/photo/2016/09/09/23/27/the-ostrich-1658267_960_720.jpg"),
+          ),
+          Column(
+            children: <Widget>[
+              TextField(
+                  controller: _emailCont,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Username",
+                  )),
+              TextField(
+                controller: _passwordCont,
+                keyboardType: TextInputType.visiblePassword,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Password",
+                ),
+                obscureText: true,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    login();
+                  },
+                  child: const Text("Login")),
+              ElevatedButton(
+                  onPressed: () {
+                    logout();
+                  },
+                  child: const Text("Logout")),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  const Text("Account creation"),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CreateAccount(title: "Create Account")),
+                      );
+                    },
+                    icon: const Icon(Icons.create),
                   ),
-                  TextField(
-                    controller: _passwordCont,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Password",
-                    ),
-                    obscureText: true,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        login();
-                      },
-                      child: const Text("Login")),
-                  ElevatedButton(
-                      onPressed: () {
-                        logout();
-                      },
-                      child: const Text("Logout")),
                 ],
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  child: Column(
-                    children: [
-                      Text("Account creation"),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const CreateAccount(
-                                    title: "Create Account")),
-                          );
-                        },
-                        icon: Icon(Icons.create),
-                      ),
-                    ],
+              Column(
+                children: [
+                  const Text("My Account"),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const AccountInfo(title: "My Account")),
+                      );
+                    },
+                    icon: const Icon(Icons.create),
                   ),
-                ),
-                Container(
-                  child: Column(
-                    children: [
-                      Text("My Account"),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const AccountInfo(title: "My Account")),
-                          );
-                        },
-                        icon: Icon(Icons.create),
-                      ),
-                    ],
+                ],
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  const Text("Group creation"),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const GroupCreation(title: "Group Creation")),
+                      );
+                    },
+                    icon: const Icon(Icons.create),
                   ),
-                ),
-                Container(
-                  child: Column(
-                    children: [
-                      Text("Code Sharing Page"),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const CodeSharing(title: "Code Sharing")),
-                          );
-                        },
-                        icon: Icon(Icons.qr_code),
-                      ),
-                    ],
+                ],
+              ),
+              Column(
+                children: [
+                  const Text("Code Sharing Page"),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const CodeSharing(title: "Code Sharing")),
+                      );
+                    },
+                    icon: const Icon(Icons.qr_code),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

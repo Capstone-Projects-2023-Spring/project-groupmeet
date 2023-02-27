@@ -11,13 +11,13 @@ class AccountInfo extends StatefulWidget {
 }
 
 class _AccountInfoState extends State<AccountInfo> {
-  int _counter = 0;
+  // int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -28,17 +28,17 @@ class _AccountInfoState extends State<AccountInfo> {
       body: Center(
         child: Column(
           children: [
-            Text("Edit Social Media Accounts"),
+            const Text("Edit Social Media Accounts"),
             IconButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const SocialMedia(
-                          title: "Social Media")),
+                      builder: (context) =>
+                          const SocialMedia(title: "Social Media")),
                 );
               },
-              icon: Icon(Icons.create),
+              icon: const Icon(Icons.create),
             ),
           ],
         ),
