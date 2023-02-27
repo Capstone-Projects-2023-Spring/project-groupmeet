@@ -104,8 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Username",
-                      )
-                  ),
+                      )),
                   TextField(
                     controller: _passwordCont,
                     keyboardType: TextInputType.visiblePassword,
