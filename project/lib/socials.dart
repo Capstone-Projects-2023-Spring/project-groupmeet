@@ -10,7 +10,6 @@ class SocialMedia extends StatefulWidget {
 }
 
 class _SocialMediaState extends State<SocialMedia> {
-
   bool instaSelect = false;
   bool fbSelect = false;
   bool discordSelect = false;
@@ -25,29 +24,26 @@ class _SocialMediaState extends State<SocialMedia> {
       body: Center(
         child: Column(
           children: <Widget>[
-              CheckboxListTile(
-                title: Text('Instagram'),
-                secondary: const Image(
-                  image: NetworkImage(
-                      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"
-                  ),
-                  height: 30,
-                  width: 30,
-                ),
-                value: instaSelect,
-                onChanged: (value) {
-                  setState(() {
-                    instaSelect = value!;
-                  });
-                },
-              ),
-
             CheckboxListTile(
-              title: Text('Facebook'),
+              title: const Text('Instagram'),
               secondary: const Image(
                 image: NetworkImage(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png"
-                ),
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"),
+                height: 30,
+                width: 30,
+              ),
+              value: instaSelect,
+              onChanged: (value) {
+                setState(() {
+                  instaSelect = value!;
+                });
+              },
+            ),
+            CheckboxListTile(
+              title: const Text('Facebook'),
+              secondary: const Image(
+                image: NetworkImage(
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png"),
                 height: 30,
                 width: 30,
               ),
@@ -58,13 +54,11 @@ class _SocialMediaState extends State<SocialMedia> {
                 });
               },
             ),
-
             CheckboxListTile(
-              title: Text('Discord'),
+              title: const Text('Discord'),
               secondary: const Image(
                 image: NetworkImage(
-                    "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"
-                ),
+                    "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"),
                 height: 30,
                 width: 30,
               ),
@@ -75,13 +69,11 @@ class _SocialMediaState extends State<SocialMedia> {
                 });
               },
             ),
-
             CheckboxListTile(
-              title: Text('Messages'),
+              title: const Text('Messages'),
               secondary: const Image(
                 image: NetworkImage(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IMessage_logo.svg/2048px-IMessage_logo.svg.png"
-                ),
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IMessage_logo.svg/2048px-IMessage_logo.svg.png"),
                 height: 30,
                 width: 30,
               ),
@@ -92,13 +84,11 @@ class _SocialMediaState extends State<SocialMedia> {
                 });
               },
             ),
-
             CheckboxListTile(
-              title: Text('SnapChat'),
+              title: const Text('SnapChat'),
               secondary: const Image(
                 image: NetworkImage(
-                    "https://assets.stickpng.com/images/580b57fcd9996e24bc43c536.png"
-                ),
+                    "https://assets.stickpng.com/images/580b57fcd9996e24bc43c536.png"),
                 height: 30,
                 width: 30,
               ),
@@ -109,7 +99,6 @@ class _SocialMediaState extends State<SocialMedia> {
                 });
               },
             ),
-
           ],
         ),
       ),

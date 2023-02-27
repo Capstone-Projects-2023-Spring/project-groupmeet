@@ -12,13 +12,13 @@ class CodeSharing extends StatefulWidget {
 }
 
 class _CodeSharingState extends State<CodeSharing> {
-  int _counter = 0;
+  // int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  // }
 
 // grab all user information when they are logged in instead of making multiple calls?
   @override

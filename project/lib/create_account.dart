@@ -12,13 +12,13 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-  int _counter = 0;
+  // int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  // }
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -35,6 +35,7 @@ class _CreateAccountState extends State<CreateAccount> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
+      print(credential);
 
       uid = FirebaseAuth.instance.currentUser?.uid;
       ref = FirebaseDatabase.instance.ref("users/$uid");
