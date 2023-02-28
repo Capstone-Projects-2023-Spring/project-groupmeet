@@ -166,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const AccountInfo(title: "My Account")),
+                                AccountInfo(title: "My Account", ref: ref)),
                       );
                     },
                     icon: const Icon(Icons.create),

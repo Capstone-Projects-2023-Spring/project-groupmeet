@@ -28,6 +28,8 @@ class _AccountInfoState extends State<AccountInfo> {
 
       email = event.snapshot.child("email").value.toString();
     }
+
+    setState(() {});
   }
 
   @override
