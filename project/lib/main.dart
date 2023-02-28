@@ -7,6 +7,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'account_info.dart';
 import 'create_account.dart';
 import 'group_creation.dart';
+import 'code_reception.dart';
+import 'group_home.dart';
 
 // Initialize the app and run it.
 Future<void> main() async {
@@ -194,6 +196,22 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Column(
                 children: [
+                  const Text("Join a Group"),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                            const CodeReception(title: "Join a Group")),
+                      );
+                    },
+                    icon: const Icon(Icons.create),
+                  ),
+                ],
+              ),
+              Column(
+                children: [
                   const Text("Code Sharing Page"),
                   IconButton(
                     onPressed: () {
@@ -205,6 +223,27 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     },
                     icon: const Icon(Icons.qr_code),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  const Text("Main Group Page (TEMPORARY BUTTON)"),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                            const GroupHomePage(title: "Main Group Page")),
+                      );
+                    },
+                    icon: const Icon(Icons.cabin),
                   ),
                 ],
               ),
