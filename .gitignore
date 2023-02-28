@@ -138,12 +138,7 @@ app.*.symbols
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
 
-
 ## Related .gitignores ##
-
-# Firebase configuration files / Google Services (e.g. APIs or Firebase)
-# ios/Runner/GoogleService-Info.plist
-# android/app/google-services.json
 
 # Google Maps API
 google_maps_api.xml
@@ -879,4 +874,3 @@ Temporary Items
 # Archives         - https://github.com/github/gitignore/blob/main/Global/Archives.gitignore
 # Backup           - https://github.com/github/gitignore/blob/main/Global/Backup.gitignore
 # JEnv             - https://github.com/github/gitignore/blob/main/Global/JEnv.gitignore
-project/macos/Flutter/GeneratedPluginRegistrant.swift
