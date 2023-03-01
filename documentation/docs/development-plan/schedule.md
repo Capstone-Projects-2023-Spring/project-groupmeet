@@ -94,14 +94,14 @@ gantt
     - R2: User is able to login with an existing account.
     - R3: User is able to update their account name, profile image, and email address.
     - R4: User is able to view their account information.
+    - R5: User can list all social media platforms they want to use.
 - F2: Group creation
     - R1. Team creator is presented with a QR Code to invite group members.
     - R2. Team member is presented with a QR scanner to join their group.
     - R3. Users can see a list of all of their group members.
     - R4. Users can see a list of their groups.
 - F3: Social Media
-    - R1: Users are able to view all social media accounts of all users in the groups
-    - R2: User is able to broadcast the most common/prefered platform of the group
+    - R1: User is able to broadcast the most common/prefered platform of the group
 
 ## Milestone 2 Deliverables:
 - F4: Group Availability Functionality
