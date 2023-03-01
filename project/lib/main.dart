@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0x000000),
+        textTheme: Typography.whiteHelsinki,
         primarySwatch: Colors.pink,
         platform: TargetPlatform.iOS,
       ),
@@ -104,10 +106,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Image(
-            image: NetworkImage(
-                "https://cdn.pixabay.com/photo/2016/09/09/23/27/the-ostrich-1658267_960_720.jpg"),
-          ),
+          // const Image(
+          //   image: NetworkImage(
+          //       "https://cdn.pixabay.com/photo/2016/09/09/23/27/the-ostrich-1658267_960_720.jpg"),
+          // ),
           Column(
             children: <Widget>[
               TextField(
@@ -186,8 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                const GroupCreation(title: "Group Creation")),
+                            builder: (context) => const GroupCreation()),
                       );
                     },
                     icon: const Icon(Icons.create),
@@ -203,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                            const CodeReception(title: "Join a Group")),
+                                const CodeReception(title: "Join a Group")),
                       );
                     },
                     icon: const Icon(Icons.create),
@@ -240,7 +241,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                            const GroupHomePage(title: "Main Group Page")),
+                                const GroupHomePage(title: "Main Group Page")),
                       );
                     },
                     icon: const Icon(Icons.cabin),
