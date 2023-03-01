@@ -22,6 +22,6 @@ sidebar_position: 4
 
 ## Nonfunctional Requirements
 1. Users can customize the layout of the application to suit their style preferences
-2. There can be a limit of up to 20 users in a group (actual value TBD after logistics calculated)
+2. There can be a limit of at least 6 users in a group (actual value TBD after logistics calculated)
 3. Users should be able to get a group setup and functional as fast as it takes for all users to enter their information.
 4. Users can be notified at custom intervals about upcoming votes/meetings.
