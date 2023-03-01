@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'socials.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class AccountInfo extends StatefulWidget {
-  const AccountInfo({super.key, required this.title, required this.ref});
+  const AccountInfo({Key? key, required this.title, required this.ref}) : super(key: key);
 
   final String title;
   final DatabaseReference ref;
@@ -15,27 +13,29 @@ class AccountInfo extends StatefulWidget {
 }
 
 class _AccountInfoState extends State<AccountInfo> {
-  String name = "";
-  String email = "";
-  void GetData()async{
+  late String name;
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+    name = "";
+    email = "";
+    getData();
+  }
+
+  void getData() async {
     DatabaseEvent event = await widget.ref.once();
-    if(event.snapshot.exists) {
-      name = event.snapshot
-          .child("firstName")
-          .value.toString() + " " + event.snapshot
-          .child("lastName")
-          .value.toString();
-
-      email = event.snapshot.child("email").value.toString();
+    if (event.snapshot.exists) {
+      setState(() {
+        name = "${event.snapshot.child("firstName").value} ${event.snapshot.child("lastName").value}";
+        email = event.snapshot.child("email").value.toString();
+      });
     }
-
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    GetData();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -49,27 +49,23 @@ class _AccountInfoState extends State<AccountInfo> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                      const SocialMedia(title: "Social Media")),
+                    builder: (context) => const SocialMedia(title: "Social Media"),
+                  ),
                 );
               },
               icon: const Icon(Icons.create),
             ),
-            Container(
-              child: Column(
-                  children: [
-                    Text("Name:"),
-                    Text(name),
-                  ]
-              ),
+            Column(
+              children: [
+                const Text("Name:"),
+                Text(name),
+              ],
             ),
-            Container(
-              child: Column(
-                  children: [
-                    Text("Email:"),
-                    Text(email),
-                  ]
-              ),
+            Column(
+              children: [
+                const Text("Email:"),
+                Text(email),
+              ],
             ),
           ],
         ),
