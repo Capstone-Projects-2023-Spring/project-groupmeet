@@ -123,7 +123,7 @@ gantt
     - R3: Able to find new time if first time does not work
 - F8: Push notification to user
     - R1: Able to notify user of time being cancelled, and prompt with new time
-    - R2: Second pass of user confirmations
+    - R2: User is notified that previous time slot was cancelled, and a new one has been found.
 - F10: Social Media
     - R1: The application is able to generate a clipboard with all user handles of specified platform
     - R2: The user can redirected to platform of interest (if they have mobile app)
