@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class CodeReception extends StatefulWidget {
   const CodeReception({super.key, required this.title});
@@ -10,44 +14,74 @@ class CodeReception extends StatefulWidget {
 }
 
 class _CodeReceptionState extends State<CodeReception> {
+  final GlobalKey _key = GlobalKey();
+  QRViewController? _qrcontroller;
+  Barcode? _scannedCode;
+  void getQR(QRViewController _qrcontroller){
+    this._qrcontroller = _qrcontroller;
+    _qrcontroller.scannedDataStream.listen((event) {
+      setState(() {
+        _scannedCode = event;
+      });
+    });
+  }
+
+  String _data = "";
+  final String _hash = DateTime.now().toString().hashCode.toString();
+  String keep = "";
+  int one = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+    return SafeArea(child: Scaffold(
+      appBar: AppBar(title: Text("QR Code")),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              const SizedBox(
-                width: 200,
-                child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "Input Code",
-                    )),
+        children: [
+          if (one == 1 )
+            Center(
+              child: QrImage(
+                data: _data,
+                version: QrVersions.auto,
+                size: 370,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Scan QR Code (Open Camera)"),
-                  IconButton(
-                      onPressed: () {
-                        print("Test");
-                        // Open camera functionality
-                      },
-                      icon: const Icon(size: 30, Icons.content_copy_rounded)
-                  ),
-                ],
+            ),
+          if (one == 2 )
+            Container(
+              height: 370,
+              width: 370,
+              child: QRView(
+                key: _key,
+                onQRViewCreated: getQR,
               ),
-            ],
+            ),
+          Center(
+            //Change _scannedCode!.code to a link to the group
+            child: (_scannedCode != null) ? Text('${_scannedCode!.code}') : Text(""),
           ),
-        ],
+          TextButton(onPressed: (){
 
+            setState(() {
+              _data = "GM${Random().nextInt(10)}${Random().nextInt(10)}${Random().nextInt(10)}$_hash";
+              keep = _data;
+              one = 1;
+            });
+          },child : const Align(
+              alignment: Alignment.topRight,
+              child:
+              Text("Get QR Code",
+                  textAlign: TextAlign.center
+              )
+          )),
+          TextButton(onPressed: () async{
+            setState(() {
+              one = 2;
+            });
+          }, child: const Align(
+              alignment: Alignment.topLeft,
+              child:
+              Text("Scan QR Code"))
+          )],
       ),
-    );
+    ));
   }
 }
