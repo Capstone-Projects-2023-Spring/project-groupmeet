@@ -7,6 +7,8 @@ class GroupCreation extends StatefulWidget {
 
   // final String title;
 
+  
+
   @override
   State<GroupCreation> createState() => _CodeSharingState();
 }
@@ -76,19 +78,18 @@ class _CodeSharingState extends State<GroupCreation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
+      // remove from below when background color is added to themeData in main
+      backgroundColor: Colors.black,      
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              // change this, the cross is too big in the circle
+          children: [            
+              const Icon(              
               Icons.add_circle_outlined,
               color: Colors.grey,
               size: 175,
-            ),
+              shadows: [Shadow(color: Colors.grey, blurRadius: 20.0)],
+            ),      
             const Text(
               "Get Around!",
               style: TextStyle(
@@ -112,13 +113,9 @@ class _CodeSharingState extends State<GroupCreation> {
               child: TextField(
                 controller: _gnameController,
                 keyboardType: TextInputType.name,
-
-                // BoxWidthStyle selectionWidthStyle = ui.BoxWidthStyle.tight,
                 decoration: const InputDecoration(
                     filled: true,
                     fillColor: Colors.grey,
-                    // enabledBorder:
-                    // UnderlineInputBorder(borderSide: BorderSide(color: Colors.purple)),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                       Radius.circular(30.0),
@@ -152,9 +149,6 @@ class _CodeSharingState extends State<GroupCreation> {
                       labelText: "Number of Members",
                       labelStyle: TextStyle(color: Colors.white))),
             ),
-            // DELETE
-            // how to put the color border around the icon using a container
-            // https://www.kindacode.com/snippet/flutter-adding-a-border-to-an-icon-button/
             SizedBox(height: 100),
             Container(
               decoration: BoxDecoration(
@@ -175,18 +169,7 @@ class _CodeSharingState extends State<GroupCreation> {
                   print('Hi There');
                 },
               ),
-            )
-
-            // ElevatedButton(
-            //     style: ElevatedButton.styleFrom(
-            //         shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(50),
-            //       //border radius equal to or more than 50% of width
-            //     )),
-            //     onPressed: () {
-            //       createGroup();
-            //     },
-            //     child: const Text("Create Group")),
+            )        
           ],
         ),
       ),
