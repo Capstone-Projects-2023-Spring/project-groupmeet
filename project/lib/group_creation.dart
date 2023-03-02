@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class GroupCreation extends StatefulWidget {
-  const GroupCreation({super.key, required this.title});
+  const GroupCreation({super.key});
 
-  final String title;
+  // final String title;
+
+  
 
   @override
   State<GroupCreation> createState() => _CodeSharingState();
@@ -76,31 +78,98 @@ class _CodeSharingState extends State<GroupCreation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      // remove from below when background color is added to themeData in main
+      backgroundColor: Colors.black,      
       body: Center(
         child: Column(
-          children: [
-            TextField(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [            
+              const Icon(              
+              Icons.add_circle_outlined,
+              color: Colors.grey,
+              size: 175,
+              shadows: [Shadow(color: Colors.grey, blurRadius: 20.0)],
+            ),      
+            const Text(
+              "Get Around!",
+              style: TextStyle(
+                  fontSize: 37,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            SizedBox(height: 50),
+            Container(
+              width: 325,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(81, 59, 219, 1),
+                    blurRadius: 4,
+                    offset: Offset(2, 3), // Shadow position
+                  ),
+                ],
+              ),
+              child: TextField(
                 controller: _gnameController,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Group Name",
-                )),
-            TextField(
-                controller: _gnumController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Number of Members",
-                )),
-            ElevatedButton(
+                    filled: true,
+                    fillColor: Colors.grey,
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                      Radius.circular(30.0),
+                    )),
+                    labelText: "Group Name",
+                    labelStyle: TextStyle(color: Colors.white)),
+              ),
+            ),
+            SizedBox(height: 25),
+            Container(
+              width: 325,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(81, 59, 219, 1),
+                    blurRadius: 4,
+                    offset: Offset(2, 3), // Shadow position
+                  ),
+                ],
+              ),
+              child: TextField(
+                  controller: _gnumController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey,
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(30.0))),
+                      labelText: "Number of Members",
+                      labelStyle: TextStyle(color: Colors.white))),
+            ),
+            SizedBox(height: 100),
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 2,
+                  color: Color.fromRGBO(81, 59, 219, 1),
+                ),
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                iconSize: 50,
+                icon: const Icon(
+                  Icons.arrow_forward_rounded,
+                  color: Colors.black,
+                ),
                 onPressed: () {
-                  createGroup();
+                  print('Hi There');
                 },
-                child: const Text("Create Group")),
+              ),
+            )        
           ],
         ),
       ),
