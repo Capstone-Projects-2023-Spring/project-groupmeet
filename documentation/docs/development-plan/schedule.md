@@ -124,7 +124,7 @@ gantt
 - F8: Push notification to user
     - R1: Able to notify user of time being cancelled, and prompt with new time
     - R2: User is notified that previous time slot was cancelled, and a new one has been found.
-- F10: Social Media
+- F9: Social Media
     - R1: The system will create a group chat based on the groups preferred messaging platform selection.
     - R2: if the group selects a messaging service that cannot be automatically generated, the application will to generate a list of the groups, user names and copy them to the group organizer's clipboard.
     - R3: The user will be deeplinked/redirected to the groups prefered messaging platform. 
