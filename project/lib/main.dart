@@ -27,8 +27,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0x000000),
-        textTheme: Typography.whiteHelsinki,
+        // text on other pages are not visible with these uncommented with dark text on dark
+        // uncomment when UI of other pages are changed?
+        // scaffoldBackgroundColor: const Color(0x000000),
+        // textTheme: Typography.whiteHelsinki,
         primarySwatch: Colors.pink,
         platform: TargetPlatform.iOS,
       ),
