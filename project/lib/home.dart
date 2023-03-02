@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:groupmeet/group_creation2.dart';
 
 import 'account_info.dart';
 import 'group_creation.dart';
@@ -149,6 +150,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: const Icon(Icons.cabin),
                   ),
                 ],
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              const Text("Group Creation 2"),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => GroupCreation2(
+                            title: "Group Creation 2", databaseReference: ref)),
+                  );
+                },
+                icon: const Icon(Icons.create),
               ),
             ],
           ),

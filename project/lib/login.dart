@@ -27,13 +27,10 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     if (_isUsernameValid && _isPasswordValid) {
       try {
-        // Sign in with email and password
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: email, password: password);
-        // If sign in successful, navigate to home screen
         _navigateToHomeScreen();
       } catch (e) {
-        // If sign in fails, show error message
         String errorMessage =
             'An error occurred, please try again later.';
         if (e is FirebaseAuthException) {
@@ -104,7 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                // Navigate to sign up screen
                 Navigator.push(
                   context,
                   MaterialPageRoute(
