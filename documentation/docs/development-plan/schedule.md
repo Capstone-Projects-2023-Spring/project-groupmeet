@@ -107,12 +107,12 @@ gantt
 - F4: Group Availability Functionality
     - R1: Upon creation of a group, the user is able to enter dates in which they are free for a group meetings.
     - R2: Group members are presented with a list of available time slots in which they could meet on a certain day.
- - F5: Calendar Integration
+- F5: Calendar Integration
     - R1: A user is able to import their events from calendar services iCal, Google Calendar, and Outlook from at least one calendar source.
     - R2: Able to combine multiple of the same kind of calendar
     - R3: The system should be able to add a calendar event to their associated calendar on the users behalf.
     - R4: The team should be presented with a group calendar in which they can create events.
-- F5: Push notifications to user
+- F6: Push notifications to user
     - R1: The system is able to notify users of an upcoming meeting.
 
 
