@@ -12,14 +12,6 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-  // int _counter = 0;
-
-  // void _incrementCounter() {
-  //   setState(() {
-  //     _counter++;
-  //   });
-  // }
-
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _fnameController = TextEditingController();
@@ -30,13 +22,6 @@ class _CreateAccountState extends State<CreateAccount> {
 
   Future<void> createUserProfile() async {
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      print(credential);
-
       uid = FirebaseAuth.instance.currentUser?.uid;
       ref = FirebaseDatabase.instance.ref("users/$uid");
 
@@ -50,12 +35,24 @@ class _CreateAccountState extends State<CreateAccount> {
       _passwordController.dispose();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('The password provided is too weak.'),
+          ),
+        );
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('The account already exists for that email.'),
+          ),
+        );
       }
     } catch (e) {
-      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred: $e'),
+        ),
+      );
     }
   }
 
@@ -101,6 +98,7 @@ class _CreateAccountState extends State<CreateAccount> {
             ElevatedButton(
                 onPressed: () {
                   createUserProfile();
+                  Navigator.pop(context);
                 },
                 child: const Text("Create Account")),
           ],

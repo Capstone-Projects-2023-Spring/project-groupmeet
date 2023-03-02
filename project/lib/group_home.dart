@@ -45,7 +45,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('View Calendar', style: TextStyle(fontSize: 20)),
+                        child: const Text('View Calendar', style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -58,7 +58,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Edit Availabilities', style: TextStyle(fontSize: 20)),
+                        child: const Text('Edit Availabilities', style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -77,7 +77,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           onPressed: () {
                             print("Test");
                           },
-                          child: Text('Suggest New Meeting Time', style: TextStyle(fontSize: 25)),
+                          child: const Text('Suggest New Meeting Time', style: TextStyle(fontSize: 25)),
                         ),
                       ],
                     ),
@@ -96,7 +96,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Cancel Active Meeting', style: TextStyle(fontSize: 25)),
+                        child: const Text('Cancel Active Meeting', style: TextStyle(fontSize: 25)),
                       ),
                     ],
                   ),
@@ -115,7 +115,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Edit Members'),
+                        child: const Text('Edit Members'),
                       ),
                     ],
                   ),
@@ -128,7 +128,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Leave Group'),
+                        child: const Text('Leave Group'),
                       ),
                     ],
                   ),
