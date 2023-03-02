@@ -27,4 +27,12 @@ void main() {
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
+  testWidgets('Title test for MyHomePage', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyHomePage(title: 'Test'));
+
+    final titleFinder = find.text('Test');
+
+    expect(titleFinder, findsOneWidget);
+
+  });
 }
