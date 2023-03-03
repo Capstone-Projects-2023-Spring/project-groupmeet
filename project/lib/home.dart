@@ -15,17 +15,18 @@ class HomeScreen extends StatefulWidget {
   final String title;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<HomeScreen> createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+@visibleForTesting
+class HomeScreenState extends State<HomeScreen> {
   late DatabaseReference ref;
-  String? uid;
 
   @override
   void initState() {
     super.initState();
-    ref = FirebaseDatabase.instance.ref();
+    String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
+    ref = FirebaseDatabase.instance.ref("users/$temp");
   }
 
   Future<void> logout() async {
@@ -42,10 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          const Image(
-            image: NetworkImage(
-                "https://cdn.pixabay.com/photo/2016/09/09/23/27/the-ostrich-1658267_960_720.jpg"),
-          ),
           Column(
             children: <Widget>[
               ElevatedButton(
