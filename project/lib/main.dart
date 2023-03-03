@@ -64,6 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
   // String containing id to access database.
   String? uid;
 
+   void goDirectlyToMainGroupPageAfterLoginDELETE(){
+   Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                GroupHomePage(title: "Main Group Page", ref: ref, uid: uid,)),
+                      );
+  }
+
   // Asynchronous method using Firebase framework to authenticate a user using their email and password.
   Future<void> login() async {
     try {
@@ -83,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // Store a reference to the current user's information in the database.
       ref = FirebaseDatabase.instance.ref("users/$uid");
+      goDirectlyToMainGroupPageAfterLoginDELETE();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -243,7 +253,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                const GroupHomePage(title: "Main Group Page")),
+                                GroupHomePage(title: "Main Group Page", ref: ref, uid: uid)),
                       );
                     },
                     icon: const Icon(Icons.cabin),

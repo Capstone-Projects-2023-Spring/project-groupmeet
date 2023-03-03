@@ -1,18 +1,70 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class GroupHomePage extends StatefulWidget {
-  const GroupHomePage({super.key, required this.title});
+  const GroupHomePage({super.key, required this.title, required this.ref, required this.uid});
 
-  final String title;
-
+  final String title;  
+  final DatabaseReference ref;
+  final String? uid;
   @override
   State<GroupHomePage> createState() => _GroupHomePageState();
 }
 
 class _GroupHomePageState extends State<GroupHomePage> {
 
+// should this only be grabbed once? maybe call this function if membesr keep joining?
+  Future<void> grabGroupMembers() async {
+    // grabs the object of groupIds specififc to the main user
+    final snapshot = await widget.ref.child('groupIds').get();    
+    if (snapshot.exists) {    
+      
+      DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups");
+
+      snapshot.children.forEach((eachGroupId) async {
+        print(eachGroupId.key);                
+        final membersSnapshot = await groupRef.child(eachGroupId.key.toString()).child("members").get();
+        print(membersSnapshot.value.toString());
+        // if (membersSnapshot.exists){
+        //   membersSnapshot.children.forEach((element) {
+        //   print(element);
+        // });
+        // }
+       
+      });
+      
+    // want to iterate through each groupId and get each group's information
+    
+
+
+
+
+    // using new table, GROUPS within database
+    // DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups");
+    // final groupSnapshot = groupRef.get();
+  // Iterable<DataSnapshot> groupIds = groupSnapshot.
+    // groupIds.forEach((eachgroupId) async { 
+    //   print(eachgroupId);
+    //   await groupRef.child("$eachgroupId").get();
+    //   if(snapshot.exists) {
+    //     print(snapshot.value);
+    //   }else{print("snapshot doesn't exist");}
+    // });
+} else {
+    print('No data available.');
+}
+
+
+  }
+
+Future<void> temporaryAddGroupListsToUser() async {
+  // "users/uid/"
+  await widget.ref.update({"groupIds": {"TEMPORARY": true, "-NPJzVjHIDD3NYQndB_Y":true, "-NPFpbZZsn3ocVTFD-8H":true }});
+}
+
   @override
   Widget build(BuildContext context) {
+    // grabGroupMembers();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -32,6 +84,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 image: NetworkImage( // TEMPORARY IMAGE, SHOW STATIC CALENDAR HERE
                     "https://cdn.discordapp.com/attachments/979937535272816703/1079918387339206886/image.png"),
                     width: 400,
+                    height: 200, 
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,6 +128,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                           ),
                           onPressed: () {
+                            grabGroupMembers();
+                            // temporaryAddGroupListsToUser();
                             print("Test");
                           },
                           child: Text('Suggest New Meeting Time', style: TextStyle(fontSize: 25)),
