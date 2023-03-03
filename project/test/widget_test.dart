@@ -6,33 +6,35 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import '../lib/main.dart';
+import './mock.dart'; // from: https://github.com/FirebaseExtended/flutterfire/blob/master/packages/firebase_auth/firebase_auth/test/mock.dart
 import 'package:groupmeet/home.dart';
+import "package:mockito/mockito.dart";
 
 void main() {
-  // testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-  //   // Build our app and trigger a frame.
-  //   await tester.pumpWidget(const MyApp());
-  //
-  //   // Verify that our counter starts at 0.
-  //   expect(find.text('0'), findsOneWidget);
-  //   expect(find.text('1'), findsNothing);
-  //
-  //   // Tap the '+' icon and trigger a frame.
-  //   await tester.tap(find.byIcon(Icons.add));
-  //   await tester.pump();
-  //
-  //   // Verify that our counter has incremented.
-  //   expect(find.text('0'), findsNothing);
-  //   expect(find.text('1'), findsOneWidget);
-  // });
-  testWidgets('Title test for MyHomePage', (WidgetTester tester) async {
-    await tester.pumpWidget(const HomeScreen(title: 'Test'));
+  // TestWidgetsFlutterBinding.ensureInitialized(); Gets called in setupFirebaseAuthMocks()
+  setupFirebaseAuthMocks();
 
-    final titleFinder = find.text('Test');
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
 
-    expect(titleFinder, findsOneWidget);
+  test("unit test example", () {
+    const widget = HomeScreen(title: "Test");
+    final element = widget.createElement();
 
+  });
+
+  testWidgets('Title test for Homescreen', (WidgetTester tester) async {
+    // Tests to write
+    Widget testWidget = new MediaQuery(
+        data: new MediaQueryData(),
+        child: new MaterialApp(home: new HomeScreen(title: "Test",))
+    );
+    await tester.pumpWidget(testWidget);
+    final HomeScreenState homeScreenState = tester.state(find.byType(HomeScreen));
+    expect(homeScreenState.widget.title, "Test");
   });
 }

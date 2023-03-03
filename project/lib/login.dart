@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => const HomeScreen(title: 'HomeScreen'),
+        builder: (_) => HomeScreen(title: 'HomeScreen'),
       ),
     );
   }
