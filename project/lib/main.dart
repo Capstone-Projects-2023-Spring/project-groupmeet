@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:groupmeet/all_groups.dart';
 import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,7 +70,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                GroupHomePage(title: "Main Group Page", ref: ref, uid: uid,)),
+                            AllGroups(title: "All Groups from Delete", uid: uid, ref: ref,)
+                                // GroupHomePage(title: "Main Group Page", ref: ref, uid: uid)
+                                ),
                       );
   }
 
@@ -260,6 +263,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+              Column(
+                children: [
+                  const Text("All Groups"),
+                  IconButton(onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>
+                      AllGroups(title: "Display All Groups Here", uid: uid, ref: ref)
+                      
+                  
+                    ));
+                  }, icon: const Icon(Icons.group))
+                ],
+              )
             ],
           ),
         ],

@@ -13,49 +13,7 @@ class GroupHomePage extends StatefulWidget {
 
 class _GroupHomePageState extends State<GroupHomePage> {
 
-// should this only be grabbed once? maybe call this function if membesr keep joining?
-  Future<void> grabGroupMembers() async {
-    // grabs the object of groupIds specififc to the main user
-    final snapshot = await widget.ref.child('groupIds').get();    
-    if (snapshot.exists) {    
-      
-      DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups");
 
-      snapshot.children.forEach((eachGroupId) async {
-        print(eachGroupId.key);                
-        final membersSnapshot = await groupRef.child(eachGroupId.key.toString()).child("members").get();
-        print(membersSnapshot.value.toString());
-        // if (membersSnapshot.exists){
-        //   membersSnapshot.children.forEach((element) {
-        //   print(element);
-        // });
-        // }
-       
-      });
-      
-    // want to iterate through each groupId and get each group's information
-    
-
-
-
-
-    // using new table, GROUPS within database
-    // DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups");
-    // final groupSnapshot = groupRef.get();
-  // Iterable<DataSnapshot> groupIds = groupSnapshot.
-    // groupIds.forEach((eachgroupId) async { 
-    //   print(eachgroupId);
-    //   await groupRef.child("$eachgroupId").get();
-    //   if(snapshot.exists) {
-    //     print(snapshot.value);
-    //   }else{print("snapshot doesn't exist");}
-    // });
-} else {
-    print('No data available.');
-}
-
-
-  }
 
 Future<void> temporaryAddGroupListsToUser() async {
   // "users/uid/"
@@ -127,9 +85,7 @@ Future<void> temporaryAddGroupListsToUser() async {
                           style: ButtonStyle(
                             foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
                           ),
-                          onPressed: () {
-                            grabGroupMembers();
-                            // temporaryAddGroupListsToUser();
+                          onPressed: () {                                                        
                             print("Test");
                           },
                           child: Text('Suggest New Meeting Time', style: TextStyle(fontSize: 25)),
