@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 # Unit and Widget tests
-## These will allow us to test methods that provide unique functionality to each page. Unit tests will be used for methods that stay within a single page. Widget tests will be used in tandem with unit testing due to the nature of Flutter's middleware being heavily integrated into the front end.
+**These will allow us to test methods that provide unique functionality to each page. Unit tests will be used for methods that stay within a single page. Widget tests will be used in tandem with unit testing due to the nature of Flutter's middleware being heavily integrated into the front end.**
 ## Unit Tests:
 1. getQR()
   - Procedure: A new QRCode is generated
