@@ -24,43 +24,64 @@ class _AllGroupsState extends State<AllGroups>{
 
 
   
-  Future<List<String>> grabGroups() async {
-  late List<String> _allGroupIds = [];  
+  Future<List<Map>> grabGroups() async {
+   
+  List<String> allGroupIds = [];  
+  List<Map> allGroups = [];
     print("this function was called");
     final snapshot = await widget.ref.child('groupIds').get();
-    if(snapshot.exists){
+
+    DatabaseReference accessGroupInfoRef = FirebaseDatabase.instance.ref("groups");
+
+    if(snapshot.exists){  //make this Try and catch instead?
       // snapshot value is  the groupId object containing all the groupIds
-      print(snapshot.value);
+      // print(snapshot.value);
       Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
-      values.forEach((key, value) {
-        print("printing $key");        
-      //   // setState(() {
-          _allGroupIds.add(key);
-      //   // });        
-      });            
+
+      Map<dynamic, dynamic> groupInfoMap;
+      // for (var mapEntry in gg.entries) {
+        for(var entry in values.entries){
+      // values.forEach((key, value) async {
+        // print("printing $key");        
+
+          allGroupIds.add(entry.key);  
+          
+          print("trying to get group information below");
+          final groupInfoSnapshot = await accessGroupInfoRef.child(entry.key).get();
+          groupInfoMap = groupInfoSnapshot.value as Map<dynamic, dynamic>;
+          // groupInfoMap.putIfAbsent("gId", () => key);
+          allGroups.add(groupInfoMap);
+          // print("groupInfoMap: $groupInfoMap");
+          print("allGroups: $allGroups");
+          
+
+          
+      }
+      // );            
     }else{
      print("snapshot doesn't exist");
     }
-    print("allGroupIds $_allGroupIds");
-    return _allGroupIds;
-    // return "randomkeytochange alter";
+    // print("allGroupIds $_allGroupIds");
+    print("all groups at the end: $allGroups" );
+    return allGroups;
+    
 
     }
 
-  String? _groupId;
-  Future<void> _grabGroupId() async {
+  // String? _groupId;
+  // Future<void> _grabGroupId() async {
         
-    final snapshot = await widget.ref.child('groupId').get();
-    if (snapshot.exists) {
-      setState(() {
-        _groupId = (snapshot.value).toString();
-      });
+  //   final snapshot = await widget.ref.child('groupId').get();
+  //   if (snapshot.exists) {
+  //     setState(() {
+  //       _groupId = (snapshot.value).toString();
+  //     });
 
-      print(snapshot.value);
-    } else {
-      print('No data available.');
-    }
-  }
+  //     print(snapshot.value);
+  //   } else {
+  //     print('No data available.');
+  //   }
+  // }
 
   
 
@@ -78,7 +99,7 @@ class _AllGroupsState extends State<AllGroups>{
       List<String> allMembers = [];
       // **************************
       snapshot.children.forEach((eachGroupId) async {
-        print(eachGroupId.key);                
+        // print(eachGroupId.key);                
         final membersSnapshot = await groupRef.child(eachGroupId.key.toString()).child("members").get();
         
         Map<dynamic, dynamic> members = membersSnapshot.value as Map<dynamic, dynamic>;
@@ -115,9 +136,15 @@ class _AllGroupsState extends State<AllGroups>{
           FutureBuilder(
             future: grabGroups(),
             builder: (context, snapshot){
-              if(snapshot.data != null){
-                var variable = snapshot.data!.map((eachGroupId)=> Text(eachGroupId)).toList();                
-                print(snapshot.data);
+              if(snapshot.data != null){                
+                var variable = snapshot.data!.map((eachGroup)=> Container(
+                   child: Column(children: [
+                    Text(eachGroup["gname"])
+                   ]),
+                )).toList();
+                // Text(eachGroupId)).toList();    
+                // print("snapshot within the scaffold");           
+                // print(snapshot.data);
                 return Column(
                   children: variable,
                 );
