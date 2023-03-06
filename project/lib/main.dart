@@ -256,7 +256,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                GroupHomePage(title: "Main Group Page", ref: ref, uid: uid)),
+                                GroupHomePage(title: "Main Group Page")),
                       );
                     },
                     icon: const Icon(Icons.cabin),

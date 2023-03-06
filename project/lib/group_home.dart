@@ -1,12 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class GroupHomePage extends StatefulWidget {
-  const GroupHomePage({super.key, required this.title, required this.ref, required this.uid});
+  const GroupHomePage({super.key, required this.title});
 
   final String title;  
-  final DatabaseReference ref;
-  final String? uid;
+  
   @override
   State<GroupHomePage> createState() => _GroupHomePageState();
 }
@@ -16,8 +16,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
 
 Future<void> temporaryAddGroupListsToUser() async {
-  // "users/uid/"
-  await widget.ref.update({"groupIds": {"TEMPORARY": true, "-NPJzVjHIDD3NYQndB_Y":true, "-NPFpbZZsn3ocVTFD-8H":true }});
+  final String? uid = FirebaseAuth.instance.currentUser?.uid;
+  DatabaseReference ref =  FirebaseDatabase.instance.ref("users/$uid");
+
+  await ref.update({"groupIds": {"TEMPORARY": true, "-NPJzVjHIDD3NYQndB_Y":true, "-NPFpbZZsn3ocVTFD-8H":true }});
 }
 
   @override

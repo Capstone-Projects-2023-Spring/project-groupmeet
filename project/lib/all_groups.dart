@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:groupmeet/group_home.dart';
 
 
 class AllGroups extends StatefulWidget{
@@ -66,22 +67,7 @@ class _AllGroupsState extends State<AllGroups>{
     return allGroups;
     
 
-    }
-
-  // String? _groupId;
-  // Future<void> _grabGroupId() async {
-        
-  //   final snapshot = await widget.ref.child('groupId').get();
-  //   if (snapshot.exists) {
-  //     setState(() {
-  //       _groupId = (snapshot.value).toString();
-  //     });
-
-  //     print(snapshot.value);
-  //   } else {
-  //     print('No data available.');
-  //   }
-  // }
+  }
 
   
 
@@ -109,11 +95,7 @@ class _AllGroupsState extends State<AllGroups>{
         });
         String gId = eachGroupId as String;
         
-        // {
-        //"-NPZ4fNATjGU7OpNu50K": ["Q5LPIjKwTpRA8I5TiBcFRW39I3g1", "mIzlUDN3haMMZ8Kbj79OSHCsltE3"],
-        // "anotherGroupId": ["memberId1", "MemberId2"],
-        // }
-        // print(membersSnapshot.value.toString());   
+       
         
       });
                 
@@ -131,30 +113,48 @@ class _AllGroupsState extends State<AllGroups>{
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: [
-          FutureBuilder(
-            future: grabGroups(),
-            builder: (context, snapshot){
-              if(snapshot.data != null){                
-                var variable = snapshot.data!.map((eachGroup)=> Container(
-                   child: Column(children: [
-                    Text(eachGroup["gname"])
-                   ]),
-                )).toList();
-                // Text(eachGroupId)).toList();    
-                // print("snapshot within the scaffold");           
-                // print(snapshot.data);
-                return Column(
-                  children: variable,
-                );
-              }else{
-                return Text("no data yet");
-              }
+      body: 
+      FutureBuilder(
+        future: grabGroups(),
+        builder: (context, snapshot){
+          if(snapshot.data != null){                
+            var variable = snapshot.data!.map((eachGroup)=> 
+          Container(  
+            decoration: BoxDecoration(border: Border.all(
+      width: 2,
+    ),),
+            child :
+            Row(   
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[              
+                Column(
+                children: [
+                Text(eachGroup["gname"]),
+                Text(eachGroup["num_members"].toString() + " Members"),
+                IconButton(onPressed: (){
+                  Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                GroupHomePage(title: eachGroup["gname"])),
+                      );
+                  
+                  // go to the group home page & put in the variables that group Home page would be taking in
+                }, icon: Icon(Icons.arrow_forward_outlined))
+                
+               ] ) ],
+            ))).toList() ;
+            // ); 
 
-            }
-            )
-        ]),
+            return Column(
+              children: variable,
+            );
+          }else{
+            return Text("no data yet");
+          }
+
+        }
+        ),
     );
   }
 }
