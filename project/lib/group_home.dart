@@ -2,10 +2,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+// change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
-  const GroupHomePage({super.key, required this.title});
+  // const GroupHomePage({super.key, required this.title, required this.myGroup});
+  GroupHomePage({super.key, required this.title, this.myGroup});
 
   final String title;  
+  // Map<dynamic, dynamic> myGroup;
+  Map<dynamic, dynamic>? myGroup;
   
   @override
   State<GroupHomePage> createState() => _GroupHomePageState();
@@ -34,9 +38,9 @@ Future<void> temporaryAddGroupListsToUser() async {
         children: <Widget>[
           Column(
             children: <Widget>[
-              const Text.rich(
+              Text.rich(
                 TextSpan(
-                  text: "Insert Project Title Here", // Import Group Title
+                  text: widget.title, // Import Group Title
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
                 ),
               ),

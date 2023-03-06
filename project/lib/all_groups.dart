@@ -136,7 +136,7 @@ class _AllGroupsState extends State<AllGroups>{
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                GroupHomePage(title: eachGroup["gname"])),
+                                GroupHomePage(title: eachGroup["gname"], myGroup: eachGroup,)),
                       );
                   
                   // go to the group home page & put in the variables that group Home page would be taking in
