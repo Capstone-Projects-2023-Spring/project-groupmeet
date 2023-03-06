@@ -34,7 +34,7 @@ class _CodeReceptionState extends State<CodeReception> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      appBar: AppBar(title: Text("QR Code")),
+      appBar: AppBar(title: const Text("QR Code")),
       body: Column(
         children: [
           if (one == 1 )
@@ -46,7 +46,7 @@ class _CodeReceptionState extends State<CodeReception> {
               ),
             ),
           if (one == 2 )
-            Container(
+            SizedBox(
               height: 370,
               width: 370,
               child: QRView(
@@ -56,7 +56,7 @@ class _CodeReceptionState extends State<CodeReception> {
             ),
           Center(
             //Change _scannedCode!.code to a link to the group
-            child: (_scannedCode != null) ? Text('${_scannedCode!.code}') : Text(""),
+            child: (_scannedCode != null) ? Text('${_scannedCode!.code}') : const Text(""),
           ),
           TextButton(onPressed: (){
 

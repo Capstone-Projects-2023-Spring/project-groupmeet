@@ -68,8 +68,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('View Calendar',
-                            style: TextStyle(fontSize: 20)),
+                        child: const Text('View Calendar', style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -83,8 +82,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Edit Availabilities',
-                            style: TextStyle(fontSize: 20)),
+                        child: const Text('Edit Availabilities', style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -100,6 +98,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
+
                         ),
                         onPressed: () {
                           print("Test");
@@ -175,7 +174,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Edit Members'),
+                        child: const Text('Edit Members'),
                       ),
                     ],
                   ),
@@ -189,7 +188,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Leave Group'),
+                        child: const Text('Leave Group'),
                       ),
                     ],
                   ),
