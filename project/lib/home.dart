@@ -8,6 +8,7 @@ import 'account_info.dart';
 import 'group_creation.dart';
 import 'code_reception.dart';
 import 'group_home.dart';
+import 'all_groups.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -132,22 +133,25 @@ class HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
+            Column(
                 children: [
-                  const Text("Main Group Page (TEMPORARY BUTTON)"),
+                  const Text("All Groups"),
+                  
                   IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const GroupHomePage(title: "Main Group Page")),
-                      );
-                    },
-                    icon: const Icon(Icons.cabin),
-                  ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AllGroups(
+                                    title: "Display All Groups Here",
+                                    // uid: uid,
+                                    ref: ref)));
+                      },
+                      icon: const Icon(Icons.group))
                 ],
-              ),
+              )
+
+
             ],
           ),
           Column(
@@ -166,6 +170,7 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
+
         ],
       ),
     );
