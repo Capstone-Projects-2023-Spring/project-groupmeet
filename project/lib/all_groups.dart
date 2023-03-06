@@ -87,7 +87,7 @@ class _AllGroupsState extends State<AllGroups> {
                 children: groupWidget,
               );
             } else {
-              return const Text("no data yet--replace this");
+              return const Text("no data yet--replace this - current user is not in any groups");
             }
           }),
     );
