@@ -7,40 +7,32 @@ class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   GroupHomePage({super.key, required this.title, this.myGroup});
 
-  final String title;
-  // Map<dynamic, dynamic> myGroup;
+  final String title;  
   Map<dynamic, dynamic>? myGroup;
 
   @override
   State<GroupHomePage> createState() => _GroupHomePageState();
 }
 
-class _GroupHomePageState extends State<GroupHomePage> {
-  // should this only be grabbed once? maybe call this function if membesr keep joining?
+class _GroupHomePageState extends State<GroupHomePage> {  
   Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
-    // {members: {Q5LPIjKwTpRA8I5TiBcFRW39I3g1: true, mIzlUDN3haMMZ8Kbj79OSHCsltE3: true}, num_members: 15, creator_id: Q5LPIjKwTpRA8I5TiBcFRW39I3g1, gname: pizza}
-    // widget.myGroup["members"]
     List<Map> allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
     Map<dynamic, dynamic> AllMembersMap;
-    print(widget.myGroup!["members"]);
-
+    
     for (var memberId in widget.myGroup!["members"].entries) {
       final memberSnapshot = await ref.child(memberId.key).get();
       AllMembersMap = memberSnapshot.value as Map<dynamic, dynamic>;
       AllMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(AllMembersMap);
     }
-
-    print("all members");
-    print(allMembers);
+    // print(allMembers);
     return allMembers;
   }
 
   @override
-  Widget build(BuildContext context) {
-    // grabGroupMembers();
+  Widget build(BuildContext context) {    
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -52,7 +44,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
             children: <Widget>[
               Text.rich(
                 TextSpan(
-                  text: widget.title, // Import Group Title
+                  text: widget.title,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
                 ),
               ),
@@ -149,15 +141,23 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       builder: (context, snapshot) {
                         var membersWidget = snapshot.data!
                             .map((eachMember) => Text(
-                                  eachMember["firstName"] + " " +
+                                  eachMember["firstName"] +
+                                      " " +
                                       eachMember["lastName"],
                                   style: TextStyle(fontSize: 15),
                                 ))
                             .toList();
-                          var check = Column(children: membersWidget,);
-                        return Container(                          
-                          decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
-                            child: Column(children: [Text(style: TextStyle(fontSize: 20),"Members"), check] ));
+                        var check = Column(
+                          children: membersWidget,
+                        );
+                        return Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(width: 1, color: Colors.grey)),
+                            child: Column(children: [
+                              Text(style: TextStyle(fontSize: 20), "Members"),
+                              check
+                            ]));
                       })
                 ],
               ),

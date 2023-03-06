@@ -16,6 +16,8 @@ class AllGroups extends StatefulWidget {
 }
 
 class _AllGroupsState extends State<AllGroups> {
+
+  // gets all groups associated with the current user
   Future<List<Map>> grabGroups() async {
     List<Map> allGroups = [];
     final snapshot = await widget.ref.child('groupIds').get();
@@ -23,29 +25,20 @@ class _AllGroupsState extends State<AllGroups> {
     DatabaseReference accessGroupInfoRef =
         FirebaseDatabase.instance.ref("groups");
 
-    if (snapshot.exists) {
-      //make this Try and catch instead?
-      // snapshot value is  the groupId object containing all the groupIds
-      // print(snapshot.value);
+    if (snapshot.exists) {      
       Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
 
-      Map<dynamic, dynamic> groupInfoMap;
-      // for (var mapEntry in gg.entries) {
+      Map<dynamic, dynamic> groupInfoMap;      
       for (var entry in values.entries) {
         final groupInfoSnapshot =
             await accessGroupInfoRef.child(entry.key).get();
         groupInfoMap = groupInfoSnapshot.value as Map<dynamic, dynamic>;
         groupInfoMap.putIfAbsent("gId", () => entry.key);
-        allGroups.add(groupInfoMap);
-        // print("groupInfoMap: $groupInfoMap");
-        // print("allGroups: $allGroups");
-      }
-      // );
+        allGroups.add(groupInfoMap);        
+      }      
     } else {
       print("snapshot doesn't exist");
-    }
-    // print("allGroupIds $_allGroupIds");
-    // print("all groups at the end: $allGroups" );
+    }        
     return allGroups;
   }
 
@@ -71,8 +64,7 @@ class _AllGroupsState extends State<AllGroups> {
                         children: [
                           Column(children: [
                             Text(eachGroup["gname"]),
-                            Text(eachGroup["num_members"].toString() +
-                                " Members"),
+                            Text("${eachGroup["num_members"]} Members"),
                             IconButton(
                                 onPressed: () {
                                   Navigator.push(
@@ -82,16 +74,13 @@ class _AllGroupsState extends State<AllGroups> {
                                               title: eachGroup["gname"],
                                               myGroup: eachGroup,
                                             )),
-                                  );
-
-                                  // go to the group home page & put in the variables that group Home page would be taking in
+                                  );                                  
                                 },
                                 icon: Icon(Icons.arrow_forward_outlined))
                           ])
                         ],
                       )))
-                  .toList();
-              // );
+                  .toList();              
 
               return Column(
                 children: groupWidget,
