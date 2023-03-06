@@ -65,17 +65,6 @@ class _MyHomePageState extends State<MyHomePage> {
   // String containing id to access database.
   String? uid;
 
-   void goDirectlyToMainGroupPageAfterLoginDELETE(){
-   Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                            AllGroups(title: "All Groups from Delete", uid: uid, ref: ref,)
-                                // GroupHomePage(title: "Main Group Page", ref: ref, uid: uid)
-                                ),
-                      );
-  }
-
   // Asynchronous method using Firebase framework to authenticate a user using their email and password.
   Future<void> login() async {
     try {
@@ -94,8 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
       uid = FirebaseAuth.instance.currentUser?.uid;
 
       // Store a reference to the current user's information in the database.
-      ref = FirebaseDatabase.instance.ref("users/$uid");
-      goDirectlyToMainGroupPageAfterLoginDELETE();
+      ref = FirebaseDatabase.instance.ref("users/$uid");      
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -266,15 +254,17 @@ class _MyHomePageState extends State<MyHomePage> {
               Column(
                 children: [
                   const Text("All Groups"),
-                  IconButton(onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>
-                      AllGroups(title: "Display All Groups Here", uid: uid, ref: ref)
-                      
-                  
-                    ));
-                  }, icon: const Icon(Icons.group))
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AllGroups(
+                                    title: "Display All Groups Here",
+                                    uid: uid,
+                                    ref: ref)));
+                      },
+                      icon: const Icon(Icons.group))
                 ],
               )
             ],

@@ -7,24 +7,36 @@ class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   GroupHomePage({super.key, required this.title, this.myGroup});
 
-  final String title;  
+  final String title;
   // Map<dynamic, dynamic> myGroup;
   Map<dynamic, dynamic>? myGroup;
-  
+
   @override
   State<GroupHomePage> createState() => _GroupHomePageState();
 }
 
 class _GroupHomePageState extends State<GroupHomePage> {
+  // should this only be grabbed once? maybe call this function if membesr keep joining?
+  Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
+    // {members: {Q5LPIjKwTpRA8I5TiBcFRW39I3g1: true, mIzlUDN3haMMZ8Kbj79OSHCsltE3: true}, num_members: 15, creator_id: Q5LPIjKwTpRA8I5TiBcFRW39I3g1, gname: pizza}
+    // widget.myGroup["members"]
+    List<Map> allMembers = [];
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
+    Map<dynamic, dynamic> AllMembersMap;
+    print(widget.myGroup!["members"]);
 
+    for (var memberId in widget.myGroup!["members"].entries) {
+      final memberSnapshot = await ref.child(memberId.key).get();
+      AllMembersMap = memberSnapshot.value as Map<dynamic, dynamic>;
+      AllMembersMap.putIfAbsent("uid", () => memberId.key);
+      allMembers.add(AllMembersMap);
+    }
 
-Future<void> temporaryAddGroupListsToUser() async {
-  final String? uid = FirebaseAuth.instance.currentUser?.uid;
-  DatabaseReference ref =  FirebaseDatabase.instance.ref("users/$uid");
-
-  await ref.update({"groupIds": {"TEMPORARY": true, "-NPJzVjHIDD3NYQndB_Y":true, "-NPFpbZZsn3ocVTFD-8H":true }});
-}
+    print("all members");
+    print(allMembers);
+    return allMembers;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,10 +57,11 @@ Future<void> temporaryAddGroupListsToUser() async {
                 ),
               ),
               const Image(
-                image: NetworkImage( // TEMPORARY IMAGE, SHOW STATIC CALENDAR HERE
+                image: NetworkImage(
+                    // TEMPORARY IMAGE, SHOW STATIC CALENDAR HERE
                     "https://cdn.discordapp.com/attachments/979937535272816703/1079918387339206886/image.png"),
-                    width: 400,
-                    height: 200, 
+                width: 400,
+                height: 200,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,12 +70,14 @@ Future<void> temporaryAddGroupListsToUser() async {
                     children: [
                       OutlinedButton(
                         style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('View Calendar', style: TextStyle(fontSize: 20)),
+                        child: Text('View Calendar',
+                            style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -70,12 +85,14 @@ Future<void> temporaryAddGroupListsToUser() async {
                     children: [
                       OutlinedButton(
                         style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Edit Availabilities', style: TextStyle(fontSize: 20)),
+                        child: Text('Edit Availabilities',
+                            style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -84,21 +101,23 @@ Future<void> temporaryAddGroupListsToUser() async {
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        OutlinedButton(
-                          style: ButtonStyle(
-                            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                          ),
-                          onPressed: () {                                                        
-                            print("Test");
-                          },
-                          child: Text('Suggest New Meeting Time', style: TextStyle(fontSize: 25)),
+                children: [
+                  Column(
+                    children: [
+                      OutlinedButton(
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
-                      ],
-                    ),
-                  ],
+                        onPressed: () {
+                          print("Test");
+                        },
+                        child: Text('Suggest New Meeting Time',
+                            style: TextStyle(fontSize: 25)),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               const SizedBox(height: 10),
               Row(
@@ -108,18 +127,41 @@ Future<void> temporaryAddGroupListsToUser() async {
                     children: [
                       OutlinedButton(
                         style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           print("Test");
                         },
-                        child: Text('Cancel Active Meeting', style: TextStyle(fontSize: 25)),
+                        child: Text('Cancel Active Meeting',
+                            style: TextStyle(fontSize: 25)),
                       ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(height: 120),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FutureBuilder(
+                      future: grabGroupMembers(),
+                      builder: (context, snapshot) {
+                        var membersWidget = snapshot.data!
+                            .map((eachMember) => Text(
+                                  eachMember["firstName"] + " " +
+                                      eachMember["lastName"],
+                                  style: TextStyle(fontSize: 15),
+                                ))
+                            .toList();
+                          var check = Column(children: membersWidget,);
+                        return Container(                          
+                          decoration: BoxDecoration(border: Border.all(width: 1, color: Colors.grey)),
+                            child: Column(children: [Text(style: TextStyle(fontSize: 20),"Members"), check] ));
+                      })
+                ],
+              ),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -127,7 +169,8 @@ Future<void> temporaryAddGroupListsToUser() async {
                     children: [
                       OutlinedButton(
                         style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           print("Test");
@@ -140,7 +183,8 @@ Future<void> temporaryAddGroupListsToUser() async {
                     children: [
                       OutlinedButton(
                         style: ButtonStyle(
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           print("Test");
@@ -154,7 +198,6 @@ Future<void> temporaryAddGroupListsToUser() async {
             ],
           ),
         ],
-
       ),
     );
   }
