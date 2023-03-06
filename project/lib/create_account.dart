@@ -22,9 +22,15 @@ class _CreateAccountState extends State<CreateAccount> {
 
   Future<void> createUserProfile() async {
     try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
       uid = FirebaseAuth.instance.currentUser?.uid;
       ref = FirebaseDatabase.instance.ref("users/$uid");
-
+      print("uid");
+      print(uid);
       await ref.set({
         "email": _emailController.text.trim(),
         "firstName": _fnameController.text.trim(),
