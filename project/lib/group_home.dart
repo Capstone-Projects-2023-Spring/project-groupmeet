@@ -138,6 +138,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   FutureBuilder(
                       future: grabGroupMembers(),
                       builder: (context, snapshot) {
+                        if(snapshot.hasData){
                         var membersWidget = snapshot.data!
                             .map((eachMember) => Text(
                                   eachMember["firstName"] +
@@ -157,7 +158,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               Text(style: TextStyle(fontSize: 20), "Members"),
                               check
                             ]));
-                      })
+   } else{
+    return const Text("no data yet--replace this");
+   }})
                 ],
               ),
               const SizedBox(height: 30),

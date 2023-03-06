@@ -1,22 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:groupmeet/group_home.dart';
 
 class AllGroups extends StatefulWidget {
   const AllGroups(
-      {super.key, required this.title, required this.uid, required this.ref});
+      {super.key, required this.title, required this.ref});
 
   final String title;
   // ("users/$uid)
   final DatabaseReference ref;
-  final String? uid;
+  // final String? uid;
 
   @override
   State<AllGroups> createState() => _AllGroupsState();
 }
 
 class _AllGroupsState extends State<AllGroups> {
-
+  final String? uid  = FirebaseAuth.instance.currentUser?.uid;
   // gets all groups associated with the current user
   Future<List<Map>> grabGroups() async {
     List<Map> allGroups = [];
@@ -86,7 +87,7 @@ class _AllGroupsState extends State<AllGroups> {
                 children: groupWidget,
               );
             } else {
-              return Text("no data yet");
+              return const Text("no data yet--replace this");
             }
           }),
     );
