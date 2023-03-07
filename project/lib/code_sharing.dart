@@ -12,7 +12,6 @@ class CodeSharing extends StatefulWidget {
 }
 
 class _CodeSharingState extends State<CodeSharing> {
-
 // grab all user information when they are logged in instead of making multiple calls?
   @override
   void initState() {
@@ -32,7 +31,12 @@ class _CodeSharingState extends State<CodeSharing> {
 
       print(snapshot.value);
     } else {
-      print('No data available.');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No Data Found'),
+          duration: Duration(seconds: 5),
+        ),
+      );
     }
   }
 
@@ -53,7 +57,12 @@ class _CodeSharingState extends State<CodeSharing> {
                 Text("Join Group: $_groupId"),
                 IconButton(
                     onPressed: () {
-                      print("doing nothing1");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Join Group Button'),
+                          duration: Duration(seconds: 5),
+                        ),
+                      );
                     },
                     icon: const Icon(size: 30, Icons.content_copy_rounded))
               ],
@@ -64,7 +73,12 @@ class _CodeSharingState extends State<CodeSharing> {
                 const Text("Link Here"),
                 IconButton(
                     onPressed: () {
-                      print("doing nothing2");
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Link Here Button'),
+                          duration: Duration(seconds: 5),
+                        ),
+                      );
                     },
                     icon: const Icon(size: 30, Icons.content_copy_rounded))
               ],

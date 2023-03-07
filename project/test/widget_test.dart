@@ -8,10 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../lib/main.dart';
 import './mock.dart'; // from: https://github.com/FirebaseExtended/flutterfire/blob/master/packages/firebase_auth/firebase_auth/test/mock.dart
 import 'package:groupmeet/home.dart';
-import "package:mockito/mockito.dart";
 
 void main() {
   // TestWidgetsFlutterBinding.ensureInitialized(); Gets called in setupFirebaseAuthMocks()
@@ -23,15 +21,15 @@ void main() {
 
   test("unit test example", () {
     const widget = HomeScreen(title: "Test");
-    final element = widget.createElement();
+    widget.createElement();
 
   });
 
-  testWidgets('Title test for Homescreen', (WidgetTester tester) async {
+  testWidgets('Title test for Home Screen', (WidgetTester tester) async {
     // Tests to write
-    Widget testWidget = new MediaQuery(
-        data: new MediaQueryData(),
-        child: new MaterialApp(home: new HomeScreen(title: "Test",))
+    Widget testWidget = const MediaQuery(
+        data: MediaQueryData(),
+        child: MaterialApp(home: HomeScreen(title: "Test",))
     );
     await tester.pumpWidget(testWidget);
     final HomeScreenState homeScreenState = tester.state(find.byType(HomeScreen));

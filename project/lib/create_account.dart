@@ -22,15 +22,13 @@ class _CreateAccountState extends State<CreateAccount> {
 
   Future<void> createUserProfile() async {
     try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
       uid = FirebaseAuth.instance.currentUser?.uid;
       ref = FirebaseDatabase.instance.ref("users/$uid");
-      print("uid");
-      print(uid);
+      print("uid + $uid");
       await ref.set({
         "email": _emailController.text.trim(),
         "firstName": _fnameController.text.trim(),
@@ -44,12 +42,14 @@ class _CreateAccountState extends State<CreateAccount> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('The password provided is too weak.'),
+            duration: Duration(seconds: 5),
           ),
         );
       } else if (e.code == 'email-already-in-use') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('The account already exists for that email.'),
+            duration: Duration(seconds: 5),
           ),
         );
       }
@@ -57,6 +57,7 @@ class _CreateAccountState extends State<CreateAccount> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('An error occurred: $e'),
+          duration: const Duration(seconds: 5),
         ),
       );
     }

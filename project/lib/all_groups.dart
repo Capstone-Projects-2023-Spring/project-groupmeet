@@ -38,6 +38,7 @@ class _AllGroupsState extends State<AllGroups> {
         allGroups.add(groupInfoMap);        
       }      
     } else {
+      //always prints this
       print("snapshot doesn't exist");
     }        
     return allGroups;
@@ -77,7 +78,7 @@ class _AllGroupsState extends State<AllGroups> {
                                             )),
                                   );                                  
                                 },
-                                icon: Icon(Icons.arrow_forward_outlined))
+                                icon: const Icon(Icons.arrow_forward_outlined))
                           ])
                         ],
                       )))

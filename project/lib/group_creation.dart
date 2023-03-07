@@ -91,6 +91,13 @@ class _GroupCreationState extends State<GroupCreation> {
                           FirebaseAuth.instance.currentUser!.uid: true
                         },
                       }).then((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Group Created.'),
+                            duration: Duration(seconds: 5),
+                          ),
+                        );
                         Navigator.pop(context);
                       });
                     }

@@ -35,7 +35,6 @@ class _GroupCreationState extends State<GroupCreation2> {
         title: const Text('Create a Group 2'),
       ),
       // remove from below when background color is added to themeData in main
-      backgroundColor: Colors.black,
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +118,12 @@ class _GroupCreationState extends State<GroupCreation2> {
                 color: Colors.black,
               ),
               onPressed: () {
-                print('Hi There');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Hi There'),
+                    duration: Duration(seconds: 5),
+                  ),
+                );
               },
             ),
           )

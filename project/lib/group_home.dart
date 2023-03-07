@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -7,20 +6,20 @@ class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   GroupHomePage({super.key, required this.title, this.myGroup});
 
-  final String title;  
+  final String title;
   Map<dynamic, dynamic>? myGroup;
 
   @override
   State<GroupHomePage> createState() => _GroupHomePageState();
 }
 
-class _GroupHomePageState extends State<GroupHomePage> {  
+class _GroupHomePageState extends State<GroupHomePage> {
   Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
     List<Map> allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
     Map<dynamic, dynamic> AllMembersMap;
-    
+
     for (var memberId in widget.myGroup!["members"].entries) {
       final memberSnapshot = await ref.child(memberId.key).get();
       AllMembersMap = memberSnapshot.value as Map<dynamic, dynamic>;
@@ -32,7 +31,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -45,7 +44,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
               Text.rich(
                 TextSpan(
                   text: widget.title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 35),
                 ),
               ),
               const Image(
@@ -66,9 +66,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          print("Test");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Test'),
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
                         },
-                        child: const Text('View Calendar', style: TextStyle(fontSize: 20)),
+                        child: const Text('View Calendar',
+                            style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -80,9 +86,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          print("Test");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Test'),
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
                         },
-                        child: const Text('Edit Availabilities', style: TextStyle(fontSize: 20)),
+                        child: const Text('Edit Availabilities',
+                            style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -98,12 +110,16 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
-
                         ),
                         onPressed: () {
-                          print("Test");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Test'),
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
                         },
-                        child: Text('Suggest New Meeting Time',
+                        child: const Text('Suggest New Meeting Time',
                             style: TextStyle(fontSize: 25)),
                       ),
                     ],
@@ -122,9 +138,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          print("Test");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Test'),
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
                         },
-                        child: Text('Cancel Active Meeting',
+                        child: const Text('Cancel Active Meeting',
                             style: TextStyle(fontSize: 25)),
                       ),
                     ],
@@ -138,29 +159,31 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   FutureBuilder(
                       future: grabGroupMembers(),
                       builder: (context, snapshot) {
-                        if(snapshot.hasData){
-                        var membersWidget = snapshot.data!
-                            .map((eachMember) => Text(
-                                  eachMember["firstName"] +
-                                      " " +
-                                      eachMember["lastName"],
-                                  style: TextStyle(fontSize: 15),
-                                ))
-                            .toList();
-                        var check = Column(
-                          children: membersWidget,
-                        );
-                        return Container(
-                            decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 1, color: Colors.grey)),
-                            child: Column(children: [
-                              Text(style: TextStyle(fontSize: 20), "Members"),
-                              check
-                            ]));
-   } else{
-    return const Text("no data yet--replace this");
-   }})
+                        if (snapshot.hasData) {
+                          var membersWidget = snapshot.data!
+                              .map((eachMember) => Text(
+                                    eachMember["firstName"] +
+                                        " " +
+                                        eachMember["lastName"],
+                                    style: const TextStyle(fontSize: 15),
+                                  ))
+                              .toList();
+                          var check = Column(
+                            children: membersWidget,
+                          );
+                          return Container(
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(width: 1, color: Colors.grey)),
+                              child: Column(children: [
+                                const Text(
+                                    style: TextStyle(fontSize: 20), "Members"),
+                                check
+                              ]));
+                        } else {
+                          return const Text("no data yet--replace this");
+                        }
+                      })
                 ],
               ),
               const SizedBox(height: 30),
@@ -175,7 +198,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          print("Test");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Test'),
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
                         },
                         child: const Text('Edit Members'),
                       ),
@@ -189,7 +217,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          print("Test");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Test'),
+                              duration: Duration(seconds: 5),
+                            ),
+                          );
                         },
                         child: const Text('Leave Group'),
                       ),
