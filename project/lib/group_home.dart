@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
-  GroupHomePage({super.key, required this.title, this.myGroup});
+  const GroupHomePage({super.key, required this.title, this.myGroup});
 
   final String title;
-  Map<dynamic, dynamic>? myGroup;
+  final Map<dynamic, dynamic>? myGroup;
 
   @override
   State<GroupHomePage> createState() => _GroupHomePageState();
@@ -18,13 +18,13 @@ class _GroupHomePageState extends State<GroupHomePage> {
     List<Map> allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
-    Map<dynamic, dynamic> AllMembersMap;
+    Map<dynamic, dynamic> allMembersMap;
 
     for (var memberId in widget.myGroup!["members"].entries) {
       final memberSnapshot = await ref.child(memberId.key).get();
-      AllMembersMap = memberSnapshot.value as Map<dynamic, dynamic>;
-      AllMembersMap.putIfAbsent("uid", () => memberId.key);
-      allMembers.add(AllMembersMap);
+      allMembersMap = memberSnapshot.value as Map<dynamic, dynamic>;
+      allMembersMap.putIfAbsent("uid", () => memberId.key);
+      allMembers.add(allMembersMap);
     }
     // print(allMembers);
     return allMembers;

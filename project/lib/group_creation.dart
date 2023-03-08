@@ -14,10 +14,10 @@ class GroupCreation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GroupCreationState createState() => _GroupCreationState();
+  GroupCreationState createState() => GroupCreationState();
 }
 
-class _GroupCreationState extends State<GroupCreation> {
+class GroupCreationState extends State<GroupCreation> {
   final TextEditingController _groupNameController = TextEditingController();
   final TextEditingController _numMembersController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

@@ -15,11 +15,9 @@ class CodeReception extends StatefulWidget {
 
 class _CodeReceptionState extends State<CodeReception> {
   final GlobalKey _key = GlobalKey();
-  QRViewController? _qrcontroller;
   Barcode? _scannedCode;
-  void getQR(QRViewController _qrcontroller){
-    this._qrcontroller = _qrcontroller;
-    _qrcontroller.scannedDataStream.listen((event) {
+  void getQR(QRViewController qrcontroller){
+    qrcontroller.scannedDataStream.listen((event) {
       setState(() {
         _scannedCode = event;
       });
