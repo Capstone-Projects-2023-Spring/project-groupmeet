@@ -14,10 +14,10 @@ class GroupCreation extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _GroupCreationState createState() => _GroupCreationState();
+  GroupCreationState createState() => GroupCreationState();
 }
 
-class _GroupCreationState extends State<GroupCreation> {
+class GroupCreationState extends State<GroupCreation> {
   final TextEditingController _groupNameController = TextEditingController();
   final TextEditingController _numMembersController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -91,6 +91,13 @@ class _GroupCreationState extends State<GroupCreation> {
                           FirebaseAuth.instance.currentUser!.uid: true
                         },
                       }).then((_) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Group Created.'),
+                            duration: Duration(seconds: 5),
+                          ),
+                        );
                         Navigator.pop(context);
                       });
                     }

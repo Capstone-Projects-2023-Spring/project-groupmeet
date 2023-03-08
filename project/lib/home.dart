@@ -7,7 +7,6 @@ import 'package:groupmeet/group_creation2.dart';
 import 'account_info.dart';
 import 'group_creation.dart';
 import 'code_reception.dart';
-import 'group_home.dart';
 import 'all_groups.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,9 +29,24 @@ class HomeScreenState extends State<HomeScreen> {
     ref = FirebaseDatabase.instance.ref("users/$temp");
   }
 
-  Future<void> logout() async {
-    print("logging out");
-    await FirebaseAuth.instance.signOut();
+  Future<void> logout(NavigatorState navigatorState, ScaffoldMessengerState scaffoldMessengerState) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      scaffoldMessengerState.showSnackBar(
+        const SnackBar(
+          content: Text('Logged out successfully.'),
+          duration: Duration(seconds: 5),
+        ),
+      );
+      navigatorState.pop();
+    } catch (e) {
+      scaffoldMessengerState.showSnackBar(
+        SnackBar(
+          content: Text('An error occurred while logging out: $e'),
+          duration: const Duration(seconds: 5),
+        ),
+      );
+    }
   }
 
   @override
@@ -48,7 +62,7 @@ class HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               ElevatedButton(
                   onPressed: () {
-                    logout();
+                    logout(Navigator.of(context), ScaffoldMessenger.of(context));
                   },
                   child: const Text("Logout")),
             ],
@@ -133,10 +147,9 @@ class HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-            Column(
+              Column(
                 children: [
                   const Text("All Groups"),
-                  
                   IconButton(
                       onPressed: () {
                         Navigator.push(
@@ -150,8 +163,6 @@ class HomeScreenState extends State<HomeScreen> {
                       icon: const Icon(Icons.group))
                 ],
               )
-
-
             ],
           ),
           Column(
@@ -170,7 +181,6 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-
         ],
       ),
     );

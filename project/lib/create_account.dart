@@ -20,51 +20,70 @@ class _CreateAccountState extends State<CreateAccount> {
   late DatabaseReference ref;
   String? uid;
 
-  Future<void> createUserProfile() async {
-    try {
-      final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      uid = FirebaseAuth.instance.currentUser?.uid;
-      ref = FirebaseDatabase.instance.ref("users/$uid");
-      print("uid");
-      print(uid);
-      await ref.set({
-        "email": _emailController.text.trim(),
-        "firstName": _fnameController.text.trim(),
-        "lastName": _lnameController.text.trim(),
-      });
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-      _emailController.dispose();
-      _passwordController.dispose();
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('The password provided is too weak.'),
-          ),
-        );
-      } else if (e.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('The account already exists for that email.'),
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('An error occurred: $e'),
-        ),
-      );
-    }
+  bool _creatingProfile = false;
+
+  void createUserProfile(BuildContext context) {
+    setState(() {
+      _creatingProfile = true;
+    });
+
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim(),
+        )
+        .then((authResult) {
+          uid = authResult.user?.uid;
+          ref = FirebaseDatabase.instance.ref("users/$uid");
+          ref.set({
+            "email": _emailController.text.trim(),
+            "firstName": _fnameController.text.trim(),
+            "lastName": _lnameController.text.trim(),
+          });
+          setState(() {
+            _creatingProfile = false;
+          });
+          _emailController.dispose();
+          _passwordController.dispose();
+          Navigator.of(context).pop();
+        })
+        .catchError((e) {
+          setState(() {
+            _creatingProfile = false;
+          });
+          if (e is FirebaseAuthException) {
+            if (e.code == 'weak-password') {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('The password provided is too weak.'),
+                  duration: Duration(seconds: 5),
+                ),
+              );
+            } else if (e.code == 'email-already-in-use') {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('The account already exists for that email.'),
+                  duration: Duration(seconds: 5),
+                ),
+              );
+            }
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('An error occurred: $e'),
+                duration: const Duration(seconds: 5),
+              ),
+            );
+          }
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -102,11 +121,10 @@ class _CreateAccountState extends State<CreateAccount> {
               obscureText: true,
             ),
             ElevatedButton(
-                onPressed: () {
-                  createUserProfile();
-                  Navigator.pop(context);
-                },
-                child: const Text("Create Account")),
+                onPressed: _creatingProfile ? null : () => createUserProfile(context),
+                child: _creatingProfile
+                    ? const CircularProgressIndicator()
+                    : const Text("Create Account")),
           ],
         ),
       ),
