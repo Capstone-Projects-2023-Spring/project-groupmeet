@@ -30,6 +30,29 @@ class GroupCreationState extends State<GroupCreation> {
     }
   }
 
+  Future <void> createGroupLinkUser() async {
+    
+    
+    final DatabaseReference groupRef = FirebaseDatabase
+        .instance
+        .ref()
+        .child('groups')
+        .push();
+    print(groupRef.key);
+    groupRef.set({
+      'name': _groupNameController.text,
+      'numMembers': int.parse(_numMembersController.text),
+      'admin': FirebaseAuth.instance.currentUser!.uid,
+      'members': {
+        FirebaseAuth.instance.currentUser!.uid: true
+      },
+    });
+    final DatabaseReference usersRef = FirebaseDatabase.instance.ref("users/${FirebaseAuth.instance.currentUser!.uid}/groupIds");
+    
+    usersRef.update({"${groupRef.key}": true});
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,19 +101,9 @@ class GroupCreationState extends State<GroupCreation> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Save the group data to the database
-                      final DatabaseReference groupRef = FirebaseDatabase
-                          .instance
-                          .ref()
-                          .child('groups')
-                          .push();
-                      groupRef.set({
-                        'name': _groupNameController.text,
-                        'numMembers': int.parse(_numMembersController.text),
-                        'admin': FirebaseAuth.instance.currentUser!.uid,
-                        'members': {
-                          FirebaseAuth.instance.currentUser!.uid: true
-                        },
-                      }).then((_) {
+                      
+                    createGroupLinkUser()
+                      .then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(
@@ -100,6 +113,7 @@ class GroupCreationState extends State<GroupCreation> {
                         );
                         Navigator.pop(context);
                       });
+                      
                     }
                   },
                   child: const Text('Create Group'),

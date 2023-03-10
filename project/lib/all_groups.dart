@@ -47,15 +47,18 @@ class _AllGroupsState extends State<AllGroups> {
       body: FutureBuilder(
         future: grabGroups(),
         builder: (context, snapshot) {
+          print(snapshot.data);
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
+          } 
+          // else if (snapshot.hasError) {
+          //   return Text('Error: ${snapshot.error}');
 
-            // Never enters this else if statement
-          } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          //   // Never enters this else if statement
+          // } 
+          else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             var groupWidget = snapshot.data!
                 .map(
                   (eachGroup) => Container(
@@ -69,15 +72,15 @@ class _AllGroupsState extends State<AllGroups> {
                       children: [
                         Column(
                           children: [
-                            Text(eachGroup["gname"]),
-                            Text("${eachGroup["num_members"]} Members"),
+                            Text(eachGroup["name"]),
+                            Text("${eachGroup["numMembers"]} Members"),
                             IconButton(
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => GroupHomePage(
-                                      title: eachGroup["gname"],
+                                      title: eachGroup["name"],
                                       myGroup: eachGroup,
                                     ),
                                   ),
