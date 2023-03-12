@@ -99,9 +99,8 @@ class HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => GroupCreation(
-                            title: "Group Creation",
-                            databaseReference: ref,
+                          builder: (context) => const GroupCreation(
+                            title: "Group Creation",                            
                           ),
                         ),
                       );
