@@ -73,8 +73,8 @@ class _AllGroupsState extends State<AllGroups> {
                             Text(eachGroup["name"]),
                             Text("${eachGroup["numMembers"]} Members"),
                             IconButton(
-                              onPressed: () {
-                                Navigator.push(
+                              onPressed: () async {
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => GroupHomePage(
@@ -83,6 +83,7 @@ class _AllGroupsState extends State<AllGroups> {
                                     ),
                                   ),
                                 );
+                                setState(() {});
                               },
                               icon: const Icon(Icons.arrow_forward_outlined),
                             ),
