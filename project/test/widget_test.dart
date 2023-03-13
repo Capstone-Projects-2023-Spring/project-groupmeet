@@ -22,7 +22,7 @@ void main() {
   test("unit test example", () {
     const widget = HomeScreen(title: "Test");
     widget.createElement();
-
+    expect(widget.title, "Test");
   });
 
   testWidgets('Title test for Home Screen', (WidgetTester tester) async {

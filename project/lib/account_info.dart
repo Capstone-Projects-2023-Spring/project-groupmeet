@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'socials.dart';
+import 'edit_account.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -71,6 +72,19 @@ class _AccountInfoState extends State<AccountInfo> {
                 const Text("Email:"),
                 Text(email),
               ],
+            ),
+            const Text("Edit Account Information"),
+            IconButton(
+              onPressed: () async{
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditAccountInfo(title: "Edit My Account", ref: ref),
+                  ),
+                );
+                getData();
+              },
+              icon: const Icon(Icons.create),
             ),
           ],
         ),
