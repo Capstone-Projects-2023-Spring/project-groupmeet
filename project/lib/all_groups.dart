@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:groupmeet/group_creation.dart';
 import 'package:groupmeet/group_home.dart';
 
 class AllGroups extends StatefulWidget {
@@ -44,20 +45,17 @@ class _AllGroupsState extends State<AllGroups> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: FutureBuilder(
+      body: Column(children: [FutureBuilder(
         future: grabGroups(),
-        builder: (context, snapshot) {
-          print(snapshot.data);
+        builder: (context, snapshot) {          
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           } 
-          // else if (snapshot.hasError) {
-          //   return Text('Error: ${snapshot.error}');
-
-          //   // Never enters this else if statement
-          // } 
+          else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');            
+          } 
           else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             var groupWidget = snapshot.data!
                 .map(
@@ -75,8 +73,8 @@ class _AllGroupsState extends State<AllGroups> {
                             Text(eachGroup["name"]),
                             Text("${eachGroup["numMembers"]} Members"),
                             IconButton(
-                              onPressed: () {
-                                Navigator.push(
+                              onPressed: () async {
+                                await Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => GroupHomePage(
@@ -85,6 +83,7 @@ class _AllGroupsState extends State<AllGroups> {
                                     ),
                                   ),
                                 );
+                                setState(() {});
                               },
                               icon: const Icon(Icons.arrow_forward_outlined),
                             ),
@@ -104,8 +103,26 @@ class _AllGroupsState extends State<AllGroups> {
               child: Text("You are not in any groups."),
             );
           }
-        },
-      ),
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Create new group"),
+            IconButton(
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const GroupCreation(title: "Group Creation")),
+                  );
+                  setState(() {});                  
+                },
+                icon: const Icon(Icons.add))
+          ],
+        )
+      ]),
     );
   }
 }

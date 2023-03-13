@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -25,10 +26,19 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap = memberSnapshot.value as Map<dynamic, dynamic>;
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
-    }
-    // print(allMembers);
+    }    
     return allMembers;
   }
+
+  Future <void> leaveGroup() async{
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+    DatabaseReference userRef = FirebaseDatabase.instance.ref("users/$uid/groupIds/${widget.myGroup!["gId"]}");
+    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
+
+    userRef.remove();
+    groupRef.remove();    
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -217,12 +227,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Test'),
-                              duration: Duration(seconds: 5),
-                            ),
-                          );
+                          leaveGroup().then((_) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Left Group ${widget.myGroup!["name"]}'),
+                                duration: const Duration(seconds: 5),
+                              ),
+                            );                            
+                            Navigator.pop(context);                              
+                          });                                                   
                         },
                         child: const Text('Leave Group'),
                       ),
