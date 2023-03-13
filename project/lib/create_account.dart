@@ -41,6 +41,11 @@ class _CreateAccountState extends State<CreateAccount> {
             "email": _emailController.text.trim(),
             "firstName": _fnameController.text.trim(),
             "lastName": _lnameController.text.trim(),
+            "discord": false,
+            "facebook": false,
+            "instagram": false,
+            "messages": false,
+            "snapchat": false,
           });
           setState(() {
             _creatingProfile = false;

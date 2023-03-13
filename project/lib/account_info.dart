@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'socials.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AccountInfo extends StatefulWidget {
   const AccountInfo({Key? key, required this.title, required this.ref}) : super(key: key);
@@ -15,6 +16,7 @@ class AccountInfo extends StatefulWidget {
 class _AccountInfoState extends State<AccountInfo> {
   late String name;
   late String email;
+  late DatabaseReference ref;
 
   @override
   void initState() {
@@ -22,6 +24,9 @@ class _AccountInfoState extends State<AccountInfo> {
     name = "";
     email = "";
     getData();
+
+    String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
+    ref = FirebaseDatabase.instance.ref("users/$temp");
   }
 
   void getData() async {
@@ -49,7 +54,7 @@ class _AccountInfoState extends State<AccountInfo> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SocialMedia(title: "Social Media"),
+                    builder: (context) => SocialMedia(title: "Social Media", databaseReference: ref),
                   ),
                 );
               },
