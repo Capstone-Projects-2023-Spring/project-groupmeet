@@ -3,7 +3,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class EditAccountInfo extends StatefulWidget {
-  const EditAccountInfo({Key? key, required this.title, required this.ref}) : super(key: key);
+  const EditAccountInfo({Key? key, required this.title, required this.ref})
+      : super(key: key);
 
   final String title;
   final DatabaseReference ref;
@@ -21,6 +22,7 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -63,7 +65,7 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
       "snapchat": snapchat,
     });
 
-    Navigator.of(context).pop();
+    navigatorKey.currentState?.pop();
   }
 
   @override
@@ -76,27 +78,30 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children:[
+          children: [
             const Text("First Name:"),
             TextFormField(
               controller: _firstNameController..text = fName,
               decoration: InputDecoration(
-                errorText: _firstNameController.text.trim().isNotEmpty ? null : "First name cannot be empty."
-              ),
+                  errorText: _firstNameController.text.trim().isNotEmpty
+                      ? null
+                      : "First name cannot be empty."),
             ),
             const Text("Last Name:"),
             TextFormField(
               controller: _lastNameController..text = lName,
               decoration: InputDecoration(
-                  errorText: _lastNameController.text.trim().isNotEmpty ? null : "Last name cannot be empty."
-              ),
+                  errorText: _lastNameController.text.trim().isNotEmpty
+                      ? null
+                      : "Last name cannot be empty."),
             ),
             const Text("Email:"),
             TextFormField(
               controller: _emailController..text = email,
               decoration: InputDecoration(
-                  errorText: _emailController.text.trim().isNotEmpty ? null : "Email cannot be empty."
-              ),
+                  errorText: _emailController.text.trim().isNotEmpty
+                      ? null
+                      : "Email cannot be empty."),
             ),
             ElevatedButton(
               onPressed: saveChanges,
