@@ -7,3 +7,7 @@ final ThemeData appTheme = ThemeData(
   ),
   //add more styling to this page
 );
+
+// Round White - #EBEBEB
+// Round Black - #020300
+// Round Purple - #513BDB

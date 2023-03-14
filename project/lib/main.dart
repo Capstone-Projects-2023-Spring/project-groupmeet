@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: appTheme,
       home: const LoginScreen(),
+      // home: const Center(child: Text('Test')),
     );
   }
 }
