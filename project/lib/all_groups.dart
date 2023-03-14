@@ -16,6 +16,7 @@ class AllGroups extends StatefulWidget {
 }
 
 class _AllGroupsState extends State<AllGroups> {
+  late DatabaseReference ref = widget.ref;
   final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
   Future<List<Map>> grabGroups() async {
@@ -79,6 +80,7 @@ class _AllGroupsState extends State<AllGroups> {
                                   MaterialPageRoute(
                                     builder: (context) => GroupHomePage(
                                       title: eachGroup["name"],
+                                      databaseReference: ref,
                                       myGroup: eachGroup,
                                     ),
                                   ),
