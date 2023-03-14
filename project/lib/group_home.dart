@@ -366,35 +366,35 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   //       }
                   //     })
 
-                  FutureBuilder(
-                      future: grabGroupMembers(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          var membersWidget = snapshot.data!.map((test) => Text(
-                            "Instagram Users: " + instaCount.toString() + " "
-                                + "Facebook Users: " + fbCount.toString() + " "
-                                + "Discord Users: " + discordCount.toString() + " "
-                                + "Messages Users: " + messagesCount.toString() + " "
-                                + "Snapchat Users: " + snapCount.toString() + " ",
-                            style: const TextStyle(fontSize: 15),
-                          ))
-                              .toList();
-                          var check = Column(
-                            children: membersWidget,
-                          );
-                          return Container(
-                              decoration: BoxDecoration(
-                                  border:
-                                  Border.all(width: 1, color: Colors.grey)),
-                              child: Column(children: [
-                                const Text(
-                                    style: TextStyle(fontSize: 20), "Social Media Platforms"),
-                                check
-                              ]));
-                        } else {
-                          return const Text("no data yet--replace this");
-                        }
-                      })
+                  // FutureBuilder(
+                  //     future: grabGroupMembers(),
+                  //     builder: (context, snapshot) {
+                  //       if (snapshot.hasData) {
+                  //         var membersWidget = snapshot.data!.map((test) => Text(
+                  //           "Instagram Users: " + instaCount.toString() + " "
+                  //               + "Facebook Users: " + fbCount.toString() + " "
+                  //               + "Discord Users: " + discordCount.toString() + " "
+                  //               + "Messages Users: " + messagesCount.toString() + " "
+                  //               + "Snapchat Users: " + snapCount.toString() + " ",
+                  //           style: const TextStyle(fontSize: 15),
+                  //         ))
+                  //             .toList();
+                  //         var check = Column(
+                  //           children: membersWidget,
+                  //         );
+                  //         return Container(
+                  //             decoration: BoxDecoration(
+                  //                 border:
+                  //                 Border.all(width: 1, color: Colors.grey)),
+                  //             child: Column(children: [
+                  //               const Text(
+                  //                   style: TextStyle(fontSize: 20), "Social Media Platforms"),
+                  //               check
+                  //             ]));
+                  //       } else {
+                  //         return const Text("no data yet--replace this");
+                  //       }
+                  //     })
 
                   // Column(
                   //   children: [
