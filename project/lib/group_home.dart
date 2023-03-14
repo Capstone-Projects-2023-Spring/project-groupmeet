@@ -26,7 +26,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
   Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
     List<Map> allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
-
+    
     Map<dynamic, dynamic> allMembersMap;
 
     for (var memberId in widget.myGroup!["members"].entries) {
@@ -47,7 +47,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     userRef.remove();
     groupRef.remove();    
   }
-
+  
   @override
   void initState() {
     super.initState();
@@ -56,10 +56,13 @@ class _GroupHomePageState extends State<GroupHomePage> {
     discordCount = 0;
     messagesCount = 0;
     snapCount = 0;
-    getData();
+    // getData();
   }
 
-  void getData() async {
+  
+
+  Future<Map<String, int>> getData() async {
+    
     List<Map> allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
@@ -73,22 +76,23 @@ class _GroupHomePageState extends State<GroupHomePage> {
     }
 
     for (var element in allMembers) {
-      if(element["instagram"].toString() == "true") {
-        instaCount++;
+      if(element["instagram"].toString() == "true") {        
+        instaCount+=1;        
       }
-      if(element["facebook"].toString() == "true") {
+      if(element["facebook"].toString() == "true") {        
         fbCount++;
       }
-      if(element["discord"].toString() == "true") {
+      if(element["discord"].toString() == "true") {        
         discordCount++;
       }
-      if(element["messages"].toString() == "true") {
+      if(element["messages"].toString() == "true") {        
         messagesCount++;
       }
-      if(element["snapchat"].toString() == "true") {
+      if(element["snapchat"].toString() == "true") {        
         snapCount++;
       }
     }
+  Map<String, int> socialMediaMap = {"instagram": instaCount, "facebook": fbCount, "discord": discordCount, "messages": messagesCount, "snapchat": snapCount};
     // Need to have this update to database in the future
     widget.myGroup?.update("instaCount", (value) => 'New', ifAbsent: () => instaCount);
     widget.myGroup?.update("fbCount", (value) => 'New', ifAbsent: () => fbCount);
@@ -96,14 +100,16 @@ class _GroupHomePageState extends State<GroupHomePage> {
     widget.myGroup?.update("messagesCount", (value) => 'New', ifAbsent: () => messagesCount);
     widget.myGroup?.update("snapCount", (value) => 'New', ifAbsent: () => snapCount);
 
-    print(widget.myGroup);
-    print(widget.myGroup!['instaCount'].toString());
-    print(allMembers);
+    // print(widget.myGroup);
+    // print(widget.myGroup!['instaCount'].toString());
+    // print(allMembers);
     // print(instaCount);
     // print(fbCount);
     // print(discordCount);
     // print(messagesCount);
     // print(snapCount);
+
+    return socialMediaMap;
   }
 
 
@@ -126,13 +132,13 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       fontWeight: FontWeight.bold, fontSize: 35),
                 ),
               ),
-              const Image(
-                image: NetworkImage(
-                    // TEMPORARY IMAGE, SHOW STATIC CALENDAR HERE
-                    "https://cdn.discordapp.com/attachments/979937535272816703/1079918387339206886/image.png"),
-                width: 400,
-                height: 200,
-              ),
+              // const Image(
+              //   image: NetworkImage(
+              //       // TEMPORARY IMAGE, SHOW STATIC CALENDAR HERE
+              //       "https://cdn.discordapp.com/attachments/979937535272816703/1079918387339206886/image.png"),
+              //   width: 400,
+              //   height: 200,
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -314,6 +320,21 @@ class _GroupHomePageState extends State<GroupHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  FutureBuilder(
+                    future: getData(),
+                    builder: (context, snapshot ){
+                      List<Text> SocialMediaText = [];
+                      if(snapshot.hasData){                                                                                                                         
+                         snapshot.data!.forEach((key, value) {                          
+                          SocialMediaText.add(Text(key + " " + "$value"));
+                         });
+                              
+                      }
+                      var check = Column(children: SocialMediaText);
+                      return  Container(child: check,);
+                    }
+                    
+                    ),
                   // FutureBuilder(
                   //     future: grabGroupMembers(),
                   //     builder: (context, snapshot) {
