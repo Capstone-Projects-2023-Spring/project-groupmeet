@@ -323,14 +323,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   FutureBuilder(
                     future: getData(),
                     builder: (context, snapshot ){
-                      List<Text> SocialMediaText = [];
+                      List<Text> socialMediaText = [];
                       if(snapshot.hasData){                                                                                                                         
                          snapshot.data!.forEach((key, value) {                          
-                          SocialMediaText.add(Text(key + " " + "$value"));
+                          socialMediaText.add(Text("$key $value"));
                          });
                               
                       }
-                      var check = Column(children: SocialMediaText);
+                      var check = Column(children: socialMediaText);
                       return  Container(child: check,);
                     }
                     

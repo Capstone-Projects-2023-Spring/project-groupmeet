@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:groupmeet/group_creation2.dart';
+// import 'package:groupmeet/group_creation2.dart';
 
 import 'account_info.dart';
 import 'group_creation.dart';
@@ -29,7 +29,8 @@ class HomeScreenState extends State<HomeScreen> {
     ref = FirebaseDatabase.instance.ref("users/$temp");
   }
 
-  Future<void> logout(NavigatorState navigatorState, ScaffoldMessengerState scaffoldMessengerState) async {
+  Future<void> logout(NavigatorState navigatorState,
+      ScaffoldMessengerState scaffoldMessengerState) async {
     try {
       await FirebaseAuth.instance.signOut();
       scaffoldMessengerState.showSnackBar(
@@ -62,13 +63,14 @@ class HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               ElevatedButton(
                   onPressed: () {
-                    logout(Navigator.of(context), ScaffoldMessenger.of(context));
+                    logout(
+                        Navigator.of(context), ScaffoldMessenger.of(context));
                   },
                   child: const Text("Logout")),
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
                 children: [
@@ -88,56 +90,70 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
             children: [
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Group creation"),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const GroupCreation(
-                            title: "Group Creation",                            
-                          ),
-                        ),
-                      );
-                    },
-                    icon: const Icon(Icons.create),
+                  Column(
+                    children: [
+                      const Text("Group creation"),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const GroupCreation(
+                                title: "Group Creation",
+                              ),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.create),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Join a Group"),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const CodeReception(title: "Join a Group")),
-                      );
-                    },
-                    icon: const Icon(Icons.create),
+                  Column(
+                    children: [
+                      const Text("Join a Group"),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CodeReception(title: "Join a Group")),
+                          );
+                        },
+                        icon: const Icon(Icons.create),
+                      ),
+                    ],
                   ),
                 ],
               ),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Code Sharing Page"),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const CodeSharing(title: "Code Sharing")),
-                      );
-                    },
-                    icon: const Icon(Icons.qr_code),
+                  Column(
+                    children: [
+                      const Text("Code Sharing Page"),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const CodeSharing(title: "Code Sharing")),
+                          );
+                        },
+                        icon: const Icon(Icons.qr_code),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -164,22 +180,22 @@ class HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-          Column(
-            children: [
-              const Text("Group Creation 2"),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => GroupCreation2(
-                            title: "Group Creation 2", databaseReference: ref)),
-                  );
-                },
-                icon: const Icon(Icons.create),
-              ),
-            ],
-          ),
+          // Column(
+          //   children: [
+          //     const Text("Group Creation 2"),
+          //     IconButton(
+          //       onPressed: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (context) => GroupCreation2(
+          //                   title: "Group Creation 2", databaseReference: ref)),
+          //         );
+          //       },
+          //       icon: const Icon(Icons.create),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );
