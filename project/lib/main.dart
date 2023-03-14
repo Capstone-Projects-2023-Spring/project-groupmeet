@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'login.dart';
 import 'theme.dart';
 
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 // Initialize the app and run it.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
