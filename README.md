@@ -52,9 +52,9 @@ Prepare the IDE:<br/>
 <p>
 -Open Android Studios, and under the plugins section install the Dart and Flutter plug-ins.<br/>
 -Create an android studios emulator using the following instructions: <br/>
-&nbsp;Select the Device Manager (this tends to be on the top right, and has a small phone icon with a droid logo on the bottom right)<br/>
-&nbsp;Select "Create Device", and then choose a phone and System of your choice (Recommend system image of 29+)<br/>
-&nbsp;Select "Finish", and then press the play button on the device manager to start running your emulator.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Select the Device Manager (this tends to be on the top right, and has a small phone icon with a droid logo on the bottom right)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Select "Create Device", and then choose a phone and System of your choice (Recommend system image of 29+)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Select "Finish", and then press the play button on the device manager to start running your emulator.<br/>
 -Download the most recent release of this project, and open the "project" directory in Android Studios<br/>
 -Once it is running, you should be able to select the Run button in Android Studios, and it should play on your emulator!<br/>
 </p>
