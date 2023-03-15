@@ -42,6 +42,23 @@ Experience with Mobile App Development would be optimal for all group members. I
 
 Athan Kim, Jerrell Lewis, Jared Stefanowicz, Kian Azadi, Tyler Weiss, Varsha Vattappally
 
+<h2> Running The Project <h2>
+
+<h3> Download The Required Packages <h3>
+Android Studios - https://developer.android.com/studio?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh3GLldIaM0FTlhDIounMzKd5c-MJrDKD7v7xqhQNtEqvpgtDDfMWqMaAjDNEALw_wcB&gclsrc=aw.ds
+Flutter SDK - https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh2nAMF4Wf0BBWiHCr23FdQzAFEU5jo0ZYbOUzh4WztsIqaX2AsCFkoaAimtEALw_wcB&gclsrc=aw.ds
+
+<h3> Prepare the IDE <h3>
+-Open Android Studios, and under the plugins section install the Dart and Flutter plug-ins.
+-Create an android studios emulator using the following instructions: 
+    - Select the Device Manager (this tends to be on the top right, and has a small phone icon with a droid logo on the bottom right)
+    - Select "Create Device", and then choose a phone and System of your choice (Recommend system image of 29+)
+    - Select "Finish", and then press the play button on the device manager to start running your emulator.
+-Download the most recent release of this project, and open the "project" directory in Android Studios
+- Once it is running, you should be able to select the Run button in Android Studios, and it should play on your emulator!
+
+
+
 <!-- [//]: # ( readme: collaborators -start )
 <table>
 <tr>
