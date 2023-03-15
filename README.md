@@ -42,7 +42,7 @@ Experience with Mobile App Development would be optimal for all group members. I
 
 Athan Kim, Jerrell Lewis, Jared Stefanowicz, Kian Azadi, Tyler Weiss, Varsha Vattappally
 
-<h2> Running The Project <h2>
+<h2> Running The Project </h2>
 
 Download The Required Packages:<br/>
 Android Studios - https://developer.android.com/studio?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh3GLldIaM0FTlhDIounMzKd5c-MJrDKD7v7xqhQNtEqvpgtDDfMWqMaAjDNEALw_wcB&gclsrc=aw.ds<br/>
