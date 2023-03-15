@@ -44,11 +44,11 @@ Athan Kim, Jerrell Lewis, Jared Stefanowicz, Kian Azadi, Tyler Weiss, Varsha Vat
 
 <h2> Running The Project <h2>
 
-<h3> Download The Required Packages <h3>
+Download The Required Packages
 Android Studios - https://developer.android.com/studio?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh3GLldIaM0FTlhDIounMzKd5c-MJrDKD7v7xqhQNtEqvpgtDDfMWqMaAjDNEALw_wcB&gclsrc=aw.ds
 Flutter SDK - https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh2nAMF4Wf0BBWiHCr23FdQzAFEU5jo0ZYbOUzh4WztsIqaX2AsCFkoaAimtEALw_wcB&gclsrc=aw.ds
 
-<h3> Prepare the IDE <h3>
+Prepare the IDE
 -Open Android Studios, and under the plugins section install the Dart and Flutter plug-ins.
 -Create an android studios emulator using the following instructions: 
     - Select the Device Manager (this tends to be on the top right, and has a small phone icon with a droid logo on the bottom right)
