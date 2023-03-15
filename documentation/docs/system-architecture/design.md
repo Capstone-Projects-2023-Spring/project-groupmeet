@@ -31,6 +31,8 @@ classDiagram
         +build(context)
     }
     
+    HomeScreen --> HomeScreenState
+    
     class LoginScreen{
       +createState()
     }
@@ -158,7 +160,6 @@ classDiagram
     EditAccountInfo-->_EditAccountInfoState
     
     MyApp-->MyHomePage
-    _MyHomePageState<--MyHomePage
 ```
 
 **Diagram 2 - Group-related Classes**
