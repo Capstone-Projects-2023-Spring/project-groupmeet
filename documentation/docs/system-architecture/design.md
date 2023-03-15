@@ -163,7 +163,45 @@ classDiagram
 
 **Diagram 2 - Group-related Classes**
 ```mermaid
+classDiagram    
+    class GroupCreation{
+        +groupTitle
+        +createState()
+    }
 
+    class _GroupCreationState{
+        -_groupNameController
+        -_numMembersController
+        -_formKey
+        +initState()
+        +createGroupLinkUser()
+        +build()
+    }
+
+    GroupCreation-->_GroupCreationState
+
+    class GroupHomePage{
+        +title
+        +databaseReference
+        +myGroup
+        +createState()
+    }
+
+    class _GroupHomePageState{
+        +databaseReference
+        +instaCount
+        +fbCount
+        +discordCount
+        +messagesCount
+        +snapCount
+        +initState()
+        +leaveGroup()
+        +getData()
+        +grabGroupMembers()
+        +build()
+    }
+
+    GroupHomePage-->_GroupHomePageState
 ```
 
 **Diagram 3**
