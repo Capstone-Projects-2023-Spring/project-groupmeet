@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-// import 'package:groupmeet/utils/temp_calendar.dart';
 
 import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
+import 'calendar.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
@@ -216,8 +216,13 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
-                        onPressed: () {
-                          getPrimaryCalendar();                          
+                        onPressed: () {                       
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                              builder: (context) => CalendarPage(
+                            title: "Calendar",
+                          )));
                         },
                         child: const Text('pulling google events',
                             style: TextStyle(fontSize: 20)),

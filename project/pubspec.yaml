@@ -20,6 +20,7 @@ dependencies:
   google_sign_in: ^6.0.2
   googleapis: ^9.2.0
   googleapis_auth: ^1.4.0
+  syncfusion_flutter_calendar: ^20.4.54
 dev_dependencies:
   flutter_test:
     sdk: flutter
