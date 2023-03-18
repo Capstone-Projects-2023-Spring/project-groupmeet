@@ -16,6 +16,7 @@ dependencies:
   qr_flutter: ^4.0.0
   qr_code_scanner: ^1.0.1
   flutter_platform_widgets: ^3.0.0
+  syncfusion_flutter_calendar: ^20.4.54
 dev_dependencies:
   flutter_test:
     sdk: flutter

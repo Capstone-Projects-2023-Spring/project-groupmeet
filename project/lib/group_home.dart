@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'calendar.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
@@ -150,12 +151,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Test'),
-                              duration: Duration(seconds: 5),
-                            ),
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                              builder: (context) => CalendarPage(
+                            title: "Calendar",
+                          )));
                         },
                         child: const Text('View Calendar',
                             style: TextStyle(fontSize: 20)),
