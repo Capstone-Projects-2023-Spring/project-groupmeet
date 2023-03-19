@@ -220,7 +220,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                              builder: (context) => CalendarPage(
+                              builder: (context) => const CalendarPage(
                             title: "Calendar",
                           )));
                         },
