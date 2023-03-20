@@ -6,8 +6,6 @@ import 'package:groupmeet/theme.dart';
 import 'login.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
 // Initialize the app and run it.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

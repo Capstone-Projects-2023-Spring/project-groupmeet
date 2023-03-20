@@ -1,21 +1,60 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class SocialMedia extends StatefulWidget {
-  const SocialMedia({super.key, required this.title});
+  const SocialMedia(
+      {super.key, required this.databaseReference, required this.title});
 
   final String title;
+  final DatabaseReference databaseReference;
 
   @override
   State<SocialMedia> createState() => _SocialMediaState();
 }
 
 class _SocialMediaState extends State<SocialMedia> {
-  bool instaSelect = false;
-  bool fbSelect = false;
-  bool discordSelect = false;
-  bool messagesSelect = false;
-  bool snapSelect = false;
+  late DatabaseReference databaseReference;
+  late bool instaSelect;
+  late bool fbSelect;
+  late bool discordSelect;
+  late bool messagesSelect;
+  late bool snapSelect;
+
+  @override
+  void initState() {
+    super.initState();
+    instaSelect = false;
+    fbSelect = false;
+    discordSelect = false;
+    messagesSelect = false;
+    snapSelect = false;
+    getData();
+
+    String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
+    databaseReference = FirebaseDatabase.instance.ref("users/$temp");
+  }
+
+  void getData() async {
+    DataSnapshot snapshot =
+        await widget.databaseReference.once().then((event) => event.snapshot);
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic>? data = snapshot.value as Map?;
+
+      setState(() {
+        instaSelect = data!['instagram'] ?? false;
+        fbSelect = data['facebook'] ?? false;
+        discordSelect = data['discord'] ?? false;
+        messagesSelect = data['messages'] ?? false;
+        snapSelect = data['snapchat'] ?? false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
@@ -38,6 +77,9 @@ class _SocialMediaState extends State<SocialMedia> {
               onChanged: (value) {
                 setState(() {
                   instaSelect = value!;
+                  databaseReference.update({
+                    "instagram": instaSelect,
+                  });
                 });
               },
             ),
@@ -53,6 +95,9 @@ class _SocialMediaState extends State<SocialMedia> {
               onChanged: (value) {
                 setState(() {
                   fbSelect = value!;
+                  databaseReference.update({
+                    "facebook": fbSelect,
+                  });
                 });
               },
             ),
@@ -68,6 +113,9 @@ class _SocialMediaState extends State<SocialMedia> {
               onChanged: (value) {
                 setState(() {
                   discordSelect = value!;
+                  databaseReference.update({
+                    "discord": discordSelect,
+                  });
                 });
               },
             ),
@@ -83,6 +131,9 @@ class _SocialMediaState extends State<SocialMedia> {
               onChanged: (value) {
                 setState(() {
                   messagesSelect = value!;
+                  databaseReference.update({
+                    "messages": messagesSelect,
+                  });
                 });
               },
             ),
@@ -98,6 +149,9 @@ class _SocialMediaState extends State<SocialMedia> {
               onChanged: (value) {
                 setState(() {
                   snapSelect = value!;
+                  databaseReference.update({
+                    "snapchat": snapSelect,
+                  });
                 });
               },
             ),

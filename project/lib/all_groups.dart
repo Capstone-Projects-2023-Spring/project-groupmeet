@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:groupmeet/group_creation.dart';
 import 'package:groupmeet/group_home.dart';
 
 class AllGroups extends StatefulWidget {
@@ -16,6 +17,7 @@ class AllGroups extends StatefulWidget {
 }
 
 class _AllGroupsState extends State<AllGroups> {
+  late DatabaseReference ref = widget.ref;
   final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
   Future<List<Map>> grabGroups() async {
@@ -45,20 +47,17 @@ class _AllGroupsState extends State<AllGroups> {
       appBar: PlatformAppBar(
         title: PlatformText(widget.title),
       ),
-      body: FutureBuilder(
+      body: Column(children: [FutureBuilder(
         future: grabGroups(),
-        builder: (context, snapshot) {
-          print(snapshot.data);
+        builder: (context, snapshot) {          
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: PlatformCircularProgressIndicator(),
             );
           } 
-          // else if (snapshot.hasError) {
-          //   return Text('Error: ${snapshot.error}');
-
-          //   // Never enters this else if statement
-          // } 
+          else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');            
+          } 
           else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             var groupWidget = snapshot.data!
                 .map(
@@ -82,10 +81,12 @@ class _AllGroupsState extends State<AllGroups> {
                                     context: context,
                                     builder: (context) => GroupHomePage(
                                       title: eachGroup["name"],
+                                      databaseReference: ref,
                                       myGroup: eachGroup,
                                     ),
                                   ),
                                 );
+                                setState(() {});
                               },
                               icon: const Icon(Icons.arrow_forward_outlined),
                             ),
@@ -105,8 +106,26 @@ class _AllGroupsState extends State<AllGroups> {
               child: PlatformText("You are not in any groups."),
             );
           }
-        },
-      ),
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text("Create new group"),
+            IconButton(
+                onPressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const GroupCreation(title: "Group Creation")),
+                  );
+                  setState(() {});                  
+                },
+                icon: const Icon(Icons.add))
+          ],
+        )
+      ]),
     );
   }
 }

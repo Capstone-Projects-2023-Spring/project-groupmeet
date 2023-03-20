@@ -3,7 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:groupmeet/group_creation2.dart';
+// import 'package:groupmeet/group_creation2.dart';
 
 import 'account_info.dart';
 import 'group_creation.dart';
@@ -30,7 +30,8 @@ class HomeScreenState extends State<HomeScreen> {
     ref = FirebaseDatabase.instance.ref("users/$temp");
   }
 
-  Future<void> logout(NavigatorState navigatorState, ScaffoldMessengerState scaffoldMessengerState) async {
+  Future<void> logout(NavigatorState navigatorState,
+      ScaffoldMessengerState scaffoldMessengerState) async {
     try {
       await FirebaseAuth.instance.signOut();
       scaffoldMessengerState.showSnackBar(
@@ -63,17 +64,19 @@ class HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               PlatformElevatedButton(
                   onPressed: () {
-                    logout(Navigator.of(context), ScaffoldMessenger.of(context));
+                    logout(
+                        Navigator.of(context), ScaffoldMessenger.of(context));
                   },
-                  child: PlatformText("Logout")),
+                  child: Platform
+                  "Logout")),
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Column(
                 children: [
-                  const Text("My Account"),
+                  PlatformText("My Account"),
                   PlatformIconButton(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -90,12 +93,12 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
             children: [
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Group creation"),
+                  PlatformText("Group creation"),
                   PlatformIconButton(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -112,9 +115,10 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Join a Group"),
+                  PlatformText("Join a Group"),
                   PlatformIconButton(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -129,9 +133,10 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              Column(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Code Sharing Page"),
+                  PlatformText("Code Sharing Page"),
                   PlatformIconButton(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -153,7 +158,7 @@ class HomeScreenState extends State<HomeScreen> {
             children: [
               Column(
                 children: [
-                  const Text("All Groups"),
+                  PlatformText("All Groups"),
                   PlatformIconButton(
                       onPressed: () {
                         Navigator.of(context).push(
@@ -173,7 +178,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           Column(
             children: [
-              const Text("Group Creation 2"),
+              PlatformText("Group Creation 2"),
               PlatformIconButton(
                 onPressed: () {
                   Navigator.of(context).push(

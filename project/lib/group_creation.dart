@@ -4,12 +4,10 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class GroupCreation extends StatefulWidget {
-  final String? groupTitle;
-  final DatabaseReference databaseReference;
+  final String? groupTitle; 
 
   const GroupCreation({
-    this.groupTitle,
-    required this.databaseReference,
+    this.groupTitle,    
     Key? key,
     required String title,
   }) : super(key: key);
@@ -38,8 +36,7 @@ class GroupCreationState extends State<GroupCreation> {
         .instance
         .ref()
         .child('groups')
-        .push();
-    print(groupRef.key);
+        .push();    
     groupRef.set({
       'name': _groupNameController.text,
       'numMembers': int.parse(_numMembersController.text),
