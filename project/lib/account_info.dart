@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'socials.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -36,19 +37,19 @@ class _AccountInfoState extends State<AccountInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText(widget.title),
       ),
       body: Center(
         child: Column(
           children: [
             const Text("Edit Social Media Accounts"),
-            IconButton(
+            PlatformIconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
+                Navigator.of(context).push(
+                  platformPageRoute(
+                    context: context,
                     builder: (context) => const SocialMedia(title: "Social Media"),
                   ),
                 );
@@ -57,14 +58,14 @@ class _AccountInfoState extends State<AccountInfo> {
             ),
             Column(
               children: [
-                const Text("Name:"),
-                Text(name),
+                PlatformText("Name:"),
+                PlatformText(name),
               ],
             ),
             Column(
               children: [
-                const Text("Email:"),
-                Text(email),
+                PlatformText("Email:"),
+                PlatformText(email),
               ],
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
@@ -119,8 +120,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ),
                           );
                         },
-                        child: const Text('Suggest New Meeting Time',
-                            style: TextStyle(fontSize: 25)),
+                        child: PlatformText('Suggest New Meeting Time',
+                            style: const TextStyle(fontSize: 25)),
                       ),
                     ],
                   ),
@@ -145,8 +146,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ),
                           );
                         },
-                        child: const Text('Cancel Active Meeting',
-                            style: TextStyle(fontSize: 25)),
+                        child: PlatformText('Cancel Active Meeting',
+                            style: const TextStyle(fontSize: 25)),
                       ),
                     ],
                   ),
@@ -176,12 +177,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                                   border:
                                       Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
-                                const Text(
-                                    style: TextStyle(fontSize: 20), "Members"),
+                                PlatformText(
+                                    style: const TextStyle(fontSize: 20), "Members"),
                                 check
                               ]));
                         } else {
-                          return const Text("no data yet--replace this");
+                          return PlatformText("no data yet--replace this");
                         }
                       })
                 ],
@@ -224,7 +225,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ),
                           );
                         },
-                        child: const Text('Leave Group'),
+                        child: PlatformText('Leave Group'),
                       ),
                     ],
                   ),

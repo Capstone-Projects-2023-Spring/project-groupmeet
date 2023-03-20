@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class GroupCreation extends StatefulWidget {
   final String? groupTitle;
@@ -55,9 +56,9 @@ class GroupCreationState extends State<GroupCreation> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create a Group'),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText('Create a Group'),
       ),
       body: Center(
         child: Container(
@@ -67,9 +68,12 @@ class GroupCreationState extends State<GroupCreation> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                TextFormField(
-                  decoration: const InputDecoration(
-                      labelText: 'Group Name', hintText: 'Enter group name'),
+                PlatformTextFormField(
+                  hintText: "Group Name",
+                  material: (_, __) => MaterialTextFormFieldData(
+                      decoration: const InputDecoration(
+                          labelText: 'Group Name', hintText: 'Enter group name')
+                  ),
                   controller: _groupNameController,
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -79,11 +83,14 @@ class GroupCreationState extends State<GroupCreation> {
                   },
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
+                PlatformTextFormField(
+                  hintText: "Number of Members",
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                      labelText: 'Number of Members',
-                      hintText: 'Enter number of members'),
+                  material: (_, __) => MaterialTextFormFieldData(
+                      decoration: const InputDecoration(
+                          labelText: 'Number of Members',
+                          hintText: 'Enter number of members')
+                  ),
                   controller: _numMembersController,
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -97,26 +104,24 @@ class GroupCreationState extends State<GroupCreation> {
                   },
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
+                PlatformElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       // Save the group data to the database
-                      
                     createGroupLinkUser()
                       .then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
+                          SnackBar(
+                            content: PlatformText(
                                 'Group Created.'),
-                            duration: Duration(seconds: 5),
+                            duration: const Duration(seconds: 5),
                           ),
                         );
-                        Navigator.pop(context);
+                        Navigator.of(context).pop();
                       });
-                      
                     }
                   },
-                  child: const Text('Create Group'),
+                  child: PlatformText('Create Group'),
                 ),
               ],
             ),

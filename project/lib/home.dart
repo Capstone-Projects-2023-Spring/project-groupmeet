@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -51,20 +52,20 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText(widget.title),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Column(
             children: <Widget>[
-              ElevatedButton(
+              PlatformElevatedButton(
                   onPressed: () {
                     logout(Navigator.of(context), ScaffoldMessenger.of(context));
                   },
-                  child: const Text("Logout")),
+                  child: PlatformText("Logout")),
             ],
           ),
           Row(
@@ -73,16 +74,17 @@ class HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   const Text("My Account"),
-                  IconButton(
+                  PlatformIconButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
+                      Navigator.of(context).push(
+                        platformPageRoute(
+                          context: context,
                             builder: (context) =>
-                                AccountInfo(title: "My Account", ref: ref)),
+                                AccountInfo(title: "My Account", ref: ref)
+                        ),
                       );
                     },
-                    icon: const Icon(Icons.create),
+                    icon: Icon(PlatformIcons(context).create, color: Colors.white),
                   ),
                 ],
               ),
@@ -94,51 +96,53 @@ class HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   const Text("Group creation"),
-                  IconButton(
+                  PlatformIconButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => GroupCreation(
-                            title: "Group Creation",
-                            databaseReference: ref,
-                          ),
+                      Navigator.of(context).push(
+                        platformPageRoute(
+                            context: context,
+                            builder: (context) => GroupCreation(
+                              title: "Group Creation",
+                              databaseReference: ref,
+                            )
                         ),
                       );
                     },
-                    icon: const Icon(Icons.create),
+                    icon: Icon(PlatformIcons(context).create, color: Colors.white,),
                   ),
                 ],
               ),
               Column(
                 children: [
                   const Text("Join a Group"),
-                  IconButton(
+                  PlatformIconButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
+                      Navigator.of(context).push(
+                        platformPageRoute(
+                            context: context,
                             builder: (context) =>
-                                const CodeReception(title: "Join a Group")),
+                            const CodeReception(title: "Join a Group")
+                        ),
                       );
                     },
-                    icon: const Icon(Icons.create),
+                    icon: Icon(PlatformIcons(context).create, color: Colors.white),
                   ),
                 ],
               ),
               Column(
                 children: [
                   const Text("Code Sharing Page"),
-                  IconButton(
+                  PlatformIconButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
+                      Navigator.of(context).push(
+                        platformPageRoute(
+                            context: context,
                             builder: (context) =>
-                                const CodeSharing(title: "Code Sharing")),
+                            const CodeSharing(title: "Code Sharing")
+                        ),
                       );
                     },
-                    icon: const Icon(Icons.qr_code),
+                    icon: Icon(PlatformIcons(context).photoCamera, color: Colors.white),
                   ),
                 ],
               ),
@@ -150,17 +154,19 @@ class HomeScreenState extends State<HomeScreen> {
               Column(
                 children: [
                   const Text("All Groups"),
-                  IconButton(
+                  PlatformIconButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AllGroups(
-                                    title: "Display All Groups Here",
-                                    // uid: uid,
-                                    ref: ref)));
+                        Navigator.of(context).push(
+                          platformPageRoute(
+                              context: context,
+                              builder: (context) => AllGroups(
+                                  title: "Display All Groups Here",
+                                  // uid: uid,
+                                  ref: ref)
+                          ),
+                        );
                       },
-                      icon: const Icon(Icons.group))
+                      icon: Icon(PlatformIcons(context).group, color: Colors.white,))
                 ],
               )
             ],
@@ -168,16 +174,17 @@ class HomeScreenState extends State<HomeScreen> {
           Column(
             children: [
               const Text("Group Creation 2"),
-              IconButton(
+              PlatformIconButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
+                  Navigator.of(context).push(
+                    platformPageRoute(
+                        context: context,
                         builder: (context) => GroupCreation2(
-                            title: "Group Creation 2", databaseReference: ref)),
+                            title: "Group Creation 2", databaseReference: ref),
+                    ),
                   );
                 },
-                icon: const Icon(Icons.create),
+                icon: Icon(PlatformIcons(context).create, color: Colors.white),
               ),
             ],
           ),
