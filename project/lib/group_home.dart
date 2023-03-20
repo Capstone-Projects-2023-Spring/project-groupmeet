@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -270,8 +271,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ),
                           );
                         },
-                        child: const Text('Suggest New Meeting Time',
-                            style: TextStyle(fontSize: 25)),
+                        child: PlatformText('Suggest New Meeting Time',
+                            style: const TextStyle(fontSize: 25)),
                       ),
                     ],
                   ),
@@ -296,8 +297,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ),
                           );
                         },
-                        child: const Text('Cancel Active Meeting',
-                            style: TextStyle(fontSize: 25)),
+                        child: PlatformText('Cancel Active Meeting',
+                            style: const TextStyle(fontSize: 25)),
                       ),
                     ],
                   ),
@@ -327,12 +328,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                                   border:
                                       Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
-                                const Text(
-                                    style: TextStyle(fontSize: 20), "Members"),
+                                PlatformText(
+                                    style: const TextStyle(fontSize: 20), "Members"),
                                 check
                               ]));
                         } else {
-                          return const Text("no data yet--replace this");
+                          return PlatformText("no data yet--replace this");
                         }
                       })
                 ],
@@ -379,7 +380,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             Navigator.pop(context);
                           });
                         },
-                        child: const Text('Leave Group'),
+                        child: PlatformText('Leave Group'),
                       ),
                     ],
                   ),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/group_creation.dart';
 import 'package:groupmeet/group_home.dart';
 
@@ -42,16 +43,16 @@ class _AllGroupsState extends State<AllGroups> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText(widget.title),
       ),
       body: Column(children: [FutureBuilder(
         future: grabGroups(),
         builder: (context, snapshot) {          
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: PlatformCircularProgressIndicator(),
             );
           } 
           else if (snapshot.hasError) {
@@ -71,13 +72,13 @@ class _AllGroupsState extends State<AllGroups> {
                       children: [
                         Column(
                           children: [
-                            Text(eachGroup["name"]),
-                            Text("${eachGroup["numMembers"]} Members"),
-                            IconButton(
-                              onPressed: () async {
-                                await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
+                            PlatformText(eachGroup["name"]),
+                            PlatformText("${eachGroup["numMembers"]} Members"),
+                            PlatformIconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  platformPageRoute(
+                                    context: context,
                                     builder: (context) => GroupHomePage(
                                       title: eachGroup["name"],
                                       databaseReference: ref,
@@ -101,8 +102,8 @@ class _AllGroupsState extends State<AllGroups> {
               children: groupWidget,
             );
           } else {
-            return const Center(
-              child: Text("You are not in any groups."),
+            return Center(
+              child: PlatformText("You are not in any groups."),
             );
           }
           },
