@@ -2,11 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
-import 'package:googleapis/calendar/v3.dart' as google_api;
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
-import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'calendar.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
@@ -71,17 +67,6 @@ class _GroupHomePageState extends State<GroupHomePage> {
     snapCount = 0;
     // getData();
 
-    // Google Calendar API
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-        _currentUser = account;
-      });
-      if (_currentUser != null) {
-        getPrimaryCalendar();
-      }
-    });
-    // _googleSignIn.signInSilently();
-    _handleSignIn();
   }
 
   Future<Map<String, int>> getData() async {
@@ -145,41 +130,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return socialMediaMap;
   }
 
-  // Google Calendar API
-  // move google sign in to account creation after it is working for everyone?
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    // Optional clientId
-    // clientId: '[YOUR_OAUTH_2_CLIENT_ID]',
-    scopes: <String>[google_api.CalendarApi.calendarScope],
-  );
 
-  Future<void> _handleSignIn() async {
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
-  }
 
-  GoogleSignInAccount? _currentUser;
 
-  Future<void> getPrimaryCalendar() async {
-    // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
-    final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
-    assert(client != null, 'Authenticated client missing!');
 
-    // Prepare a calendar authenticated client.
-    final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    final google_api.Events calEvents = await calendarApi.events.list("primary");
-    // print(calEvents.toJson());
-
-    //list of events to add to firebase (temporarily just printing)
-    List<google_api.Event> eventItems = calEvents.items!;  
-    for (var element in eventItems) {
-      print(element.summary);
-      print("Start Date: ${element.start!.date}");
-      print("End Date ${element.end!.date}");
-    }}
 
   @override
   Widget build(BuildContext context) {
