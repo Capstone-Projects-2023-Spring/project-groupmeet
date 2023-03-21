@@ -23,44 +23,44 @@ sidebar_position: 5
 4. User can select and deselect any number of options available
 
 ## Use case 4: Event Creation
-1. User registers and logs in to their account.
-2. User is brought to the home screen.
-3. User clicks on "Group Creation" button on the home screen.
-4. User is brought to the "Group Creation" Page.
-5. User is prompted to type in a group name and Number of Members in the fields provided. 
-6. User clicks on "Create Group" button to create the new group.
-7. This prompted information is then stored within the Groups settings.
+1. User registers and logs in to their account
+2. User is brought to the home screen
+3. User clicks on "Group Creation" button on the home screen
+4. User is brought to the "Group Creation" Page
+5. User is prompted to type in a group name and Number of Members in the fields provided
+6. User clicks on "Create Group" button to create the new group
+7. This prompted information is then stored within the Groups settings
 
 ## Use case 5: Invite Other Users Via QR Code
-1. Original user logs in to GroupMeet and creates a new group.
+1. Original user logs in to GroupMeet and creates a new group
 2. User is on home screen and clicks on "Code Sharing"
 3. Option to share link, display QR Code, or share code is available for sharing
-4. User selects "Display QR Code".
-5. A QR code is generated based on specific group, and the one student shares their screen with the rest of the group.
+4. User selects "Display QR Code"
+5. A QR code is generated based on specific group, and the one student shares their screen with the rest of the group
 
 ## Use Case 6: Invite Other Users Via Shared Link
-1. Original user logs in to GroupMeet and creates a new group.
+1. Original user logs in to GroupMeet and creates a new group
 2. User is on home screen and clicks on "Code Sharing"
 3. Option to share link, display QR Code, or share code is available for sharing
-4. User selects "Share Link".
+4. User selects "Share Link"
 5. A shared link is sent to every other users through SMS
-6. Other Users click on link and is directed to GroupMeet to download app or join the specific group.
+6. Other Users click on link and is directed to GroupMeet to download app or join the specific group
 
 ## Use Case 7: Invite Other Users Via Share Code
-1. Original user logs in to GroupMeet and creates a new group.
+1. Original user logs in to GroupMeet and creates a new group
 2. User is on home screen and clicks on "Code Sharing"
 3. Option to share link, display QR Code, or share code is available for sharing
-4. User selects "Share Code" and specific Group Code is displayed.
+4. User selects "Share Code" and specific Group Code is displayed
 
 ## Use Case 8: Join Group Via Shared Link
-1. User receives an SMS message from group leader with a Shared Link attached to it.
+1. User receives an SMS message from group leader with a Shared Link attached to it
 2. User taps link and is redirected to the App Store/Play Store
-3. User downloads app.
+3. User downloads app
 4. User taps on "GroupMeet" icon and is prompted to login screen
 5. User creates an account and is brought to the home screen
-6. User then goes back to SMS message and taps on Shared Link again.
-7. User is brought to the Group Page where they are asked to Join group.
-8. User clicks "yes", and is added to group.
+6. User then goes back to SMS message and taps on Shared Link again
+7. User is brought to the Group Page where they are asked to Join group
+8. User clicks "yes", and is added to group
 
 ## Use Case 9: Join Group Via QR Code
 1. Users signs into account in GroupMeet and is brought to the home screen
@@ -69,7 +69,7 @@ sidebar_position: 5
 4. User clicks on "Scan QR Code" and asked for permissions to use camera
 5. User clicks on Either on Allow once, Always Allow, or while using this app
 6. User camera pops up and is allowed to scan the QR code presented by group leader
-7. After successful scan, User is automatically added to the group.
+7. After successful scan, User is automatically added to the group
 
 ## Use Case 10: Join Group Via Share Code
 1. Users signs into account in GroupMeet and is brought to the home screen
