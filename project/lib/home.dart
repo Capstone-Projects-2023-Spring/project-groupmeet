@@ -3,7 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-// import 'package:groupmeet/group_creation2.dart';
+import 'package:groupmeet/group_creation2.dart';
 
 import 'account_info.dart';
 import 'group_creation.dart';
@@ -67,7 +67,7 @@ class HomeScreenState extends State<HomeScreen> {
                     logout(
                         Navigator.of(context), ScaffoldMessenger.of(context));
                   },
-                  child: Platform
+                  child: Text(
                   "Logout")),
             ],
           ),
@@ -105,9 +105,7 @@ class HomeScreenState extends State<HomeScreen> {
                         platformPageRoute(
                             context: context,
                             builder: (context) => GroupCreation(
-                              title: "Group Creation",
-                              databaseReference: ref,
-                            )
+                              title: "Group Creation")
                         ),
                       );
                     },

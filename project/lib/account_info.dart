@@ -58,7 +58,7 @@ class _AccountInfoState extends State<AccountInfo> {
                 Navigator.of(context).push(
                   platformPageRoute(
                     context: context,
-                    builder: (context) => const SocialMedia(title: "Social Media"),
+                    builder: (context) => SocialMedia(title: "Social Media", databaseReference: ref),
                   ),
                 );
               },
