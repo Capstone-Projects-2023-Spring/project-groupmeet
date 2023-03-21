@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'home.dart';
+
 import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
@@ -42,7 +44,7 @@ class _CreateAccountState extends State<CreateAccount> {
       email: _emailController.text.trim(),
       password: _passwordController.text.trim(),
     )
-        .then((authResult) {
+        .then((authResult) async {
       uid = authResult.user?.uid;
       ref = FirebaseDatabase.instance.ref("users/$uid");
       ref.set({
@@ -53,16 +55,19 @@ class _CreateAccountState extends State<CreateAccount> {
         "facebook": false,
         "instagram": false,
         "messages": false,
-        "snapchat": false,        
+        "snapchat": false,     
+        "calendarEvents": userEvents   
       });
-      ref = FirebaseDatabase.instance.ref("users/$uid");
-      ref.update({"calendarEvents": userEvents});
+      // ref = FirebaseDatabase.instance.ref("users/$uid");
+      // await ref.update({"calendarEvents": userEvents});
       setState(() {
         _creatingProfile = false;
       });
       _emailController.dispose();
       _passwordController.dispose();
-      Navigator.of(context).pop();
+      _fnameController.dispose();
+      _lnameController.dispose();
+     
     }).catchError((e) {
       setState(() {
         _creatingProfile = false;
@@ -92,6 +97,8 @@ class _CreateAccountState extends State<CreateAccount> {
         );
       }
     });
+
+    _navigateToHomeScreen();
   }
 
   @override
@@ -135,11 +142,11 @@ class _CreateAccountState extends State<CreateAccount> {
     // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
     assert(client != null, 'Authenticated client missing!');
-
+  
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
     final google_api.Events calEvents =
-        await calendarApi.events.list("primary");
+    await calendarApi.events.list("primary", timeMin: DateTime.now(), timeMax: DateTime.now().add(const Duration(days: 30)));
 
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
@@ -159,6 +166,15 @@ class _CreateAccountState extends State<CreateAccount> {
           "endDateTime": (eachEvent.end?.dateTime) != null ? DateTime.parse(eachEvent.end!.dateTime.toString()).toString() : "null",          
         }
     };
+  }
+
+   void _navigateToHomeScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const HomeScreen(title: 'HomeScreen'),
+      ),
+    );
   }
 
 
@@ -203,8 +219,9 @@ class _CreateAccountState extends State<CreateAccount> {
               obscureText: true,
             ),
             ElevatedButton(
-                onPressed:
-                    _creatingProfile ? null : () => createUserProfile(context),                    
+                onPressed: (){
+                  _creatingProfile ? null : createUserProfile(context);                            
+                }, 
                 child: _creatingProfile
                     ? const CircularProgressIndicator()
                     : const Text("Create Account")),           
