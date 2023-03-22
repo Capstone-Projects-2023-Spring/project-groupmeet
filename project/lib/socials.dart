@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -54,15 +57,16 @@ class _SocialMediaState extends State<SocialMedia> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText(widget.title),
       ),
       body: Center(
         child: Column(
           children: <Widget>[
+
             CheckboxListTile(
-              title: const Text('Instagram'),
+              title: PlatformText('Instagram'),
               secondary: const Image(
                 image: NetworkImage(
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"),

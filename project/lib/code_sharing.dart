@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class CodeSharing extends StatefulWidget {
   const CodeSharing({Key? key, required this.title}) : super(key: key);
@@ -21,42 +22,42 @@ Future<DataSnapshot> _grabGroupId() async {
 class _CodeSharingState extends State<CodeSharing> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText(widget.title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Icon(size: 250, Icons.qr_code_2),
+            Icon(size: 30, PlatformIcons(context).shareSolid),
             FutureBuilder<DataSnapshot>(
               future: _grabGroupId(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return PlatformCircularProgressIndicator();
                 }
                 if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return PlatformText('Error: ${snapshot.error}');
                 }
                 if (!snapshot.hasData) {
-                  return const Text('No data available');
+                  return PlatformText('No data available');
                 }
                 String? groupId = snapshot.data!.value.toString();
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Join Group: $groupId"),
-                    IconButton(
+                    PlatformText("Join Group: $groupId"),
+                    PlatformIconButton(
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Join Group Button'),
+                          SnackBar(
+                            content: PlatformText('Join Group Button'),
                             duration: Duration(seconds: 5),
                           ),
                         );
                       },
-                      icon: const Icon(size: 30, Icons.content_copy_rounded),
+                      icon: Icon(size: 30, PlatformIcons(context).share),
                     ),
                   ],
                 );
@@ -65,8 +66,8 @@ class _CodeSharingState extends State<CodeSharing> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text("Link Here"),
-                IconButton(
+                PlatformText("Link Here"),
+                PlatformIconButton(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -75,7 +76,7 @@ class _CodeSharingState extends State<CodeSharing> {
                       ),
                     );
                   },
-                  icon: const Icon(size: 30, Icons.content_copy_rounded),
+                  icon: Icon(size: 30, PlatformIcons(context).share),
                 ),
               ],
             ),
