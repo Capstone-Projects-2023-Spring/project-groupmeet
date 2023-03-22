@@ -171,16 +171,18 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    final google_api.Events calEvents = await calendarApi.events.list("primary");
+    final google_api.Events calEvents =
+        await calendarApi.events.list("primary");
     // print(calEvents.toJson());
 
     //list of events to add to firebase (temporarily just printing)
-    List<google_api.Event> eventItems = calEvents.items!;  
+    List<google_api.Event> eventItems = calEvents.items!;
     for (var element in eventItems) {
       print(element.summary);
       print("Start Date: ${element.start!.date}");
       print("End Date ${element.end!.date}");
-    }}
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -217,16 +219,17 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
-                        onPressed: () {                       
+                        onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                              builder: (context) => const CalendarPage(
-                            title: "Calendar",
-                          )));
+                                  builder: (context) => const CalendarPage(
+                                        title: "Calendar",
+                                      )));
                         },
-                        child: const Text('pulling google events',
-                            style: TextStyle(fontSize: 20)),
+                        child: const Text('Calendar',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -246,7 +249,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: const Text('Edit Availabilities',
-                            style: TextStyle(fontSize: 20)),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -272,7 +276,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: PlatformText('Suggest New Meeting Time',
-                            style: const TextStyle(fontSize: 25)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -298,7 +303,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: PlatformText('Cancel Active Meeting',
-                            style: const TextStyle(fontSize: 25)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -314,9 +320,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         if (snapshot.hasData) {
                           var membersWidget = snapshot.data!
                               .map((eachMember) => Text(
-                                    eachMember["firstName"] +
-                                        " " +
-                                        eachMember["lastName"],
+                                    "${eachMember["firstName"] ?? ''} ${eachMember["lastName"] ?? ''}",
                                     style: const TextStyle(fontSize: 15),
                                   ))
                               .toList();
@@ -329,7 +333,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                                       Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
-                                    style: const TextStyle(fontSize: 20), "Members"),
+                                    style: const TextStyle(fontSize: 20),
+                                    "Members"),
                                 check
                               ]));
                         } else {
@@ -357,7 +362,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ),
                           );
                         },
-                        child: const Text('Edit Members'),
+                        child: const Text('Edit Members',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -373,14 +380,16 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                    'Left Group ${widget.myGroup!["name"]}'),
+                                    'Left Group ${widget.myGroup!["name"]}',),
                                 duration: const Duration(seconds: 5),
                               ),
                             );
                             Navigator.pop(context);
                           });
                         },
-                        child: PlatformText('Leave Group'),
+                        child: PlatformText('Leave Group',
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
