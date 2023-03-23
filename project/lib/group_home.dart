@@ -32,7 +32,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
   late int snapCount;
 
   Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
-    List<Map> allMembers = [];
+    List<Map>? allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
     Map<dynamic, dynamic> allMembersMap;
@@ -71,6 +71,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
   }
 
   Future<Map<String, int>> getData() async {
+    instaCount = 0;
+    fbCount = 0;
+    discordCount = 0;
+    messagesCount = 0;
+    snapCount = 0;
+
     List<Map> allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
@@ -85,7 +91,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     for (var element in allMembers) {
       if (element["instagram"].toString() == "true") {
-        instaCount += 1;
+        instaCount++;
       }
       if (element["facebook"].toString() == "true") {
         fbCount++;
@@ -279,14 +285,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       future: grabGroupMembers(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          var membersWidget = snapshot.data!
+                          var membersWidget = snapshot.data ?? []
                               .map((eachMember) => Text(
                                     "${eachMember["firstName"] ?? ''} ${eachMember["lastName"] ?? ''}",
                                     style: const TextStyle(fontSize: 15),
                                   ))
                               .toList();
                           var check = Column(
-                            children: membersWidget,
+                            children: [],
                           );
                           return Container(
                               decoration: BoxDecoration(

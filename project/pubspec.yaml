@@ -21,6 +21,7 @@ dependencies:
   googleapis: ^9.2.0
   googleapis_auth: ^1.4.0
   syncfusion_flutter_calendar: ^20.4.54
+  intl: ^0.17.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
