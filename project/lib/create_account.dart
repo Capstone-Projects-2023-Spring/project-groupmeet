@@ -83,6 +83,7 @@ class _CreateAccountState extends State<CreateAccount> {
             );
           }
         });
+    Navigator.pop(context);
   }
 
   @override
