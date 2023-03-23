@@ -51,8 +51,9 @@ class _CalendarPageState extends State<CalendarPage> {
                         view: CalendarView.month,
                         dataSource: GoogleDataSource(events: snapshot.data ?? []),
                         monthViewSettings: MonthViewSettings(
-                            appointmentDisplayMode:
-                            MonthAppointmentDisplayMode.appointment),
+                            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+                            showAgenda: true,
+                        ),
                       ),
                     ),
                     snapshot.data != null
