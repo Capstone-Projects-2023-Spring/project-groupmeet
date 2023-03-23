@@ -52,6 +52,7 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
     var instagram = event.snapshot.child("instagram").value;
     var messages = event.snapshot.child("messages").value;
     var snapchat = event.snapshot.child("snapchat").value;
+    var groups = event.snapshot.child("groupIds").value;
     ref.set({
       "email": _emailController.text.trim(),
       "firstName": _firstNameController.text.trim(),
@@ -61,6 +62,7 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
       "instagram": instagram,
       "messages": messages,
       "snapchat": snapchat,
+      "groupIds": groups,
     });
 
     Navigator.of(context).pop();

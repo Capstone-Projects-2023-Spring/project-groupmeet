@@ -86,6 +86,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
   }
 
   Future<Map<String, int>> getData() async {
+    instaCount = 0;
+    fbCount = 0;
+    discordCount = 0;
+    messagesCount = 0;
+    snapCount = 0;
+
     List<Map> allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
@@ -100,7 +106,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     for (var element in allMembers) {
       if (element["instagram"].toString() == "true") {
-        instaCount += 1;
+        instaCount++;
       }
       if (element["facebook"].toString() == "true") {
         fbCount++;
