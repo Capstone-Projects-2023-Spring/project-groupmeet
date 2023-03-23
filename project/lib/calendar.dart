@@ -62,7 +62,8 @@ class _CalendarPageState extends State<CalendarPage> {
                       child: CircularProgressIndicator(),
                     ),
                   ],
-                ));
+                )
+            );
           },
         ),
       ),
