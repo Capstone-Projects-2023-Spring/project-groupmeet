@@ -36,7 +36,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
   late int snapCount;
 
   Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
-    List<Map> allMembers = [];
+    List<Map>? allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
     Map<dynamic, dynamic> allMembersMap;
@@ -221,12 +221,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                              builder: (context) => const CalendarPage(
+                              builder: (context) => CalendarPage(
                             title: "Calendar",
                           )));
                         },
                         child: const Text('pulling google events',
-                            style: TextStyle(fontSize: 20)),
+                            style: TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -312,7 +312,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       future: grabGroupMembers(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          var membersWidget = snapshot.data!
+                          var membersWidget = snapshot.data ?? []
                               .map((eachMember) => Text(
                                     eachMember["firstName"] +
                                         " " +
@@ -321,7 +321,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                                   ))
                               .toList();
                           var check = Column(
-                            children: membersWidget,
+                            children: [],
                           );
                           return Container(
                               decoration: BoxDecoration(
