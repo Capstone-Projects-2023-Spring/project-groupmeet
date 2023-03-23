@@ -72,6 +72,17 @@ class _GroupHomePageState extends State<GroupHomePage> {
     snapCount = 0;
     // getData();
 
+    // Google Calendar API
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      setState(() {
+        _currentUser = account;
+      });
+      if (_currentUser != null) {
+        getPrimaryCalendar();
+      }
+    });
+    // _googleSignIn.signInSilently();
+    _handleSignIn();
   }
 
   Future<Map<String, int>> getData() async {
