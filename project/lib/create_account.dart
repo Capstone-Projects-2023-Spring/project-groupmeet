@@ -3,14 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import 'home.dart';
-
-import 'package:googleapis/calendar/v3.dart' as google_api;
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
-
-import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
-
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key, required this.title});
   final String title;
@@ -32,101 +24,89 @@ class _CreateAccountState extends State<CreateAccount> {
 
   bool _creatingProfile = false;
 
-  createUserProfile(BuildContext context) async {
-    await getPrimaryCalendar();
-
+  void createUserProfile(BuildContext context) {
     setState(() {
       _creatingProfile = true;
     });
 
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        )
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    )
         .then((authResult) {
-          uid = authResult.user?.uid;
-          ref = FirebaseDatabase.instance.ref("users/$uid");
-          ref.set({
-            "email": _emailController.text.trim(),
-            "firstName": _fnameController.text.trim(),
-            "lastName": _lnameController.text.trim(),
-            "discord": false,
-            "facebook": false,
-            "instagram": false,
-            "messages": false,
-            "snapchat": false,
-          });
-          setState(() {
-            _creatingProfile = false;
-          });
-          _emailController.dispose();
-          _passwordController.dispose();
-          Navigator.of(context).pop();
-        })
+      uid = authResult.user?.uid;
+      ref = FirebaseDatabase.instance.ref("users/$uid");
+      ref.set({
+        "email": _emailController.text.trim(),
+        "firstName": _fnameController.text.trim(),
+        "lastName": _lnameController.text.trim(),
+        "discord": false,
+        "facebook": false,
+        "instagram": false,
+        "messages": false,
+        "snapchat": false,
+      });
+      setState(() {
+        _creatingProfile = false;
+      });
+      _emailController.dispose();
+      _passwordController.dispose();
+      Navigator.of(context).pop();
+    })
         .catchError((e) {
-          setState(() {
-            _creatingProfile = false;
-          });
-          if (e is FirebaseAuthException) {
-            if (e.code == 'weak-password') {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('The password provided is too weak.'),
-                  duration: Duration(seconds: 5),
-                ),
-              );
-            } else if (e.code == 'email-already-in-use') {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('The account already exists for that email.'),
-                  duration: Duration(seconds: 5),
-                ),
-              );
-            }
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('An error occurred: $e'),
-                duration: const Duration(seconds: 5),
-              ),
-            );
-          }
-        });
-    Navigator.pop(context);
-      
+      setState(() {
+        _creatingProfile = false;
+      });
+      if (e is FirebaseAuthException) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('The password provided is too weak.'),
+              duration: Duration(seconds: 5),
+            ),
+          );
+        } else if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('The account already exists for that email.'),
+              duration: Duration(seconds: 5),
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('An error occurred: $e'),
+            duration: const Duration(seconds: 5),
+          ),
+        );
+      }
+    });
+    //safety pop to make sure all is well.
+    Navigator.of(context).pop();
   }
-
-   void _navigateToHomeScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const HomeScreen(title: 'HomeScreen'),
-      ),
-    );
-  }
-
 
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
       key: _scaffoldKey,
-     appBar: PlatformAppBar(
+      appBar: PlatformAppBar(
         title: PlatformText(widget.title),
-    ),
+      ),
       body: Center(
         child: Column(
           children: [
             PlatformTextField(
               hintText: "First Name",
-                controller: _fnameController,
-                keyboardType: TextInputType.name,
-                material: (_, __) => MaterialTextFieldData(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: "First Name",
-                    )
-                ),
+              controller: _fnameController,
+              keyboardType: TextInputType.name,
+              material: (_, __) => MaterialTextFieldData(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "First Name",
+                  )
+              ),
             ),
             PlatformTextField(
                 controller: _lnameController,
@@ -141,15 +121,15 @@ class _CreateAccountState extends State<CreateAccount> {
             ),
             PlatformTextField(
               hintText: "Email",
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
               material: (_, __) => MaterialTextFieldData(
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Email",
                   )
               ),
-                ),
+            ),
             PlatformTextField(
               hintText: "Password",
               controller: _passwordController,
@@ -166,7 +146,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 onPressed: _creatingProfile ? null : () => createUserProfile(context),
                 child: _creatingProfile
                     ? const CircularProgressIndicator()
-                    : const Text("Create Account")),           
+                    : const Text("Create Account")),
           ],
         ),
       ),
