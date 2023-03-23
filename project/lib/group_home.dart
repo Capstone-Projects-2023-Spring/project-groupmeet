@@ -3,7 +3,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import 'package:googleapis/calendar/v3.dart' as google_api;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
+import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'calendar.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
