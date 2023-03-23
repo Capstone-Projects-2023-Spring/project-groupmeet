@@ -13,7 +13,7 @@ class RoundIntro extends StatefulWidget {
 class _RoundIntroState extends State<RoundIntro> {
   @override
   Widget build(BuildContext context) {
-    var check = Column(          
+    var firstPage = Column(          
           children: [
             const Padding(
               padding: EdgeInsets.fromLTRB(50, 100, 50, 20),
@@ -36,20 +36,23 @@ class _RoundIntroState extends State<RoundIntro> {
             PlatformElevatedButton(
               //  onPressed: ,
           material: (_, __) => MaterialElevatedButtonData(
-            style: ElevatedButton.styleFrom(
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(24),
-              // color?                  
-  ),
+          style: ElevatedButton.styleFrom(
+            shape: const CircleBorder(),
+            padding: const EdgeInsets.all(24),
+            backgroundColor: Colors.white //not doing anything....            
+          ), 
+
                  ),
               cupertino: (_, __) => CupertinoElevatedButtonData(),
               child: Icon(PlatformIcons(context).forward),
               
             )
           ]);
+
+
     return PlatformScaffold(      
         body: 
-        check
+        firstPage
         
         );
   }

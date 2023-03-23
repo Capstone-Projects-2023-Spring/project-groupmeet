@@ -89,20 +89,38 @@ class _CreateAccountState extends State<CreateAccount> {
   Widget build(BuildContext context) {
     return PlatformScaffold(
       key: _scaffoldKey,
-     appBar: PlatformAppBar(
-        title: PlatformText(widget.title),
-    ),
       body: Center(
         child: Column(
           children: [
+            Padding(padding: const EdgeInsets.all(50),
+            child:
+            CircleAvatar(
+                backgroundColor:  const Color.fromARGB(230, 128, 128, 128),
+                radius: 65,
+                child: Icon(
+                  size: 75,
+                  color: Colors.white,
+                  PlatformIcons(context).add),                  
+              ),
+            ),
+              const Padding(
+              padding: EdgeInsets.fromLTRB(120, 0, 120, 50),
+              child: Text(
+                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
+                  textAlign: TextAlign.center,
+                  "Be Round Or Be Square"),
+            ),
             PlatformTextField(
               hintText: "First Name",
                 controller: _fnameController,
                 keyboardType: TextInputType.name,
                 material: (_, __) => MaterialTextFieldData(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(                      
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30)
+                      ),
                       labelText: "First Name",
+                      
                     )
                 ),
             ),
@@ -111,8 +129,10 @@ class _CreateAccountState extends State<CreateAccount> {
                 hintText: "Last Name",
                 keyboardType: TextInputType.name,
                 material: (_, __) => MaterialTextFieldData(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
+                    decoration:  InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30)
+                      ),
                       labelText: "Last Name",
                     )
                 )
@@ -122,8 +142,10 @@ class _CreateAccountState extends State<CreateAccount> {
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
               material: (_, __) => MaterialTextFieldData(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration:  InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30)
+                    ),
                     labelText: "Email",
                   )
               ),
@@ -133,14 +155,16 @@ class _CreateAccountState extends State<CreateAccount> {
               controller: _passwordController,
               keyboardType: TextInputType.visiblePassword,
               material: (_, __) => MaterialTextFieldData(
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
+                  decoration:  InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30)
+                    ),
                     labelText: "Password",
                   )
               ),
               obscureText: true,
             ),
-            PlatformElevatedButton(
+            PlatformElevatedButton(              
                 onPressed: _creatingProfile ? null : () => createUserProfile(context),
                 child: _creatingProfile
                     ? const CircularProgressIndicator()
