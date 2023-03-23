@@ -15,9 +15,9 @@ class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   const GroupHomePage(
       {super.key,
-      required this.title,
-      required this.databaseReference,
-      this.myGroup});
+        required this.title,
+        required this.databaseReference,
+        this.myGroup});
 
   final String title;
   final DatabaseReference databaseReference;
@@ -56,7 +56,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref("users/$uid/groupIds/${widget.myGroup!["gId"]}");
     DatabaseReference groupRef =
-        FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
+    FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
 
     userRef.remove();
     groupRef.remove();
@@ -70,7 +70,6 @@ class _GroupHomePageState extends State<GroupHomePage> {
     discordCount = 0;
     messagesCount = 0;
     snapCount = 0;
-    // getData();
 
     // Google Calendar API
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
@@ -106,7 +105,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     for (var element in allMembers) {
       if (element["instagram"].toString() == "true") {
-        instaCount++;
+        instaCount += 1;
       }
       if (element["facebook"].toString() == "true") {
         fbCount++;
@@ -140,21 +139,35 @@ class _GroupHomePageState extends State<GroupHomePage> {
     widget.myGroup
         ?.update("snapCount", (value) => 'New', ifAbsent: () => snapCount);
 
-    // print(widget.myGroup);
-    // print(widget.myGroup!['instaCount'].toString());
-    // print(allMembers);
-    // print(instaCount);
-    // print(fbCount);
-    // print(discordCount);
-    // print(messagesCount);
-    // print(snapCount);
-
     return socialMediaMap;
   }
+
+  // Google Calendar API
+  // move google sign in to account creation after it is working for everyone?
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    // Optional clientId
+    // clientId: '[YOUR_OAUTH_2_CLIENT_ID]',
+    scopes: <String>[google_api.CalendarApi.calendarScope],
+  );
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  GoogleSignInAccount? _currentUser;
+
+  Future<void> getPrimaryCalendar() async {
+    // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
+    final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
+    assert(client != null, 'Authenticated client missing!');
+
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    final google_api.Events calEvents =
-        await calendarApi.events.list("primary");
+    final google_api.Events calEvents = await calendarApi.events.list("primary");
     // print(calEvents.toJson());
 
     //list of events to add to firebase (temporarily just printing)
@@ -163,8 +176,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       print(element.summary);
       print("Start Date: ${element.start!.date}");
       print("End Date ${element.end!.date}");
-    }
-  }
+    }}
 
   @override
   Widget build(BuildContext context) {
@@ -199,19 +211,18 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const CalendarPage(
-                                        title: "Calendar",
-                                      )));
+                                  builder: (context) => CalendarPage(
+                                    title: "Calendar",
+                                  )));
                         },
-                        child: const Text('Calendar',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                        child: const Text('pulling google events',
+                            style: TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -220,7 +231,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -231,8 +242,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: const Text('Edit Availabilities',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                            style: TextStyle(fontSize: 20)),
                       ),
                     ],
                   ),
@@ -247,7 +257,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -258,8 +268,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: PlatformText('Suggest New Meeting Time',
-                            style: const TextStyle(
-                                fontSize: 25, color: Colors.white)),
+                            style: const TextStyle(fontSize: 25)),
                       ),
                     ],
                   ),
@@ -274,7 +283,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -285,8 +294,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: PlatformText('Cancel Active Meeting',
-                            style: const TextStyle(
-                                fontSize: 25, color: Colors.white)),
+                            style: const TextStyle(fontSize: 25)),
                       ),
                     ],
                   ),
@@ -302,9 +310,11 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         if (snapshot.hasData) {
                           var membersWidget = snapshot.data ?? []
                               .map((eachMember) => Text(
-                                    "${eachMember["firstName"] ?? ''} ${eachMember["lastName"] ?? ''}",
-                                    style: const TextStyle(fontSize: 15),
-                                  ))
+                            eachMember["firstName"] +
+                                " " +
+                                eachMember["lastName"],
+                            style: const TextStyle(fontSize: 15),
+                          ))
                               .toList();
                           var check = Column(
                             children: [],
@@ -312,11 +322,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           return Container(
                               decoration: BoxDecoration(
                                   border:
-                                      Border.all(width: 1, color: Colors.grey)),
+                                  Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
-                                    style: const TextStyle(fontSize: 20),
-                                    "Members"),
+                                    style: const TextStyle(fontSize: 20), "Members"),
                                 check
                               ]));
                         } else {
@@ -334,7 +343,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -344,9 +353,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ),
                           );
                         },
-                        child: const Text('Edit Members',
-                            style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                        child: const Text('Edit Members'),
                       ),
                     ],
                   ),
@@ -355,23 +362,21 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           leaveGroup().then((_) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                    'Left Group ${widget.myGroup!["name"]}',),
+                                    'Left Group ${widget.myGroup!["name"]}'),
                                 duration: const Duration(seconds: 5),
                               ),
                             );
                             Navigator.pop(context);
                           });
                         },
-                        child: PlatformText('Leave Group',
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.white)),
+                        child: PlatformText('Leave Group'),
                       ),
                     ],
                   ),
@@ -393,92 +398,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         return Container(
                           child: check,
                         );
-                      }),
-                  // FutureBuilder(
-                  //     future: grabGroupMembers(),
-                  //     builder: (context, snapshot) {
-                  //       if (snapshot.hasData) {
-                  //         var membersWidget = snapshot.data!
-                  //             .map((test) => Text(
-                  //           "Instagram Users: " + instaCount.toString() + " "
-                  //           + "Facebook Users: " + fbCount.toString() + " "
-                  //           + "Discord Users: " + discordCount.toString() + " "
-                  //           + "Messages Users: " + messagesCount.toString() + " "
-                  //           + "Snapchat Users: " + snapCount.toString() + " ",
-                  //           style: const TextStyle(fontSize: 15),
-                  //         ))
-                  //             .toList();
-                  //         var check = Column(
-                  //           children: membersWidget,
-                  //         );
-                  //         return Container(
-                  //             decoration: BoxDecoration(
-                  //                 border:
-                  //                 Border.all(width: 1, color: Colors.grey)),
-                  //             child: Column(children: [
-                  //               const Text(
-                  //                   style: TextStyle(fontSize: 20), "Social Media Platforms"),
-                  //               check
-                  //             ]));
-                  //       } else {
-                  //         return const Text("no data yet--replace this");
-                  //       }
-                  //     })
-
-                  // FutureBuilder(
-                  //     future: grabGroupMembers(),
-                  //     builder: (context, snapshot) {
-                  //       if (snapshot.hasData) {
-                  //         var membersWidget = snapshot.data!.map((test) => Text(
-                  //           "Instagram Users: " + instaCount.toString() + " "
-                  //               + "Facebook Users: " + fbCount.toString() + " "
-                  //               + "Discord Users: " + discordCount.toString() + " "
-                  //               + "Messages Users: " + messagesCount.toString() + " "
-                  //               + "Snapchat Users: " + snapCount.toString() + " ",
-                  //           style: const TextStyle(fontSize: 15),
-                  //         ))
-                  //             .toList();
-                  //         var check = Column(
-                  //           children: membersWidget,
-                  //         );
-                  //         return Container(
-                  //             decoration: BoxDecoration(
-                  //                 border:
-                  //                 Border.all(width: 1, color: Colors.grey)),
-                  //             child: Column(children: [
-                  //               const Text(
-                  //                   style: TextStyle(fontSize: 20), "Social Media Platforms"),
-                  //               check
-                  //             ]));
-                  //       } else {
-                  //         return const Text("no data yet--replace this");
-                  //       }
-                  //     })
-
-                  // Column(
-                  //   children: [
-                  //     Text(
-                  //         style: const TextStyle(fontSize: 20),
-                  //         "Instagram Users: $instaCount",
-                  //     ),
-                  //     Text(
-                  //       style: const TextStyle(fontSize: 20),
-                  //       "Facebook Users: $fbCount",
-                  //     ),
-                  //     Text(
-                  //       style: const TextStyle(fontSize: 20),
-                  //       "Discord Users: $discordCount",
-                  //     ),
-                  //     Text(
-                  //       style: const TextStyle(fontSize: 20),
-                  //       "Messages Users: $messagesCount",
-                  //     ),
-                  //     Text(
-                  //       style: const TextStyle(fontSize: 20),
-                  //       "Snapchat Users: $snapCount",
-                  //     ),
-                  //   ],
-                  // ),
+                      }
+                    ),
                 ],
               ),
             ],
