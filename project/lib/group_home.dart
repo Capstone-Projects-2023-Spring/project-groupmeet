@@ -3,11 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-import 'package:googleapis/calendar/v3.dart' as google_api;
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
-import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'calendar.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
@@ -72,17 +68,6 @@ class _GroupHomePageState extends State<GroupHomePage> {
     snapCount = 0;
     // getData();
 
-    // Google Calendar API
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-        _currentUser = account;
-      });
-      if (_currentUser != null) {
-        getPrimaryCalendar();
-      }
-    });
-    // _googleSignIn.signInSilently();
-    _handleSignIn();
   }
 
   Future<Map<String, int>> getData() async {
@@ -151,42 +136,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     return socialMediaMap;
   }
-
-  // Google Calendar API
-  // move google sign in to account creation after it is working for everyone?
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    // Optional clientId
-    // clientId: '[YOUR_OAUTH_2_CLIENT_ID]',
-    scopes: <String>[google_api.CalendarApi.calendarScope],
-  );
-
-  Future<void> _handleSignIn() async {
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  GoogleSignInAccount? _currentUser;
-
-  Future<void> getPrimaryCalendar() async {
-    // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
-    final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
-    assert(client != null, 'Authenticated client missing!');
-
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    final google_api.Events calEvents = await calendarApi.events.list("primary");
+    final google_api.Events calEvents =
+        await calendarApi.events.list("primary");
     // print(calEvents.toJson());
 
     //list of events to add to firebase (temporarily just printing)
-    List<google_api.Event> eventItems = calEvents.items!;  
+    List<google_api.Event> eventItems = calEvents.items!;
     for (var element in eventItems) {
       print(element.summary);
       print("Start Date: ${element.start!.date}");
       print("End Date ${element.end!.date}");
-    }}
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -223,16 +186,17 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
-                        onPressed: () {                       
+                        onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                              builder: (context) => CalendarPage(
-                            title: "Calendar",
-                          )));
+                                  builder: (context) => const CalendarPage(
+                                        title: "Calendar",
+                                      )));
                         },
-                        child: const Text('pulling google events',
-                            style: TextStyle(fontSize: 20, color: Colors.white)),
+                        child: const Text('Calendar',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -252,7 +216,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: const Text('Edit Availabilities',
-                            style: TextStyle(fontSize: 20)),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -278,7 +243,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: PlatformText('Suggest New Meeting Time',
-                            style: const TextStyle(fontSize: 25)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -304,7 +270,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           );
                         },
                         child: PlatformText('Cancel Active Meeting',
-                            style: const TextStyle(fontSize: 25)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -320,9 +287,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         if (snapshot.hasData) {
                           var membersWidget = snapshot.data ?? []
                               .map((eachMember) => Text(
-                                    eachMember["firstName"] +
-                                        " " +
-                                        eachMember["lastName"],
+                                    "${eachMember["firstName"] ?? ''} ${eachMember["lastName"] ?? ''}",
                                     style: const TextStyle(fontSize: 15),
                                   ))
                               .toList();
@@ -335,7 +300,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                                       Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
-                                    style: const TextStyle(fontSize: 20), "Members"),
+                                    style: const TextStyle(fontSize: 20),
+                                    "Members"),
                                 check
                               ]));
                         } else {
@@ -363,7 +329,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ),
                           );
                         },
-                        child: const Text('Edit Members'),
+                        child: const Text('Edit Members',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -379,14 +347,16 @@ class _GroupHomePageState extends State<GroupHomePage> {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                    'Left Group ${widget.myGroup!["name"]}'),
+                                    'Left Group ${widget.myGroup!["name"]}',),
                                 duration: const Duration(seconds: 5),
                               ),
                             );
                             Navigator.pop(context);
                           });
                         },
-                        child: PlatformText('Leave Group'),
+                        child: PlatformText('Leave Group',
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),

@@ -3,6 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import 'home.dart';
+
+import 'package:googleapis/calendar/v3.dart' as google_api;
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
+
+import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
+
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key, required this.title});
   final String title;
@@ -24,7 +32,9 @@ class _CreateAccountState extends State<CreateAccount> {
 
   bool _creatingProfile = false;
 
-  void createUserProfile(BuildContext context) {
+  createUserProfile(BuildContext context) async {
+    await getPrimaryCalendar();
+
     setState(() {
       _creatingProfile = true;
     });
@@ -84,7 +94,18 @@ class _CreateAccountState extends State<CreateAccount> {
           }
         });
     Navigator.pop(context);
+      
   }
+
+   void _navigateToHomeScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const HomeScreen(title: 'HomeScreen'),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +166,7 @@ class _CreateAccountState extends State<CreateAccount> {
                 onPressed: _creatingProfile ? null : () => createUserProfile(context),
                 child: _creatingProfile
                     ? const CircularProgressIndicator()
-                    : const Text("Create Account")),
+                    : const Text("Create Account")),           
           ],
         ),
       ),
