@@ -51,8 +51,8 @@ class _CalendarPageState extends State<CalendarPage> {
                         view: CalendarView.month,
                         dataSource: GoogleDataSource(events: snapshot.data ?? []),
                         monthViewSettings: MonthViewSettings(
-                            appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
-                            showAgenda: true,
+                          appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
+                          showAgenda: true,
                         ),
                       ),
                     ),
@@ -62,8 +62,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       child: CircularProgressIndicator(),
                     ),
                   ],
-                )
-            );
+                ));
           },
         ),
       ),
