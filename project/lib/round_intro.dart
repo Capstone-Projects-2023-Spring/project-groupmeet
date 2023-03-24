@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
+import 'create_account.dart';
+
 class RoundIntro extends StatefulWidget {
   const RoundIntro({super.key});
 
@@ -37,7 +39,15 @@ class _RoundIntroState extends State<RoundIntro> {
               textAlign: TextAlign.center,
             ),),
             PlatformElevatedButton(
-               onPressed: (){print("change to navigator.push(next onboarding page)");},
+               onPressed: () {
+                Navigator.of(context).push(
+                  platformPageRoute(
+                    context: context,
+                    builder: (_) =>                        
+                        const CreateAccount(),
+                  ),
+                );          
+        },
           material: (_, __) => MaterialElevatedButtonData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,

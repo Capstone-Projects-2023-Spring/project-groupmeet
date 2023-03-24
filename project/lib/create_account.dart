@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'linkCalendar.dart';
 
 class CreateAccount extends StatefulWidget {
-  const CreateAccount({super.key, required this.title});
-  final String title;
+  const CreateAccount({super.key});
 
   @override
   State<CreateAccount> createState() => _CreateAccountState();
@@ -51,8 +51,15 @@ class _CreateAccountState extends State<CreateAccount> {
             _creatingProfile = false;
           });
           _emailController.dispose();
-          _passwordController.dispose();
-          Navigator.of(context).pop();
+          _passwordController.dispose();          
+           Navigator.of(context).push(
+                  platformPageRoute(
+                    context: context,
+                    builder: (_) =>                        
+                        const Calendar()                        
+                  ),
+                );
+
         })
         .catchError((e) {
           setState(() {
