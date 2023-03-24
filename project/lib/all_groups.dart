@@ -3,7 +3,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:groupmeet/group_creation.dart';
 import 'package:groupmeet/group_home.dart';
-import 'package:groupmeet/user_addtion.dart';
 
 class AllGroups extends StatefulWidget {
   const AllGroups({Key? key, required this.title, required this.ref})
@@ -17,21 +16,8 @@ class AllGroups extends StatefulWidget {
 }
 
 class _AllGroupsState extends State<AllGroups> {
-  late TextEditingController group_id;
   late DatabaseReference ref = widget.ref;
   final String? uid = FirebaseAuth.instance.currentUser?.uid;
-
-  @override
-  void initState() {
-    super.initState();
-    group_id = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    group_id.dispose();
-    super.dispose();
-  }
 
   Future<List<Map>> grabGroups() async {
     List<Map> allGroups = [];
@@ -54,51 +40,12 @@ class _AllGroupsState extends State<AllGroups> {
     return allGroups;
   }
 
-  Future openDialog() =>
-      showDialog(
-          context: context,
-          builder: (context) =>
-              AlertDialog(
-                title: Text('Enter Group Code Below'),
-                content: TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(hintText: 'Enter here......'),
-                  controller: group_id,
-                ),
-                actions: [
-                  TextButton(
-                      onPressed: join_group, child: Text('Join'))
-                ],
-
-              ));
-
-  void join_group(){
-    add_user().groupid = group_id as String;
-    add_user();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        actions:[
-          Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: PopupMenuButton(
-              itemBuilder: (context) => [
-                PopupMenuItem(child: Row(children: [
-                  TextButton(
-                    onPressed: openDialog,
-                    child: Text('Join Group Via Code'),)
-                ],),),
-                PopupMenuItem(child: Row(children: [
-                  Text('Join Group Via QR Scan'),
-                ],))
-              ],
-            ),
-          )
-        ]
+
       ),
       body: Column(children: [FutureBuilder(
         future: grabGroups(),
