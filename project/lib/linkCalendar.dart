@@ -37,7 +37,7 @@ Widget build(BuildContext context) {
             style: TextStyle(fontSize: 15),
             "Link third-party calendars to be used "),
         const Text("with Round (optional)"),
-        Padding(padding: EdgeInsets.fromLTRB(50, 20, 50, 100),
+        Padding(padding: const EdgeInsets.fromLTRB(50, 50, 50, 150),
         child:  
         PlatformElevatedButton(
           onPressed: () {
