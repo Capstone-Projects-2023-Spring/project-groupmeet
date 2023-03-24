@@ -92,19 +92,22 @@ class _CreateAccountState extends State<CreateAccount> {
       body: Center(
         child: Column(
           children: [
-            Padding(padding: const EdgeInsets.all(50),
-            child:
-            CircleAvatar(
-                backgroundColor:  const Color.fromARGB(230, 128, 128, 128),
-                radius: 65,
-                child: Icon(
-                  size: 75,
-                  color: Colors.white,
-                  PlatformIcons(context).add),                  
-              ),
-            ),
+            Padding(
+                padding: const EdgeInsets.all(50),
+                child: Material(
+                  borderRadius: BorderRadius.circular(55),
+                  elevation: 2,
+                  child: CircleAvatar(
+                    backgroundColor: const Color.fromARGB(230, 128, 128, 128),
+                    radius: 65,
+                    child: Icon(
+                        size: 75,
+                        color: Colors.white,
+                        PlatformIcons(context).add),
+                  ),
+                )),
               const Padding(
-              padding: EdgeInsets.fromLTRB(120, 0, 120, 50),
+              padding: EdgeInsets.fromLTRB(120, 0, 120, 30),
               child: Text(
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
                   textAlign: TextAlign.center,
@@ -124,6 +127,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     )
                 ),
             ),
+            const SizedBox(height: 10,),
             PlatformTextField(
                 controller: _lnameController,
                 hintText: "Last Name",
@@ -137,6 +141,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     )
                 )
             ),
+            const SizedBox(height: 10,),
             PlatformTextField(
               hintText: "Email",
                 controller: _emailController,
@@ -150,6 +155,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   )
               ),
                 ),
+                const SizedBox(height: 10,),
             PlatformTextField(
               hintText: "Password",
               controller: _passwordController,
@@ -164,14 +170,31 @@ class _CreateAccountState extends State<CreateAccount> {
               ),
               obscureText: true,
             ),
-            PlatformElevatedButton(              
-                onPressed: _creatingProfile ? null : () => createUserProfile(context),
+            const SizedBox(height: 10,),
+            PlatformElevatedButton(
+              onPressed:
+                  _creatingProfile ? null : () => createUserProfile(context),
+              material: (context, platform) => MaterialElevatedButtonData(
+                  style: ElevatedButton.styleFrom(
+                side: const BorderSide(
+                  width: 5.0,
+                  color: Color.fromARGB(255, 89, 4, 106),
+                ),
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(24),
+                backgroundColor: Colors.white,
+              )
+                ),
                 child: _creatingProfile
                     ? const CircularProgressIndicator()
-                    : const Text("Create Account")),
+                    : Icon(color: Colors.black, PlatformIcons(context).forward),),
+             
+               
           ],
         ),
       ),
     );
   }
 }
+
+

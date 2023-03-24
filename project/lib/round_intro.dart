@@ -15,37 +15,43 @@ class _RoundIntroState extends State<RoundIntro> {
   Widget build(BuildContext context) {
     var firstPage = Column(          
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(50, 100, 50, 20),
-              child: CircleAvatar(
-                backgroundColor: Color.fromARGB(230, 81, 63, 219),
-                radius: 65,
-              ),
+             Padding(
+          padding: const EdgeInsets.fromLTRB(50, 100, 50, 20),
+          child: Material(
+            borderRadius: BorderRadius.circular(65),
+            elevation: 2,
+            child: const CircleAvatar(
+              backgroundColor: Color.fromARGB(230, 81, 63, 219),
+              radius: 75,
             ),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(50, 0, 50, 50),
+          )),
+      const Padding(
+              padding: EdgeInsets.fromLTRB(50, 0, 50, 20),
               child: Text(
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   "Round"),
             ),
-            const Padding(padding: EdgeInsets.fromLTRB(100, 30,100, 150),            
+            const Padding(padding: EdgeInsets.fromLTRB(100, 0,100, 200),            
             child:  Text(
               "A single platform to organize and capture meeting-based team communication",
               textAlign: TextAlign.center,
             ),),
             PlatformElevatedButton(
-              //  onPressed: ,
+               onPressed: (){print("change to navigator.push(next onboarding page)");},
           material: (_, __) => MaterialElevatedButtonData(
           style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+             side: const BorderSide(                  
+                  width: 5.0,
+                  color: Color.fromARGB(255, 89, 4, 106),
+                ),
             shape: const CircleBorder(),
-            padding: const EdgeInsets.all(24),
-            backgroundColor: Colors.white //not doing anything....            
+            padding: const EdgeInsets.all(24),            
           ), 
-
                  ),
               cupertino: (_, __) => CupertinoElevatedButtonData(),
-              child: Icon(PlatformIcons(context).forward),
-              
+              child: Icon(color: Colors.black,
+                PlatformIcons(context).forward),              
             )
           ]);
 
