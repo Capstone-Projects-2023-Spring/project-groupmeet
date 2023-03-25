@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SocialMedia extends StatefulWidget {
-  const SocialMedia({super.key, required this.databaseReference, required this.title});
+  const SocialMedia(
+      {super.key, required this.databaseReference, required this.title});
 
   final String title;
   final DatabaseReference databaseReference;
-
 
   @override
   State<SocialMedia> createState() => _SocialMediaState();
@@ -36,30 +39,34 @@ class _SocialMediaState extends State<SocialMedia> {
   }
 
   void getData() async {
-    DatabaseEvent event = await widget.databaseReference.once();
-    if(event.snapshot.exists) {
+    DataSnapshot snapshot =
+        await widget.databaseReference.once().then((event) => event.snapshot);
+
+    if (snapshot.value != null) {
+      Map<dynamic, dynamic>? data = snapshot.value as Map?;
+
       setState(() {
-        instaSelect = event.snapshot.child("instagram").value as bool;
-        fbSelect = event.snapshot.child("facebook").value as bool;
-        discordSelect = event.snapshot.child("discord").value as bool;
-        messagesSelect = event.snapshot.child("messages").value as bool;
-        snapSelect = event.snapshot.child("snapchat").value as bool;
-        //print(instaSelect);
+        instaSelect = data!['instagram'] ?? false;
+        fbSelect = data['facebook'] ?? false;
+        discordSelect = data['discord'] ?? false;
+        messagesSelect = data['messages'] ?? false;
+        snapSelect = data['snapchat'] ?? false;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText(widget.title),
       ),
       body: Center(
         child: Column(
           children: <Widget>[
+
             CheckboxListTile(
-              title: const Text('Instagram'),
+              title: PlatformText('Instagram'),
               secondary: const Image(
                 image: NetworkImage(
                     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"),

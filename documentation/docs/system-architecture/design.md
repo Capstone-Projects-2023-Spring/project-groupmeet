@@ -11,7 +11,7 @@ GroupMeet is a iOS/Android application that utilizes Google Firebase for the bac
 GroupMeet plans to implement a complex sorting algorithm to generate a static calendar to display the most convenient meetup times for our groups.
 
 **Class Diagrams**
-**Diagram 1**
+**Diagram 1 - Individual-Related Classes**
 ```mermaid
 classDiagram
     class MyApp{
@@ -19,32 +19,105 @@ classDiagram
       +build(context)
     }
 
-    class MyHomePage{
+    class HomeScreen{
       +title
       +createState()
     }
 
-    class _MyHomePageState{
-        +DatabaseReference
-        +_emailCont
-        +_passwordCont
-        +userCredential
-        +uid
-        +login()
+    class HomeScreenState{
+        +ref
+        +initState()
         +logout()
         +build(context)
     }
     
+    HomeScreen --> HomeScreenState
+    
+    class LoginScreen{
+      +createState()
+    }
+
+    class LoginScreenState{
+        -_usernameController
+        -_passwordController
+        -_isUsernameValid
+        -_isPasswordValid
+        -_navigateToHomeScreen()
+        -_login()
+        +build(context)
+    }
+    
+    LoginScreen-->LoginScreenState
+    
+    class SocialMedia{
+      +title
+      +databaseReference
+      +createState()
+    }
+
+    class _SocialMediaState{
+        +databaseReference
+        +instaSelect
+        +fbSelect
+        +discordSelect
+        +messageSelect
+        +snapSelect
+        +initState()
+        +getData()
+        +build(context)
+    }
+    
+    SocialMedia-->_SocialMediaState
+    
     class AccountInfo{
+        +ref
         +title
         +createState()
     }
 
     class _AccountInfoState{
+        +email
+        +name
+        +ref
+        +initState()
+        +getData()
         +build(context)
     }
 
-    CreateAccount-->_CreateAccountState
+    AccountInfo-->_AccountInfoState
+
+    class AllGroups{
+        +ref
+        +title
+        +createState()
+    }
+
+    class _AllGroupsState{
+        +ref
+        +uid
+        +grabGroups()
+        +build(context)
+    }
+
+    AllGroups-->_AllGroupsState
+
+    class CodeReception{
+        +title
+        +createState()
+    }
+
+    class _CodeReceptionState{
+        -_hash
+        -_key
+        -_scannedCode
+        +data
+        +keep
+        +one
+        +getQR()
+        +build(context)
+    }
+
+    CodeReception-->_CodeReceptionState
 
     class CreateAccount{
         +title
@@ -52,23 +125,87 @@ classDiagram
     }
 
     class _CreateAccountState{
-        +_emailController
-        +_passwordController
-        +_fnameController
-        +_lnameController
+        -_emailController
+        -_passwordController
+        -_fnameController
+        -_lnameController
         +ref
         +uid
         +createUserProfile()
         +build()
     }
 
-    MyApp-->MyHomePage
-    _MyHomePageState<--MyHomePage
+    CreateAccount-->_CreateAccountState
 
-    AccountInfo-->_AccountInfoState
+    class EditAccountInfo{
+        +title
+        +ref
+        +createState()
+    }
+
+    class _EditAccountInfoState{
+        -firstNameController
+        -lastNameController
+        -emailController
+        +email
+        +fName
+        +lName
+        +ref
+        +getData()
+        +initState()
+        +saveChanges()
+        +build()
+    }
+
+    EditAccountInfo-->_EditAccountInfoState
+    
+    MyApp-->MyHomePage
 ```
 
-**Diagram 2**
+**Diagram 2 - Group-related Classes**
+```mermaid
+classDiagram    
+    class GroupCreation{
+        +groupTitle
+        +createState()
+    }
+
+    class _GroupCreationState{
+        -_groupNameController
+        -_numMembersController
+        -_formKey
+        +initState()
+        +createGroupLinkUser()
+        +build()
+    }
+
+    GroupCreation-->_GroupCreationState
+
+    class GroupHomePage{
+        +title
+        +databaseReference
+        +myGroup
+        +createState()
+    }
+
+    class _GroupHomePageState{
+        +databaseReference
+        +instaCount
+        +fbCount
+        +discordCount
+        +messagesCount
+        +snapCount
+        +initState()
+        +leaveGroup()
+        +getData()
+        +grabGroupMembers()
+        +build()
+    }
+
+    GroupHomePage-->_GroupHomePageState
+```
+
+**Diagram 3**
 ```mermaid
 classDiagram
     class State
