@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:groupmeet/theme.dart';
 
 import 'home.dart';
 import 'create_account.dart';
@@ -47,9 +49,9 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void _navigateToHomeScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
+    Navigator.of(context).push(
+      platformPageRoute(
+        context: context,
         builder: (_) => const HomeScreen(title: 'HomeScreen'),
       ),
     );
@@ -57,59 +59,69 @@ class LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PlatformScaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Login',
-              style: Theme.of(context).textTheme.titleLarge,
+            PlatformText(
+              'Login'
             ),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
+              child: PlatformTextFormField(
+                cursorColor: roundPurple,
                 controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: const OutlineInputBorder(),
-                  errorText:
-                      _isUsernameValid ? null : 'Username cannot be empty',
+                hintText: "Username",
+                material: (_, __) => MaterialTextFormFieldData(
+                  decoration: InputDecoration(
+                    labelText: 'Username',
+                    border: const OutlineInputBorder(),
+                    errorText:
+                    _isUsernameValid ? null : 'Username cannot be empty',
+                  ),
+
                 ),
               ),
             ),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextFormField(
+              child: PlatformTextFormField(
+                cursorColor: roundPurple,
                 controller: _passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: const OutlineInputBorder(),
-                  errorText:
-                      _isPasswordValid ? null : 'Password cannot be empty',
+                hintText: "Password",
+                material: (_, __) => MaterialTextFormFieldData(
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: const OutlineInputBorder(),
+                    errorText:
+                    _isPasswordValid ? null : 'Password cannot be empty',
+                  )
                 ),
               ),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
+            PlatformElevatedButton(
               onPressed: _login,
-              child: const Text('Login'),
+              child: PlatformText('Login'),
+              color: roundPurple,
             ),
             const SizedBox(height: 20),
-            TextButton(
+            PlatformElevatedButton(
+              color: roundPurple,
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
+                Navigator.of(context).push(
+                  platformPageRoute(
+                    context: context,
                     builder: (_) =>
                         const CreateAccount(title: 'Create Account'),
                   ),
                 );
               },
-              child: const Text('Create Account'),
+              child: PlatformText('Create Account'),
             ),
           ],
         ),

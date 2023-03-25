@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class GroupCreation2 extends StatefulWidget {
   final String? groupTitle;
@@ -30,24 +31,19 @@ class GroupCreationState extends State<GroupCreation2> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create a Group 2'),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText('Create a Group 2'),
       ),
       // remove from below when background color is added to themeData in main
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.add_circle_outlined,
-            color: Colors.grey,
-            size: 175,
-            shadows: [Shadow(color: Colors.grey, blurRadius: 20.0)],
-          ),
-          const Text(
+          Icon(PlatformIcons(context).addCircledOutline, color: Colors.grey, size: 175, shadows: [Shadow(color: Colors.grey, blurRadius: 20.0)],),
+          PlatformText(
             "Get Around!",
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 37, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           const SizedBox(height: 50),
@@ -63,18 +59,20 @@ class GroupCreationState extends State<GroupCreation2> {
                 ),
               ],
             ),
-            child: TextField(
+            child: PlatformTextField(
               controller: _groupNameController,
               keyboardType: TextInputType.name,
-              decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.grey,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                    Radius.circular(30.0),
-                  )),
-                  labelText: "Group Name",
-                  labelStyle: TextStyle(color: Colors.white)),
+              material: (_, __) => MaterialTextFieldData(
+                  decoration: const InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey,
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(30.0),
+                          )),
+                      labelText: "Group Name",
+                      labelStyle: TextStyle(color: Colors.white))
+              ),
             ),
           ),
           const SizedBox(height: 25),
@@ -90,16 +88,19 @@ class GroupCreationState extends State<GroupCreation2> {
                 ),
               ],
             ),
-            child: TextField(
+            child: PlatformTextField(
                 controller: _numMembersController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(30.0))),
-                    labelText: "Number of Members",
-                    labelStyle: TextStyle(color: Colors.white))),
+                material: (_, __) => MaterialTextFieldData(
+                    decoration: const InputDecoration(
+                        filled: true,
+                        fillColor: Colors.grey,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                        labelText: "Number of Members",
+                        labelStyle: TextStyle(color: Colors.white))
+                ),
+            ),
           ),
           const SizedBox(height: 100),
           Container(
@@ -111,16 +112,15 @@ class GroupCreationState extends State<GroupCreation2> {
               color: Colors.white,
               shape: BoxShape.circle,
             ),
-            child: IconButton(
-              iconSize: 50,
-              icon: const Icon(
-                Icons.arrow_forward_rounded,
-                color: Colors.black,
+            child: PlatformIconButton(
+              material: (_, __) => MaterialIconButtonData(
+                iconSize: 50
               ),
+              icon: Icon(PlatformIcons(context).rightChevron, color: Colors.black),
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Hi There'),
+                  SnackBar(
+                    content: PlatformText('Hi There'),
                     duration: Duration(seconds: 5),
                   ),
                 );

@@ -5,30 +5,82 @@ sidebar_position: 5
 # Use-case descriptions
 
 ## Use Case 1: Registration
-1. User opens the app
-2. User taps on the "Sign Up" button
-3. User is presented with a form where they are asked to provide their email address, password, and social media account.
-4. User carefully fills out the form and clicks the next button
-6. User receives a confirmation email, and the user taps on the link to confirm the user’s email
+1. User taps on the "GroupMeet" app icon and opens the app
+2. User is directed to Login Screen
+3. User taps on the "Create Account" button
+4. User is presented with a Sign Up form where they are asked to provide their First and Last Name, Email Address, and Password.
+5. User carefully fills out the form and clicks the "Create Account" button
+6. User can now use their email as a username and password just created to log in
 
 ## Use Case 2: Login
-1. User registers with GroupMeet
-2. Upon login, GroupMeet quickly checks to see if any additional social media accounts have been added
-3. If none are found, user is asked to sign in to their social media accounts using external validation
-4. User is then able to navigate GroupMeet freely
+1. User types in email address for username and password into "GroupMeet" app Login screen
+2. User is then able to navigate GroupMeet freely
 
-## Use case 3: Event Creation
-1. User registers and logs in to their account.
-2. User creates a new group by pressing the button.
-3. GroupMeet prompts the user for information such as the name of the group and projected end-date of the group.
-4. This prompted information is then stored within the Groups settings.
+## Use Case 3: Selecting Social Media App(s)
+1. User logs into GroupMeet and is brought to Home Page
+2. Upon login, User clicks on "My Account" and is directed to the My Accounts page
+3. User clicks on "Edit Social Media Accounts" and is brought to "Social Media" page
+4. User can select and deselect any number of options available
 
-## Use case 4: Invite Other Users
-1. Original user logs in to GroupMeet and creates a new group.
-2. A code/QR code/link is generated, and the one student shares their screen with the rest of the group.
-3. Every other student in the group has free choice of writing down the code and inputting later, scanning the QR code immediately, clicking on the link and instantly redirecting to joining on the app, etc.
+## Use case 4: Event Creation
+1. User registers and logs in to their account
+2. User is brought to the home screen
+3. User clicks on "Group Creation" button on the home screen
+4. User is brought to the "Group Creation" Page
+5. User is prompted to type in a group name and Number of Members in the fields provided
+6. User clicks on "Create Group" button to create the new group
+7. This prompted information is then stored within the Groups settings
 
-## Use case 5: Time Block Selection
+## Use case 5: Invite Other Users Via QR Code
+1. Original user logs in to GroupMeet and creates a new group
+2. User is on home screen and clicks on "Code Sharing"
+3. Option to share link, display QR Code, or share code is available for sharing
+4. User selects "Display QR Code"
+5. A QR code is generated based on specific group, and the one student shares their screen with the rest of the group
+
+## Use Case 6: Invite Other Users Via Shared Link
+1. Original user logs in to GroupMeet and creates a new group
+2. User is on home screen and clicks on "Code Sharing"
+3. Option to share link, display QR Code, or share code is available for sharing
+4. User selects "Share Link"
+5. A shared link is sent to every other users through SMS
+6. Other Users click on link and is directed to GroupMeet to download app or join the specific group
+
+## Use Case 7: Invite Other Users Via Share Code
+1. Original user logs in to GroupMeet and creates a new group
+2. User is on home screen and clicks on "Code Sharing"
+3. Option to share link, display QR Code, or share code is available for sharing
+4. User selects "Share Code" and specific Group Code is displayed
+
+## Use Case 8: Join Group Via Shared Link
+1. User receives an SMS message from group leader with a Shared Link attached to it
+2. User taps link and is redirected to the App Store/Play Store
+3. User downloads app
+4. User taps on "GroupMeet" icon and is prompted to login screen
+5. User creates an account and is brought to the home screen
+6. User then goes back to SMS message and taps on Shared Link again
+7. User is brought to the Group Page where they are asked to Join group
+8. User clicks "yes", and is added to group
+
+## Use Case 9: Join Group Via QR Code
+1. Users signs into account in GroupMeet and is brought to the home screen
+2. User clicks on "Join a Group" option in the Home Menu
+3. User is brought to "Joining Group Option" page
+4. User clicks on "Scan QR Code" and asked for permissions to use camera
+5. User clicks on Either on Allow once, Always Allow, or while using this app
+6. User camera pops up and is allowed to scan the QR code presented by group leader
+7. After successful scan, User is automatically added to the group
+
+## Use Case 10: Join Group Via Share Code
+1. Users signs into account in GroupMeet and is brought to the home screen
+2. User clicks on "Join a Group" option in the Home Menu
+3. User is brought to "Joining Group Option" page
+4. User clicks on "Join Group Via Code"
+5. User is prompted with a dialog box to enter the code
+6. User types in code and click the "Join" button
+7. User is added to group
+
+## Use case 11: Time Block Selection
 1. One user texts a link to the group chat to install GroupMeet and register.
 2. Each user installs GroupMeet, creates an account and syncs their Google calendars.
 3. GroupMeet then puts them into the group originally stored in the link generated by the first friend.
@@ -36,7 +88,7 @@ sidebar_position: 5
 5. This friend gets to see a pre-released static calendar in which they see when everyone else is available. They then simply look at all of the available times and quickly fill in all of their available times manually.
 6. Once this friend is finished filling times manually, the static calendar is generated and released to the entire group.
 
-## Use case 6: Last Second Changes
+## Use case 12: Last Second Changes
 1. All group members have joined the GroupMeet group, and a calendar has been generated with everyone’s schedules in mind.
 2. A group member sees that Friday the 27th from 7PM – 9PM is a time where everyone is available, so they click on that day and propose it.
 3. Upon proposing it, a notification is sent to all other group members, asking them to approve of this date and time.
@@ -45,7 +97,7 @@ sidebar_position: 5
 6. Upon overriding this decision, a notification is sent to all group members with a suggestion that GroupMeet makes as to what other time(s) would work.
 7. Example: “Something came up for Adam and he can no longer make it on FRIDAY 27TH from 7PM – 9PM. How does SATURDAY 28TH from 2PM – 4PM sound?” in which Saturday 28th from 2PM – 4PM is the next time where everyone is available.
 
-## Use case 7: Modification of Project Lifespan
+## Use case 13: Modification of Project Lifespan
 1. User logs in and goes to a specific group's settings.
 2. User chooses Longevity
 3. User is prompted with add new, change existing or delete current timeline options
@@ -56,7 +108,7 @@ sidebar_position: 5
 8. A message is shown confirming the change of timeline
 9. User receives a message from the Group 2 Chat with new timeline adjustments
 
-## Use case 8: Push Notifications and Reminders
+## Use case 14: Push Notifications and Reminders
 1. User receives a message from the GroupMeet app reminding them that there is a Meeting to be held at 4 pm in which he offered to attend.
 2. User taps on the message
 3. User is instantly taken to the applications home page
