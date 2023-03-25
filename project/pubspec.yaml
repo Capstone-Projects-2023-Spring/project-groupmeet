@@ -8,6 +8,7 @@ dependencies:
   flutter:
     sdk: flutter
   firebase_core: ^2.5.0
+  fluttertoast: ^8.0.8
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.2.6
   firebase_database: ^10.0.10
