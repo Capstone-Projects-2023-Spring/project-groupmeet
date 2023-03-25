@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -162,8 +163,8 @@ class _CodeReceptionState extends State<CodeReception> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      appBar: AppBar(title: const Text("Joining Group Options")),
+    return SafeArea(child: PlatformScaffold(
+      appBar: PlatformAppBar(title: PlatformText("Joining Group Options")),
       body: Column(
         children: [
           if (one == 1 )
@@ -190,7 +191,7 @@ class _CodeReceptionState extends State<CodeReception> {
           TextButton(
             onPressed: openDialog,
             child: Text('Join Group Via Code'),),
-          TextButton(onPressed: (){
+          PlatformTextButton(onPressed: (){
 
             setState(() {
               _data = "GM${Random().nextInt(10)}${Random().nextInt(10)}${Random().nextInt(10)}$_hash";
@@ -198,15 +199,15 @@ class _CodeReceptionState extends State<CodeReception> {
               one = 1;
             });
           },child :
-              Text("Get QR Code",
+              PlatformText("Get QR Code",
                   textAlign: TextAlign.center)
           ),
-          TextButton(onPressed: () async{
+          PlatformTextButton(onPressed: () async{
             setState(() {
               one = 2;
             });
           }, child:
-              Text("Scan QR Code")),
+              PlatformText("Scan QR Code")),
           ],
       ),
     ));

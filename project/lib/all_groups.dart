@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/group_creation.dart';
 import 'package:groupmeet/group_home.dart';
 
@@ -42,9 +43,9 @@ class _AllGroupsState extends State<AllGroups> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText(widget.title),
 
       ),
       body: Column(children: [FutureBuilder(
