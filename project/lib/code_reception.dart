@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+//New Pull Request
+
 class CodeReception extends StatefulWidget {
   const CodeReception({super.key, required this.title});
 
