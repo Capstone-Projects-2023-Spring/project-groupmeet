@@ -74,7 +74,7 @@ class _CodeReceptionState extends State<CodeReception> {
                       },
                       //updatesDatabase use for onPressed
                       onPressed: updateDatabase,
-                      child: Text('Join')),
+                      child: Text('Join Group')),
                 ],
 
               ));
