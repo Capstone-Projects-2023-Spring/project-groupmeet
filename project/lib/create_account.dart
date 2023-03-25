@@ -31,9 +31,9 @@ class _CreateAccountState extends State<CreateAccount> {
 
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        )
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    )
         .then((authResult) {
           uid = authResult.user?.uid;
           ref = FirebaseDatabase.instance.ref("users/$uid");
@@ -56,40 +56,42 @@ class _CreateAccountState extends State<CreateAccount> {
                   platformPageRoute(
                     context: context,
                     builder: (_) =>                        
-                        const Calendar()                        
+                        const Calendar()    //link calendar page for onboarding                  
                   ),
                 );
 
         })
         .catchError((e) {
-          setState(() {
-            _creatingProfile = false;
-          });
-          if (e is FirebaseAuthException) {
-            if (e.code == 'weak-password') {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('The password provided is too weak.'),
-                  duration: Duration(seconds: 5),
-                ),
-              );
-            } else if (e.code == 'email-already-in-use') {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('The account already exists for that email.'),
-                  duration: Duration(seconds: 5),
-                ),
-              );
-            }
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('An error occurred: $e'),
-                duration: const Duration(seconds: 5),
-              ),
-            );
-          }
-        });
+      setState(() {
+        _creatingProfile = false;
+      });
+      if (e is FirebaseAuthException) {
+        if (e.code == 'weak-password') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('The password provided is too weak.'),
+              duration: Duration(seconds: 5),
+            ),
+          );
+        } else if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('The account already exists for that email.'),
+              duration: Duration(seconds: 5),
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('An error occurred: $e'),
+            duration: const Duration(seconds: 5),
+          ),
+        );
+      }
+    });
+    //safety pop to make sure all is well.
+    Navigator.of(context).pop();
   }
 
   @override
@@ -151,8 +153,8 @@ class _CreateAccountState extends State<CreateAccount> {
             const SizedBox(height: 10,),
             PlatformTextField(
               hintText: "Email",
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
               material: (_, __) => MaterialTextFieldData(
                   decoration:  InputDecoration(
                     border: OutlineInputBorder(
