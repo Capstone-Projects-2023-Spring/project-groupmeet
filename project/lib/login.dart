@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:groupmeet/create_account.dart';
 import 'package:groupmeet/theme.dart';
 
 import 'home.dart';
-import 'create_account.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -106,8 +107,8 @@ class LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 20),
             PlatformElevatedButton(
               onPressed: _login,
-              child: PlatformText('Login'),
               color: roundPurple,
+              child: PlatformText('Login'),
             ),
             const SizedBox(height: 20),
             PlatformElevatedButton(
@@ -116,8 +117,8 @@ class LoginScreenState extends State<LoginScreen> {
                 Navigator.of(context).push(
                   platformPageRoute(
                     context: context,
-                    builder: (_) =>
-                        const CreateAccount(title: 'Create Account'),
+                    builder: (_) =>                        
+                        const CreateAccount()
                   ),
                 );
               },

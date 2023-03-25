@@ -7,16 +7,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class SocialMedia extends StatefulWidget {
   const SocialMedia(
-      {super.key, required this.databaseReference, required this.title});
-
-  final String title;
+      {super.key, required this.databaseReference});
+  
   final DatabaseReference databaseReference;
 
   @override
-  State<SocialMedia> createState() => _SocialMediaState();
+  State<SocialMedia> createState() => SocialMediaState();
 }
 
-class _SocialMediaState extends State<SocialMedia> {
+class SocialMediaState extends State<SocialMedia> {
   late DatabaseReference databaseReference;
   late bool instaSelect;
   late bool fbSelect;
@@ -57,10 +56,7 @@ class _SocialMediaState extends State<SocialMedia> {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: PlatformText(widget.title),
-      ),
+    return PlatformScaffold(      
       body: Center(
         child: Column(
           children: <Widget>[

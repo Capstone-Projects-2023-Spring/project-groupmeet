@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'linkCalendar.dart';
+import 'link_calendar.dart';
 
 class CreateAccount extends StatefulWidget {
   const CreateAccount({super.key});
@@ -162,7 +162,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   )
               ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 10),
             PlatformTextField(
               hintText: "Password",
               controller: _passwordController,
