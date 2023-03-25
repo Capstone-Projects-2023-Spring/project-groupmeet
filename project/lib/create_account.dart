@@ -50,8 +50,8 @@ class _CreateAccountState extends State<CreateAccount> {
           setState(() {
             _creatingProfile = false;
           });
-          _emailController.dispose();
-          _passwordController.dispose();          
+          // _emailController.dispose();
+          // _passwordController.dispose();          
            Navigator.of(context).push(
                   platformPageRoute(
                     context: context,
