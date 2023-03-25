@@ -64,14 +64,6 @@ class _CodeReceptionState extends State<CodeReception> {
                       child: Text("Cancel")
                   ),
                   TextButton(
-                      onLongPress: (){
-                        Fluttertoast.showToast(msg: group_id.text,
-                            toastLength: Toast.LENGTH_LONG,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 4,
-                            backgroundColor: Colors.grey,
-                            fontSize: 15);
-                      },
                       //updatesDatabase use for onPressed
                       onPressed: updateDatabase,
                       child: Text('Join Group')),
