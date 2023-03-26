@@ -5,7 +5,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/theme.dart';
 
 import 'login.dart';
-import 'package:flutter/cupertino.dart';
 
 // Initialize the app and run it.
 Future<void> main() async {
@@ -49,25 +48,5 @@ class MyApp extends StatelessWidget {
       title: "Round",
       color: roundPurple
     );
-
-    // return Theme(data: materialTheme,
-    //     child: PlatformProvider(settings: PlatformSettingsData(
-    //         iosUsesMaterialWidgets: false,
-    //         iosUseZeroPaddingForAppbarPlatformIcon: true
-    //     ),
-    //   builder: (context) => const PlatformApp(
-    //     home: LoginScreen(),
-    //     title: "Round",
-    //     debugShowCheckedModeBanner: false, // <- hate this
-    //   ),
-    // ));
-
-
-    // return MaterialApp(
-    //   title: 'Flutter Demo',
-    //   theme: appTheme,
-    //   home: const LoginScreen(),
-    //   // home: const Center(child: Text('Test')),
-    // );
   }
 }

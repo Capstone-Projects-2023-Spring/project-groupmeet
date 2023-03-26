@@ -4,19 +4,19 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:groupmeet/theme.dart';
 
 class SocialMedia extends StatefulWidget {
   const SocialMedia(
-      {super.key, required this.databaseReference, required this.title});
-
-  final String title;
+      {super.key, required this.databaseReference});
+  
   final DatabaseReference databaseReference;
 
   @override
-  State<SocialMedia> createState() => _SocialMediaState();
+  State<SocialMedia> createState() => SocialMediaState();
 }
 
-class _SocialMediaState extends State<SocialMedia> {
+class SocialMediaState extends State<SocialMedia> {
   late DatabaseReference databaseReference;
   late bool instaSelect;
   late bool fbSelect;
@@ -57,15 +57,20 @@ class _SocialMediaState extends State<SocialMedia> {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: PlatformText(widget.title),
-      ),
-      body: Center(
+    return 
+    // PlatformScaffold(      
+      // body: 
+      // removed the scaffold to reuse with the account creation onboarding
+      // consider using the social media component within another settings page
+      // otherwise put the scaffold back and use the same code twice for socialMediaOnboarding ?
+      Material(
+        child:
+      Center(
         child: Column(
           children: <Widget>[
 
-            CheckboxListTile(
+            CheckboxListTile(              
+              tileColor: roundBlack,
               title: PlatformText('Instagram'),
               secondary: const Image(
                 image: NetworkImage(
@@ -84,6 +89,7 @@ class _SocialMediaState extends State<SocialMedia> {
               },
             ),
             CheckboxListTile(
+              tileColor: roundBlack,
               title: const Text('Facebook'),
               secondary: const Image(
                 image: NetworkImage(
@@ -102,6 +108,7 @@ class _SocialMediaState extends State<SocialMedia> {
               },
             ),
             CheckboxListTile(
+              tileColor: roundBlack,
               title: const Text('Discord'),
               secondary: const Image(
                 image: NetworkImage(
@@ -120,6 +127,7 @@ class _SocialMediaState extends State<SocialMedia> {
               },
             ),
             CheckboxListTile(
+              tileColor: roundBlack,
               title: const Text('Messages'),
               secondary: const Image(
                 image: NetworkImage(
@@ -138,6 +146,7 @@ class _SocialMediaState extends State<SocialMedia> {
               },
             ),
             CheckboxListTile(
+              tileColor: roundBlack,
               title: const Text('SnapChat'),
               secondary: const Image(
                 image: NetworkImage(
@@ -157,7 +166,7 @@ class _SocialMediaState extends State<SocialMedia> {
             ),
           ],
         ),
-      ),
-    );
+      ));
+    // );
   }
 }

@@ -52,18 +52,7 @@ class _AccountInfoState extends State<AccountInfo> {
       body: Center(
         child: Column(
           children: [
-            PlatformText("Edit Social Media Accounts"),
-            PlatformIconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  platformPageRoute(
-                    context: context,
-                    builder: (context) => SocialMedia(title: "Social Media", databaseReference: ref),
-                  ),
-                );
-              },
-              icon: Icon(PlatformIcons(context).create, color: Colors.white),
-            ),
+            
             Column(
               children: [
                 PlatformText("Name:"),
@@ -96,8 +85,7 @@ class _AccountInfoState extends State<AccountInfo> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SocialMedia(
-                        title: "Social Media", databaseReference: ref),
+                    builder: (context) => SocialMedia(databaseReference: ref),
                   ),
                 );
               },
