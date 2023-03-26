@@ -48,7 +48,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
     }
-
+    print(allMembers);
     return allMembers;
   }
 
@@ -173,14 +173,24 @@ class _GroupHomePageState extends State<GroupHomePage> {
     final google_api.Events calEvents = await calendarApi.events.list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
     // print(calEvents.toJson());
 
+    //get uid and open database reference
+    late DatabaseReference ref = widget.databaseReference;
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
+    //array that holds all critical information from each item.
+    List<List<String?>> events = [];
     for (var element in eventItems) {
-      print("Start Date: ${element.start!.date}");
-      print("Start Date: ${element.start!.dateTime}");
-      print("End Date ${element.end!.dateTime}");
-
-    }}
+      //create array of objects to be added to CalendarEvents
+      List<String?> temp = [element.start!.date.toString(),element.start!.dateTime.toString(),element.end!.date.toString(),element.end!.dateTime.toString()];
+      print(temp);
+      events.add(temp);
+    }
+    await ref.update({
+        "calendarEvents":events
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -333,6 +343,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                                 check
                               ]));
                         } else {
+                          print("checking");
                           return PlatformText("no data yet--replace this");
                         }
                       })
