@@ -145,6 +145,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  date_utils:
+    dependency: "direct main"
+    description:
+      name: date_utils
+      sha256: c0d05994c411abe76f56917f05c30c41ccc466842bfa7f05d2c532ad3026c249
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   extension_google_sign_in_as_googleapis_auth:
     dependency: "direct main"
     description:

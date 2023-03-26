@@ -1,3 +1,4 @@
+import 'package:date_utils/date_utils.dart' as Utils;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -167,15 +168,18 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    final google_api.Events calEvents = await calendarApi.events.list("primary");
+    DateTime end = Utils.DateUtils.lastDayOfMonth(DateTime.now());
+    DateTime start = Utils.DateUtils.firstDayOfMonth(DateTime.now());
+    final google_api.Events calEvents = await calendarApi.events.list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
     // print(calEvents.toJson());
 
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
     for (var element in eventItems) {
-      print(element.summary);
       print("Start Date: ${element.start!.date}");
-      print("End Date ${element.end!.date}");
+      print("Start Date: ${element.start!.dateTime}");
+      print("End Date ${element.end!.dateTime}");
+
     }}
 
   @override
