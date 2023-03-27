@@ -48,7 +48,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
     }
-    print(allMembers);
+    //print(allMembers);
     return allMembers;
   }
 
@@ -232,7 +232,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CalendarPage(
-                                    title: "Calendar",
+                                    title: "Calendar", group: widget.myGroup,
                                   )));
                         },
                         child: const Text('Calendar',
