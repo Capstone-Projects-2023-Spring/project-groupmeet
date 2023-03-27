@@ -235,7 +235,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                                     title: "Calendar",
                                   )));
                         },
-                        child: const Text('pulling google events',
+                        child: const Text('Calendar',
                             style: TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
