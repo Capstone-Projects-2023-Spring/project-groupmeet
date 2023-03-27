@@ -1,3 +1,4 @@
+import 'package:date_utils/date_utils.dart' as Utils;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
     }
-
+    //print(allMembers);
     return allMembers;
   }
 
@@ -167,16 +168,29 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    final google_api.Events calEvents = await calendarApi.events.list("primary");
+    DateTime end = Utils.DateUtils.lastDayOfMonth(DateTime.now());
+    DateTime start = Utils.DateUtils.firstDayOfMonth(DateTime.now());
+    final google_api.Events calEvents = await calendarApi.events.list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
     // print(calEvents.toJson());
+
+    //get uid and open database reference
+    late DatabaseReference ref = widget.databaseReference;
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
+    //array that holds all critical information from each item.
+    List<List<String?>> events = [];
     for (var element in eventItems) {
-      print(element.summary);
-      print("Start Date: ${element.start!.date}");
-      print("End Date ${element.end!.date}");
-    }}
+      //create array of objects to be added to CalendarEvents
+      List<String?> temp = [element.start!.date.toString(),element.start!.dateTime.toString(),element.end!.date.toString(),element.end!.dateTime.toString()];
+      print(temp);
+      events.add(temp);
+    }
+    await ref.update({
+        "calendarEvents":events
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -218,10 +232,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CalendarPage(
-                                    title: "Calendar",
+                                    title: "Calendar", group: widget.myGroup,
                                   )));
                         },
-                        child: const Text('pulling google events',
+                        child: const Text('Calendar',
                             style: TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
@@ -329,6 +343,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                                 check
                               ]));
                         } else {
+                          print("checking");
                           return PlatformText("no data yet--replace this");
                         }
                       })
