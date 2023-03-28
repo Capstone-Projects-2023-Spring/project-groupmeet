@@ -5,11 +5,13 @@ import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:groupmeet/group_creation2.dart';
+import 'package:groupmeet/theme.dart';
 
 import 'account_info.dart';
 import 'group_creation.dart';
 import 'code_reception.dart';
 import 'all_groups.dart';
+import 'new_signup.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -48,7 +50,9 @@ class HomeScreenState extends State<HomeScreen> {
           duration: Duration(seconds: 5),
         ),
       );
-      navigatorState.pop();
+
+      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewSignUp()));
+
     } catch (e) {
       scaffoldMessengerState.showSnackBar(
         SnackBar(
@@ -75,7 +79,8 @@ class HomeScreenState extends State<HomeScreen> {
                     logout(
                         Navigator.of(context), ScaffoldMessenger.of(context));
                   },
-                  child: const Text("Logout")),
+                  child: PlatformText("Logout"),
+              color: roundPurple),
             ],
           ),
           Row(
