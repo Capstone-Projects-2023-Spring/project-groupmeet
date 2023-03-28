@@ -91,6 +91,18 @@ class _AccountInfoState extends State<AccountInfo> {
               },
               icon: const Icon(Icons.create),
             ),
+            const Text("Sync My Calendars"),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SocialMedia(databaseReference: ref),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.refresh),
+            ),
           ],
         ),
       ),
