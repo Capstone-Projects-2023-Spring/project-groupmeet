@@ -5,11 +5,13 @@ import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:groupmeet/group_creation2.dart';
+import 'package:groupmeet/theme.dart';
 
 import 'account_info.dart';
 import 'group_creation.dart';
 import 'code_reception.dart';
 import 'all_groups.dart';
+import 'new_signup.dart';
 import 'add_event.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -49,7 +51,9 @@ class HomeScreenState extends State<HomeScreen> {
           duration: Duration(seconds: 5),
         ),
       );
-      navigatorState.pop();
+
+      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewSignUp()));
+
     } catch (e) {
       scaffoldMessengerState.showSnackBar(
         SnackBar(
@@ -69,28 +73,15 @@ class HomeScreenState extends State<HomeScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: const [
-                  Text(
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple, fontSize: 60),
-                      "Round"
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Image(
-                  image: NetworkImage(
-                      "https://cdn.discordapp.com/attachments/979937535272816703/1090172220648734761/Round_Icon.PNG"),
-                  width: 400,
-                  height: 200,
-                ),
+          Column(
+            children: <Widget>[
+              PlatformElevatedButton(
+                  onPressed: () {
+                    logout(
+                        Navigator.of(context), ScaffoldMessenger.of(context));
+                  },
+                  child: PlatformText("Logout"),
+              color: roundPurple),
             ],
           ),
           Row(

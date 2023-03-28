@@ -56,7 +56,7 @@ class _AllGroupsState extends State<AllGroups> {
             );
           } 
           else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');            
+            return PlatformText('Error: ${snapshot.error}');
           } 
           else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             var groupWidget = snapshot.data!
@@ -88,7 +88,7 @@ class _AllGroupsState extends State<AllGroups> {
                                 );
                                 setState(() {});
                               },
-                              icon: const Icon(Icons.arrow_forward_outlined),
+                              icon: Icon(PlatformIcons(context).rightChevron),
                             ),
                           ],
                         ),
@@ -111,18 +111,18 @@ class _AllGroupsState extends State<AllGroups> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text("Create new group"),
-            IconButton(
+            PlatformText("Create new group"),
+            PlatformIconButton(
                 onPressed: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
+                  await Navigator.of(context).push(
+                    platformPageRoute(
+                    context: context,
                         builder: (context) =>
                             const GroupCreation(title: "Group Creation")),
                   );
                   setState(() {});                  
                 },
-                icon: const Icon(Icons.add))
+                icon: Icon(PlatformIcons(context).add))
           ],
         )
       ]),

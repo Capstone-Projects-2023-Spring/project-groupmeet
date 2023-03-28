@@ -198,7 +198,7 @@ class _CodeReceptionState extends State<CodeReception> {
             //Change _scannedCode!.code to a link to the group
             child: (_scannedCode != null) ? Text('${_scannedCode!.code}') : const Text(""),
           ),
-          TextButton(
+          PlatformTextButton(
             onPressed: openDialog,
             child: Text('Join Group Via Code'),),
           PlatformTextButton(onPressed: (){

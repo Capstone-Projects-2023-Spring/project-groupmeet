@@ -131,9 +131,9 @@ class _AccountInfoState extends State<AccountInfo> {
             PlatformText("Edit Account Information"),
             PlatformIconButton(
               onPressed: () async {
-                await Navigator.push(
-                  context,
-                  MaterialPageRoute(
+                await Navigator.of(context).push(
+                  platformPageRoute(
+                    context: context,
                     builder: (context) =>
                         EditAccountInfo(title: "Edit My Account", ref: ref),
                   ),
@@ -145,14 +145,14 @@ class _AccountInfoState extends State<AccountInfo> {
             PlatformText("Edit Social Media Accounts"),
             PlatformIconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
+                Navigator.of(context).push(
+                  platformPageRoute(
+                    context: context,
                     builder: (context) => SocialMedia(databaseReference: ref),
                   ),
                 );
               },
-              icon: const Icon(Icons.create),
+              icon: Icon(PlatformIcons(context).create),
             ),
             PlatformText("Sync My Calendars"),
             PlatformText("WARNING: This will override any custom events created."),
@@ -160,7 +160,7 @@ class _AccountInfoState extends State<AccountInfo> {
               onPressed: () async{
                 await getPrimaryCalendar();
               },
-              icon: const Icon(Icons.refresh),
+              icon: Icon(PlatformIcons(context).refresh),
             ),
           ],
         ),
