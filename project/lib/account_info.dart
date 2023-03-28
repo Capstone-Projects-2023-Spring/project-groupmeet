@@ -76,6 +76,7 @@ class _AccountInfoState extends State<AccountInfo> {
       });
     });
 
+    await _handleSignIn();
     // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
     assert(client != null, 'Authenticated client missing!');
@@ -127,8 +128,8 @@ class _AccountInfoState extends State<AccountInfo> {
                 PlatformText(email),
               ],
             ),
-            const Text("Edit Account Information"),
-            IconButton(
+            PlatformText("Edit Account Information"),
+            PlatformIconButton(
               onPressed: () async {
                 await Navigator.push(
                   context,
@@ -141,8 +142,8 @@ class _AccountInfoState extends State<AccountInfo> {
               },
               icon: const Icon(Icons.create),
             ),
-            const Text("Edit Social Media Accounts"),
-            IconButton(
+            PlatformText("Edit Social Media Accounts"),
+            PlatformIconButton(
               onPressed: () {
                 Navigator.push(
                   context,
@@ -153,8 +154,9 @@ class _AccountInfoState extends State<AccountInfo> {
               },
               icon: const Icon(Icons.create),
             ),
-            const Text("Sync My Calendars"),
-            IconButton(
+            PlatformText("Sync My Calendars"),
+            PlatformText("WARNING: This will override any custom events created."),
+            PlatformIconButton(
               onPressed: () async{
                 await getPrimaryCalendar();
               },
