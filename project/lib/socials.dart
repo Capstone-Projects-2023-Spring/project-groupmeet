@@ -67,6 +67,7 @@ class SocialMediaState extends State<SocialMedia> {
         child:
       Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
 
             CheckboxListTile(              

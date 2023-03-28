@@ -174,6 +174,7 @@ class _CodeReceptionState extends State<CodeReception> {
     return SafeArea(child: PlatformScaffold(
       appBar: PlatformAppBar(title: PlatformText("Joining Group Options")),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (one == 1 )
             Center(
