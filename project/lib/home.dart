@@ -1,18 +1,15 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:groupmeet/group_creation2.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'account_info.dart';
 import 'group_creation.dart';
 import 'code_reception.dart';
 import 'all_groups.dart';
-import 'notification.dart';
-
-//https://www.youtube.com/watch?v=g2V7y0eTTSE
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -26,15 +23,19 @@ class HomeScreen extends StatefulWidget {
 @visibleForTesting
 class HomeScreenState extends State<HomeScreen> {
   late DatabaseReference ref;
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
 
   @override
   void initState() {
     super.initState();
-    Notify.initialize(flutterLocalNotificationsPlugin);
     String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
     ref = FirebaseDatabase.instance.ref("users/$temp");
+    debugPrint("HomeScreen: $temp");
+    notification();
+  }
+
+  Future<void> notification() async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    ref.child("fcmToken").set(fcmToken);
   }
 
   Future<void> logout(NavigatorState navigatorState,
@@ -196,18 +197,6 @@ class HomeScreenState extends State<HomeScreen> {
                           title: "Group Creation 2", databaseReference: ref),
                     ),
                   );
-                },
-                icon: Icon(PlatformIcons(context).create, color: Colors.white),
-              ),
-            ],
-          ),
-                    Column(
-            children: [
-              PlatformText("Notification"),
-              PlatformIconButton(
-                onPressed: () {
-                  // Create a new notification
-                  Notify.showBigTextNotification(title: "New message title", body: "Your long body", fln: flutterLocalNotificationsPlugin);
                 },
                 icon: Icon(PlatformIcons(context).create, color: Colors.white),
               ),

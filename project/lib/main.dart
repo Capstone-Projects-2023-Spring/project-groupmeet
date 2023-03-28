@@ -3,24 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/theme.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'login.dart';
-
-// Step 1: Create an instance of FlutterLocalNotificationsPlugin
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-// Step 2: Create a channel for Android 8.0 and below
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    importance: Importance.high,
-    playSound: true);
 
 // Initialize the app and run it.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Permission.notification.request();
+  // await Permission.notification.isDenied.then((value) {
+  //   if (value) {
+  //     Permission.notification.request();
+  //   }
+  // });
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
