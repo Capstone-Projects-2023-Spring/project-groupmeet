@@ -8,13 +8,106 @@
 
 </div>
 
-<h2> Keywords </h2>
-
-Section 704, iOS App, Android App, AIO Collaboration Tool, Group Projects, Friend Group Scheduling, Contact Information Share, Code-Based, Scheduling Algorithm
-
 <h2> Project Abstract </h2>
 
 This document proposes a multi-platform mobile application called "GroupMeet" that creates an environment for students and social groups to easily organize each other's schedules for availability and share contact information. In academic group projects, students will be able to easily begin communications with each other and synchronize with each other's schedules to become more successful in their academic endeavors. In social groups, friends can now easily coordinate each other's busy lives and adjust accordingly to spontaneous events. With this application, there is little need for one particular individual to take charge; the responsibility lies on the application itself.
+
+<h2> Collaborators </h2>
+<table>
+<tr>
+    <td align="center">
+        <a href="https://github.com/ApplebaumIan">
+            <img src="https://avatars.githubusercontent.com/u/9451941?v=4" width="100;" alt="ApplebaumIan"/>
+            <br />
+            <sub><b>Ian Tyler Applebaum</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/jaredstef">
+            <img src="https://avatars.githubusercontent.com/u/7342882?v=4" width="100;" alt="jaredstef"/>
+            <br />
+            <sub><b>Jared Stefanowicz</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/sebb0h">
+            <img src="https://avatars.githubusercontent.com/u/55416603?v=4" width="100;" alt="sebb0h"/>
+            <br />
+            <sub><b>Athan Kim</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/tweiss9">
+            <img src="https://avatars.githubusercontent.com/u/58699300?v=4" width="100;" alt="tweiss9"/>
+            <br />
+            <sub><b>Tyler Weiss</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/vvattap">
+            <img src="https://avatars.githubusercontent.com/u/63315944?v=4" width="100;" alt="tweiss9"/>
+            <br />
+            <sub><b>Varsha Vattappally</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/KAAzadi">
+            <img src="https://avatars.githubusercontent.com/u/70913312?v=4" width="100;" alt="tweiss9"/>
+            <br />
+            <sub><b>Kian Azadi</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/JerrellLewis">
+            <img src="https://avatars.githubusercontent.com/u/89744097?v=4" width="100;" alt="tweiss9"/>
+            <br />
+            <sub><b>Jerrell Lewis</b></sub>
+        </a> 
+    </td>
+</tr>
+</table>
+
+<h2> Running The Project </h2>
+
+### Android
+
+
+#### Precompiled (Recommended for Users)
+
+Precompiled APK binaries can be found under the [Releases](https://github.com/Capstone-Projects-2023-Spring/project-groupmeet/releases) tab on Github.
+
+Further instructions on how to sideload APK files can be found [here](https://www.lifewire.com/install-apk-on-android-4177185).
+
+
+#### From Source (For Developers or iOS Users)
+
+Download The Required Packages:<br/>
+Android Studios - https://developer.android.com/studio?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh3GLldIaM0FTlhDIounMzKd5c-MJrDKD7v7xqhQNtEqvpgtDDfMWqMaAjDNEALw_wcB&gclsrc=aw.ds<br/>
+Flutter SDK - https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh2nAMF4Wf0BBWiHCr23FdQzAFEU5jo0ZYbOUzh4WztsIqaX2AsCFkoaAimtEALw_wcB&gclsrc=aw.ds<br/>
+
+Prepare the IDE:
+
+<p>
+-Open Android Studios, and under the plugins section install the Dart and Flutter plug-ins.<br/>
+-Create an android studios emulator using the following instructions: <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-Select the Device Manager (this tends to be on the top right, and has a small phone icon with a droid logo on the bottom right)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-Select "Create Device", and then choose a phone and System of your choice (Recommend system image of 29+)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-Select "Finish", and then press the play button on the device manager to start running your emulator.<br/>
+-Download the most recent release of this project, and open the "project" directory in Android Studios<br/>
+-Once it is running, you should be able to select the Run button in Android Studios, and it should play on your emulator!<br/>
+</p>
+
+
+### iOS
+
+Note: You must have a device running macOS to perform these steps. 
+
+To install on iOS, we recommend first getting the app running in the Android emulator. This will ensure certain common requirements are met including Flutter. Instructions can be found in the Android > From Source section of this document.
+
+After those steps are followed, install the latest version of Xcode from the Apple Mac App Store. Upon downloading, launch Xcode and install the necessary developer tools. Then open Runner.xcworkspace located in the project/ios folder. If not enabled, enable developer mode on your iPhone in Settings > Privacy & Security > Developer Mode. Connect your device to your Mac and select it from the dropdown at the top of Xcode. To codesign, open Runner.xcodeproj and navigate to Signing and Capabilities. Under Team: Sign in with your personal Apple ID. Then click the run button. After it compiles and installs, on your iPhone, navigate to Settings > General > VPN & Device Management. Select your Apple ID name under Developer App and trust it. You may then rerun the app using Xcode.
+
+Troubleshooting Tip: If an error occurs related to Cocoapods, using the Terminal, navigate to the project's root directory, then the project/ios folder. Run `pod install`. If that fails try running `pod update Firebase/Database` or other general Cocoapods troubleshooting tips (eg: Look it up on DuckDuckGo).
+
 
 <h2> High Level Requirement </h2>
 
@@ -38,45 +131,6 @@ Similar products to GroupMeet include official calendars with calendar sync inte
 
 Experience with Mobile App Development would be optimal for all group members. If every member has experience with Flutter specifically, that would be the best. This application prioritizes user experience, so members should keep that in mind as well. If no local hardware is available immediately from any participant, a cloud service like AWS or Firebase will most likely be the designated hosting service.
 
-<h2> Collaborators </h2>
+<h2> Keywords </h2>
 
-Athan Kim, Jerrell Lewis, Jared Stefanowicz, Kian Azadi, Tyler Weiss, Varsha Vattappally
-
-<h2> Running The Project </h2>
-
-Download The Required Packages:<br/>
-Android Studios - https://developer.android.com/studio?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh3GLldIaM0FTlhDIounMzKd5c-MJrDKD7v7xqhQNtEqvpgtDDfMWqMaAjDNEALw_wcB&gclsrc=aw.ds<br/>
-Flutter SDK - https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh2nAMF4Wf0BBWiHCr23FdQzAFEU5jo0ZYbOUzh4WztsIqaX2AsCFkoaAimtEALw_wcB&gclsrc=aw.ds<br/>
-
-Prepare the IDE:<br/>
-<p>
--Open Android Studios, and under the plugins section install the Dart and Flutter plug-ins.<br/>
--Create an android studios emulator using the following instructions: <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;-Select the Device Manager (this tends to be on the top right, and has a small phone icon with a droid logo on the bottom right)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;-Select "Create Device", and then choose a phone and System of your choice (Recommend system image of 29+)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;-Select "Finish", and then press the play button on the device manager to start running your emulator.<br/>
--Download the most recent release of this project, and open the "project" directory in Android Studios<br/>
--Once it is running, you should be able to select the Run button in Android Studios, and it should play on your emulator!<br/>
-</p>
-
-
-<!-- [//]: # ( readme: collaborators -start )
-<table>
-<tr>
-    <td align="center">
-        <a href="https://github.com/ApplebaumIan">
-            <img src="https://avatars.githubusercontent.com/u/9451941?v=4" width="100;" alt="ApplebaumIan"/>
-            <br />
-            <sub><b>Ian Tyler Applebaum</b></sub>
-        </a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/leighflagg">
-            <img src="https://avatars.githubusercontent.com/u/77810293?v=4" width="100;" alt="leighflagg"/>
-            <br />
-            <sub><b>Null</b></sub>
-        </a>
-    </td></tr>
-</table>
-
-[//]: # ( readme: collaborators -end ) -->
+Section 704, iOS App, Android App, AIO Collaboration Tool, Group Projects, Friend Group Scheduling, Contact Information Share, Code-Based, Scheduling Algorithm

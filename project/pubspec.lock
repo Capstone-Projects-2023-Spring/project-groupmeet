@@ -144,7 +144,10 @@ packages:
       sha256: "7a03456c3490394c8e7665890333e91ae8a49be43542b616e414449ac358acd4"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
     version: "2.2.4"
+=======
+>>>>>>> 77b11d32adbd28ed29869d9ae588bb803aa05f08
   date_utils:
     dependency: "direct main"
     description:
