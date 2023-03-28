@@ -25,14 +25,14 @@ class _AllGroupsState extends State<AllGroups> {
     final snapshot = await widget.ref.child('groupIds').get();
 
     DatabaseReference accessGroupInfoRef =
-        FirebaseDatabase.instance.ref("groups");
+    FirebaseDatabase.instance.ref("groups");
 
     if (snapshot.exists) {
       Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
       Map<dynamic, dynamic> groupInfoMap;
       for (var entry in values.entries) {
         final groupInfoSnapshot =
-            await accessGroupInfoRef.child(entry.key).get();
+        await accessGroupInfoRef.child(entry.key).get();
         groupInfoMap = groupInfoSnapshot.value as Map<dynamic, dynamic>;
         groupInfoMap.putIfAbsent("gId", () => entry.key);
         allGroups.add(groupInfoMap);

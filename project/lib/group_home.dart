@@ -1,3 +1,4 @@
+import 'package:date_utils/date_utils.dart' as Utils;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,9 @@ class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   const GroupHomePage(
       {super.key,
-      required this.title,
-      required this.databaseReference,
-      this.myGroup});
+        required this.title,
+        required this.databaseReference,
+        this.myGroup});
 
   final String title;
   final DatabaseReference databaseReference;
@@ -36,7 +37,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
   late int snapCount;
 
   Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
-    List<Map> allMembers = [];
+    List<Map>? allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
     Map<dynamic, dynamic> allMembersMap;
@@ -47,7 +48,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
     }
-
+    //print(allMembers);
     return allMembers;
   }
 
@@ -56,7 +57,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref("users/$uid/groupIds/${widget.myGroup!["gId"]}");
     DatabaseReference groupRef =
-        FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
+    FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
 
     userRef.remove();
     groupRef.remove();
@@ -70,7 +71,6 @@ class _GroupHomePageState extends State<GroupHomePage> {
     discordCount = 0;
     messagesCount = 0;
     snapCount = 0;
-    // getData();
 
     // Google Calendar API
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
@@ -86,6 +86,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
   }
 
   Future<Map<String, int>> getData() async {
+    instaCount = 0;
+    fbCount = 0;
+    discordCount = 0;
+    messagesCount = 0;
+    snapCount = 0;
+
     List<Map> allMembers = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
@@ -134,15 +140,6 @@ class _GroupHomePageState extends State<GroupHomePage> {
     widget.myGroup
         ?.update("snapCount", (value) => 'New', ifAbsent: () => snapCount);
 
-    // print(widget.myGroup);
-    // print(widget.myGroup!['instaCount'].toString());
-    // print(allMembers);
-    // print(instaCount);
-    // print(fbCount);
-    // print(discordCount);
-    // print(messagesCount);
-    // print(snapCount);
-
     return socialMediaMap;
   }
 
@@ -171,16 +168,29 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    final google_api.Events calEvents = await calendarApi.events.list("primary");
+    DateTime end = Utils.DateUtils.lastDayOfMonth(DateTime.now());
+    DateTime start = Utils.DateUtils.firstDayOfMonth(DateTime.now());
+    final google_api.Events calEvents = await calendarApi.events.list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
     // print(calEvents.toJson());
 
+    //get uid and open database reference
+    late DatabaseReference ref = widget.databaseReference;
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+
     //list of events to add to firebase (temporarily just printing)
-    List<google_api.Event> eventItems = calEvents.items!;  
+    List<google_api.Event> eventItems = calEvents.items!;
+    //array that holds all critical information from each item.
+    List<List<String?>> events = [];
     for (var element in eventItems) {
-      print(element.summary);
-      print("Start Date: ${element.start!.date}");
-      print("End Date ${element.end!.date}");
-    }}
+      //create array of objects to be added to CalendarEvents
+      List<String?> temp = [element.start!.date.toString(),element.start!.dateTime.toString(),element.end!.date.toString(),element.end!.dateTime.toString()];
+      print(temp);
+      events.add(temp);
+    }
+    await ref.update({
+        "calendarEvents":events
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,18 +225,18 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
-                        onPressed: () {                       
+                        onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                              builder: (context) => const CalendarPage(
-                            title: "Calendar",
-                          )));
+                                  builder: (context) => CalendarPage(
+                                    title: "Calendar", group: widget.myGroup,
+                                  )));
                         },
-                        child: const Text('pulling google events',
-                            style: TextStyle(fontSize: 20)),
+                        child: const Text('Calendar',
+                            style: TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -235,7 +245,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -261,7 +271,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -287,7 +297,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -312,27 +322,28 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       future: grabGroupMembers(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          var membersWidget = snapshot.data!
+                          var membersWidget = snapshot.data ?? []
                               .map((eachMember) => Text(
-                                    eachMember["firstName"] +
-                                        " " +
-                                        eachMember["lastName"],
-                                    style: const TextStyle(fontSize: 15),
-                                  ))
+                            eachMember["firstName"] +
+                                " " +
+                                eachMember["lastName"],
+                            style: const TextStyle(fontSize: 15),
+                          ))
                               .toList();
                           var check = Column(
-                            children: membersWidget,
+                            children: [],
                           );
                           return Container(
                               decoration: BoxDecoration(
                                   border:
-                                      Border.all(width: 1, color: Colors.grey)),
+                                  Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
                                     style: const TextStyle(fontSize: 20), "Members"),
                                 check
                               ]));
                         } else {
+                          print("checking");
                           return PlatformText("no data yet--replace this");
                         }
                       })
@@ -347,7 +358,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -366,7 +377,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           leaveGroup().then((_) {
@@ -402,92 +413,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         return Container(
                           child: check,
                         );
-                      }),
-                  // FutureBuilder(
-                  //     future: grabGroupMembers(),
-                  //     builder: (context, snapshot) {
-                  //       if (snapshot.hasData) {
-                  //         var membersWidget = snapshot.data!
-                  //             .map((test) => Text(
-                  //           "Instagram Users: " + instaCount.toString() + " "
-                  //           + "Facebook Users: " + fbCount.toString() + " "
-                  //           + "Discord Users: " + discordCount.toString() + " "
-                  //           + "Messages Users: " + messagesCount.toString() + " "
-                  //           + "Snapchat Users: " + snapCount.toString() + " ",
-                  //           style: const TextStyle(fontSize: 15),
-                  //         ))
-                  //             .toList();
-                  //         var check = Column(
-                  //           children: membersWidget,
-                  //         );
-                  //         return Container(
-                  //             decoration: BoxDecoration(
-                  //                 border:
-                  //                 Border.all(width: 1, color: Colors.grey)),
-                  //             child: Column(children: [
-                  //               const Text(
-                  //                   style: TextStyle(fontSize: 20), "Social Media Platforms"),
-                  //               check
-                  //             ]));
-                  //       } else {
-                  //         return const Text("no data yet--replace this");
-                  //       }
-                  //     })
-
-                  // FutureBuilder(
-                  //     future: grabGroupMembers(),
-                  //     builder: (context, snapshot) {
-                  //       if (snapshot.hasData) {
-                  //         var membersWidget = snapshot.data!.map((test) => Text(
-                  //           "Instagram Users: " + instaCount.toString() + " "
-                  //               + "Facebook Users: " + fbCount.toString() + " "
-                  //               + "Discord Users: " + discordCount.toString() + " "
-                  //               + "Messages Users: " + messagesCount.toString() + " "
-                  //               + "Snapchat Users: " + snapCount.toString() + " ",
-                  //           style: const TextStyle(fontSize: 15),
-                  //         ))
-                  //             .toList();
-                  //         var check = Column(
-                  //           children: membersWidget,
-                  //         );
-                  //         return Container(
-                  //             decoration: BoxDecoration(
-                  //                 border:
-                  //                 Border.all(width: 1, color: Colors.grey)),
-                  //             child: Column(children: [
-                  //               const Text(
-                  //                   style: TextStyle(fontSize: 20), "Social Media Platforms"),
-                  //               check
-                  //             ]));
-                  //       } else {
-                  //         return const Text("no data yet--replace this");
-                  //       }
-                  //     })
-
-                  // Column(
-                  //   children: [
-                  //     Text(
-                  //         style: const TextStyle(fontSize: 20),
-                  //         "Instagram Users: $instaCount",
-                  //     ),
-                  //     Text(
-                  //       style: const TextStyle(fontSize: 20),
-                  //       "Facebook Users: $fbCount",
-                  //     ),
-                  //     Text(
-                  //       style: const TextStyle(fontSize: 20),
-                  //       "Discord Users: $discordCount",
-                  //     ),
-                  //     Text(
-                  //       style: const TextStyle(fontSize: 20),
-                  //       "Messages Users: $messagesCount",
-                  //     ),
-                  //     Text(
-                  //       style: const TextStyle(fontSize: 20),
-                  //       "Snapchat Users: $snapCount",
-                  //     ),
-                  //   ],
-                  // ),
+                      }
+                    ),
                 ],
               ),
             ],
