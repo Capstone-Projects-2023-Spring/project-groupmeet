@@ -57,7 +57,7 @@ class NewSignUp extends StatelessWidget {
       password: password,
     ).then((authResult) {
       uid = authResult.user?.uid;
-      ref = FirebaseDatabase.instance.ref("users/$uid");
+      ref = FirebaseDatabase.instance.ref("users/$uid/");
       ref.set({
         "email": email,
         "firstName": name.split(" ")[0],
