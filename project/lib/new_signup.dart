@@ -35,21 +35,21 @@ class NewSignUp extends StatelessWidget {
 
   Future<void> buttonPress(BuildContext context) async {
 
-    if (password.isEmpty || email.trim().isEmpty || name.trim().isEmpty)
+    if (password.isEmpty || email.trim().isEmpty || name.trim().isEmpty || name.split(" ").length < 2)
     {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
-        content: PlatformText('Please enter a full name, email, and password'),
+        content: PlatformText('Please enter a full first and last name, email, and password'),
         actions: [
           PlatformTextButton(child: PlatformText("Ok", selectionColor: roundPurple, style: TextStyle(color: roundPurple)),
-            onPressed: () => Navigator.of(context).pop(), color: roundPurple,)
+            onPressed: () => Navigator.of(context).pop(),)
         ],);
 
       showPlatformDialog(context: context, builder: (context) {
         return error;
       },);
+      return;
     }
-
 
     FirebaseAuth.instance
         .createUserWithEmailAndPassword(
@@ -60,8 +60,8 @@ class NewSignUp extends StatelessWidget {
       ref = FirebaseDatabase.instance.ref("users/$uid");
       ref.set({
         "email": email,
-        "firstName": name.split(" ")[0],
-        "lastName": name.split(" ")[1],
+        "firstName": name.split(" ").first,
+        "lastName": name.split(" ").getRange(1, name.split(" ").length).join(" "),
         "discord": false,
         "facebook": false,
         "instagram": false,
@@ -76,7 +76,7 @@ class NewSignUp extends StatelessWidget {
     }).catchError((e) {
 
       String errorText = "An unknown error occurred. To try again or not to try";
-
+      print(e);
       if (e is! FirebaseAuthException) {
 
         PlatformAlertDialog error = PlatformAlertDialog(
