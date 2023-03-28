@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/code_sharing.dart';
@@ -28,6 +29,13 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
     String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
     ref = FirebaseDatabase.instance.ref("users/$temp");
+    debugPrint("HomeScreen: $temp");
+    notification();
+  }
+
+  Future<void> notification() async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    ref.child("fcmToken").set(fcmToken);
   }
 
   Future<void> logout(NavigatorState navigatorState,
@@ -67,8 +75,7 @@ class HomeScreenState extends State<HomeScreen> {
                     logout(
                         Navigator.of(context), ScaffoldMessenger.of(context));
                   },
-                  child: Text(
-                  "Logout")),
+                  child: const Text("Logout")),
             ],
           ),
           Row(
@@ -81,13 +88,13 @@ class HomeScreenState extends State<HomeScreen> {
                     onPressed: () {
                       Navigator.of(context).push(
                         platformPageRoute(
-                          context: context,
+                            context: context,
                             builder: (context) =>
-                                AccountInfo(title: "My Account", ref: ref)
-                        ),
+                                AccountInfo(title: "My Account", ref: ref)),
                       );
                     },
-                    icon: Icon(PlatformIcons(context).create, color: Colors.white),
+                    icon: Icon(PlatformIcons(context).create,
+                        color: Colors.white),
                   ),
                 ],
               ),
@@ -104,12 +111,14 @@ class HomeScreenState extends State<HomeScreen> {
                       Navigator.of(context).push(
                         platformPageRoute(
                             context: context,
-                            builder: (context) => GroupCreation(
-                              title: "Group Creation")
-                        ),
+                            builder: (context) =>
+                                const GroupCreation(title: "Group Creation")),
                       );
                     },
-                    icon: Icon(PlatformIcons(context).create, color: Colors.white,),
+                    icon: Icon(
+                      PlatformIcons(context).create,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -123,11 +132,11 @@ class HomeScreenState extends State<HomeScreen> {
                         platformPageRoute(
                             context: context,
                             builder: (context) =>
-                            const CodeReception(title: "Join a Group")
-                        ),
+                                const CodeReception(title: "Join a Group")),
                       );
                     },
-                    icon: Icon(PlatformIcons(context).create, color: Colors.white),
+                    icon: Icon(PlatformIcons(context).create,
+                        color: Colors.white),
                   ),
                 ],
               ),
@@ -141,11 +150,11 @@ class HomeScreenState extends State<HomeScreen> {
                         platformPageRoute(
                             context: context,
                             builder: (context) =>
-                            const CodeSharing(title: "Code Sharing")
-                        ),
+                                const CodeSharing(title: "Code Sharing")),
                       );
                     },
-                    icon: Icon(PlatformIcons(context).photoCamera, color: Colors.white),
+                    icon: Icon(PlatformIcons(context).photoCamera,
+                        color: Colors.white),
                   ),
                 ],
               ),
@@ -165,11 +174,13 @@ class HomeScreenState extends State<HomeScreen> {
                               builder: (context) => AllGroups(
                                   title: "Display All Groups Here",
                                   // uid: uid,
-                                  ref: ref)
-                          ),
+                                  ref: ref)),
                         );
                       },
-                      icon: Icon(PlatformIcons(context).group, color: Colors.white,))
+                      icon: Icon(
+                        PlatformIcons(context).group,
+                        color: Colors.white,
+                      ))
                 ],
               )
             ],
@@ -181,9 +192,9 @@ class HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   Navigator.of(context).push(
                     platformPageRoute(
-                        context: context,
-                        builder: (context) => GroupCreation2(
-                            title: "Group Creation 2", databaseReference: ref),
+                      context: context,
+                      builder: (context) => GroupCreation2(
+                          title: "Group Creation 2", databaseReference: ref),
                     ),
                   );
                 },
