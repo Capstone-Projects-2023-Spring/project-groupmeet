@@ -41,26 +41,37 @@ class HomeScreenState extends State<HomeScreen> {
     ref.child("fcmToken").set(fcmToken);
   }
 
-  Future<void> logout(NavigatorState navigatorState,
-      ScaffoldMessengerState scaffoldMessengerState) async {
+  Future<void> logout() async {
     try {
       await FirebaseAuth.instance.signOut();
-      scaffoldMessengerState.showSnackBar(
-        const SnackBar(
-          content: Text('Logged out successfully.'),
-          duration: Duration(seconds: 5),
-        ),
-      );
+      //
+      // PlatformAlertDialog error = PlatformAlertDialog(
+      //   title: PlatformText("Logout Successful!"),
+      //   actions: [
+      //     PlatformTextButton(child: PlatformText("Ok"),
+      //       onPressed: () => Navigator.of(context).pop(),)
+      //   ],);
+      //
+      // showPlatformDialog(context: context, builder: (context) {
+      //   return error;
+      // },);
+
+      // scaffoldMessengerState.showSnackBar(
+      //   const SnackBar(
+      //     content: Text('Logged out successfully.'),
+      //     duration: Duration(seconds: 5),
+      //   ),
+      // );
 
       Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewSignUp()));
 
     } catch (e) {
-      scaffoldMessengerState.showSnackBar(
-        SnackBar(
-          content: Text('An error occurred while logging out: $e'),
-          duration: const Duration(seconds: 5),
-        ),
-      );
+      // scaffoldMessengerState.showSnackBar(
+      //   SnackBar(
+      //     content: Text('An error occurred while logging out: $e'),
+      //     duration: const Duration(seconds: 5),
+      //   ),
+      // );
     }
   }
 
@@ -218,10 +229,7 @@ class HomeScreenState extends State<HomeScreen> {
           Column(
             children: <Widget>[
               PlatformElevatedButton(
-                  onPressed: () {
-                    logout(
-                        Navigator.of(context), ScaffoldMessenger.of(context));
-                  },
+                  onPressed: () => logout(),
                   child: PlatformText("Logout"),
                   color: roundPurple),
             ],
