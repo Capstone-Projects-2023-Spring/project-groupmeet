@@ -73,17 +73,7 @@ class HomeScreenState extends State<HomeScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              PlatformElevatedButton(
-                  onPressed: () {
-                    logout(
-                        Navigator.of(context), ScaffoldMessenger.of(context));
-                  },
-                  child: PlatformText("Logout"),
-              color: roundPurple),
-            ],
-          ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -232,7 +222,8 @@ class HomeScreenState extends State<HomeScreen> {
                     logout(
                         Navigator.of(context), ScaffoldMessenger.of(context));
                   },
-                  child: const Text("Logout")),
+                  child: PlatformText("Logout"),
+                  color: roundPurple),
             ],
           ),
         ],
