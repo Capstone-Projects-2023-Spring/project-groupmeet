@@ -125,3 +125,15 @@ As a user I want an event management app to help determine a good time frame for
 
 ## User Story 2: Friends
 As a user I want a calendar assistant to help find a good time for all of my friends to meet up so that I can have a vacation getaway with memories that will last a lifetime.
+
+## User Story 3: Business Meetings
+As a user, I want to have an easy to use synchronous calender for my collegues, so that all our upcoming business meetings will occur as scheduled.
+
+## User Story 4: Unpredictable Events
+As a user, I want to be able to reschedule events when unforeseen circumstances arises, so I can have another date set for the previous event that I canceled on.
+
+## User Story 5: Family Reunion
+As a user, I want to share my availability with my family members, so we can plan a successful family reunion with every member being present.
+
+## User Story 6: Work Dinner
+As a user, I want to be able to see everyone's availability, so that I can choose the most appropriate day to have our staff dinner.
