@@ -6,7 +6,7 @@ sidebar_position: 3
 
 ```mermaid
 gantt
-    title GroupMeet Development Cycle
+    title Round Development Cycle
     dateFormat  YYYY-MM-DD
     excludes 2023-03-07 2023-03-08 2023-03-09 2023-03-10 2023-03-11 2023-03-12
         section Development 

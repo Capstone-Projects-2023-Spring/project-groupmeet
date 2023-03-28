@@ -4,7 +4,7 @@ sidebar_position: 2
 # Integration tests
 
 **Use case 1**<br/>
--Description: User is able to successfully register with GroupMeet<br/>
+-Description: User is able to successfully register with Round<br/>
 -Objective: Verify that firebase is storing user-entered input<br/>
 -Expected Test Result: Entered email is available for login<br/>
 

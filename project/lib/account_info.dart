@@ -76,6 +76,7 @@ class _AccountInfoState extends State<AccountInfo> {
       });
     });
 
+    await _handleSignIn();
     // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
     assert(client != null, 'Authenticated client missing!');
@@ -154,6 +155,7 @@ class _AccountInfoState extends State<AccountInfo> {
               icon: Icon(PlatformIcons(context).create),
             ),
             PlatformText("Sync My Calendars"),
+            PlatformText("WARNING: This will override any custom events created."),
             PlatformIconButton(
               onPressed: () async{
                 await getPrimaryCalendar();
