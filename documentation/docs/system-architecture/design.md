@@ -2,13 +2,15 @@
 sidebar_position: 1
 ---
 
+# Design
+
 **Components**
 
-GroupMeet is a iOS/Android application that utilizes Google Firebase for the backend, and Flutter for the frontend.
+Round is an iOS/Android application that utilizes Google Firebase for the backend, and Flutter for the frontend.
 
 **Algorithms**
 
-GroupMeet plans to implement a complex sorting algorithm to generate a static calendar to display the most convenient meetup times for our groups.
+Round plans to implement a complex sorting algorithm to generate a static calendar to display the most convenient meetup times for our groups.
 
 **Class Diagrams**
 **Diagram 1 - Individual-Related Classes**
@@ -226,64 +228,64 @@ classDiagram
 ```mermaid
 sequenceDiagram
     actor User
-    User->>GroupMeet: Open application
-    User->>+GroupMeet: Registers using form field
-    GroupMeet->>+FirebaseAuthentication: createUserWithEmailAndPassword()
+    User->>Round: Open application
+    User->>+Round: Registers using form field
+    Round->>+FirebaseAuthentication: createUserWithEmailAndPassword()
     FirebaseAuthentication->>+RealtimeDatabase: Creates a new entry
     RealtimeDatabase-->>-FirebaseAuthentication: Creation Successful
-    FirebaseAuthentication-->>-GroupMeet: Account Created
-    GroupMeet-->>-User: Prompts to confirm email address
-    User->>+GroupMeet: Validates email address
-    GroupMeet-->>-User: Confirms validation, thanks user
+    FirebaseAuthentication-->>-Round: Account Created
+    Round-->>-User: Prompts to confirm email address
+    User->>+Round: Validates email address
+    Round-->>-User: Confirms validation, thanks user
 ```
 **Use Case 2: Login**
 ```mermaid
 sequenceDiagram
     actor User
-    User->>GroupMeet: Open application
-    User->>+GroupMeet: Login
-    GroupMeet->>+FirebaseAuthentication: signInWithEmailAndPassword()
+    User->>Round: Open application
+    User->>+Round: Login
+    Round->>+FirebaseAuthentication: signInWithEmailAndPassword()
     FirebaseAuthentication->>+RealtimeDatabase: Queries Database
     RealtimeDatabase-->>-FirebaseAuthentication: Query Successful
-    FirebaseAuthentication-->>-GroupMeet: Account found
-    GroupMeet->>+RealtimeDatabase: Queries for any linked social media
-    RealtimeDatabase-->>-GroupMeet: No results found
-    GroupMeet-->>-User: Prompts user to link social media
-    User->>+GroupMeet: Validates social media accounts
-    GroupMeet->>+RealtimeDatabase: adds accounts to entry
-    RealtimeDatabase-->>-GroupMeet: entry updated
-    GroupMeet-->>-User: Thanks user for information
+    FirebaseAuthentication-->>-Round: Account found
+    Round->>+RealtimeDatabase: Queries for any linked social media
+    RealtimeDatabase-->>-Round: No results found
+    Round-->>-User: Prompts user to link social media
+    User->>+Round: Validates social media accounts
+    Round->>+RealtimeDatabase: adds accounts to entry
+    RealtimeDatabase-->>-Round: entry updated
+    Round-->>-User: Thanks user for information
 ```
 **Use Case 3: Event Creation**
 ```mermaid
 sequenceDiagram
     actor User
-    participant GroupMeet App
+    participant Round App
     participant Firebase Authentication
     participant Realtime Database
 
-    User->>+ GroupMeet App: login()
-    GroupMeet App->>+Firebase Authentication: signInWithEmailAndPassword()
-    User->>+GroupMeet App: Presses button to create a new group
-    GroupMeet App -->> User: Prompts user for group information
-    User->>+GroupMeet App: Enters group information
-    GroupMeet App->>+Realtime Database : Update information to group settings
+    User->>+ Round App: login()
+    Round App->>+Firebase Authentication: signInWithEmailAndPassword()
+    User->>+Round App: Presses button to create a new group
+    Round App -->> User: Prompts user for group information
+    User->>+Round App: Enters group information
+    Round App->>+Realtime Database : Update information to group settings
 ```
 **Use Case 4: Invite Other Users**
 ```mermaid
 sequenceDiagram
     actor User1
     actor User2
-    participant GroupMeet App
+    participant Round App
     participant Realtime Database
     
-    User1->>+GroupMeet App: Presses button to create a new group
-    GroupMeet App -->> User1: Prompts user for group information
-    User1->>+GroupMeet App: Enters group information
-    GroupMeet App->>+Realtime Database : Update information to group settings
-    GroupMeet App ->>+ GroupMeet App: QR code/link/code is generated
+    User1->>+Round App: Presses button to create a new group
+    Round App -->> User1: Prompts user for group information
+    User1->>+Round App: Enters group information
+    Round App->>+Realtime Database : Update information to group settings
+    Round App ->>+ Round App: QR code/link/code is generated
     User2->>+ User2: Scan the QR code and click the link
-    User2->>+ GroupMeet App: Join scheduling group
+    User2->>+ Round App: Join scheduling group
 ```
 **Use Case 5: Time Block Selection**
 ```mermaid
@@ -293,22 +295,22 @@ sequenceDiagram
     actor user3
     user-->>+groupchat: Sends link for installation
     groupchat-->>+App/Play Store: brings to dowload
-    App/Play Store-->>+GroupMeet App: Brings to GroupMeet App
-    GroupMeet App->>-groupchat: Prompts Users to Sign Up
-    groupchat->>+GroupMeet App: Signs up
-    GroupMeet App-->>+Database: Updates Database Info
-    GroupMeet App->>+groupchat: Prompts User to Sync Google Calendar
-    groupchat->>+GroupMeet App: Confirm Syncing of Calendar
-    GroupMeet App->>+Google Calendar: Request Calendar Info
-    Google Calendar->>-GroupMeet App: Send's Calendar Info
-    GroupMeet App->>+user3: Request to Sync Calendar
-    user3->>+GroupMeet App: Denies Requests
-    GroupMeet App->>+GroupMeet App: Syncs Calendar Info
-    GroupMeet App->>+GroupMeet App: Places Participants in Group
-    GroupMeet App->>+user3: Prompts User to Selected From Static Calendar
-    user3->>+GroupMeet App: User Completes Calendar Filling Request
-    GroupMeet App->>+GroupMeet App: Finalizes Calendar
-    GroupMeet App->>+GroupMeet App: Publishes Times of Best Fitted Availability in Internalize Group
+    App/Play Store-->>+Round App: Brings to Round App
+    Round App->>-groupchat: Prompts Users to Sign Up
+    groupchat->>+Round App: Signs up
+    Round App-->>+Database: Updates Database Info
+    Round App->>+groupchat: Prompts User to Sync Google Calendar
+    groupchat->>+Round App: Confirm Syncing of Calendar
+    Round App->>+Google Calendar: Request Calendar Info
+    Google Calendar->>-Round App: Send's Calendar Info
+    Round App->>+user3: Request to Sync Calendar
+    user3->>+Round App: Denies Requests
+    Round App->>+Round App: Syncs Calendar Info
+    Round App->>+Round App: Places Participants in Group
+    Round App->>+user3: Prompts User to Selected From Static Calendar
+    user3->>+Round App: User Completes Calendar Filling Request
+    Round App->>+Round App: Finalizes Calendar
+    Round App->>+Round App: Publishes Times of Best Fitted Availability in Internalize Group
 ``` 
 **Use Case 6: Last Second Changes**
 ```mermaid
@@ -316,17 +318,17 @@ sequenceDiagram
     actor Group
     actor UserX
     actor UserY
-    participant GroupMeet App
+    participant Round App
 
-    Group->>GroupMeet App: All users join the group
-    GroupMeet App->>+ GroupMeet App: Static Calendar is generated with everyone's schedules
-    UserX->>GroupMeet App: Selects "green" time (where everyone is available), clicking on the time and proposing it
-    GroupMeet App->>Group: Sends notifications to all members, asking for time approval
-    Group->>GroupMeet App: All users approve meeting time
-    UserY->>GroupMeet App: User later realizes that they actually cannot make that time
-    UserY->>GroupMeet App: Cancels the current meeting time
-    GroupMeet App->>Group: Sends notifications to all members
-    GroupMeet App->>Group: Notification includes notice of cancellation and suggestion for next best time to meet
+    Group->>Round App: All users join the group
+    Round App->>+ Round App: Static Calendar is generated with everyone's schedules
+    UserX->>Round App: Selects "green" time (where everyone is available), clicking on the time and proposing it
+    Round App->>Group: Sends notifications to all members, asking for time approval
+    Group->>Round App: All users approve meeting time
+    UserY->>Round App: User later realizes that they actually cannot make that time
+    UserY->>Round App: Cancels the current meeting time
+    Round App->>Group: Sends notifications to all members
+    Round App->>Group: Notification includes notice of cancellation and suggestion for next best time to meet
 
 ```
 **Use Case 7: Modification of Project Lifespan**
@@ -352,20 +354,20 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor User
-    participant GroupMeet App
+    participant Round App
     participant Message Server
 
-    GroupMeet App->>User: Receives a meeting reminder message
-    User->>GroupMeet App: Taps on the message
-    GroupMeet App->>Message Server: Fetches details about the meeting
-    Message Server->>GroupMeet App: Return details about the meeting
-    GroupMeet App->>User: Shows a pop-up message with meeting details
-    User->>GroupMeet App: Taps on the active status
-    GroupMeet App->>User: Shows a description of the status
-    User->>GroupMeet App: Clicks on the "X" button
-    GroupMeet App->>User: Closes the pop-up menu
-    User->>GroupMeet App: Returns to the app's home page
-    GroupMeet App->>User: Brings user back to homepage
+    Round App->>User: Receives a meeting reminder message
+    User->>Round App: Taps on the message
+    Round App->>Message Server: Fetches details about the meeting
+    Message Server->>Round App: Return details about the meeting
+    Round App->>User: Shows a pop-up message with meeting details
+    User->>Round App: Taps on the active status
+    Round App->>User: Shows a description of the status
+    User->>Round App: Clicks on the "X" button
+    Round App->>User: Closes the pop-up menu
+    User->>Round App: Returns to the app's home page
+    Round App->>User: Brings user back to homepage
 ```
 Describe algorithms employed in your project, e.g. neural network paradigm, training and training data set, etc.
 
