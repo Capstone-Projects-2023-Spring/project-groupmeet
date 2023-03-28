@@ -10,6 +10,7 @@ import 'account_info.dart';
 import 'group_creation.dart';
 import 'code_reception.dart';
 import 'all_groups.dart';
+import 'add_event.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -199,6 +200,23 @@ class HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 icon: Icon(PlatformIcons(context).create, color: Colors.white),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              PlatformText("Add Event"),
+              PlatformIconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    platformPageRoute(
+                      context: context,
+                      builder: (context) => AddEvent(
+                        title: "Add New Event", ref: ref),
+                    ),
+                  );
+                },
+                icon: Icon(PlatformIcons(context).add, color: Colors.white),
               ),
             ],
           ),
