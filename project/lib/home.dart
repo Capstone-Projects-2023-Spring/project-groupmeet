@@ -69,14 +69,28 @@ class HomeScreenState extends State<HomeScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              PlatformElevatedButton(
-                  onPressed: () {
-                    logout(
-                        Navigator.of(context), ScaffoldMessenger.of(context));
-                  },
-                  child: const Text("Logout")),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                children: const [
+                  Text(
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.deepPurple, fontSize: 60),
+                      "Round"
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Image(
+                  image: NetworkImage(
+                      "https://cdn.discordapp.com/attachments/979937535272816703/1090172220648734761/Round_Icon.PNG"),
+                  width: 400,
+                  height: 200,
+                ),
             ],
           ),
           Row(
@@ -94,7 +108,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 AccountInfo(title: "My Account", ref: ref)),
                       );
                     },
-                    icon: Icon(PlatformIcons(context).create,
+                    icon: Icon(PlatformIcons(context).accountCircle,
                         color: Colors.white),
                   ),
                 ],
@@ -103,7 +117,7 @@ class HomeScreenState extends State<HomeScreen> {
           ),
           Column(
             children: [
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   PlatformText("Group creation"),
@@ -123,7 +137,7 @@ class HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              Row(
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   PlatformText("Join a Group"),
@@ -136,29 +150,29 @@ class HomeScreenState extends State<HomeScreen> {
                                 const CodeReception(title: "Join a Group")),
                       );
                     },
-                    icon: Icon(PlatformIcons(context).create,
+                    icon: Icon(PlatformIcons(context).personAdd,
                         color: Colors.white),
                   ),
                 ],
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PlatformText("Code Sharing Page"),
-                  PlatformIconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        platformPageRoute(
-                            context: context,
-                            builder: (context) =>
-                                const CodeSharing(title: "Code Sharing")),
-                      );
-                    },
-                    icon: Icon(PlatformIcons(context).photoCamera,
-                        color: Colors.white),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     PlatformText("Code Sharing Page"),
+              //     PlatformIconButton(
+              //       onPressed: () {
+              //         Navigator.of(context).push(
+              //           platformPageRoute(
+              //               context: context,
+              //               builder: (context) =>
+              //                   const CodeSharing(title: "Code Sharing")),
+              //         );
+              //       },
+              //       icon: Icon(PlatformIcons(context).photoCamera,
+              //           color: Colors.white),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
           Row(
@@ -186,23 +200,23 @@ class HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-          Column(
-            children: [
-              PlatformText("Group Creation 2"),
-              PlatformIconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    platformPageRoute(
-                      context: context,
-                      builder: (context) => GroupCreation2(
-                          title: "Group Creation 2", databaseReference: ref),
-                    ),
-                  );
-                },
-                icon: Icon(PlatformIcons(context).create, color: Colors.white),
-              ),
-            ],
-          ),
+          // Column(
+          //   children: [
+          //     PlatformText("Group Creation 2"),
+          //     PlatformIconButton(
+          //       onPressed: () {
+          //         Navigator.of(context).push(
+          //           platformPageRoute(
+          //             context: context,
+          //             builder: (context) => GroupCreation2(
+          //                 title: "Group Creation 2", databaseReference: ref),
+          //           ),
+          //         );
+          //       },
+          //       icon: Icon(PlatformIcons(context).create, color: Colors.white),
+          //     ),
+          //   ],
+          // ),
           Column(
             children: [
               PlatformText("Add Event"),
@@ -218,6 +232,16 @@ class HomeScreenState extends State<HomeScreen> {
                 },
                 icon: Icon(PlatformIcons(context).add, color: Colors.white),
               ),
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              PlatformElevatedButton(
+                  onPressed: () {
+                    logout(
+                        Navigator.of(context), ScaffoldMessenger.of(context));
+                  },
+                  child: const Text("Logout")),
             ],
           ),
         ],
