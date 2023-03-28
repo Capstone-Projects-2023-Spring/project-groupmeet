@@ -85,7 +85,6 @@ class _AccountInfoState extends State<AccountInfo> {
     DateTime end = Utils.DateUtils.lastDayOfMonth(DateTime.now());
     DateTime start = Utils.DateUtils.firstDayOfMonth(DateTime.now());
     final google_api.Events calEvents = await calendarApi.events.list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
-    // print(calEvents.toJson());
 
     //get uid and open database reference
     late DatabaseReference ref = widget.ref;
