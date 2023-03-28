@@ -10,12 +10,7 @@ import 'login.dart';
 // Initialize the app and run it.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Permission.notification.request();
-  // await Permission.notification.isDenied.then((value) {
-  //   if (value) {
-  //     Permission.notification.request();
-  //   }
-  // });
+
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -54,24 +49,5 @@ class MyApp extends StatelessWidget {
         home: const LoginScreen(),
         title: "Round",
         color: roundPurple);
-
-    // return Theme(data: materialTheme,
-    //     child: PlatformProvider(settings: PlatformSettingsData(
-    //         iosUsesMaterialWidgets: false,
-    //         iosUseZeroPaddingForAppbarPlatformIcon: true
-    //     ),
-    //   builder: (context) => const PlatformApp(
-    //     home: LoginScreen(),
-    //     title: "Round",
-    //     debugShowCheckedModeBanner: false, // <- hate this
-    //   ),
-    // ));
-
-    // return MaterialApp(
-    //   title: 'Flutter Demo',
-    //   theme: appTheme,
-    //   home: const LoginScreen(),
-    //   // home: const Center(child: Text('Test')),
-    // );
   }
 }
