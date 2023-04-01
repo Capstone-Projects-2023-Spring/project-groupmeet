@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'login.dart';
+import 'new_home.dart';
 import 'new_signin.dart';
 import 'new_signup.dart';
 
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      firstStop = HomeScreen(title: "Round");
+      firstStop = NewHome();
     } else {
       firstStop = Explainer(pageNo: 0);
     }

@@ -79,7 +79,7 @@ class NewSocialOnboarding extends StatelessWidget {
               children: [
                 SizedBox(width: screenWidth, height: MediaQuery.of(context).viewPadding.top + scaleConst * screenHeight),
                 Image.asset(
-                    "Images/Round3Circles.png", height: 160, width: screenWidth
+                    "Images/Round3Circles.png", height: 160, width: screenWidth, isAntiAlias: true,
                 ),
                 SizedBox(width: screenWidth, height: 8),
                 PlatformText("Get Around",
@@ -92,35 +92,35 @@ class NewSocialOnboarding extends StatelessWidget {
                 )),
                 SizedBox(height: 32),
                 SizedBox(width: screenWidth * (3/4), child: Row(children: [
-                  Expanded(flex: 1, child: Image.asset("Images/sms.png", height: 32, width: 32,),),
+                  Expanded(flex: 1, child: Image.asset("Images/sms.png", height: 32, width: 32, isAntiAlias: true),),
                   SizedBox(width: 8),
                   Expanded(flex: 8, child: PlatformTextField(hintText: "Phone Number", keyboardType: TextInputType.phone, onChanged: (p0) => smsChanged(p0),))
                 ],)),
                 SizedBox(height: 16),
 
                 SizedBox(width: screenWidth * (3/4), child: Row(children: [
-                  Expanded(flex: 1, child: Image.asset("Images/instagram.png", height: 32, width: 32,)),
+                  Expanded(flex: 1, child: Image.asset("Images/instagram.png", height: 32, width: 32, isAntiAlias: true,)),
                   SizedBox(width: 8),
                   Expanded(flex: 8, child: PlatformTextField(hintText: "Instagram", onChanged: (p0) => instagramChanged(p0)))
                 ],)),
                 SizedBox(height: 16),
 
                 SizedBox(width: screenWidth * (3/4), child: Row(children: [
-                  Expanded(flex: 1, child: Image.asset("Images/snapchat.png", height: 32, width: 32,),),
+                  Expanded(flex: 1, child: Image.asset("Images/snapchat.png", height: 32, width: 32, isAntiAlias: true,),),
                   SizedBox(width: 8),
                   Expanded(flex: 8, child: PlatformTextField(hintText: "Snapchat", onChanged: (p0) => snapChanged(p0)))
                 ],)),
                 SizedBox(height: 16),
 
                 SizedBox(width: screenWidth * (3/4), child: Row(children: [
-                  Expanded(flex: 1, child: Image.asset("Images/discord.png", height: 32, width: 32,),),
+                  Expanded(flex: 1, child: Image.asset("Images/discord.png", height: 32, width: 32, isAntiAlias: true),),
                   SizedBox(width: 8),
                   Expanded(flex: 8, child: PlatformTextField(hintText: "Discord", onChanged: (p0) => discordChanged(p0)))
                 ],)),
                 SizedBox(height: 16),
 
                 SizedBox(width: screenWidth * (3/4), child: Row(children: [
-                  Expanded(flex: 1, child: Image.asset("Images/facebook.png", height: 32, width: 32,),),
+                  Expanded(flex: 1, child: Image.asset("Images/facebook.png", height: 32, width: 32, isAntiAlias: true),),
                   SizedBox(width: 8),
                   Expanded(flex: 8, child: PlatformTextField(hintText: "Facebook", onChanged: (p0) => facebookChanged(p0)))
                 ],)),
@@ -136,7 +136,7 @@ class NewSocialOnboarding extends StatelessWidget {
                         SizedBox(height: 64, width: 64, child:
                         PlatformIconButton(icon:
                         Image.asset(
-                            "Images/OnboardingClap.png", height: 64, width: 64
+                            "Images/OnboardingClap.png", height: 64, width: 64, isAntiAlias: true,
                         ), padding: EdgeInsets.zero, onPressed: () => buttonPress(context),)),
                         SizedBox(width: screenWidth, height: 16),
                         PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",

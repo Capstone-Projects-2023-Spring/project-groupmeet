@@ -8,6 +8,8 @@ import 'package:groupmeet/login.dart';
 import 'package:groupmeet/new_calendar_selection.dart';
 import 'package:groupmeet/theme.dart';
 
+import 'new_home.dart';
+
 class NewSignIn extends StatelessWidget {
   NewSignIn({super.key});
 
@@ -35,7 +37,7 @@ class NewSignIn extends StatelessWidget {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email, password: password);
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => HomeScreen(title: "Round")));
+          context: context, builder: (context) => NewHome()));
     } catch (e) {
       String errorMessage =
           'An error occurred, please try again later.';
@@ -92,9 +94,7 @@ class NewSignIn extends StatelessWidget {
               children: [
                 SizedBox(width: screenWidth, height: MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
                 Image.asset(
-                  // TODO: Add Text Fields
-                  // TODO: Add Login Link
-                    "Images/RoundCircle.png", height: 160, width: screenWidth
+                    "Images/RoundCircle.png", height: 160, width: screenWidth, isAntiAlias: true,
                 ),
                 SizedBox(width: screenWidth, height: 8),
                 PlatformText("Round the world",
@@ -108,7 +108,6 @@ class NewSignIn extends StatelessWidget {
                 SizedBox(width: screenWidth * (3/4), child:
                 PlatformTextField(hintText: "Password", obscureText: true, cursorColor: roundPurple, onChanged: (p0) => changedPassword(p0),)
                 ),
-                // TODO: Goto login which is the exact same except without name and with different photo on top
                 PlatformTextButton(child: PlatformText("New to Round? Sign Up!", style: TextStyle(color: roundPurple),), onPressed: () => signIn(context)),
 
                 Expanded(
@@ -121,7 +120,7 @@ class NewSignIn extends StatelessWidget {
                         SizedBox(height: 64, width: 64, child:
                         PlatformIconButton(icon:
                         Image.asset(
-                            "Images/OnboardingNext.png", height: 64, width: 64
+                            "Images/OnboardingNext.png", height: 64, width: 64, isAntiAlias: true,
                         ), padding: EdgeInsets.zero, onPressed: () => buttonPress(context),)),
                         SizedBox(width: screenWidth, height: 16),
                         PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
