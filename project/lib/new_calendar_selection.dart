@@ -98,7 +98,7 @@ class NewCalendarSelection extends StatelessWidget {
               children: [
                 SizedBox(width: screenWidth, height: MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
                 Image.asset(
-                    "Images/RoundTable.png", height: 242, width: screenWidth
+                    "Images/RoundTable.png", height: 242, width: screenWidth, isAntiAlias: true,
                 ),
                 SizedBox(width: screenWidth, height: 8),
                 PlatformText("Round Up",
@@ -124,7 +124,7 @@ class NewCalendarSelection extends StatelessWidget {
                         SizedBox(height: 64, width: 64, child:
                         PlatformIconButton(icon:
                         Image.asset(
-                            "Images/OnboardingNext.png", height: 64, width: 64
+                            "Images/OnboardingNext.png", height: 64, width: 64, isAntiAlias: true,
                         ), padding: EdgeInsets.zero, onPressed: () => buttonPress(context),)),
                         SizedBox(width: screenWidth, height: 16),
                         PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
