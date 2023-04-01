@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/home.dart';
+import 'package:groupmeet/settings.dart';
 import 'package:groupmeet/login.dart';
 import 'package:groupmeet/new_calendar_selection.dart';
 import 'package:groupmeet/theme.dart';
 
-import 'new_home.dart';
+import 'home.dart';
 
 class NewSignIn extends StatelessWidget {
   NewSignIn({super.key});

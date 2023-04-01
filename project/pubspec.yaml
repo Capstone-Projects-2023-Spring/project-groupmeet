@@ -39,4 +39,4 @@ flutter:
   fonts:
     - family: Urbanist
       fonts:
-        - asset: Fonts/Urbanist.ttf
+        - asset: fonts/Urbanist.ttf

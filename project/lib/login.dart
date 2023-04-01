@@ -4,7 +4,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/create_account.dart';
 import 'package:groupmeet/theme.dart';
 
-import 'home.dart';
+import 'settings.dart';
 
 
 class LoginScreen extends StatefulWidget {

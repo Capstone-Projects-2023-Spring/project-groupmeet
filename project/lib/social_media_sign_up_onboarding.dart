@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'create_account.dart';
-import 'new_home.dart';
+import 'home.dart';
 import 'socials.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'home.dart';
 
 class SocialMediaOnboarding extends StatefulWidget{
   const SocialMediaOnboarding({super.key});
