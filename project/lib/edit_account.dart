@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class EditAccountInfo extends StatefulWidget {
-  const EditAccountInfo({Key? key, required this.title, required this.ref}) : super(key: key);
+  const EditAccountInfo({Key? key, required this.title, required this.ref})
+      : super(key: key);
 
   final String title;
   final DatabaseReference ref;
@@ -79,7 +80,7 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children:[
+          children: [
             PlatformText("First Name:"),
             PlatformTextFormField(
               controller: _firstNameController..text = fName,

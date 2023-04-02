@@ -10,7 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
-import 'package:date_utils/date_utils.dart' as Utils;
+import 'package:date_utils/date_utils.dart' as utils;
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
@@ -20,6 +20,7 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  // This line is not being called in getCalendarEvents()
   GoogleSignInAccount? _currentUser;
   late DatabaseReference ref;
 
@@ -59,11 +60,13 @@ class _CalendarState extends State<Calendar> {
 
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    DateTime end = Utils.DateUtils.lastDayOfMonth(DateTime.now());
-    DateTime start = Utils.DateUtils.firstDayOfMonth(DateTime.now());
-    final google_api.Events calEvents = await calendarApi.events.list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
+    DateTime end = utils.DateUtils.lastDayOfMonth(DateTime.now());
+    DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
+    final google_api.Events calEvents = await calendarApi.events
+        .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
 
-    //get uid and open database reference
+    // get uid and open database reference
+    // Line not used
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
     //list of events to add to firebase (temporarily just printing)
@@ -72,23 +75,25 @@ class _CalendarState extends State<Calendar> {
     List<List<String?>> events = [];
     for (var element in eventItems) {
       //create array of objects to be added to CalendarEvents
-      List<String?> temp = [element.start!.date.toString(),element.start!.dateTime.toString(),element.end!.date.toString(),element.end!.dateTime.toString()];
+      List<String?> temp = [
+        element.start!.date.toString(),
+        element.start!.dateTime.toString(),
+        element.end!.date.toString(),
+        element.end!.dateTime.toString()
+      ];
       print(temp);
       events.add(temp);
     }
-    await ref.update({
-      "calendarEvents":events
-    });
+    await ref.update({"calendarEvents": events});
   }
-@override 
-Widget build(BuildContext context) {
+
+  @override
+  Widget build(BuildContext context) {
     return PlatformScaffold(
         body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center, 
-        children: [
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Padding(
-            padding: const EdgeInsets.fromLTRB(50, 0,50, 20),
+            padding: const EdgeInsets.fromLTRB(50, 0, 50, 20),
             child: Material(
               borderRadius: BorderRadius.circular(65),
               elevation: 2,
@@ -97,32 +102,30 @@ Widget build(BuildContext context) {
                 radius: 75,
               ),
             )),
-           const Padding(padding: EdgeInsets.fromLTRB(50, 0, 50, 20),
-           child:
-            Text(
-              style: TextStyle(fontSize: 40),
-              "Round Up"),
-           ),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(50, 0, 50, 20),
+          child: Text(style: TextStyle(fontSize: 40), "Round Up"),
+        ),
         const Text(
             style: TextStyle(fontSize: 15),
             "Link third-party calendars to be used "),
         const Text("with Round (optional)"),
-        Padding(padding: const EdgeInsets.fromLTRB(50, 50, 50, 150),
-        child:  
-        PlatformElevatedButton(
-          onPressed: () async{
-            await getGoogleCalendar();
-          },
-          material: (context, platform) => MaterialElevatedButtonData(
-              style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            fixedSize: const Size(125, 10),
-            backgroundColor: const Color.fromARGB(255, 38, 61, 80),
-          )),
-          child: const Text(style: TextStyle(color: Colors.blue), "Google"),
-        ),        
-        ),        
+        Padding(
+          padding: const EdgeInsets.fromLTRB(50, 50, 50, 150),
+          child: PlatformElevatedButton(
+            onPressed: () async {
+              await getGoogleCalendar();
+            },
+            material: (context, platform) => MaterialElevatedButtonData(
+                style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              fixedSize: const Size(125, 10),
+              backgroundColor: const Color.fromARGB(255, 38, 61, 80),
+            )),
+            child: const Text(style: TextStyle(color: Colors.blue), "Google"),
+          ),
+        ),
         PlatformElevatedButton(
           onPressed: () {
             Navigator.of(context).push(
@@ -132,20 +135,19 @@ Widget build(BuildContext context) {
             );
           },
           material: (_, __) => MaterialElevatedButtonData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-             side: const BorderSide(                  
-                  width: 5.0,
-                  color: Color.fromARGB(255, 89, 4, 106),
-                ),
-            shape: const CircleBorder(),
-            padding: const EdgeInsets.all(24),            
-          ), 
-                 ),
-              cupertino: (_, __) => CupertinoElevatedButtonData(),
-              child: Icon(color: Colors.black,
-                PlatformIcons(context).forward),              
-            )
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+              side: const BorderSide(
+                width: 5.0,
+                color: Color.fromARGB(255, 89, 4, 106),
+              ),
+              shape: const CircleBorder(),
+              padding: const EdgeInsets.all(24),
+            ),
+          ),
+          cupertino: (_, __) => CupertinoElevatedButtonData(),
+          child: Icon(color: Colors.black, PlatformIcons(context).forward),
+        )
       ]),
     ));
   }

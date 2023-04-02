@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:groupmeet/theme.dart';
 
 class GroupCreation extends StatefulWidget {
-  final String? groupTitle; 
+  final String? groupTitle;
 
   const GroupCreation({
-    this.groupTitle,    
+    this.groupTitle,
     Key? key,
     required String title,
   }) : super(key: key);
@@ -29,26 +30,19 @@ class GroupCreationState extends State<GroupCreation> {
     }
   }
 
-  Future <void> createGroupLinkUser() async {
-    
-    
-    final DatabaseReference groupRef = FirebaseDatabase
-        .instance
-        .ref()
-        .child('groups')
-        .push();    
+  Future<void> createGroupLinkUser() async {
+    final DatabaseReference groupRef =
+        FirebaseDatabase.instance.ref().child('groups').push();
     groupRef.set({
       'name': _groupNameController.text,
       'numMembers': int.parse(_numMembersController.text),
       'admin': FirebaseAuth.instance.currentUser!.uid,
-      'members': {
-        FirebaseAuth.instance.currentUser!.uid: true
-      },
+      'members': {FirebaseAuth.instance.currentUser!.uid: true},
     });
-    final DatabaseReference usersRef = FirebaseDatabase.instance.ref("users/${FirebaseAuth.instance.currentUser!.uid}/groupIds");
-    
-    usersRef.update({"${groupRef.key}": true});
+    final DatabaseReference usersRef = FirebaseDatabase.instance
+        .ref("users/${FirebaseAuth.instance.currentUser!.uid}/groupIds");
 
+    usersRef.update({"${groupRef.key}": true});
   }
 
   @override
@@ -69,8 +63,8 @@ class GroupCreationState extends State<GroupCreation> {
                   hintText: "Group Name",
                   material: (_, __) => MaterialTextFormFieldData(
                       decoration: const InputDecoration(
-                          labelText: 'Group Name', hintText: 'Enter group name')
-                  ),
+                          labelText: 'Group Name',
+                          hintText: 'Enter group name')),
                   controller: _groupNameController,
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -86,8 +80,7 @@ class GroupCreationState extends State<GroupCreation> {
                   material: (_, __) => MaterialTextFormFieldData(
                       decoration: const InputDecoration(
                           labelText: 'Number of Members',
-                          hintText: 'Enter number of members')
-                  ),
+                          hintText: 'Enter number of members')),
                   controller: _numMembersController,
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
@@ -104,13 +97,10 @@ class GroupCreationState extends State<GroupCreation> {
                 PlatformElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      // Save the group data to the database
-                    createGroupLinkUser()
-                      .then((_) {
+                      createGroupLinkUser().then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: PlatformText(
-                                'Group Created.'),
+                            content: PlatformText('Group Created.'),
                             duration: const Duration(seconds: 5),
                           ),
                         );
@@ -118,6 +108,7 @@ class GroupCreationState extends State<GroupCreation> {
                       });
                     }
                   },
+                  color: roundPurple,
                   child: PlatformText('Create Group'),
                 ),
               ],
