@@ -1,30 +1,26 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/code_sharing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:groupmeet/group_creation2.dart';
 import 'package:groupmeet/theme.dart';
 
 import 'account_info.dart';
-import 'group_creation.dart';
-import 'code_reception.dart';
 import 'all_groups.dart';
-import 'new_signup.dart';
+import 'signup.dart';
 import 'add_event.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.title}) : super(key: key);
+class Settings extends StatefulWidget {
+  const Settings({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<HomeScreen> createState() => HomeScreenState();
+  State<Settings> createState() => SettingsState();
 }
 
 @visibleForTesting
-class HomeScreenState extends State<HomeScreen> {
+class SettingsState extends State<Settings> {
   late DatabaseReference ref;
 
   @override
@@ -63,8 +59,8 @@ class HomeScreenState extends State<HomeScreen> {
       //   ),
       // );
 
-      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewSignUp()));
-
+      Navigator.of(context).push(platformPageRoute(
+          context: context, builder: (context) => NewSignUp()));
     } catch (e) {
       // scaffoldMessengerState.showSnackBar(
       //   SnackBar(
@@ -84,7 +80,6 @@ class HomeScreenState extends State<HomeScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -107,48 +102,6 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ],
           ),
-          Column(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PlatformText("Group creation"),
-                  PlatformIconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        platformPageRoute(
-                            context: context,
-                            builder: (context) =>
-                                const GroupCreation(title: "Group Creation")),
-                      );
-                    },
-                    icon: Icon(
-                      PlatformIcons(context).create,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PlatformText("Join a Group"),
-                  PlatformIconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        platformPageRoute(
-                            context: context,
-                            builder: (context) =>
-                                const CodeReception(title: "Join a Group")),
-                      );
-                    },
-                    icon: Icon(PlatformIcons(context).personAdd,
-                        color: Colors.white),
-                  ),
-                ],
-              ),
-            ],
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -161,9 +114,7 @@ class HomeScreenState extends State<HomeScreen> {
                           platformPageRoute(
                               context: context,
                               builder: (context) => AllGroups(
-                                  title: "Display All Groups Here",
-                                  // uid: uid,
-                                  ref: ref)),
+                                  title: "Display All Groups Here", ref: ref)),
                         );
                       },
                       icon: Icon(
@@ -174,23 +125,6 @@ class HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
-          // Column(
-          //   children: [
-          //     PlatformText("Group Creation 2"),
-          //     PlatformIconButton(
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           platformPageRoute(
-          //             context: context,
-          //             builder: (context) => GroupCreation2(
-          //                 title: "Group Creation 2", databaseReference: ref),
-          //           ),
-          //         );
-          //       },
-          //       icon: Icon(PlatformIcons(context).create, color: Colors.white),
-          //     ),
-          //   ],
-          // ),
           Column(
             children: [
               PlatformText("Add Event"),
@@ -199,8 +133,8 @@ class HomeScreenState extends State<HomeScreen> {
                   Navigator.of(context).push(
                     platformPageRoute(
                       context: context,
-                      builder: (context) => AddEvent(
-                        title: "Add New Event", ref: ref),
+                      builder: (context) =>
+                          AddEvent(title: "Add New Event", ref: ref),
                     ),
                   );
                 },

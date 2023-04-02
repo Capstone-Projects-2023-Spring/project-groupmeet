@@ -31,21 +31,19 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         platform: TargetPlatform.android,
         hintColor: Colors.white,
-        buttonColor: roundPurple,
         focusColor: roundPurple,
         highlightColor: roundPurple,
-        accentColor: roundPurple,
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
             focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: roundPurple)),
             enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: roundPurple))),
-        textSelectionTheme: TextSelectionThemeData(
+        textSelectionTheme: const TextSelectionThemeData(
             selectionColor: roundPurple,
             cursorColor: roundPurple,
             selectionHandleColor: roundPurple),
         dividerColor: roundPurple,
-        textButtonTheme: TextButtonThemeData(
+        textButtonTheme: const TextButtonThemeData(
             style: ButtonStyle(
                 surfaceTintColor: MaterialStatePropertyAll(roundPurple))),
         cardColor: roundPurple,
@@ -66,7 +64,7 @@ class MyApp extends StatelessWidget {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      firstStop = NewHome();
+      firstStop = const HomeScreen(title: 'Home');
     } else {
       firstStop = Explainer(pageNo: 0);
     }

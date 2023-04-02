@@ -1,4 +1,3 @@
-
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -7,15 +6,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:groupmeet/new_social_onboarding.dart';
 import 'package:googleapis/calendar/v3.dart' as google_api;
-import 'package:date_utils/date_utils.dart' as Utils;
+import 'package:date_utils/date_utils.dart' as utils;
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 
-
-
 class NewCalendarSelection extends StatelessWidget {
-  NewCalendarSelection({
-    super.key
-  });
+  NewCalendarSelection({super.key});
 
   GoogleSignInAccount? _currentUser;
   late DatabaseReference ref;
@@ -27,11 +22,11 @@ class NewCalendarSelection extends StatelessWidget {
   );
 
   void buttonPress(BuildContext context) {
-    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewSocialOnboarding()));
+    Navigator.of(context).push(platformPageRoute(
+        context: context, builder: (context) => NewSocialOnboarding()));
   }
 
   Future<void> pressedGoogle(BuildContext context) async {
-
     String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
     ref = FirebaseDatabase.instance.ref("users/$temp");
 
@@ -50,9 +45,10 @@ class NewCalendarSelection extends StatelessWidget {
 
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    DateTime end = Utils.DateUtils.lastDayOfMonth(DateTime.now());
-    DateTime start = Utils.DateUtils.firstDayOfMonth(DateTime.now());
-    final google_api.Events calEvents = await calendarApi.events.list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
+    DateTime end = utils.DateUtils.lastDayOfMonth(DateTime.now());
+    DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
+    final google_api.Events calEvents = await calendarApi.events
+        .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
 
     //get uid and open database reference
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
@@ -63,81 +59,118 @@ class NewCalendarSelection extends StatelessWidget {
     List<List<String?>> events = [];
     for (var element in eventItems) {
       //create array of objects to be added to CalendarEvents
-      List<String?> temp = [element.start!.date.toString(),element.start!.dateTime.toString(),element.end!.date.toString(),element.end!.dateTime.toString()];
+      List<String?> temp = [
+        element.start!.date.toString(),
+        element.start!.dateTime.toString(),
+        element.end!.date.toString(),
+        element.end!.dateTime.toString()
+      ];
       print(temp);
       events.add(temp);
     }
-    await ref.update({
-      "calendarEvents":events
-    });
+    await ref.update({"calendarEvents": events});
   }
 
   void pressedApple(BuildContext context) {
     PlatformAlertDialog error = PlatformAlertDialog(
       title: PlatformText("Whoops!"),
-      content: PlatformText("iCloud support may be available in the future, but not right now!"),
+      content: PlatformText(
+          "iCloud support may be available in the future, but not right now!"),
       actions: [
-        PlatformTextButton(child: PlatformText("Ok"),
-          onPressed: () => Navigator.of(context).pop(),)
-      ],);
+        PlatformTextButton(
+          child: PlatformText("Ok"),
+          onPressed: () => Navigator.of(context).pop(),
+        )
+      ],
+    );
 
-    showPlatformDialog(context: context, builder: (context) {
-      return error;
-    },);
+    showPlatformDialog(
+      context: context,
+      builder: (context) {
+        return error;
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return PlatformScaffold(
         body: Center(
             child: Column(
+      children: [
+        SizedBox(
+            width: screenWidth,
+            height:
+                MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
+        Image.asset(
+          "images/RoundTable.png",
+          height: 242,
+          width: screenWidth,
+          isAntiAlias: true,
+        ),
+        SizedBox(width: screenWidth, height: 8),
+        PlatformText("Round Up",
+            style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600)),
+        SizedBox(width: screenWidth, height: 32),
+        Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: screenWidth / 8, vertical: 0),
+            child: PlatformText(
+              "Link third-party calendars to be used with Round (optional)",
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+            )),
+        SizedBox(width: screenWidth, height: 32),
+        SizedBox(
+            width: 180,
+            child: PlatformElevatedButton(
+                color: const Color.fromRGBO(45, 140, 255, 0.3),
+                onPressed: () => pressedGoogle(context),
+                child: PlatformText("Google"))),
+        SizedBox(width: screenWidth, height: 16),
+        SizedBox(
+            width: 180,
+            child: PlatformElevatedButton(
+                color: const Color.fromRGBO(170, 170, 170, 0.3),
+                onPressed: () => pressedApple(context),
+                child: PlatformText("iCloud"))),
+        Expanded(
+          child: Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                SizedBox(width: screenWidth, height: MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
-                Image.asset(
-                    "Images/RoundTable.png", height: 242, width: screenWidth, isAntiAlias: true,
-                ),
-                SizedBox(width: screenWidth, height: 8),
-                PlatformText("Round Up",
-                    style: TextStyle(fontSize: 36, fontWeight: FontWeight.w600)),
-                SizedBox(width: screenWidth, height: 32),
-                Padding(padding: EdgeInsets.symmetric(horizontal: screenWidth / 8, vertical: 0), child:PlatformText(
-                  "Link third-party calendars to be used with Round (optional)",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                )),
-                SizedBox(width: screenWidth, height: 32),
-                SizedBox(width: 180, child: PlatformElevatedButton(child: PlatformText("Google"), color: Color.fromRGBO(45, 140, 255, 0.3), onPressed: () => pressedGoogle(context))),
+                SizedBox(
+                    height: 64,
+                    width: 64,
+                    child: PlatformIconButton(
+                      icon: Image.asset(
+                        "images/OnboardingNext.png",
+                        height: 64,
+                        width: 64,
+                        isAntiAlias: true,
+                      ),
+                      padding: EdgeInsets.zero,
+                      onPressed: () => buttonPress(context),
+                    )),
                 SizedBox(width: screenWidth, height: 16),
-                SizedBox(width: 180, child: PlatformElevatedButton(child: PlatformText("iCloud"), color: Color.fromRGBO(170, 170, 170, 0.3), onPressed: () => pressedApple(context))),
-
-                Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(height: 64, width: 64, child:
-                        PlatformIconButton(icon:
-                        Image.asset(
-                            "Images/OnboardingNext.png", height: 64, width: 64, isAntiAlias: true,
-                        ), padding: EdgeInsets.zero, onPressed: () => buttonPress(context),)),
-                        SizedBox(width: screenWidth, height: 16),
-                        PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 10)),
-                        SizedBox(width: screenWidth, height: 32,)
-                      ],),
-                  ),
-                ),
+                PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 10)),
+                SizedBox(
+                  width: screenWidth,
+                  height: 32,
+                )
               ],
-
-            )
-        )
-    );
+            ),
+          ),
+        ),
+      ],
+    )));
   }
 }

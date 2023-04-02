@@ -10,7 +10,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
-import 'package:date_utils/date_utils.dart' as Utils;
+import 'package:date_utils/date_utils.dart' as utils;
 
 class AccountInfo extends StatefulWidget {
   const AccountInfo({Key? key, required this.title, required this.ref})
@@ -83,9 +83,10 @@ class _AccountInfoState extends State<AccountInfo> {
 
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    DateTime end = Utils.DateUtils.lastDayOfMonth(DateTime.now());
-    DateTime start = Utils.DateUtils.firstDayOfMonth(DateTime.now());
-    final google_api.Events calEvents = await calendarApi.events.list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
+    DateTime end = utils.DateUtils.lastDayOfMonth(DateTime.now());
+    DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
+    final google_api.Events calEvents = await calendarApi.events
+        .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
 
     //get uid and open database reference
     late DatabaseReference ref = widget.ref;
@@ -97,13 +98,16 @@ class _AccountInfoState extends State<AccountInfo> {
     List<List<String?>> events = [];
     for (var element in eventItems) {
       //create array of objects to be added to CalendarEvents
-      List<String?> temp = [element.start!.date.toString(),element.start!.dateTime.toString(),element.end!.date.toString(),element.end!.dateTime.toString()];
+      List<String?> temp = [
+        element.start!.date.toString(),
+        element.start!.dateTime.toString(),
+        element.end!.date.toString(),
+        element.end!.dateTime.toString()
+      ];
       print(temp);
       events.add(temp);
     }
-    await ref.update({
-      "calendarEvents":events
-    });
+    await ref.update({"calendarEvents": events});
   }
 
   @override
@@ -115,7 +119,6 @@ class _AccountInfoState extends State<AccountInfo> {
       body: Center(
         child: Column(
           children: [
-            
             Column(
               children: [
                 PlatformText("Name:"),
@@ -155,9 +158,10 @@ class _AccountInfoState extends State<AccountInfo> {
               icon: Icon(PlatformIcons(context).create),
             ),
             PlatformText("Sync My Calendars"),
-            PlatformText("WARNING: This will override any custom events created."),
+            PlatformText(
+                "WARNING: This will override any custom events created."),
             PlatformIconButton(
-              onPressed: () async{
+              onPressed: () async {
                 await getPrimaryCalendar();
               },
               icon: Icon(PlatformIcons(context).refresh),

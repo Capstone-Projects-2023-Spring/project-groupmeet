@@ -9,9 +9,9 @@ class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   const GroupHomePage(
       {super.key,
-        required this.title,
-        required this.databaseReference,
-        this.myGroup});
+      required this.title,
+      required this.databaseReference,
+      this.myGroup});
 
   final String title;
   final DatabaseReference databaseReference;
@@ -50,7 +50,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref("users/$uid/groupIds/${widget.myGroup!["gId"]}");
     DatabaseReference groupRef =
-    FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
+        FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
 
     userRef.remove();
     groupRef.remove();
@@ -138,7 +138,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 TextSpan(
                   text: widget.title,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 35, color: Colors.deepPurple),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35,
+                      color: Colors.deepPurple),
                 ),
               ),
               Row(
@@ -148,8 +150,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                     children: const [
                       Text(
                           style: TextStyle(color: Colors.white, fontSize: 20),
-                          "Group Code:"
-                      ),
+                          "Group Code:"),
                     ],
                   ),
                 ],
@@ -160,9 +161,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   Column(
                     children: [
                       Text(
-                          style: const TextStyle(color: Colors.white, fontSize: 20),
-                          "${widget.myGroup!["gId"]}"
-                      ),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 20),
+                          "${widget.myGroup!["gId"]}"),
                     ],
                   ),
                 ],
@@ -182,18 +183,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CalendarPage(
-                                    title: "Calendar", group: widget.myGroup,
-                                  )));
+                                        title: "Calendar",
+                                        group: widget.myGroup,
+                                      )));
                         },
                         child: const Text('Calendar',
-                            style: TextStyle(fontSize: 20, color: Colors.white)),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -202,18 +205,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('This button is currently under development. Come back later!'),
+                              content: Text(
+                                  'This button is currently under development. Come back later!'),
                               duration: Duration(seconds: 2),
                             ),
                           );
                         },
                         child: const Text('Edit Availabilities',
-                            style: TextStyle(fontSize: 20, color: Colors.white)),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -228,18 +233,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('This button is currently under development. Come back later!'),
+                              content: Text(
+                                  'This button is currently under development. Come back later!'),
                               duration: Duration(seconds: 2),
                             ),
                           );
                         },
                         child: PlatformText('Suggest New Meeting Time',
-                            style: const TextStyle(fontSize: 25, color: Colors.white)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -254,18 +261,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('This button is currently under development. Come back later!'),
+                              content: Text(
+                                  'This button is currently under development. Come back later!'),
                               duration: Duration(seconds: 2),
                             ),
                           );
                         },
                         child: PlatformText('Cancel Active Meeting',
-                            style: const TextStyle(fontSize: 25, color: Colors.white)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -282,11 +291,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           //print(snapshot);
                           var membersWidget = snapshot.data!
                               .map((eachMember) => Text(
-                            eachMember["firstName"] +
-                                " " +
-                                eachMember["lastName"],
-                            style: const TextStyle(fontSize: 15, color: Colors.white),
-                          ))
+                                    eachMember["firstName"] +
+                                        " " +
+                                        eachMember["lastName"],
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.white),
+                                  ))
                               .toList();
                           var check = Column(
                             children: membersWidget,
@@ -294,10 +304,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           return Container(
                               decoration: BoxDecoration(
                                   border:
-                                  Border.all(width: 1, color: Colors.grey)),
+                                      Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
-                                    style: const TextStyle(fontSize: 20, color: Colors.white), "Members"),
+                                    style: const TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                    "Members"),
                                 check
                               ]));
                         } else {
@@ -316,18 +328,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('This button is currently under development. Come back later!'),
+                              content: Text(
+                                  'This button is currently under development. Come back later!'),
                               duration: Duration(seconds: 2),
                             ),
                           );
                         },
                         child: PlatformText('Edit Members',
-                            style: const TextStyle(fontSize: 25, color: Colors.white)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -336,7 +350,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           leaveGroup().then((_) {
@@ -351,7 +365,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           });
                         },
                         child: PlatformText('Leave Group',
-                            style: const TextStyle(fontSize: 25, color: Colors.white)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -366,15 +381,16 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         List<Text> socialMediaText = [];
                         if (snapshot.hasData) {
                           snapshot.data!.forEach((key, value) {
-                            socialMediaText.add(Text("$key Users: $value", style: const TextStyle(fontSize: 20, color: Colors.white)));
+                            socialMediaText.add(Text("$key Users: $value",
+                                style: const TextStyle(
+                                    fontSize: 20, color: Colors.white)));
                           });
                         }
                         var check = Column(children: socialMediaText);
                         return Container(
                           child: check,
                         );
-                      }
-                    ),
+                      }),
                 ],
               ),
             ],

@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/create_account.dart';
+import 'package:groupmeet/create_account_old.dart';
 import 'package:groupmeet/theme.dart';
 
+import 'home.dart';
 import 'settings.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -30,12 +30,11 @@ class LoginScreenState extends State<LoginScreen> {
     });
     if (_isUsernameValid && _isPasswordValid) {
       try {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-            email: email, password: password);
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
         _navigateToHomeScreen();
       } catch (e) {
-        String errorMessage =
-            'An error occurred, please try again later.';
+        String errorMessage = 'An error occurred, please try again later.';
         if (e is FirebaseAuthException) {
           if (e.code == 'user-not-found') {
             errorMessage = 'Invalid email address.';
@@ -65,9 +64,7 @@ class LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            PlatformText(
-              'Login'
-            ),
+            PlatformText('Login'),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -80,9 +77,8 @@ class LoginScreenState extends State<LoginScreen> {
                     labelText: 'Username',
                     border: const OutlineInputBorder(),
                     errorText:
-                    _isUsernameValid ? null : 'Username cannot be empty',
+                        _isUsernameValid ? null : 'Username cannot be empty',
                   ),
-
                 ),
               ),
             ),
@@ -95,13 +91,12 @@ class LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
                 hintText: "Password",
                 material: (_, __) => MaterialTextFormFieldData(
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    border: const OutlineInputBorder(),
-                    errorText:
-                    _isPasswordValid ? null : 'Password cannot be empty',
-                  )
-                ),
+                    decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: const OutlineInputBorder(),
+                  errorText:
+                      _isPasswordValid ? null : 'Password cannot be empty',
+                )),
               ),
             ),
             const SizedBox(height: 20),
@@ -116,10 +111,7 @@ class LoginScreenState extends State<LoginScreen> {
               onPressed: () {
                 Navigator.of(context).push(
                   platformPageRoute(
-                    context: context,
-                    builder: (_) =>                        
-                        const CreateAccount()
-                  ),
+                      context: context, builder: (_) => const CreateAccount()),
                 );
               },
               child: PlatformText('Create Account'),

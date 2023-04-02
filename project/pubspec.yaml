@@ -34,8 +34,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - Images/
-    - Fonts/
+    - images/
+    - fonts/
   fonts:
     - family: Urbanist
       fonts:
