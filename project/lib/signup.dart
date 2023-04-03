@@ -75,6 +75,7 @@ class NewSignUp extends StatelessWidget {
         "instagram": false,
         "messages": false,
         "snapchat": false,
+        "groupIds": {"dud": true},
       });
 
       Navigator.of(context).push(
