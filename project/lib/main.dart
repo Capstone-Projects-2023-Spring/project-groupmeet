@@ -4,20 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/explainer.dart';
-import 'package:groupmeet/home.dart';
-import 'package:groupmeet/social_media_sign_up_onboarding.dart';
 import 'package:groupmeet/theme.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'login.dart';
-import 'new_signin.dart';
-import 'new_signup.dart';
+import 'home.dart';
 
 // Initialize the app and run it.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -29,26 +23,31 @@ class MyApp extends StatelessWidget {
   // Build the app widget.
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
     final materialTheme = ThemeData(
-      primaryColor: roundPurple,
-      scaffoldBackgroundColor: roundBlack,
-      brightness: Brightness.dark,
-      platform: TargetPlatform.android,
-      hintColor: Colors.white,
-      buttonColor: roundPurple,
-      focusColor: roundPurple,
-      highlightColor: roundPurple,
-      accentColor: roundPurple,
-      inputDecorationTheme: InputDecorationTheme(focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: roundPurple)), enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: roundPurple))),
-      textSelectionTheme: TextSelectionThemeData(selectionColor: roundPurple, cursorColor: roundPurple, selectionHandleColor: roundPurple),
-      dividerColor: roundPurple,
-      textButtonTheme: TextButtonThemeData(style: ButtonStyle(surfaceTintColor: MaterialStatePropertyAll(roundPurple))),
-      cardColor: roundPurple,
-      fontFamily: "Urbanist"
-    );
+        primaryColor: roundPurple,
+        scaffoldBackgroundColor: roundBlack,
+        brightness: Brightness.dark,
+        platform: TargetPlatform.android,
+        hintColor: Colors.white,
+        focusColor: roundPurple,
+        highlightColor: roundPurple,
+        inputDecorationTheme: const InputDecorationTheme(
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: roundPurple)),
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: roundPurple))),
+        textSelectionTheme: const TextSelectionThemeData(
+            selectionColor: roundPurple,
+            cursorColor: roundPurple,
+            selectionHandleColor: roundPurple),
+        dividerColor: roundPurple,
+        textButtonTheme: const TextButtonThemeData(
+            style: ButtonStyle(
+                surfaceTintColor: MaterialStatePropertyAll(roundPurple))),
+        cardColor: roundPurple,
+        fontFamily: "Urbanist");
 
     const cupertinoTheme = CupertinoThemeData(
         primaryColor: roundPurple,
@@ -57,16 +56,15 @@ class MyApp extends StatelessWidget {
         primaryContrastingColor: Colors.white,
         brightness: Brightness.dark,
         textTheme: CupertinoTextThemeData(
-          primaryColor: Colors.white,
-          textStyle: TextStyle(fontFamily: "Urbanist")
-        ));
+            primaryColor: Colors.white,
+            textStyle: TextStyle(fontFamily: "Urbanist")));
 
     Widget firstStop;
 
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      firstStop = HomeScreen(title: "Round");
+      firstStop = const HomeScreen(title: 'Home');
     } else {
       firstStop = Explainer(pageNo: 0);
     }
@@ -79,7 +77,7 @@ class MyApp extends StatelessWidget {
             MaterialAppData(theme: materialTheme, color: roundPurple),
         cupertino: (context, platform) =>
             CupertinoAppData(theme: cupertinoTheme, color: roundPurple),
-        home: firstStop,//Explainer(pageNo: 0),
+        home: firstStop, //Explainer(pageNo: 0),
         title: "Round",
         color: roundPurple);
   }

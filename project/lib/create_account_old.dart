@@ -35,33 +35,30 @@ class _CreateAccountState extends State<CreateAccount> {
       password: _passwordController.text.trim(),
     )
         .then((authResult) {
-          uid = authResult.user?.uid;
-          ref = FirebaseDatabase.instance.ref("users/$uid");
-          ref.set({
-            "email": _emailController.text.trim(),
-            "firstName": _fnameController.text.trim(),
-            "lastName": _lnameController.text.trim(),
-            "discord": false,
-            "facebook": false,
-            "instagram": false,
-            "messages": false,
-            "snapchat": false,
-          });
-          setState(() {
-            _creatingProfile = false;
-          });
-          // _emailController.dispose();
-          // _passwordController.dispose();          
-           Navigator.of(context).push(
-                  platformPageRoute(
-                    context: context,
-                    builder: (_) =>                        
-                        const Calendar()    //link calendar page for onboarding                  
-                  ),
-                );
-
-        })
-        .catchError((e) {
+      uid = authResult.user?.uid;
+      ref = FirebaseDatabase.instance.ref("users/$uid");
+      ref.set({
+        "email": _emailController.text.trim(),
+        "firstName": _fnameController.text.trim(),
+        "lastName": _lnameController.text.trim(),
+        "discord": false,
+        "facebook": false,
+        "instagram": false,
+        "messages": false,
+        "snapchat": false,
+      });
+      setState(() {
+        _creatingProfile = false;
+      });
+      // _emailController.dispose();
+      // _passwordController.dispose();
+      Navigator.of(context).push(
+        platformPageRoute(
+            context: context,
+            builder: (_) => const Calendar() //link calendar page for onboarding
+            ),
+      );
+    }).catchError((e) {
       setState(() {
         _creatingProfile = false;
       });
@@ -115,7 +112,7 @@ class _CreateAccountState extends State<CreateAccount> {
                         PlatformIcons(context).add),
                   ),
                 )),
-              const Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(120, 0, 120, 30),
               child: Text(
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900),
@@ -124,62 +121,58 @@ class _CreateAccountState extends State<CreateAccount> {
             ),
             PlatformTextField(
               hintText: "First Name",
-                controller: _fnameController,
-                keyboardType: TextInputType.name,
-                material: (_, __) => MaterialTextFieldData(
-                    decoration: InputDecoration(                      
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30)
-                      ),
-                      labelText: "First Name",
-                      
-                    )
-                ),
+              controller: _fnameController,
+              keyboardType: TextInputType.name,
+              material: (_, __) => MaterialTextFieldData(
+                  decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                labelText: "First Name",
+              )),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             PlatformTextField(
                 controller: _lnameController,
                 hintText: "Last Name",
                 keyboardType: TextInputType.name,
                 material: (_, __) => MaterialTextFieldData(
-                    decoration:  InputDecoration(
+                        decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30)
-                      ),
+                          borderRadius: BorderRadius.circular(30)),
                       labelText: "Last Name",
-                    )
-                )
+                    ))),
+            const SizedBox(
+              height: 10,
             ),
-            const SizedBox(height: 10,),
             PlatformTextField(
               hintText: "Email",
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               material: (_, __) => MaterialTextFieldData(
-                  decoration:  InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)
-                    ),
-                    labelText: "Email",
-                  )
-              ),
-                ),
-                const SizedBox(height: 10),
+                  decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                labelText: "Email",
+              )),
+            ),
+            const SizedBox(height: 10),
             PlatformTextField(
               hintText: "Password",
               controller: _passwordController,
               keyboardType: TextInputType.visiblePassword,
               material: (_, __) => MaterialTextFieldData(
-                  decoration:  InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)
-                    ),
-                    labelText: "Password",
-                  )
-              ),
+                  decoration: InputDecoration(
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+                labelText: "Password",
+              )),
               obscureText: true,
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             PlatformElevatedButton(
               onPressed:
                   _creatingProfile ? null : () => createUserProfile(context),
@@ -192,13 +185,11 @@ class _CreateAccountState extends State<CreateAccount> {
                 shape: const CircleBorder(),
                 padding: const EdgeInsets.all(24),
                 backgroundColor: Colors.white,
-              )
-                ),
-                child: _creatingProfile
-                    ? const CircularProgressIndicator()
-                    : Icon(color: Colors.black, PlatformIcons(context).forward),),
-             
-               
+              )),
+              child: _creatingProfile
+                  ? const CircularProgressIndicator()
+                  : Icon(color: Colors.black, PlatformIcons(context).forward),
+            ),
           ],
         ),
       ),
@@ -206,4 +197,21 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 }
 
+class DismissKeyboard extends StatelessWidget {
+  final Widget child;
+  const DismissKeyboard({Key? key, required this.child}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        }
+      },
+      child: child,
+    );
+  }
+}

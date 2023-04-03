@@ -25,7 +25,7 @@ class _AllGroupsState extends State<AllGroups> {
     final snapshot = await widget.ref.child('groupIds').get();
 
     DatabaseReference accessGroupInfoRef =
-    FirebaseDatabase.instance.ref("groups");
+        FirebaseDatabase.instance.ref("groups");
 
     if (snapshot.exists) {
       Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
@@ -52,65 +52,65 @@ class _AllGroupsState extends State<AllGroups> {
       appBar: PlatformAppBar(
         title: PlatformText(widget.title),
       ),
-      body: Column(children: [FutureBuilder(
-        future: grabGroups(),
-        builder: (context, snapshot) {          
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: PlatformCircularProgressIndicator(),
-            );
-          } 
-          else if (snapshot.hasError) {
-            return PlatformText('Error: ${snapshot.error}');
-          } 
-          else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-            var groupWidget = snapshot.data!
-                .map(
-                  (eachGroup) => Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2,
+      body: Column(children: [
+        FutureBuilder(
+          future: grabGroups(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: PlatformCircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return PlatformText('Error: ${snapshot.error}');
+            } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+              var groupWidget = snapshot.data!
+                  .map(
+                    (eachGroup) => Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 2,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              PlatformText(eachGroup["name"]),
+                              PlatformText(
+                                  "${eachGroup["numMembers"]} Members"),
+                              PlatformIconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    platformPageRoute(
+                                      context: context,
+                                      builder: (context) => GroupHomePage(
+                                        title: eachGroup["name"],
+                                        databaseReference: ref,
+                                        myGroup: eachGroup,
+                                      ),
+                                    ),
+                                  );
+                                  setState(() {});
+                                },
+                                icon: Icon(PlatformIcons(context).rightChevron),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          children: [
-                            PlatformText(eachGroup["name"]),
-                            PlatformText("${eachGroup["numMembers"]} Members"),
-                            PlatformIconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  platformPageRoute(
-                                    context: context,
-                                    builder: (context) => GroupHomePage(
-                                      title: eachGroup["name"],
-                                      databaseReference: ref,
-                                      myGroup: eachGroup,
-                                    ),
-                                  ),
-                                );
-                                setState(() {});
-                              },
-                              icon: Icon(PlatformIcons(context).rightChevron),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-                .toList();
+                  )
+                  .toList();
 
-            return Column(
-              children: groupWidget,
-            );
-          } else {
-            return Center(
-              child: PlatformText("You are not in any groups."),
-            );
-          }
+              return Column(
+                children: groupWidget,
+              );
+            } else {
+              return Center(
+                child: PlatformText("You are not in any groups."),
+              );
+            }
           },
         ),
         Row(
@@ -121,11 +121,11 @@ class _AllGroupsState extends State<AllGroups> {
                 onPressed: () async {
                   await Navigator.of(context).push(
                     platformPageRoute(
-                    context: context,
+                        context: context,
                         builder: (context) =>
                             const GroupCreation(title: "Group Creation")),
                   );
-                  setState(() {});                  
+                  setState(() {});
                 },
                 icon: Icon(PlatformIcons(context).add))
           ],

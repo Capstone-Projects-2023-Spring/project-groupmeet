@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:date_time_picker/date_time_picker.dart';
@@ -40,85 +39,83 @@ class _AddEventState extends State<AddEvent> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PlatformText("Start Time"),
-                  DateTimePicker(
-                    type: DateTimePickerType.dateTimeSeparate,
-                    initialValue: DateTime.now().toString(),
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    dateLabelText: 'Date',
-                    onChanged: (val) => print(val),
-                    validator: (val) {
-                      print(val);
-                      return null;
-                    },
-                    onSaved: (val) {
-                      start = DateTime.parse(val as String);
-                    },
-                  ),
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PlatformText("Start Time"),
+                DateTimePicker(
+                  type: DateTimePickerType.dateTimeSeparate,
+                  initialValue: DateTime.now().toString(),
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                  dateLabelText: 'Date',
+                  onChanged: (val) => print(val),
+                  validator: (val) {
+                    print(val);
+                    return null;
+                  },
+                  onSaved: (val) {
+                    start = DateTime.parse(val as String);
+                  },
+                ),
+              ],
             ),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PlatformText("End Time"),
-                  DateTimePicker(
-                    type: DateTimePickerType.dateTimeSeparate,
-                    initialValue: DateTime.now().toString(),
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    dateLabelText: 'Date',
-                    onChanged: (val) => print(val),
-                    validator: (val) {
-                      print(val);
-                      return null;
-                    },
-                    onSaved: (val) {
-                      end = DateTime.parse(val as String);
-                    },
-                  ),
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PlatformText("End Time"),
+                DateTimePicker(
+                  type: DateTimePickerType.dateTimeSeparate,
+                  initialValue: DateTime.now().toString(),
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                  dateLabelText: 'Date',
+                  onChanged: (val) => print(val),
+                  validator: (val) {
+                    print(val);
+                    return null;
+                  },
+                  onSaved: (val) {
+                    end = DateTime.parse(val as String);
+                  },
+                ),
+              ],
             ),
-            Container(
-              child: Column(
-                children: [
-                  PlatformTextButton(
-                    onPressed: () async{
-                      print("start");
-                      List<List<String?>> events = [];
-                      //create array of events that already existed.
-                      final memberSnapshot = await ref.child("calendarEvents").get();
-                      for (var event in memberSnapshot.value as List){
-                        events.add([event[0], event[1], event[2], event[3]]);
-                      }
+            Column(
+              children: [
+                PlatformTextButton(
+                  onPressed: () async {
+                    print("start");
+                    List<List<String?>> events = [];
+                    //create array of events that already existed.
+                    final memberSnapshot =
+                        await ref.child("calendarEvents").get();
+                    for (var event in memberSnapshot.value as List) {
+                      events.add([event[0], event[1], event[2], event[3]]);
+                    }
 
-                      List<String?> temp = [
-                        start.toString(),
-                        null,
-                        end.toString(),
-                        null
-                      ];
-                      events.add(temp);
+                    List<String?> temp = [
+                      start.toString(),
+                      null,
+                      end.toString(),
+                      null
+                    ];
+                    events.add(temp);
 
-                      ref.update({
-                        "calendarEvents": events,
-                      });
-                      print("added");
-                    },
-                    child: PlatformText("Submit", selectionColor: Colors.black,),
-                    color: Colors.white,
+                    ref.update({
+                      "calendarEvents": events,
+                    });
+                    print("added");
+                  },
+                  color: Colors.white,
+                  child: PlatformText(
+                    "Submit",
+                    selectionColor: Colors.black,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

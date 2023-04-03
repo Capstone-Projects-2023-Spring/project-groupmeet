@@ -1,233 +1,162 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/code_sharing.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:groupmeet/group_creation2.dart';
 import 'package:groupmeet/theme.dart';
-
-import 'account_info.dart';
-import 'group_creation.dart';
 import 'code_reception.dart';
-import 'all_groups.dart';
-import 'new_signup.dart';
-import 'add_event.dart';
+import 'group_creation.dart';
+import 'settings.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.title}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key, required String title});
 
-  final String title;
+  get title => null;
 
-  @override
-  State<HomeScreen> createState() => HomeScreenState();
-}
-
-@visibleForTesting
-class HomeScreenState extends State<HomeScreen> {
-  late DatabaseReference ref;
-
-  @override
-  void initState() {
-    super.initState();
-    String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
-    ref = FirebaseDatabase.instance.ref("users/$temp");
-    debugPrint("HomeScreen: $temp");
-    notification();
+  // TODO: Cross-Platform working QR Screen
+  void showQR(context) {
+    Navigator.of(context).push(
+      platformPageRoute(
+          context: context,
+          builder: (context) => const CodeReception(title: "Join a Group")),
+    );
   }
 
-  Future<void> notification() async {
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    ref.child("fcmToken").set(fcmToken);
+  // TODO: New Group Creation
+  void showAdd(context) {
+    Navigator.of(context).push(
+      platformPageRoute(
+          context: context,
+          builder: (context) => const GroupCreation(title: "Group Creation")),
+    );
   }
 
-  Future<void> logout(NavigatorState navigatorState,
-      ScaffoldMessengerState scaffoldMessengerState) async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      scaffoldMessengerState.showSnackBar(
-        const SnackBar(
-          content: Text('Logged out successfully.'),
-          duration: Duration(seconds: 5),
-        ),
-      );
+  // TODO: Actual New Settings
+  void showSettings(context) {
+    Navigator.of(context).push(
+      platformPageRoute(
+          context: context,
+          builder: (context) => const Settings(title: "Round")),
+    );
+  }
 
-      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewSignUp()));
-
-    } catch (e) {
-      scaffoldMessengerState.showSnackBar(
-        SnackBar(
-          content: Text('An error occurred while logging out: $e'),
-          duration: const Duration(seconds: 5),
-        ),
-      );
-    }
+  void selectedGroup(int group) {
+    print("Tapped group $group");
   }
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: PlatformText(widget.title),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  PlatformText("My Account"),
-                  PlatformIconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        platformPageRoute(
-                            context: context,
-                            builder: (context) =>
-                                AccountInfo(title: "My Account", ref: ref)),
-                      );
-                    },
-                    icon: Icon(PlatformIcons(context).accountCircle,
-                        color: Colors.white),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Column(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PlatformText("Group creation"),
-                  PlatformIconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        platformPageRoute(
-                            context: context,
-                            builder: (context) =>
-                                const GroupCreation(title: "Group Creation")),
-                      );
-                    },
-                    icon: Icon(
-                      PlatformIcons(context).create,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PlatformText("Join a Group"),
-                  PlatformIconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        platformPageRoute(
-                            context: context,
-                            builder: (context) =>
-                                const CodeReception(title: "Join a Group")),
-                      );
-                    },
-                    icon: Icon(PlatformIcons(context).personAdd,
-                        color: Colors.white),
-                  ),
-                ],
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     PlatformText("Code Sharing Page"),
-              //     PlatformIconButton(
-              //       onPressed: () {
-              //         Navigator.of(context).push(
-              //           platformPageRoute(
-              //               context: context,
-              //               builder: (context) =>
-              //                   const CodeSharing(title: "Code Sharing")),
-              //         );
-              //       },
-              //       icon: Icon(PlatformIcons(context).photoCamera,
-              //           color: Colors.white),
-              //     ),
-              //   ],
-              // ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  PlatformText("All Groups"),
-                  PlatformIconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          platformPageRoute(
-                              context: context,
-                              builder: (context) => AllGroups(
-                                  title: "Display All Groups Here",
-                                  // uid: uid,
-                                  ref: ref)),
-                        );
-                      },
-                      icon: Icon(
-                        PlatformIcons(context).group,
-                        color: Colors.white,
-                      ))
-                ],
-              )
-            ],
-          ),
-          // Column(
-          //   children: [
-          //     PlatformText("Group Creation 2"),
-          //     PlatformIconButton(
-          //       onPressed: () {
-          //         Navigator.of(context).push(
-          //           platformPageRoute(
-          //             context: context,
-          //             builder: (context) => GroupCreation2(
-          //                 title: "Group Creation 2", databaseReference: ref),
-          //           ),
-          //         );
-          //       },
-          //       icon: Icon(PlatformIcons(context).create, color: Colors.white),
-          //     ),
-          //   ],
-          // ),
-          Column(
-            children: [
-              PlatformText("Add Event"),
-              PlatformIconButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    platformPageRoute(
-                      context: context,
-                      builder: (context) => AddEvent(
-                        title: "Add New Event", ref: ref),
+    return PlatformScaffold(
+        body: Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: SizedBox(
+            width: screenWidth,
+            height: screenHeight - (0.18 * screenHeight),
+            child: GridView.count(
+                childAspectRatio: (screenWidth / 2 - 32) / (148),
+                padding: EdgeInsets.only(
+                    top: 48 + MediaQuery.of(context).viewPadding.top + 8 + 8),
+                crossAxisCount: 2,
+                mainAxisSpacing: 0,
+                children: List.generate(3, (index) {
+                  return GestureDetector(
+                    onTap: () => selectedGroup(index),
+                    child: Column(
+                      children: [
+                        Stack(
+                          clipBehavior: Clip.none,
+                          alignment: Alignment.center,
+                          children: [
+                            ColorFiltered(
+                              colorFilter: const ColorFilter.mode(
+                                  roundPurple, BlendMode.srcIn),
+                              child: Image.asset("images/GroupRound.png",
+                                  width: 120, height: 120, isAntiAlias: true),
+                            ),
+                            PlatformText("🖥️️",
+                                style: const TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                )),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                          child: PlatformText(
+                            "STEM Baddies",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 14),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
                     ),
                   );
-                },
-                icon: Icon(PlatformIcons(context).add, color: Colors.white),
-              ),
+                })),
+          ),
+        ),
+        Center(
+          child: Column(
+            children: [
+              SizedBox(
+                  width: screenWidth,
+                  height: MediaQuery.of(context).viewPadding.top + 8),
+              Image.asset('images/WordMark-Dark.png',
+                  width: screenWidth, height: 48),
             ],
           ),
-          Column(
-            children: <Widget>[
-              PlatformElevatedButton(
-                  onPressed: () {
-                    logout(
-                        Navigator.of(context), ScaffoldMessenger.of(context));
-                  },
-                  child: PlatformText("Logout"),
-                  color: roundPurple),
+        ),
+        Positioned(
+          bottom: 0,
+          child: Image.asset(
+            "images/BarEclipse.png",
+            width: screenWidth,
+            fit: BoxFit.fill,
+            height: 0.20 * screenHeight,
+            isAntiAlias: true,
+          ),
+        ),
+        Positioned(
+          width: screenWidth - 32,
+          height: 0.20 * screenHeight - 16,
+          left: 16,
+          bottom: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                  height: 120,
+                  width: 120,
+                  child: PlatformIconButton(
+                    icon: Image.asset("images/RoundQR.png",
+                        width: 120, height: 120, isAntiAlias: true),
+                    padding: EdgeInsets.zero,
+                    onPressed: () => showQR(context),
+                  )),
+              SizedBox(
+                  height: 120,
+                  width: 120,
+                  child: PlatformIconButton(
+                    icon: Image.asset("images/RoundPlus.png",
+                        width: 120, height: 120, isAntiAlias: true),
+                    padding: EdgeInsets.zero,
+                    onPressed: () => showAdd(context),
+                  )),
+              SizedBox(
+                  height: 120,
+                  width: 120,
+                  child: PlatformIconButton(
+                    icon: Image.asset("images/RoundSettings.png",
+                        width: 120, height: 120, isAntiAlias: true),
+                    padding: EdgeInsets.zero,
+                    onPressed: () => showSettings(context),
+                  ))
             ],
           ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ));
   }
 }
