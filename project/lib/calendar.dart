@@ -57,15 +57,13 @@ class _CalendarPageState extends State<CalendarPage> {
                 dataSource: Event(events: snapshot.data ?? []),
                 monthViewSettings: const MonthViewSettings(
                   appointmentDisplayMode:
-                      MonthAppointmentDisplayMode.appointment,
-                  showAgenda: true,
+                  MonthAppointmentDisplayMode.appointment,
+                  showAgenda: true,),
                 ),
-                snapshot.data != null
-                ? Container() : Container(),
-              ],
-            ));
-          },
-        ),
+              (snapshot.data != null) ? Container() : Container(),
+            ],
+          );
+        }
       ),
     );
   }
