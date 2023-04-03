@@ -90,7 +90,9 @@ class _CodeReceptionState extends State<CodeReception> {
         FirebaseDatabase.instance.ref("users/$userEx/groupIds");
     DatabaseReference userRef2 =
         FirebaseDatabase.instance.ref("groups/${groupId.text}/members");
+
     Map<dynamic, dynamic> type = snapshot.value as Map<dynamic, dynamic>;
+    print("here");
     if (snapshot.key != null) {
       for (var keys in type.entries) {
         if (keys.key.toString().contains(groupId.text) &&
