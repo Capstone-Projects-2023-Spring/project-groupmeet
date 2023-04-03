@@ -34,7 +34,9 @@ class _CalendarPageState extends State<CalendarPage> {
     Map<dynamic, dynamic> allMemberEvents;
 
     for (var memberId in widget.group!["members"].entries) {
+      print(memberId);
       final memberSnapshot = await ref.child(memberId.key+"/calendarEvents").get();
+      if(memberSnapshot.value == null) continue;
       for (var event in memberSnapshot.value as List){
         var tempStart;
         var tempEnd;
@@ -72,10 +74,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   ),
                 ),
                 snapshot.data != null
-                ? Container()
-                    : Center(
-                child: CircularProgressIndicator(),
-                ),
+                ? Container() : Container(),
               ],
             ));
           },
