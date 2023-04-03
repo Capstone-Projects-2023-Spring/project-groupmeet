@@ -23,9 +23,10 @@ class _CalendarPageState extends State<CalendarPage> {
     Map<dynamic, dynamic> allMemberEvents;
 
     for (var memberId in widget.group!["members"].entries) {
-      final memberSnapshot =
-          await ref.child(memberId.key + "/calendarEvents").get();
-      for (var event in memberSnapshot.value as List) {
+      print(memberId);
+      final memberSnapshot = await ref.child(memberId.key+"/calendarEvents").get();
+      if(memberSnapshot.value == null) continue;
+      for (var event in memberSnapshot.value as List){
         var tempStart;
         var tempEnd;
         event[0] == "null" ? tempStart = event[1] : tempStart = event[0];
@@ -59,14 +60,12 @@ class _CalendarPageState extends State<CalendarPage> {
                       MonthAppointmentDisplayMode.appointment,
                   showAgenda: true,
                 ),
-              ),
-              if (snapshot.data == null)
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
-            ],
-          );
-        },
+                snapshot.data != null
+                ? Container() : Container(),
+              ],
+            ));
+          },
+        ),
       ),
     );
   }

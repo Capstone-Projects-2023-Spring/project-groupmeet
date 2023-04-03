@@ -30,18 +30,37 @@ class GroupCreationState extends State<GroupCreation> {
     }
   }
 
-  Future<void> createGroupLinkUser() async {
-    final DatabaseReference groupRef =
-        FirebaseDatabase.instance.ref().child('groups').push();
-    groupRef.set({
+  Future <void> createGroupLinkUser() async {
+    final counter = await FirebaseDatabase
+        .instance
+        .ref()
+        .child('counter').once();
+
+    final counterRef = await FirebaseDatabase
+        .instance
+        .ref()
+        .child('counter');
+
+    final DatabaseReference groupRef = FirebaseDatabase
+        .instance
+        .ref()
+        .child('groups')
+        .child(counter.snapshot.value.toString());
+
+    final group = {
       'name': _groupNameController.text,
       'numMembers': int.parse(_numMembersController.text),
       'admin': FirebaseAuth.instance.currentUser!.uid,
-      'members': {FirebaseAuth.instance.currentUser!.uid: true},
-    });
-    final DatabaseReference usersRef = FirebaseDatabase.instance
-        .ref("users/${FirebaseAuth.instance.currentUser!.uid}/groupIds");
+      'members': {
+        FirebaseAuth.instance.currentUser!.uid: true
+      },
+    };
 
+    groupRef.set(group);
+    int value = int.parse(counter.snapshot.value!.toString());
+    counterRef.set(value + 1);
+    final DatabaseReference usersRef = FirebaseDatabase.instance.ref("users/${FirebaseAuth.instance.currentUser!.uid}/groupIds");
+    
     usersRef.update({"${groupRef.key}": true});
   }
 

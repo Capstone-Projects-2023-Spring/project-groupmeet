@@ -22,7 +22,6 @@ class _AllGroupsState extends State<AllGroups> {
 
   Future<List<Map>> grabGroups() async {
     List<Map> allGroups = [];
-    print(allGroups);
     final snapshot = await widget.ref.child('groupIds').get();
 
     DatabaseReference accessGroupInfoRef =
@@ -30,15 +29,20 @@ class _AllGroupsState extends State<AllGroups> {
 
     if (snapshot.exists) {
       Map<dynamic, dynamic> values = snapshot.value as Map<dynamic, dynamic>;
+
       Map<dynamic, dynamic> groupInfoMap;
       for (var entry in values.entries) {
+        if(entry.key == "dud") continue;
         final groupInfoSnapshot =
-            await accessGroupInfoRef.child(entry.key).get();
+          await accessGroupInfoRef.child(entry.key).get();
+        if(groupInfoSnapshot.value == null) continue;
         groupInfoMap = groupInfoSnapshot.value as Map<dynamic, dynamic>;
         groupInfoMap.putIfAbsent("gId", () => entry.key);
         allGroups.add(groupInfoMap);
+        print(allGroups.length);
       }
     }
+    print(allGroups);
     return allGroups;
   }
 
