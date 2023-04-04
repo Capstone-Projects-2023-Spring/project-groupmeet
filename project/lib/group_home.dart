@@ -149,7 +149,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
   }
 
     // call getData from this function and then use the array of events to find the next best date
-  Future<void> findNextBestDate() async {
+  Future<List<DateTime>> findNextBestDate() async {
     List<Appointment> allEvents = await getEventList() ;    
     List<DateTime> daysToPropose = [];
     // order events by the date        
@@ -172,11 +172,10 @@ class _GroupHomePageState extends State<GroupHomePage> {
         // if newTomorrow remains unchanged we can add it
         daysToPropose.add(toMeet);
         toMeet = toMeet.add(const Duration(days: 1));
-        print(daysToPropose);
+        // print(daysToPropose);
       }
         
-    // between two events - if there is a duration of time greater than  2hrs - then propose meeting time
-    // try to find a date within the next 3 days first
+    // between two events - if there is a duration of time greater than  1hrs - then propose meeting time    
     DateTime dateToPropose;
     for(int i = 0; i < allEvents.length - 1 ; i++){       
 
@@ -187,19 +186,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
           dateToPropose = allEvents[i].endTime.add(const Duration(minutes: 20));
                             
           if(dateToPropose.hour < 22 && dateToPropose.hour > 9){
-            print("going to propose this date: $dateToPropose");
+            // print("going to propose this date: $dateToPropose");
             daysToPropose.add(dateToPropose);
           }    }
         }  
     }          
-    print("allevents: ");
-    allEvents.forEach((element) {
-      print("startTime: ${element.startTime}");
-      print("endTime: ${element.endTime}");
-      });    
-    daysToPropose.sort();
+ 
     print("daysToPropose: $daysToPropose");
-        
+    daysToPropose.sort();
+    return daysToPropose;                
   }
   
 
@@ -309,26 +304,23 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
-                    children: [
+                    children: <Widget>[
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          findNextBestDate();
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //   const SnackBar(
-                          //     content: Text(
-                          //         'This button is currently under development. Come back later!'),
-                          //     duration: Duration(seconds: 2),
-                          //   ),
-                          // );
+                          // just printing proposal dates for now
+                          findNextBestDate();                        
+  
                         },
                         child: PlatformText('Suggest New Meeting Time',
                             style: const TextStyle(
                                 fontSize: 25, color: Colors.white)),
                       ),
+                     
+                      
                     ],
                   ),
                 ],
