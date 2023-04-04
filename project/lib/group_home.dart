@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_platform_widgets/src/platform_icons.dart';
 import 'calendar.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
@@ -124,6 +125,84 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return socialMediaMap;
   }
 
+  Future<List<Appointment>> getEventList() async{
+    List<Appointment> allEvents = [];
+    DatabaseReference ref = await FirebaseDatabase.instance.ref("users");
+
+    Map<dynamic, dynamic> allMemberEvents;
+
+    for (var memberId in widget.myGroup!["members"].entries) {
+      print(memberId);
+      final memberSnapshot = await ref.child(memberId.key+"/calendarEvents").get();
+      if(memberSnapshot.value == null) continue;
+      for (var event in memberSnapshot.value as List){
+        var tempStart;
+        var tempEnd;
+        event[0] == "null" ? tempStart = event[1] : tempStart = event[0];
+        event[2] == "null" ? tempEnd = event[3] : tempEnd = event[2];
+
+        allEvents.add(Appointment(startTime: DateTime.parse(tempStart), endTime: DateTime.parse(tempEnd)));
+      }
+    }    
+    
+    return allEvents as List<Appointment>;
+  }
+
+    // call getData from this function and then use the array of events to find the next best date
+  Future<void> findNextBestDate() async {
+    List<Appointment> allEvents = await getEventList() ;    
+    List<DateTime> daysToPropose = [];
+    // order events by the date        
+    allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);  
+          
+      // if tomorrow is not within planned events than you can propose a meeting on that day
+      // try to get 5 and then quit
+      // if the proposing time is at midnight it's because the whole day is free
+      DateTime toMeet = DateTime.now().add(const Duration(days:1));
+      toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);    
+      for(int i = 0; i < 5; i++){
+        allEvents.forEach((eachEvent) { 
+          DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
+          DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
+          if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
+            toMeet = toMeet.add(const Duration(days: 1));
+            // then tomorrow's date is invalid for a free day of meetings
+          }
+        });
+        // if newTomorrow remains unchanged we can add it
+        daysToPropose.add(toMeet);
+        toMeet = toMeet.add(const Duration(days: 1));
+        print(daysToPropose);
+      }
+        
+    // between two events - if there is a duration of time greater than  2hrs - then propose meeting time
+    // try to find a date within the next 3 days first
+    DateTime dateToPropose;
+    for(int i = 0; i < allEvents.length - 1 ; i++){       
+
+      if(allEvents[i].isAllDay){
+        i++;
+      }else{
+        if(allEvents[i + 1].startTime.difference(allEvents[i].endTime) > const Duration(hours: 1)){
+          dateToPropose = allEvents[i].endTime.add(const Duration(minutes: 20));
+                            
+          if(dateToPropose.hour < 22 && dateToPropose.hour > 9){
+            print("going to propose this date: $dateToPropose");
+            daysToPropose.add(dateToPropose);
+          }    }
+        }  
+    }          
+    print("allevents: ");
+    allEvents.forEach((element) {
+      print("startTime: ${element.startTime}");
+      print("endTime: ${element.endTime}");
+      });    
+    daysToPropose.sort();
+    print("daysToPropose: $daysToPropose");
+        
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,13 +316,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'This button is currently under development. Come back later!'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
+                          findNextBestDate();
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(
+                          //     content: Text(
+                          //         'This button is currently under development. Come back later!'),
+                          //     duration: Duration(seconds: 2),
+                          //   ),
+                          // );
                         },
                         child: PlatformText('Suggest New Meeting Time',
                             style: const TextStyle(

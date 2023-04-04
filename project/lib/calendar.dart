@@ -27,9 +27,9 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
 
-  late List<Appointment> allEvents = [];
+  
   Future<List<Appointment>> getData() async{
-    
+    List<Appointment> allEvents = [];
     DatabaseReference ref = await FirebaseDatabase.instance.ref("users");
 
     Map<dynamic, dynamic> allMemberEvents;
@@ -47,50 +47,10 @@ class _CalendarPageState extends State<CalendarPage> {
         allEvents.add(Appointment(startTime: DateTime.parse(tempStart), endTime: DateTime.parse(tempEnd)));
       }
     }    
-    findNextBestDate();
+    
     return allEvents as List<Appointment>;
   }
 
-  // call getData from this function and then use the array of events to find the next best date
-  Future<void> findNextBestDate() async {
-    print("now: ${DateTime.now().hour} : ${DateTime.now().minute}");
-    
-    List<DateTime> daysToPropose = [];
-
-    var tomorrow = DateTime.now().add(const Duration(days:1));
-    tomorrow = DateTime(tomorrow.year, tomorrow.month, tomorrow.day);    
-    print("tommorrow:  $tomorrow");
-        
-
-    // order events by the date        
-    allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);
-    
-    // between two events - if there is a duration of time greater than an hr - then propose meeting time
-    // try to find a date within the next 3 days first
-    DateTime dateToPropose;
-    for(int i = 0; i < allEvents.length - 1 ; i++){      
-
-      if(allEvents[i].isAllDay){
-        i++;
-      }else{
-        if(allEvents[i + 1].startTime.difference(allEvents[i].endTime) > const Duration(hours: 2)){
-          dateToPropose = allEvents[i].endTime.add(const Duration(minutes: 20));
-                            
-          if(dateToPropose.hour < 22 && dateToPropose.hour > 9){
-            print("going to propose this date: ${dateToPropose.hour}");
-            daysToPropose.add(dateToPropose);
-          }    }
-        }  
-    }          
-    print("allevents: ");
-    allEvents.forEach((element) {
-      print(element.startTime);
-      print(element.endTime);
-      });    
-    daysToPropose.sort();
-    print("daysToPropose: $daysToPropose");
-        
-  }
 
   @override
   Widget build(BuildContext context) {
