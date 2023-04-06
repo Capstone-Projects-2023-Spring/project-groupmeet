@@ -8,6 +8,7 @@ import 'package:groupmeet/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home.dart';
+import 'new_group_creation.dart';
 
 // Initialize the app and run it.
 Future<void> main() async {
@@ -64,7 +65,7 @@ class MyApp extends StatelessWidget {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      firstStop = const HomeScreen(title: 'Home');
+      firstStop = HomeScreen();
     } else {
       firstStop = Explainer(pageNo: 0);
     }
@@ -76,7 +77,11 @@ class MyApp extends StatelessWidget {
         material: (context, platform) =>
             MaterialAppData(theme: materialTheme, color: roundPurple),
         cupertino: (context, platform) =>
-            CupertinoAppData(theme: cupertinoTheme, color: roundPurple),
+            CupertinoAppData(theme: cupertinoTheme, color: roundPurple, localizationsDelegates: [
+              DefaultCupertinoLocalizations.delegate,
+              DefaultMaterialLocalizations.delegate,
+              DefaultWidgetsLocalizations.delegate,
+            ]),
         home: firstStop, //Explainer(pageNo: 0),
         title: "Round",
         color: roundPurple);

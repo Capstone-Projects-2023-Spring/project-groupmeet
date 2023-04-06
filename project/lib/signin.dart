@@ -39,7 +39,7 @@ class NewSignIn extends StatelessWidget {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => const HomeScreen(title: 'Home',)));
+          context: context, builder: (context) => HomeScreen()));
     } catch (e) {
       String errorMessage = 'An error occurred, please try again later.';
 
