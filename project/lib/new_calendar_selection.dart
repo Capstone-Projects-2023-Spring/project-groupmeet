@@ -4,7 +4,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:groupmeet/new_social_onboarding.dart';
 import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:date_utils/date_utils.dart' as utils;
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
@@ -51,8 +50,6 @@ class NewCalendarSelection extends StatelessWidget {
     final google_api.Events calEvents = await calendarApi.events
         .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
 
-    //get uid and open database reference
-    final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;

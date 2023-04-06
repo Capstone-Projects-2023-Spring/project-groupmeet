@@ -5,7 +5,6 @@ import 'package:groupmeet/create_account_old.dart';
 import 'package:groupmeet/theme.dart';
 
 import 'home.dart';
-import 'settings.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
