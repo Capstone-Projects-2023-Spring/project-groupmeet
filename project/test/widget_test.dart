@@ -21,9 +21,9 @@ void main() {
   });
 
   test("unit test example", () {
-    const widget = HomeScreen(title: "Test");
+    var widget = HomeScreen();
     widget.createElement();
-    expect(widget.title, "Test");
+    expect(widget, "Test");
   });
 
   testWidgets('Title test for Settings Screen', (WidgetTester tester) async {

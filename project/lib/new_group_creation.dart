@@ -3,12 +3,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/new_calendar_selection.dart';
 import 'package:groupmeet/theme.dart';
 
 import 'signin.dart';
 
 class NewGroupCreation extends StatefulWidget {
+  const NewGroupCreation({super.key});
+
   @override
   _NewGroupCreationState createState() => _NewGroupCreationState();
 }
@@ -143,8 +144,8 @@ class _NewGroupCreationState extends State<NewGroupCreation> {
           content: content,
           actions: [
             TextButton(
-              child: PlatformText('Cancel', selectionColor: roundPurple),
               onPressed: Navigator.of(context).pop,
+              child: PlatformText('Cancel', selectionColor: roundPurple),
             ),
             TextButton(
               child: PlatformText('Submit', selectionColor: roundPurple),
