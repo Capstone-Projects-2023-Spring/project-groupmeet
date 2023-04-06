@@ -87,7 +87,7 @@ class _CodeSharingState extends State<CodeSharing> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: PlatformText('Join Group Button'),
-                            duration: Duration(seconds: 5),
+                            duration: const Duration(seconds: 5),
                           ),
                         );
                       },

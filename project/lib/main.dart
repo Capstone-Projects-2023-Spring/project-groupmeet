@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:groupmeet/explainer.dart';
 import 'package:groupmeet/theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-import 'login.dart';
-import 'package:flutter/cupertino.dart';
+import 'home.dart';
+import 'new_group_creation.dart';
 
 // Initialize the app and run it.
 Future<void> main() async {
@@ -21,53 +24,66 @@ class MyApp extends StatelessWidget {
   // Build the app widget.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
     final materialTheme = ThemeData(
-      primaryColor: roundPurple,
-      scaffoldBackgroundColor: roundBlack,
-      brightness: Brightness.dark,
-      platform: TargetPlatform.android,
-      hintColor: Colors.white,
-      buttonColor: roundPurple,
-      buttonTheme: const ButtonThemeData(buttonColor: roundPurple),
-    );
+        primaryColor: roundPurple,
+        scaffoldBackgroundColor: roundBlack,
+        brightness: Brightness.dark,
+        platform: TargetPlatform.android,
+        hintColor: Colors.white,
+        focusColor: roundPurple,
+        highlightColor: roundPurple,
+        inputDecorationTheme: const InputDecorationTheme(
+            focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: roundPurple)),
+            enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: roundPurple))),
+        textSelectionTheme: const TextSelectionThemeData(
+            selectionColor: roundPurple,
+            cursorColor: roundPurple,
+            selectionHandleColor: roundPurple),
+        dividerColor: roundPurple,
+        textButtonTheme: const TextButtonThemeData(
+            style: ButtonStyle(
+                surfaceTintColor: MaterialStatePropertyAll(roundPurple))),
+        cardColor: roundPurple,
+        fontFamily: "Urbanist");
 
-    const cupertinoTheme =  CupertinoThemeData(
-      primaryColor: roundPurple,
-      barBackgroundColor: roundPurple,
-      scaffoldBackgroundColor: roundBlack,
-      primaryContrastingColor: Colors.white,
-      brightness: Brightness.dark,
-      textTheme: CupertinoTextThemeData(primaryColor: Colors.white)
-    );
+    const cupertinoTheme = CupertinoThemeData(
+        primaryColor: roundPurple,
+        barBackgroundColor: roundPurple,
+        scaffoldBackgroundColor: roundBlack,
+        primaryContrastingColor: Colors.white,
+        brightness: Brightness.dark,
+        textTheme: CupertinoTextThemeData(
+            primaryColor: Colors.white,
+            textStyle: TextStyle(fontFamily: "Urbanist")));
+
+    Widget firstStop;
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      firstStop = HomeScreen();
+    } else {
+      firstStop = Explainer(pageNo: 0);
+    }
 
     return PlatformApp(
-      debugShowCheckedModeBanner: false,
-      material: (context, platform) => MaterialAppData(theme: materialTheme, color: roundPurple),
-      cupertino: (context, platform) => CupertinoAppData(theme: cupertinoTheme, color: roundPurple),
-      home: const LoginScreen(),
-      title: "Round",
-      color: roundPurple
-    );
-
-    // return Theme(data: materialTheme,
-    //     child: PlatformProvider(settings: PlatformSettingsData(
-    //         iosUsesMaterialWidgets: false,
-    //         iosUseZeroPaddingForAppbarPlatformIcon: true
-    //     ),
-    //   builder: (context) => const PlatformApp(
-    //     home: LoginScreen(),
-    //     title: "Round",
-    //     debugShowCheckedModeBanner: false, // <- hate this
-    //   ),
-    // ));
-
-
-    // return MaterialApp(
-    //   title: 'Flutter Demo',
-    //   theme: appTheme,
-    //   home: const LoginScreen(),
-    //   // home: const Center(child: Text('Test')),
-    // );
+        checkerboardOffscreenLayers: false,
+        checkerboardRasterCacheImages: false,
+        debugShowCheckedModeBanner: false,
+        material: (context, platform) =>
+            MaterialAppData(theme: materialTheme, color: roundPurple),
+        cupertino: (context, platform) =>
+            CupertinoAppData(theme: cupertinoTheme, color: roundPurple, localizationsDelegates: [
+              DefaultCupertinoLocalizations.delegate,
+              DefaultMaterialLocalizations.delegate,
+              DefaultWidgetsLocalizations.delegate,
+            ]),
+        home: firstStop, //Explainer(pageNo: 0),
+        title: "Round",
+        color: roundPurple);
   }
 }

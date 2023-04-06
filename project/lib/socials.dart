@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:groupmeet/theme.dart';
 
 class SocialMedia extends StatefulWidget {
-  const SocialMedia(
-      {super.key, required this.databaseReference, required this.title});
+  const SocialMedia({super.key, required this.databaseReference});
 
-  final String title;
   final DatabaseReference databaseReference;
 
   @override
-  State<SocialMedia> createState() => _SocialMediaState();
+  State<SocialMedia> createState() => SocialMediaState();
 }
 
-class _SocialMediaState extends State<SocialMedia> {
+class SocialMediaState extends State<SocialMedia> {
   late DatabaseReference databaseReference;
   late bool instaSelect;
   late bool fbSelect;
@@ -57,107 +54,114 @@ class _SocialMediaState extends State<SocialMedia> {
 
   @override
   Widget build(BuildContext context) {
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
-        title: PlatformText(widget.title),
+    return
+        // PlatformScaffold(
+        // body:
+        // removed the scaffold to reuse with the account creation onboarding
+        // consider using the social media component within another settings page
+        // otherwise put the scaffold back and use the same code twice for socialMediaOnboarding ?
+        Material(
+            child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CheckboxListTile(
+            tileColor: roundBlack,
+            title: PlatformText('Instagram'),
+            secondary: const Image(
+              image: NetworkImage(
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"),
+              height: 30,
+              width: 30,
+            ),
+            value: instaSelect,
+            onChanged: (value) {
+              setState(() {
+                instaSelect = value!;
+                databaseReference.update({
+                  "instagram": instaSelect,
+                });
+              });
+            },
+          ),
+          CheckboxListTile(
+            tileColor: roundBlack,
+            title: const Text('Facebook'),
+            secondary: const Image(
+              image: NetworkImage(
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png"),
+              height: 30,
+              width: 30,
+            ),
+            value: fbSelect,
+            onChanged: (value) {
+              setState(() {
+                fbSelect = value!;
+                databaseReference.update({
+                  "facebook": fbSelect,
+                });
+              });
+            },
+          ),
+          CheckboxListTile(
+            tileColor: roundBlack,
+            title: const Text('Discord'),
+            secondary: const Image(
+              image: NetworkImage(
+                  "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"),
+              height: 30,
+              width: 30,
+            ),
+            value: discordSelect,
+            onChanged: (value) {
+              setState(() {
+                discordSelect = value!;
+                databaseReference.update({
+                  "discord": discordSelect,
+                });
+              });
+            },
+          ),
+          CheckboxListTile(
+            tileColor: roundBlack,
+            title: const Text('Messages'),
+            secondary: const Image(
+              image: NetworkImage(
+                  "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IMessage_logo.svg/2048px-IMessage_logo.svg.png"),
+              height: 30,
+              width: 30,
+            ),
+            value: messagesSelect,
+            onChanged: (value) {
+              setState(() {
+                messagesSelect = value!;
+                databaseReference.update({
+                  "messages": messagesSelect,
+                });
+              });
+            },
+          ),
+          CheckboxListTile(
+            tileColor: roundBlack,
+            title: const Text('SnapChat'),
+            secondary: const Image(
+              image: NetworkImage(
+                  "https://assets.stickpng.com/images/580b57fcd9996e24bc43c536.png"),
+              height: 30,
+              width: 30,
+            ),
+            value: snapSelect,
+            onChanged: (value) {
+              setState(() {
+                snapSelect = value!;
+                databaseReference.update({
+                  "snapchat": snapSelect,
+                });
+              });
+            },
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-
-            CheckboxListTile(
-              title: PlatformText('Instagram'),
-              secondary: const Image(
-                image: NetworkImage(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/2048px-Instagram_icon.png"),
-                height: 30,
-                width: 30,
-              ),
-              value: instaSelect,
-              onChanged: (value) {
-                setState(() {
-                  instaSelect = value!;
-                  databaseReference.update({
-                    "instagram": instaSelect,
-                  });
-                });
-              },
-            ),
-            CheckboxListTile(
-              title: const Text('Facebook'),
-              secondary: const Image(
-                image: NetworkImage(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/2048px-2021_Facebook_icon.svg.png"),
-                height: 30,
-                width: 30,
-              ),
-              value: fbSelect,
-              onChanged: (value) {
-                setState(() {
-                  fbSelect = value!;
-                  databaseReference.update({
-                    "facebook": fbSelect,
-                  });
-                });
-              },
-            ),
-            CheckboxListTile(
-              title: const Text('Discord'),
-              secondary: const Image(
-                image: NetworkImage(
-                    "https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png"),
-                height: 30,
-                width: 30,
-              ),
-              value: discordSelect,
-              onChanged: (value) {
-                setState(() {
-                  discordSelect = value!;
-                  databaseReference.update({
-                    "discord": discordSelect,
-                  });
-                });
-              },
-            ),
-            CheckboxListTile(
-              title: const Text('Messages'),
-              secondary: const Image(
-                image: NetworkImage(
-                    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/IMessage_logo.svg/2048px-IMessage_logo.svg.png"),
-                height: 30,
-                width: 30,
-              ),
-              value: messagesSelect,
-              onChanged: (value) {
-                setState(() {
-                  messagesSelect = value!;
-                  databaseReference.update({
-                    "messages": messagesSelect,
-                  });
-                });
-              },
-            ),
-            CheckboxListTile(
-              title: const Text('SnapChat'),
-              secondary: const Image(
-                image: NetworkImage(
-                    "https://assets.stickpng.com/images/580b57fcd9996e24bc43c536.png"),
-                height: 30,
-                width: 30,
-              ),
-              value: snapSelect,
-              onChanged: (value) {
-                setState(() {
-                  snapSelect = value!;
-                  databaseReference.update({
-                    "snapchat": snapSelect,
-                  });
-                });
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    ));
   }
 }

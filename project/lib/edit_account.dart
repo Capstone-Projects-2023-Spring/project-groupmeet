@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 class EditAccountInfo extends StatefulWidget {
-  const EditAccountInfo({Key? key, required this.title, required this.ref}) : super(key: key);
+  const EditAccountInfo({Key? key, required this.title, required this.ref})
+      : super(key: key);
 
   final String title;
   final DatabaseReference ref;
@@ -70,39 +72,30 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText(widget.title),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children:[
-            const Text("First Name:"),
-            TextFormField(
+          children: [
+            PlatformText("First Name:"),
+            PlatformTextFormField(
               controller: _firstNameController..text = fName,
-              decoration: InputDecoration(
-                errorText: _firstNameController.text.trim().isNotEmpty ? null : "First name cannot be empty."
-              ),
             ),
-            const Text("Last Name:"),
-            TextFormField(
+            PlatformText("Last Name:"),
+            PlatformTextFormField(
               controller: _lastNameController..text = lName,
-              decoration: InputDecoration(
-                  errorText: _lastNameController.text.trim().isNotEmpty ? null : "Last name cannot be empty."
-              ),
             ),
             const Text("Email:"),
-            TextFormField(
+            PlatformTextFormField(
               controller: _emailController..text = email,
-              decoration: InputDecoration(
-                  errorText: _emailController.text.trim().isNotEmpty ? null : "Email cannot be empty."
-              ),
             ),
-            ElevatedButton(
+            PlatformElevatedButton(
               onPressed: saveChanges,
-              child: const Text("Save Changes"),
+              child: PlatformText("Save Changes"),
             ),
           ],
         ),

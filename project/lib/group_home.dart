@@ -2,22 +2,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
-import 'package:googleapis/calendar/v3.dart' as google_api;
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
-
-import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'calendar.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   const GroupHomePage(
       {super.key,
-        required this.title,
-        required this.databaseReference,
-        this.myGroup});
+      required this.title,
+      required this.databaseReference,
+      this.myGroup});
 
   final String title;
   final DatabaseReference databaseReference;
@@ -47,7 +42,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
     }
-
+    //print(allMembers);
     return allMembers;
   }
 
@@ -56,7 +51,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref("users/$uid/groupIds/${widget.myGroup!["gId"]}");
     DatabaseReference groupRef =
-    FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
+        FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
 
     userRef.remove();
     groupRef.remove();
@@ -70,18 +65,6 @@ class _GroupHomePageState extends State<GroupHomePage> {
     discordCount = 0;
     messagesCount = 0;
     snapCount = 0;
-
-    // Google Calendar API
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-        _currentUser = account;
-      });
-      if (_currentUser != null) {
-        getPrimaryCalendar();
-      }
-    });
-    // _googleSignIn.signInSilently();
-    _handleSignIn();
   }
 
   Future<Map<String, int>> getData() async {
@@ -121,13 +104,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
       }
     }
     Map<String, int> socialMediaMap = {
-      "instagram": instaCount,
-      "facebook": fbCount,
-      "discord": discordCount,
-      "messages": messagesCount,
-      "snapchat": snapCount
+      "Instagram": instaCount,
+      "Facebook": fbCount,
+      "Discord": discordCount,
+      "Messages": messagesCount,
+      "Snapchat": snapCount
     };
-    // Need to have this update to database in the future
     widget.myGroup
         ?.update("instaCount", (value) => 'New', ifAbsent: () => instaCount);
     widget.myGroup
@@ -142,41 +124,78 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return socialMediaMap;
   }
 
-  // Google Calendar API
-  // move google sign in to account creation after it is working for everyone?
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    // Optional clientId
-    // clientId: '[YOUR_OAUTH_2_CLIENT_ID]',
-    scopes: <String>[google_api.CalendarApi.calendarScope],
-  );
+  Future<List<Appointment>> getEventList() async{
+    List<Appointment> allEvents = [];
+    DatabaseReference ref = await FirebaseDatabase.instance.ref("users");
 
-  Future<void> _handleSignIn() async {
-    try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
-    }
+    Map<dynamic, dynamic> allMemberEvents;
+
+    for (var memberId in widget.myGroup!["members"].entries) {
+      print(memberId);
+      final memberSnapshot = await ref.child(memberId.key+"/calendarEvents").get();
+      if(memberSnapshot.value == null) continue;
+      for (var event in memberSnapshot.value as List){
+        var tempStart;
+        var tempEnd;
+        event[0] == "null" ? tempStart = event[1] : tempStart = event[0];
+        event[2] == "null" ? tempEnd = event[3] : tempEnd = event[2];
+
+        allEvents.add(Appointment(startTime: DateTime.parse(tempStart), endTime: DateTime.parse(tempEnd)));
+      }
+    }    
+    
+    return allEvents as List<Appointment>;
   }
 
-  GoogleSignInAccount? _currentUser;
+    // call getData from this function and then use the array of events to find the next best date
+  Future<List<DateTime>> findNextBestDate() async {
+    List<Appointment> allEvents = await getEventList() ;    
+    List<DateTime> daysToPropose = [];
+    // order events by the date        
+    allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);  
+          
+      // if tomorrow is not within planned events than you can propose a meeting on that day
+      // try to get 5 and then quit
+      // if the proposing time is at midnight it's because the whole day is free
+      DateTime toMeet = DateTime.now().add(const Duration(days:1));
+      toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);    
+      for(int i = 0; i < 5; i++){
+        allEvents.forEach((eachEvent) { 
+          DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
+          DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
+          if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
+            toMeet = toMeet.add(const Duration(days: 1));
+            // then tomorrow's date is invalid for a free day of meetings
+          }
+        });
+        // if newTomorrow remains unchanged we can add it
+        daysToPropose.add(toMeet);
+        toMeet = toMeet.add(const Duration(days: 1));
+        // print(daysToPropose);
+      }
+        
+    // between two events - if there is a duration of time greater than  1hrs - then propose meeting time    
+    DateTime dateToPropose;
+    for(int i = 0; i < allEvents.length - 1 ; i++){       
 
-  Future<void> getPrimaryCalendar() async {
-    // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
-    final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
-    assert(client != null, 'Authenticated client missing!');
-
-    // Prepare a calendar authenticated client.
-    final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
-    final google_api.Events calEvents = await calendarApi.events.list("primary");
-    // print(calEvents.toJson());
-
-    //list of events to add to firebase (temporarily just printing)
-    List<google_api.Event> eventItems = calEvents.items!;
-    for (var element in eventItems) {
-      print(element.summary);
-      print("Start Date: ${element.start!.date}");
-      print("End Date ${element.end!.date}");
-    }}
+      if(allEvents[i].isAllDay){
+        i++;
+      }else{
+        if(allEvents[i + 1].startTime.difference(allEvents[i].endTime) > const Duration(hours: 1)){
+          dateToPropose = allEvents[i].endTime.add(const Duration(minutes: 20));
+                            
+          if(dateToPropose.hour < 22 && dateToPropose.hour > 9){
+            // print("going to propose this date: $dateToPropose");
+            daysToPropose.add(dateToPropose);
+          }    }
+        }  
+    }          
+ 
+    print("daysToPropose: $daysToPropose");
+    daysToPropose.sort();
+    return daysToPropose;                
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -193,8 +212,35 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 TextSpan(
                   text: widget.title,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 35),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35,
+                      color: Colors.deepPurple),
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: const [
+                      Text(
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          "Group Code:"),
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 20),
+                          "${widget.myGroup!["gId"]}"),
+                    ],
+                  ),
+                ],
               ),
               // const Image(
               //   image: NetworkImage(
@@ -211,18 +257,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CalendarPage(
-                                    title: "Calendar",
-                                  )));
+                                        title: "Calendar",
+                                        group: widget.myGroup,
+                                      )));
                         },
-                        child: const Text('pulling google events',
-                            style: TextStyle(fontSize: 20, color: Colors.white)),
+                        child: const Text('Calendar',
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -231,18 +279,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Test'),
-                              duration: Duration(seconds: 5),
+                              content: Text(
+                                  'This button is currently under development. Come back later!'),
+                              duration: Duration(seconds: 2),
                             ),
                           );
                         },
                         child: const Text('Edit Availabilities',
-                            style: TextStyle(fontSize: 20)),
+                            style:
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -253,23 +303,23 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
-                    children: [
+                    children: <Widget>[
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Test'),
-                              duration: Duration(seconds: 5),
-                            ),
-                          );
+                          // just printing proposal dates for now
+                          findNextBestDate();                        
+  
                         },
                         child: PlatformText('Suggest New Meeting Time',
-                            style: const TextStyle(fontSize: 25)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
+                     
+                      
                     ],
                   ),
                 ],
@@ -283,18 +333,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Test'),
-                              duration: Duration(seconds: 5),
+                              content: Text(
+                                  'This button is currently under development. Come back later!'),
+                              duration: Duration(seconds: 2),
                             ),
                           );
                         },
                         child: PlatformText('Cancel Active Meeting',
-                            style: const TextStyle(fontSize: 25)),
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -308,28 +360,33 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       future: grabGroupMembers(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          var membersWidget = snapshot.data ?? []
+                          //print(snapshot);
+                          var membersWidget = snapshot.data!
                               .map((eachMember) => Text(
-                            eachMember["firstName"] +
-                                " " +
-                                eachMember["lastName"],
-                            style: const TextStyle(fontSize: 15),
-                          ))
+                                    eachMember["firstName"] +
+                                        " " +
+                                        eachMember["lastName"],
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.white),
+                                  ))
                               .toList();
                           var check = Column(
-                            children: [],
+                            children: membersWidget,
                           );
                           return Container(
                               decoration: BoxDecoration(
                                   border:
-                                  Border.all(width: 1, color: Colors.grey)),
+                                      Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
-                                    style: const TextStyle(fontSize: 20), "Members"),
+                                    style: const TextStyle(
+                                        fontSize: 20, color: Colors.white),
+                                    "Members"),
                                 check
                               ]));
                         } else {
-                          return PlatformText("no data yet--replace this");
+                          print("checking");
+                          return PlatformText("");
                         }
                       })
                 ],
@@ -343,17 +400,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Test'),
-                              duration: Duration(seconds: 5),
+                              content: Text(
+                                  'This button is currently under development. Come back later!'),
+                              duration: Duration(seconds: 2),
                             ),
                           );
                         },
-                        child: const Text('Edit Members'),
+                        child: PlatformText('Edit Members',
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -362,7 +422,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           leaveGroup().then((_) {
@@ -370,13 +430,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
                               SnackBar(
                                 content: Text(
                                     'Left Group ${widget.myGroup!["name"]}'),
-                                duration: const Duration(seconds: 5),
+                                duration: const Duration(seconds: 2),
                               ),
                             );
                             Navigator.pop(context);
                           });
                         },
-                        child: PlatformText('Leave Group'),
+                        child: PlatformText('Leave Group',
+                            style: const TextStyle(
+                                fontSize: 25, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -391,15 +453,16 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         List<Text> socialMediaText = [];
                         if (snapshot.hasData) {
                           snapshot.data!.forEach((key, value) {
-                            socialMediaText.add(Text("$key $value"));
+                            socialMediaText.add(Text("$key Users: $value",
+                                style: const TextStyle(
+                                    fontSize: 20, color: Colors.white)));
                           });
                         }
                         var check = Column(children: socialMediaText);
                         return Container(
                           child: check,
                         );
-                      }
-                    ),
+                      }),
                 ],
               ),
             ],

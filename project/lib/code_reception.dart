@@ -15,11 +15,11 @@ class CodeReception extends StatefulWidget {
 }
 
 class _CodeReceptionState extends State<CodeReception> {
-  late TextEditingController group_id;
+  late TextEditingController groupId;
   final GlobalKey _key = GlobalKey();
   Barcode? _scannedCode;
 
-  void getQR(QRViewController qrcontroller){
+  void getQR(QRViewController qrcontroller) {
     qrcontroller.scannedDataStream.listen((event) {
       setState(() {
         _scannedCode = event;
@@ -30,12 +30,12 @@ class _CodeReceptionState extends State<CodeReception> {
   @override
   void initState() {
     super.initState();
-    group_id = TextEditingController();
+    groupId = TextEditingController();
   }
 
   @override
   void dispose() {
-    group_id.dispose();
+    groupId.dispose();
     super.dispose();
   }
 
@@ -65,41 +65,46 @@ class _CodeReceptionState extends State<CodeReception> {
                 ],
 
               ));
-  //Connect with the move of QR code
 
-
-  void updateDatabase () async {
+  void updateDatabase() async {
     int count = 0;
     int count_2 = 0;
-    String? user_ex = FirebaseAuth.instance.currentUser!.uid;
+    String? userEx = FirebaseAuth.instance.currentUser!.uid;
     DatabaseReference ref = FirebaseDatabase.instance.ref();
     final snapshot = await ref.child('groups').get();
-    DatabaseReference ref2 = FirebaseDatabase.instance.ref("groups/${group_id.text}");
+    DatabaseReference ref2 =
+        FirebaseDatabase.instance.ref("groups/${groupId.text}");
     final snapshot2 = await ref2.child('name').get();
-    DatabaseReference userRef = FirebaseDatabase.instance.ref("users/$user_ex/groupIds");
-    DatabaseReference userRef2 = FirebaseDatabase.instance.ref("groups/${group_id.text}/members");
+    DatabaseReference userRef =
+        FirebaseDatabase.instance.ref("users/$userEx/groupIds");
+    DatabaseReference userRef2 =
+        FirebaseDatabase.instance.ref("groups/${groupId.text}/members");
+
     Map<dynamic, dynamic> type = snapshot.value as Map<dynamic, dynamic>;
+    print("here");
     if (snapshot.key != null) {
       for (var keys in type.entries) {
-        if (keys.key.toString().contains(group_id.text) && group_id.text.isNotEmpty) {
+        if (keys.key.toString().contains(groupId.text) &&
+            groupId.text.isNotEmpty) {
           count = 1;
-          final snapshot1 = await ref.child('users/$user_ex/groupIds').get();
+          final snapshot1 = await ref.child('users/$userEx/groupIds').get();
           if (snapshot1.exists) {
-            Map<dynamic, dynamic> type1 = snapshot1.value as Map<dynamic, dynamic>;
+            Map<dynamic, dynamic> type1 =
+                snapshot1.value as Map<dynamic, dynamic>;
             for (var keys2 in type1.entries) {
               count_2++;
-              if (keys2.key.toString().contains(group_id.text)) {
+              if (keys2.key.toString().contains(groupId.text)) {
                 Fluttertoast.showToast(
-                    msg: "You have already joined this group. Please enter another Code.",
+                    msg:
+                        "You have already joined this group. Please enter another Code.",
                     toastLength: Toast.LENGTH_LONG,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 4,
                     backgroundColor: Colors.grey,
                     fontSize: 15);
                 break;
-              }
-              else {
-                if (type1.entries.length == count_2){
+              } else {
+                if (type1.entries.length == count_2) {
                   Fluttertoast.showToast(
                       msg: "Adding to group ${snapshot2.value} ....",
                       toastLength: Toast.LENGTH_LONG,
@@ -107,8 +112,8 @@ class _CodeReceptionState extends State<CodeReception> {
                       timeInSecForIosWeb: 4,
                       backgroundColor: Colors.grey,
                       fontSize: 15);
-                  userRef.update({group_id.text: true});
-                  userRef2.update({user_ex: true});
+                  userRef.update({groupId.text: true});
+                  userRef2.update({userEx: true});
                   Fluttertoast.showToast(
                       msg: "You're now added to ${snapshot2.value}!",
                       toastLength: Toast.LENGTH_LONG,
@@ -118,14 +123,15 @@ class _CodeReceptionState extends State<CodeReception> {
                       fontSize: 15);
                   Navigator.of(context).pop(false);
                   break;
-               }
+                }
               }
             }
-          }
-          else {
-            userRef.update({group_id.text: true});
-            userRef2.update({user_ex: true});
-            Fluttertoast.showToast(msg: "You've now been added to the group -> ${snapshot2.value}!",
+          } else {
+            userRef.update({groupId.text: true});
+            userRef2.update({userEx: true});
+            Fluttertoast.showToast(
+                msg:
+                    "You've now been added to the group -> ${snapshot2.value}!",
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 4,
@@ -136,9 +142,11 @@ class _CodeReceptionState extends State<CodeReception> {
           }
         }
       }
-      if (count.isEven){
+      if (count.isEven) {
         //We're gonna write
-        Fluttertoast.showToast(msg: "The codes assigned doesn't match any groups that exit. Please try again!",
+        Fluttertoast.showToast(
+            msg:
+                "The codes assigned doesn't match any groups that exit. Please try again!",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 4,
@@ -146,9 +154,9 @@ class _CodeReceptionState extends State<CodeReception> {
             fontSize: 15);
         Navigator.of(context).pop(false);
       }
-    }
-    else {
-      Fluttertoast.showToast(msg: "No groups exist! Please create a new group!",
+    } else {
+      Fluttertoast.showToast(
+          msg: "No groups exist! Please create a new group!",
           toastLength: Toast.LENGTH_LONG,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 4,
@@ -159,9 +167,11 @@ class _CodeReceptionState extends State<CodeReception> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: PlatformScaffold(
+    return SafeArea(
+        child: PlatformScaffold(
       appBar: PlatformAppBar(title: PlatformText("Joining Group Options")),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (one == 1)
             SizedBox(

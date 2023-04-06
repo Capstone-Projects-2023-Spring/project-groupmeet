@@ -10,6 +10,7 @@ dependencies:
   firebase_core: ^2.5.0
   fluttertoast: ^8.0.8
   cupertino_icons: ^1.0.2
+  date_utils: ^0.2.0
   firebase_auth: ^4.2.6
   firebase_database: ^10.0.10
   firebase_core_platform_interface: ^4.5.3
@@ -22,10 +23,21 @@ dependencies:
   googleapis: ^9.2.0
   googleapis_auth: ^1.4.0
   syncfusion_flutter_calendar: ^20.4.54
+  firebase_messaging: ^14.3.0
+  permission_handler: ^9.2.0
   intl: ^0.17.0
+  date_time_picker: ^2.1.0
+  flutter_material_color_picker: ^1.1.0+2
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
 flutter:
   uses-material-design: true
+  assets:
+    - images/
+    - fonts/
+  fonts:
+    - family: Urbanist
+      fonts:
+        - asset: fonts/Urbanist.ttf
