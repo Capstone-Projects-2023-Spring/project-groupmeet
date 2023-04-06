@@ -35,14 +35,13 @@ class _CalendarPageState extends State<CalendarPage> {
     //grabbing all members' round events
     final roundMeetingsSnapshot = await ref.child("${memberId.key}/roundMeetings").get();   
     for (var element in roundMeetingsSnapshot.children) { 
-      var eachEvent = element.value as Map;      
-      allEvents.add(Appointment(startTime: DateTime.parse(eachEvent["startTime"]), endTime: DateTime.parse( eachEvent["endTime"]), color: roundPurple));     
+      var eachEvent = element.value as Map;
+                       
+      allEvents.add(Appointment(startTime: DateTime.parse(eachEvent["startTime"]), endTime: DateTime.parse( eachEvent["endTime"]), color: (int.parse(widget.group!["gId"])  == eachEvent["gId"] ? roundPurple : Colors.blue )));    
     }              
     }    
     return allEvents;  
-  }
-
-  
+  }  
 
   //depending on where this function is being called from - may not need to add the new meeting to allEvents 
   //(otherwise the event will be added 2x to the calendar)
@@ -54,7 +53,7 @@ class _CalendarPageState extends State<CalendarPage> {
     for (var memberId in widget.group!["members"].entries) {            
       DatabaseReference ref =  FirebaseDatabase.instance.ref("users/${memberId.key}/roundMeetings");
       String key = ref.push().key as String;
-      ref.update({key : {"startTime" : roundMeeting.startTime.toString(), "endTime" :roundMeeting.endTime.toString(), "meetingName": roundMeeting.subject}});
+      ref.update({key : {"startTime" : roundMeeting.startTime.toString(), "endTime" :roundMeeting.endTime.toString(), "meetingName": roundMeeting.subject, "gId": widget.group!["gId"]}});
 
     }    
     setState(() {
