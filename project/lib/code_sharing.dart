@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:groupmeet/DisplayQr.dart';
 
 class CodeSharing extends StatefulWidget {
   const CodeSharing({Key? key, required this.title}) : super(key: key);
@@ -20,6 +22,38 @@ Future<DataSnapshot> _grabGroupId() async {
 }
 
 class _CodeSharingState extends State<CodeSharing> {
+
+  void getQr() async {
+    List <dynamic> groupName = [];
+    List <dynamic> name_id = [];
+    String? user_ex = FirebaseAuth.instance.currentUser!.uid;
+    DatabaseReference ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref.child("users/$user_ex/groupIds").get();
+    if (snapshot.exists) {
+      //Get groupsIds then send search for groupname
+      Map<dynamic, dynamic> type = snapshot.value as Map<dynamic, dynamic>;
+      for (var keys in type.entries) {
+        //call to ref is a single instance where it doesn't loop. Figure it out.
+        final snapshot2 = await ref.child("groups/${keys.key.toString()}/name")
+            .get();
+        groupName.add(snapshot2.value);
+        name_id.add(keys.key);
+      }
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Display(groupName, name_id)));
+    }
+    else {
+      Fluttertoast.showToast(
+          msg: "You are not apart of any groups! Please create one or add yourself to one",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 4,
+          backgroundColor: Colors.grey,
+          fontSize: 15);
+      Navigator.of(context).pop(false);
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
@@ -77,6 +111,16 @@ class _CodeSharingState extends State<CodeSharing> {
                     );
                   },
                   icon: Icon(size: 30, PlatformIcons(context).share),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                PlatformText("Get QR Code(s) Here"),
+                PlatformIconButton(
+                  onPressed: getQr,
+                  icon: Icon(size: 30, IconData(0xe4f7, fontFamily: 'MaterialIcons')),
                 ),
               ],
             ),
