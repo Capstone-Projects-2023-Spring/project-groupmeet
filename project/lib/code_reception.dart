@@ -64,23 +64,23 @@ class _CodeReceptionState extends State<CodeReception> {
   void updateDatabase() async {
     int count = 0;
     int count_2 = 0;
-    String? user_ex = FirebaseAuth.instance.currentUser!.uid;
+    String? userEx = FirebaseAuth.instance.currentUser!.uid;
     DatabaseReference ref = FirebaseDatabase.instance.ref();
     final snapshot = await ref.child('groups').get();
-    DatabaseReference ref2 = FirebaseDatabase.instance.ref(
-        "groups/${groupId.text}");
+    DatabaseReference ref2 =
+    FirebaseDatabase.instance.ref("groups/${groupId.text}");
     final snapshot2 = await ref2.child('name').get();
     DatabaseReference userRef = FirebaseDatabase.instance.ref(
-        "users/$user_ex/groupIds");
-    DatabaseReference userRef2 = FirebaseDatabase.instance.ref(
-        "groups/${groupId.text}/members");
+        "users/$userEx/groupIds");
+    DatabaseReference userRef2 =
+    FirebaseDatabase.instance.ref("groups/${groupId.text}/members");
     Map<dynamic, dynamic> type = snapshot.value as Map<dynamic, dynamic>;
     if (snapshot.key != null) {
       for (var keys in type.entries) {
         if (keys.key.toString().contains(groupId.text) &&
             groupId.text.isNotEmpty) {
           count = 1;
-          final snapshot1 = await ref.child('users/$user_ex/groupIds').get();
+          final snapshot1 = await ref.child('users/$userEx/groupIds').get();
           if (snapshot1.exists) {
             Map<dynamic, dynamic> type1 = snapshot1.value as Map<
                 dynamic,
@@ -96,8 +96,7 @@ class _CodeReceptionState extends State<CodeReception> {
                     backgroundColor: Colors.grey,
                     fontSize: 15);
                 break;
-              }
-              else {
+              } else {
                 if (type1.entries.length == count_2) {
                   Fluttertoast.showToast(
                       msg: "Adding to group ${snapshot2.value} ....",
@@ -107,7 +106,7 @@ class _CodeReceptionState extends State<CodeReception> {
                       backgroundColor: Colors.grey,
                       fontSize: 15);
                   userRef.update({groupId.text: true});
-                  userRef2.update({user_ex: true});
+                  userRef2.update({userEx: true});
                   Fluttertoast.showToast(
                       msg: "You're now added to ${snapshot2.value}!",
                       toastLength: Toast.LENGTH_LONG,
@@ -120,13 +119,11 @@ class _CodeReceptionState extends State<CodeReception> {
                 }
               }
             }
-          }
-          else {
+          } else {
             userRef.update({groupId.text: true});
-            userRef2.update({user_ex: true});
+            userRef2.update({userEx: true});
             Fluttertoast.showToast(
-                msg: "You've now been added to the group -> ${snapshot2
-                    .value}!",
+                msg: "You've now been added to the group -> ${snapshot2.value}!",
                 toastLength: Toast.LENGTH_LONG,
                 gravity: ToastGravity.BOTTOM,
                 timeInSecForIosWeb: 4,
@@ -206,20 +203,21 @@ class _CodeReceptionState extends State<CodeReception> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: PlatformScaffold(
-      appBar: PlatformAppBar(title: PlatformText("Joining Group Options"),),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          PlatformTextButton(
-            onPressed: openDialog,
-            child:
-            PlatformText('Join Group Via Code'),),
-          PlatformTextButton(
-              onPressed: camScanner,
-              child: PlatformText("Scan QR Code"),),
-        ],
-      ),
-    ));
+    return SafeArea(
+        child: PlatformScaffold(
+        appBar: PlatformAppBar(title: PlatformText("Joining Group Options"),),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            PlatformTextButton(
+              onPressed: openDialog,
+              child:
+              PlatformText('Join Group Via Code'),),
+            PlatformTextButton(
+                onPressed: camScanner,
+                child: PlatformText("Scan QR Code"),),
+          ],
+        ),
+      ));
   }
 }
