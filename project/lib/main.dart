@@ -12,7 +12,7 @@ import 'home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Permission.notification.request();
+  // await Permission.notification.request();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
