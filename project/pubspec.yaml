@@ -24,7 +24,7 @@ dependencies:
   googleapis_auth: ^1.4.0
   syncfusion_flutter_calendar: ^20.4.54
   firebase_messaging: ^14.3.0
-  permission_handler: ^9.2.0
+  permission_handler: ^10.2.0
   intl: ^0.17.0
   date_time_picker: ^2.1.0
   flutter_material_color_picker: ^1.1.0+2

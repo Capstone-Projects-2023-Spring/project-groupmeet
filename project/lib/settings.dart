@@ -142,17 +142,6 @@ class SettingsState extends State<Settings> {
               ),
             ],
           ),
-                    Column(
-            children: [
-              PlatformText("Toggle Notifications"),
-              IconButton(
-                onPressed: () {
-                  // Toggle notifications here
-                },
-                icon: Icon(PlatformIcons(context).conversationBubble, color: Colors.white),
-              ),
-            ],
-          ),
           Column(
             children: <Widget>[
               PlatformElevatedButton(
