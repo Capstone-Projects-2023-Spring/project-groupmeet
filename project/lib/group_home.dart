@@ -193,9 +193,44 @@ class _GroupHomePageState extends State<GroupHomePage> {
  
     print("daysToPropose: $daysToPropose");
     daysToPropose.sort();
+    //add daysToPropose to group database so we can have a running list of dates to suggest.
+    Map<String, Object> dates = {};
+    int counter = 0;
+    for(var item in daysToPropose){
+      dates[counter.toString()] = item.toString();
+      counter++;
+    }
+    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates");
+    groupRef.update(dates);
+
     return daysToPropose;                
   }
-  
+
+  Future<DateTime> getFirstDate() async{
+    final times = await FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates").once();
+    List<dynamic> dates = times.snapshot.value as List<dynamic>;
+    if(times.snapshot.value != null) {
+      return DateTime.parse(dates[0]);
+    }
+    return new DateTime(1932);
+  }
+
+  Future<int> removeCurrentDate() async{
+    final times = await FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates").once();
+    if(times.snapshot.value == null){
+      return -1;
+    }
+    List<dynamic> dates = times.snapshot.value as List<dynamic>;
+
+    Map<String, Object> newDates = {};
+    for(int i = 1; i < dates.length; i++){
+      newDates[(i-1).toString()] = dates[i].toString();
+    }
+    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates");
+    groupRef.set(newDates);
+
+    return 1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -335,14 +370,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'This button is currently under development. Come back later!'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
+                        onPressed: () async{
+                          await removeCurrentDate();
                         },
                         child: PlatformText('Cancel Active Meeting',
                             style: const TextStyle(
