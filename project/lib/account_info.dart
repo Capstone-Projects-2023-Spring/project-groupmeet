@@ -79,7 +79,16 @@ class _AccountInfoState extends State<AccountInfo> {
     await _handleSignIn();
     // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
-    assert(client != null, 'Authenticated client missing!');
+    if(client == null) {
+      const snackBar = SnackBar(
+        content: Text('Authenticated client missing!'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      return;
+    }
 
     // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
