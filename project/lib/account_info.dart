@@ -80,7 +80,13 @@ class _AccountInfoState extends State<AccountInfo> {
     // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
     if(client == null) {
-      print('Authenticated client missing!');
+      const snackBar = SnackBar(
+        content: Text('Authenticated client missing!'),
+      );
+
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
     }
 
