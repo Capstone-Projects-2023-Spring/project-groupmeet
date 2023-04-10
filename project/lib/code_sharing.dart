@@ -76,7 +76,7 @@ class _CodeSharingState extends State<CodeSharing> {
       }
       Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => displayCode(groupName, nameId)));
+          MaterialPageRoute(builder: (context) => DisplayCode(groupName, nameId)));
     }
     else {
       Fluttertoast.showToast(

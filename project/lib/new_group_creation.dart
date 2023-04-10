@@ -240,7 +240,7 @@ class _NewGroupCreationState extends State<NewGroupCreation> {
                           onChanged: (p0) => changedEmoji(p0),
                         )),
                         SizedBox(width: screenWidth / 16,),
-                        PlatformText("Color", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                        PlatformText("Color", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                         SizedBox(width: screenWidth / 16,),
                         GestureDetector(
                           child: colorCircle,

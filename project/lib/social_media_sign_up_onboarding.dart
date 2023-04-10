@@ -63,7 +63,7 @@ class _SocialMediaOnboardingState extends State<SocialMediaOnboarding> {
               onPressed: () {
                 Navigator.of(context).push(
                   platformPageRoute(
-                      context: context, builder: (_) => HomeScreen()),
+                      context: context, builder: (_) => const HomeScreen()),
                 );
               },
               material: (_, __) => MaterialElevatedButtonData(

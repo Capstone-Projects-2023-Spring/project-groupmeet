@@ -79,7 +79,7 @@ class _AccountInfoState extends State<AccountInfo> {
     await _handleSignIn();
     // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
-    if(client == null) {
+    if (client == null) {
       const snackBar = SnackBar(
         content: Text('Authenticated client missing!'),
       );
@@ -91,7 +91,7 @@ class _AccountInfoState extends State<AccountInfo> {
     }
 
     // Prepare a calendar authenticated client.
-    final google_api.CalendarApi calendarApi = google_api.CalendarApi(client!);
+    final google_api.CalendarApi calendarApi = google_api.CalendarApi(client);
     DateTime end = utils.DateUtils.lastDayOfMonth(DateTime.now());
     DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
     final google_api.Events calEvents = await calendarApi.events
