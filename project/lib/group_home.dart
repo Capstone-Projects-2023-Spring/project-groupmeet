@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'calendar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:flutter/services.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
@@ -29,6 +30,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
   late int discordCount;
   late int messagesCount;
   late int snapCount;
+
+  late List<String> instaHandles;
+  late List<String> fbHandles;
+  late List<String> discordHandles;
+  late List<String> messagesHandles;
+  late List<String> snapHandles;
+  late String chosenPlatform;
+  late List<String> chosenHandles;
 
   Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
     List<Map>? allMembers = [];
@@ -65,6 +74,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
     discordCount = 0;
     messagesCount = 0;
     snapCount = 0;
+
+    instaHandles = [];
+    fbHandles = [];
+    discordHandles = [];
+    messagesHandles = [];
+    snapHandles = [];
+    chosenPlatform = "";
+    chosenHandles = [];
   }
 
   Future<Map<String, int>> getData() async {
@@ -85,6 +102,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
     }
+    print(allMembers);
 
     for (var element in allMembers) {
       if (element["instagram"].toString() == "true") {
@@ -120,6 +138,43 @@ class _GroupHomePageState extends State<GroupHomePage> {
         ifAbsent: () => messagesCount);
     widget.myGroup
         ?.update("snapCount", (value) => 'New', ifAbsent: () => snapCount);
+
+    return socialMediaMap;
+  }
+
+  Future<Map<String, List<String>>> getHandles() async {
+    instaHandles = [];
+    fbHandles = [];
+    discordHandles = [];
+    messagesHandles = [];
+    snapHandles = [];
+
+    List<Map> allMembers = [];
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users");
+
+    Map<dynamic, dynamic> allMembersMap;
+
+    for (var memberId in widget.myGroup!["members"].entries) {
+      final memberSnapshot = await ref.child(memberId.key).get();
+      allMembersMap = memberSnapshot.value as Map<dynamic, dynamic>;
+      allMembersMap.putIfAbsent("uid", () => memberId.key);
+      allMembers.add(allMembersMap);
+    }
+    print(allMembers);
+    for (var element in allMembers) {
+      instaHandles.add(element["instagram_name"].toString());
+      fbHandles.add(element["facebook_name"].toString());
+      discordHandles.add(element["discord_name"].toString());
+      messagesHandles.add(element["messages_name"].toString());
+      snapHandles.add(element["snapchat_name"].toString());
+    }
+    Map<String, List<String>> socialMediaMap = {
+      "Instagram": instaHandles,
+      "Facebook": fbHandles,
+      "Discord": discordHandles,
+      "Messages": messagesHandles,
+      "Snapchat": snapHandles
+    };
 
     return socialMediaMap;
   }
@@ -479,19 +534,80 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   FutureBuilder(
                       future: getData(),
                       builder: (context, snapshot) {
-                        List<Text> socialMediaText = [];
+                        //List<Text> socialMediaText = [];
+                        int count = 0;
+                        String highest = "";
+                        // if (snapshot.hasData) {
+                        //   snapshot.data!.forEach((key, value) {
+                        //     socialMediaText.add(Text("$key Users: $value",
+                        //         style: const TextStyle(
+                        //             fontSize: 20, color: Colors.white)));
+                        //   });
+                        // }
+                        // var check = Column(children: socialMediaText);
+                        // return Container(
+                        //   child: check,
+                        // );
                         if (snapshot.hasData) {
                           snapshot.data!.forEach((key, value) {
-                            socialMediaText.add(Text("$key Users: $value",
-                                style: const TextStyle(
-                                    fontSize: 20, color: Colors.white)));
+                            if(value > count) {
+                              count = value;
+                              highest = key;
+                            }
                           });
+                          chosenPlatform = highest;
                         }
-                        var check = Column(children: socialMediaText);
-                        return Container(
-                          child: check,
-                        );
+                        return Text("$highest is the most used platform with $count users",
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white));
                       }),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Text("Here are your group's $chosenPlatform handles: ",
+                    style: const TextStyle(fontSize: 20, color: Colors.white)),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FutureBuilder(
+                      future: getHandles(),
+                      builder: (context, snapshot) {
+                        List<String> output = [];
+                        if (snapshot.hasData) {
+                          snapshot.data!.forEach((key, value) {
+                            if(key == chosenPlatform) {
+                              output = value;
+                              chosenHandles = value;
+                            }
+                            print(chosenPlatform);
+                            print(chosenHandles);
+                          });
+
+                        }
+                        return Text("$output",
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white));
+                      }),
+                ],
+              ),
+              Column(
+                children: [
+                  OutlinedButton(
+                    style: ButtonStyle(
+                      foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: chosenHandles.toString()));
+                    },
+                    child: const Text('Copy to Clipboard',
+                        style:
+                        TextStyle(fontSize: 20, color: Colors.white)),
+                  ),
                 ],
               ),
             ],
