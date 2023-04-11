@@ -5,6 +5,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'calendar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/services.dart';
+import 'package:groupmeet/theme.dart';
 
 import 'display_qr.dart';
 
@@ -264,11 +265,39 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
   Future<DateTime> getFirstDate() async{
     final times = await FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates").once();
+    DateTime finalDate = DateTime(1932);
     List<dynamic> dates = times.snapshot.value as List<dynamic>;
     if(times.snapshot.value != null) {
-      return DateTime.parse(dates[0]);
+      finalDate = DateTime.parse(dates[0]);
     }
-    return DateTime(1932);
+
+    PlatformAlertDialog error = PlatformAlertDialog(
+      title: PlatformText("New Time Found"),
+      content: Column(
+        children: [
+          PlatformText(finalDate.toString()),
+        ],
+      ),
+      actions: [
+        PlatformTextButton(
+          child: PlatformText("OK",
+              selectionColor: roundPurple,
+              style: const TextStyle(color: Colors.white)),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
+
+    showPlatformDialog(
+      context: context,
+      builder: (context) {
+        return error;
+      },
+    );
+
+    return finalDate;
   }
 
   Future<int> removeCurrentDate() async{
@@ -382,15 +411,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'This button is currently under development. Come back later!'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
+                              getFirstDate();
                         },
-                        child: const Text('Edit Availabilities',
+                        child: const Text('See Next Availability',
                             style:
                             TextStyle(fontSize: 20, color: Colors.white)),
                       ),
@@ -569,15 +592,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         }
                         return Text("$highest is the most used platform with $count users",
                             style: const TextStyle(
-                                fontSize: 20, color: Colors.white));
+                                fontSize: 15, color: Colors.white));
                       }),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Here are your group's $chosenPlatform handles: ",
-                      style: const TextStyle(fontSize: 20, color: Colors.white)),
+                Text("Here are your group's $chosenPlatform handles: ",
+                    style: const TextStyle(fontSize: 15, color: Colors.white)),
                 ],
               ),
               Row(

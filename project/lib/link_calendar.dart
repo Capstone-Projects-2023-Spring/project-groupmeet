@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'social_media_sign_up_onboarding.dart';
+import 'package:groupmeet/new_social_onboarding.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -131,7 +131,7 @@ class _CalendarState extends State<Calendar> {
             Navigator.of(context).push(
               platformPageRoute(
                   context: context,
-                  builder: (_) => const SocialMediaOnboarding()),
+                  builder: (_) => NewSocialOnboarding()),
             );
           },
           material: (_, __) => MaterialElevatedButtonData(
