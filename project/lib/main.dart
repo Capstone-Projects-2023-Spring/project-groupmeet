@@ -9,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:permission_handler/permission_handler.dart';
 
 import 'home.dart';
+import 'new_group_creation.dart';
+import 'new_settings.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,6 +69,8 @@ class MyApp extends StatelessWidget {
     } else {
       firstStop = Explainer(pageNo: 0);
     }
+
+    // firstStop = NewSettings();
 
     return PlatformApp(
         checkerboardOffscreenLayers: false,

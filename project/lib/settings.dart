@@ -128,7 +128,7 @@ class SettingsState extends State<Settings> {
           Column(
             children: [
               PlatformText("Add Event"),
-              IconButton(
+              PlatformIconButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     platformPageRoute(
