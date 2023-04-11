@@ -14,9 +14,9 @@ class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   const GroupHomePage(
       {super.key,
-      required this.title,
-      required this.databaseReference,
-      this.myGroup});
+        required this.title,
+        required this.databaseReference,
+        this.myGroup});
 
   final String title;
   final DatabaseReference databaseReference;
@@ -63,7 +63,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref("users/$uid/groupIds/${widget.myGroup!["gId"]}");
     DatabaseReference groupRef =
-        FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
+    FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
 
     userRef.remove();
     groupRef.remove();
@@ -316,17 +316,18 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     return 1;
   }
-  
+
   void getQr (){
     Navigator.push(context, MaterialPageRoute(builder: (context) => Display(widget.title, "${widget.myGroup!["gId"]}")));
   }
 
+  //
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-          actions: <Widget> [PlatformIconButton(onPressed: getQr,
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+          title: PlatformText(widget.title),
+          trailingActions: <Widget> [PlatformIconButton(onPressed: getQr,
             icon:
             const Icon(size: 25,
                 IconData(0xe4f7, fontFamily: 'MaterialIcons')),),]
@@ -385,20 +386,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CalendarPage(
-                                        title: "Calendar",
-                                        group: widget.myGroup,
-                                      )));
+                                    title: "Calendar",
+                                    group: widget.myGroup,
+                                  )));
                         },
                         child: const Text('Calendar',
                             style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                            TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -407,14 +408,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                               getFirstDate();
                         },
                         child: const Text('See Next Availability',
                             style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                            TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -429,19 +430,19 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           // just printing proposal dates for now
-                          findNextBestDate();                        
-  
+                          findNextBestDate();
+
                         },
                         child: PlatformText('Suggest New Meeting Time',
                             style: const TextStyle(
                                 fontSize: 25, color: Colors.white)),
                       ),
-                     
-                      
+
+
                     ],
                   ),
                 ],
@@ -455,7 +456,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () async{
                           await removeCurrentDate();
@@ -479,12 +480,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           //print(snapshot);
                           var membersWidget = snapshot.data!
                               .map((eachMember) => Text(
-                                    eachMember["firstName"] +
-                                        " " +
-                                        eachMember["lastName"],
-                                    style: const TextStyle(
-                                        fontSize: 15, color: Colors.white),
-                                  ))
+                            eachMember["firstName"] +
+                                " " +
+                                eachMember["lastName"],
+                            style: const TextStyle(
+                                fontSize: 15, color: Colors.white),
+                          ))
                               .toList();
                           var check = Column(
                             children: membersWidget,
@@ -492,7 +493,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           return Container(
                               decoration: BoxDecoration(
                                   border:
-                                      Border.all(width: 1, color: Colors.grey)),
+                                  Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
                                     style: const TextStyle(
@@ -516,7 +517,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -538,7 +539,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           leaveGroup().then((_) {
