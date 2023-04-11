@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home.dart';
 import 'new_group_creation.dart';
+import 'new_group_view.dart';
 import 'new_settings.dart';
 
 Future<void> main() async {
@@ -70,7 +71,7 @@ class MyApp extends StatelessWidget {
       firstStop = Explainer(pageNo: 0);
     }
 
-    // firstStop = NewSettings();
+    firstStop = NewGroupView();
 
     return PlatformApp(
         checkerboardOffscreenLayers: false,
