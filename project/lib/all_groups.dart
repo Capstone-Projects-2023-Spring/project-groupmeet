@@ -22,6 +22,8 @@ class _AllGroupsState extends State<AllGroups> {
 
   Future<List<Map>> grabGroups() async {
     List<Map> allGroups = [];
+    print("Widget Ref");
+    print(widget.ref);
     final snapshot = await widget.ref.child('groupIds').get();
 
     DatabaseReference accessGroupInfoRef =
