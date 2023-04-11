@@ -292,6 +292,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => Display(widget.title, "${widget.myGroup!["gId"]}")));
   }
 
+  //
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
