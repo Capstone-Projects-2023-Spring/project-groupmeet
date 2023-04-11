@@ -128,7 +128,7 @@ class SettingsState extends State<Settings> {
           Column(
             children: [
               PlatformText("Add Event"),
-              IconButton(
+              PlatformIconButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     platformPageRoute(
@@ -139,17 +139,6 @@ class SettingsState extends State<Settings> {
                   );
                 },
                 icon: Icon(PlatformIcons(context).add, color: Colors.white),
-              ),
-            ],
-          ),
-                    Column(
-            children: [
-              PlatformText("Toggle Notifications"),
-              IconButton(
-                onPressed: () {
-                  // Toggle notifications here
-                },
-                icon: Icon(PlatformIcons(context).conversationBubble, color: Colors.white),
               ),
             ],
           ),

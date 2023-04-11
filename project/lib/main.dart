@@ -6,22 +6,22 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/explainer.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 import 'home.dart';
 import 'new_group_creation.dart';
+import 'new_settings.dart';
 
-// Initialize the app and run it.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Permission.notification.request();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
-// The main app widget.
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // Build the app widget.
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
@@ -65,10 +65,12 @@ class MyApp extends StatelessWidget {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      firstStop = HomeScreen();
+      firstStop = const HomeScreen();
     } else {
       firstStop = Explainer(pageNo: 0);
     }
+
+    // firstStop = NewSettings();
 
     return PlatformApp(
         checkerboardOffscreenLayers: false,
@@ -76,12 +78,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         material: (context, platform) =>
             MaterialAppData(theme: materialTheme, color: roundPurple),
-        cupertino: (context, platform) =>
-            CupertinoAppData(theme: cupertinoTheme, color: roundPurple, localizationsDelegates: [
-              DefaultCupertinoLocalizations.delegate,
-              DefaultMaterialLocalizations.delegate,
-              DefaultWidgetsLocalizations.delegate,
-            ]),
+        cupertino: (context, platform) => CupertinoAppData(
+                theme: cupertinoTheme,
+                color: roundPurple,
+                localizationsDelegates: [
+                  DefaultCupertinoLocalizations.delegate,
+                  DefaultMaterialLocalizations.delegate,
+                  DefaultWidgetsLocalizations.delegate,
+                ]),
         home: firstStop, //Explainer(pageNo: 0),
         title: "Round",
         color: roundPurple);

@@ -36,7 +36,7 @@ class GroupCreationState extends State<GroupCreation> {
         .ref()
         .child('counter').once();
 
-    final counterRef = await FirebaseDatabase
+    final counterRef = FirebaseDatabase
         .instance
         .ref()
         .child('counter');

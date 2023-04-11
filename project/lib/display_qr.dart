@@ -9,6 +9,7 @@ class Display extends StatelessWidget{
 
   Display(this.groupName, this.nameId);
 
+
   @override
   Widget build(BuildContext context){
     return SafeArea(child: PlatformScaffold(

@@ -55,6 +55,13 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
     var messages = event.snapshot.child("messages").value;
     var snapchat = event.snapshot.child("snapchat").value;
     var groups = event.snapshot.child("groupIds").value;
+    var discordHandle = event.snapshot.child("discord_name").value;
+    var fbHandle = event.snapshot.child("facebook_name").value;
+    var instagramHandle = event.snapshot.child("instagram_name").value;
+    var messagesHandle = event.snapshot.child("messages_name").value;
+    var snapHandle = event.snapshot.child("snapchat_name").value;
+
+
     ref.set({
       "email": _emailController.text.trim(),
       "firstName": _firstNameController.text.trim(),
@@ -65,6 +72,11 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
       "messages": messages,
       "snapchat": snapchat,
       "groupIds": groups,
+      "discord_name": discordHandle,
+      "facebook_name": fbHandle,
+      "instagram_name": instagramHandle,
+      "messages_name": messagesHandle,
+      "snapchat_name": snapHandle,
     });
 
     Navigator.of(context).pop();

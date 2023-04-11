@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'calendar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:flutter/services.dart';
 
 import 'display_qr.dart';
 
@@ -31,6 +32,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
   late int discordCount;
   late int messagesCount;
   late int snapCount;
+
+  late List<String> instaHandles;
+  late List<String> fbHandles;
+  late List<String> discordHandles;
+  late List<String> messagesHandles;
+  late List<String> snapHandles;
+  late String chosenPlatform;
+  late List<String> chosenHandles;
 
   Future<List<Map<dynamic, dynamic>>> grabGroupMembers() async {
     List<Map>? allMembers = [];
@@ -67,6 +76,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
     discordCount = 0;
     messagesCount = 0;
     snapCount = 0;
+
+    instaHandles = [];
+    fbHandles = [];
+    discordHandles = [];
+    messagesHandles = [];
+    snapHandles = [];
+    chosenPlatform = "";
+    chosenHandles = [];
   }
 
   Future<Map<String, int>> getData() async {
@@ -87,6 +104,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
     }
+    print(allMembers);
 
     for (var element in allMembers) {
       if (element["instagram"].toString() == "true") {
@@ -126,9 +144,46 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return socialMediaMap;
   }
 
+  Future<Map<String, List<String>>> getHandles() async {
+    instaHandles = [];
+    fbHandles = [];
+    discordHandles = [];
+    messagesHandles = [];
+    snapHandles = [];
+
+    List<Map> allMembers = [];
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users");
+
+    Map<dynamic, dynamic> allMembersMap;
+
+    for (var memberId in widget.myGroup!["members"].entries) {
+      final memberSnapshot = await ref.child(memberId.key).get();
+      allMembersMap = memberSnapshot.value as Map<dynamic, dynamic>;
+      allMembersMap.putIfAbsent("uid", () => memberId.key);
+      allMembers.add(allMembersMap);
+    }
+    print(allMembers);
+    for (var element in allMembers) {
+      instaHandles.add(element["instagram_name"].toString());
+      fbHandles.add(element["facebook_name"].toString());
+      discordHandles.add(element["discord_name"].toString());
+      messagesHandles.add(element["messages_name"].toString());
+      snapHandles.add(element["snapchat_name"].toString());
+    }
+    Map<String, List<String>> socialMediaMap = {
+      "Instagram": instaHandles,
+      "Facebook": fbHandles,
+      "Discord": discordHandles,
+      "Messages": messagesHandles,
+      "Snapchat": snapHandles
+    };
+
+    return socialMediaMap;
+  }
+
   Future<List<Appointment>> getEventList() async{
     List<Appointment> allEvents = [];
-    DatabaseReference ref = await FirebaseDatabase.instance.ref("users");
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
     Map<dynamic, dynamic> allMemberEvents;
 
@@ -169,7 +224,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
             toMeet = toMeet.add(const Duration(days: 1));
             // then tomorrow's date is invalid for a free day of meetings
           }
-        });
+        }
         // if newTomorrow remains unchanged we can add it
         daysToPropose.add(toMeet);
         toMeet = toMeet.add(const Duration(days: 1));
@@ -198,6 +253,45 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return daysToPropose;
   }
 
+    //add daysToPropose to group database so we can have a running list of dates to suggest.
+    Map<String, Object> dates = {};
+    int counter = 0;
+    for(var item in daysToPropose){
+      dates[counter.toString()] = item.toString();
+      counter++;
+    }
+    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates");
+    groupRef.update(dates);
+
+    return daysToPropose;                
+  }
+
+  Future<DateTime> getFirstDate() async{
+    final times = await FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates").once();
+    List<dynamic> dates = times.snapshot.value as List<dynamic>;
+    if(times.snapshot.value != null) {
+      return DateTime.parse(dates[0]);
+    }
+    return DateTime(1932);
+  }
+
+  Future<int> removeCurrentDate() async{
+    final times = await FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates").once();
+    if(times.snapshot.value == null){
+      return -1;
+    }
+    List<dynamic> dates = times.snapshot.value as List<dynamic>;
+
+    Map<String, Object> newDates = {};
+    for(int i = 1; i < dates.length; i++){
+      newDates[(i-1).toString()] = dates[i].toString();
+    }
+    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates");
+    groupRef.set(newDates);
+
+    return 1;
+  }
+  
   void getQr (){
     Navigator.push(context, MaterialPageRoute(builder: (context) => Display(widget.title, "${widget.myGroup!["gId"]}")));
   }
@@ -344,14 +438,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           foregroundColor:
                               MaterialStateProperty.all<Color>(Colors.black),
                         ),
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                  'This button is currently under development. Come back later!'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
+                        onPressed: () async{
+                          await removeCurrentDate();
                         },
                         child: PlatformText('Cancel Active Meeting',
                             style: const TextStyle(
@@ -459,19 +547,80 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   FutureBuilder(
                       future: getData(),
                       builder: (context, snapshot) {
-                        List<Text> socialMediaText = [];
+                        //List<Text> socialMediaText = [];
+                        int count = 0;
+                        String highest = "";
+                        // if (snapshot.hasData) {
+                        //   snapshot.data!.forEach((key, value) {
+                        //     socialMediaText.add(Text("$key Users: $value",
+                        //         style: const TextStyle(
+                        //             fontSize: 20, color: Colors.white)));
+                        //   });
+                        // }
+                        // var check = Column(children: socialMediaText);
+                        // return Container(
+                        //   child: check,
+                        // );
                         if (snapshot.hasData) {
                           snapshot.data!.forEach((key, value) {
-                            socialMediaText.add(Text("$key Users: $value",
-                                style: const TextStyle(
-                                    fontSize: 20, color: Colors.white)));
+                            if(value > count) {
+                              count = value;
+                              highest = key;
+                            }
                           });
+                          chosenPlatform = highest;
                         }
-                        var check = Column(children: socialMediaText);
-                        return Container(
-                          child: check,
-                        );
+                        return Text("$highest is the most used platform with $count users",
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white));
                       }),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Text("Here are your group's $chosenPlatform handles: ",
+                    style: const TextStyle(fontSize: 20, color: Colors.white)),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  FutureBuilder(
+                      future: getHandles(),
+                      builder: (context, snapshot) {
+                        List<String> output = [];
+                        if (snapshot.hasData) {
+                          snapshot.data!.forEach((key, value) {
+                            if(key == chosenPlatform) {
+                              output = value;
+                              chosenHandles = value;
+                            }
+                            print(chosenPlatform);
+                            print(chosenHandles);
+                          });
+
+                        }
+                        return Text("$output",
+                            style: const TextStyle(
+                                fontSize: 20, color: Colors.white));
+                      }),
+                ],
+              ),
+              Column(
+                children: [
+                  OutlinedButton(
+                    style: ButtonStyle(
+                      foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                    ),
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: chosenHandles.toString()));
+                    },
+                    child: const Text('Copy to Clipboard',
+                        style:
+                        TextStyle(fontSize: 20, color: Colors.white)),
+                  ),
                 ],
               ),
             ],
