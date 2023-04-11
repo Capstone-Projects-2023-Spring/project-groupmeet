@@ -5,6 +5,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'calendar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
+import 'display_qr.dart';
+
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
@@ -195,13 +197,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
     daysToPropose.sort();
     return daysToPropose;                
   }
-  
+
+  void getQr (){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Display(widget.title, "${widget.myGroup!["gId"]}")));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+          actions: <Widget> [PlatformIconButton(onPressed: getQr,
+            icon:
+            const Icon(size: 25,
+                IconData(0xe4f7, fontFamily: 'MaterialIcons')),),]
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

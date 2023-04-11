@@ -206,7 +206,8 @@ class _CodeReceptionState extends State<CodeReception> {
     return SafeArea(
         child: PlatformScaffold(
         appBar: PlatformAppBar(title: PlatformText("Joining Group Options"),),
-        body: Column(
+        body: Center(
+          child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             PlatformTextButton(
@@ -217,6 +218,7 @@ class _CodeReceptionState extends State<CodeReception> {
                 onPressed: camScanner,
                 child: PlatformText("Scan QR Code"),),
           ],
+        ),
         ),
       ));
   }
