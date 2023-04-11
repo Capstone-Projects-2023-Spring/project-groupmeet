@@ -37,17 +37,43 @@ class NewSocialOnboarding extends StatelessWidget {
   }
 
   void buttonPress(BuildContext context) {
+
+    String? ig = insta.trim();
+    if(ig.isEmpty) {
+      ig = null;
+    }
+
+    String? face = fb.trim();
+    if(face.isEmpty) {
+      face = null;
+    }
+
+    String? sn = snap.trim();
+    if(sn.isEmpty) {
+      sn = null;
+    }
+
+    String? smss = sms.trim();
+    if(smss.isEmpty) {
+      smss = null;
+    }
+
+    String? disc = discord.trim();
+    if(disc.isEmpty) {
+      disc = null;
+    }
+
     databaseReference.update({
       'instagram': insta.isNotEmpty,
       'facebook': fb.isNotEmpty,
       'discord': discord.isNotEmpty,
-      'messages': snap.isNotEmpty,
-      'snapchat': sms.isNotEmpty,
-      'instagram_name': insta.trim(),
-      'facebook_name': fb.trim(),
-      'discord_name': discord.trim(),
-      'snapchat_name': snap.trim(),
-      'messages_name': sms.trim()
+      'messages': sms.isNotEmpty,
+      'snapchat': snap.isNotEmpty,
+      'instagram_name': ig,
+      'facebook_name': face,
+      'discord_name': disc,
+      'snapchat_name': sn,
+      'messages_name': smss
     });
 
     Navigator.of(context).push(platformPageRoute(

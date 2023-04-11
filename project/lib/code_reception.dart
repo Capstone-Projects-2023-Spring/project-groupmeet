@@ -51,7 +51,8 @@ class _CodeReceptionState extends State<CodeReception> {
                 content: TextField(
                   autofocus: true,
                   decoration: InputDecoration(hintText: 'Enter here......'),
-                  controller: group_id,
+                  // Commented out bc it causes the build to fail
+                  // controller: group_id,
                 ),
                 actions: [
                   TextButton(

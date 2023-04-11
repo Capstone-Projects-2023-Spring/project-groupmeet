@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'home.dart';
 import 'new_group_creation.dart';
+import 'new_settings.dart';
 
 // Initialize the app and run it.
 Future<void> main() async {
@@ -69,6 +70,8 @@ class MyApp extends StatelessWidget {
     } else {
       firstStop = Explainer(pageNo: 0);
     }
+
+    // firstStop = NewSettings();
 
     return PlatformApp(
         checkerboardOffscreenLayers: false,
