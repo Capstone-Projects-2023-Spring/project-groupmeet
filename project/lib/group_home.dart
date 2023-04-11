@@ -568,7 +568,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         }
                         return Text("$highest is the most used platform with $count users",
                             style: const TextStyle(
-                                fontSize: 20, color: Colors.white));
+                                fontSize: 15, color: Colors.white));
                       }),
                 ],
               ),
@@ -576,7 +576,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                 Text("Here are your group's $chosenPlatform handles: ",
-                    style: const TextStyle(fontSize: 20, color: Colors.white)),
+                    style: const TextStyle(fontSize: 15, color: Colors.white)),
                 ],
               ),
               Row(
