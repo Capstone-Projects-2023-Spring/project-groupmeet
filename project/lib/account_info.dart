@@ -117,6 +117,11 @@ class _AccountInfoState extends State<AccountInfo> {
       events.add(temp);
     }
     await ref.update({"calendarEvents": events});
+    const snackBar = SnackBar(
+        content: Text('Sync Successful!'),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
   }
 
   @override
