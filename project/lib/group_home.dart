@@ -6,6 +6,8 @@ import 'calendar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/services.dart';
 
+import 'display_qr.dart';
+
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
@@ -197,25 +199,25 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
         allEvents.add(Appointment(startTime: DateTime.parse(tempStart), endTime: DateTime.parse(tempEnd)));
       }
-    }    
-    
-    return allEvents;
+    }
+
+    return allEvents as List<Appointment>;
   }
 
     // call getData from this function and then use the array of events to find the next best date
   Future<List<DateTime>> findNextBestDate() async {
-    List<Appointment> allEvents = await getEventList() ;    
+    List<Appointment> allEvents = await getEventList() ;
     List<DateTime> daysToPropose = [];
-    // order events by the date        
-    allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);  
-          
+    // order events by the date
+    allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);
+
       // if tomorrow is not within planned events than you can propose a meeting on that day
       // try to get 5 and then quit
       // if the proposing time is at midnight it's because the whole day is free
       DateTime toMeet = DateTime.now().add(const Duration(days:1));
-      toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);    
+      toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);
       for(int i = 0; i < 5; i++){
-        for (var eachEvent in allEvents) { 
+        allEvents.forEach((eachEvent) {
           DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
           DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
           if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
@@ -228,26 +230,29 @@ class _GroupHomePageState extends State<GroupHomePage> {
         toMeet = toMeet.add(const Duration(days: 1));
         // print(daysToPropose);
       }
-        
-    // between two events - if there is a duration of time greater than  1hrs - then propose meeting time    
+
+    // between two events - if there is a duration of time greater than  1hrs - then propose meeting time
     DateTime dateToPropose;
-    for(int i = 0; i < allEvents.length - 1 ; i++){       
+    for(int i = 0; i < allEvents.length - 1 ; i++){
 
       if(allEvents[i].isAllDay){
         i++;
       }else{
         if(allEvents[i + 1].startTime.difference(allEvents[i].endTime) > const Duration(hours: 1)){
           dateToPropose = allEvents[i].endTime.add(const Duration(minutes: 20));
-                            
+
           if(dateToPropose.hour < 22 && dateToPropose.hour > 9){
             // print("going to propose this date: $dateToPropose");
             daysToPropose.add(dateToPropose);
           }    }
-        }  
-    }          
- 
+        }
+    }
+
     print("daysToPropose: $daysToPropose");
     daysToPropose.sort();
+    return daysToPropose;
+  }
+
     //add daysToPropose to group database so we can have a running list of dates to suggest.
     Map<String, Object> dates = {};
     int counter = 0;
@@ -286,12 +291,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     return 1;
   }
+  
+  void getQr (){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Display(widget.title, "${widget.myGroup!["gId"]}")));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+          actions: <Widget> [PlatformIconButton(onPressed: getQr,
+            icon:
+            const Icon(size: 25,
+                IconData(0xe4f7, fontFamily: 'MaterialIcons')),),]
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

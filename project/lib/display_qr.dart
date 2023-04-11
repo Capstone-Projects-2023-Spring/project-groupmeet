@@ -4,40 +4,26 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class Display extends StatelessWidget{
 
-  late List<dynamic> groupName;
-  late List<dynamic> nameId;
+  final String groupName;
+  final String nameId;
 
-  Display(this.groupName, this.nameId, {super.key});
+  Display(this.groupName, this.nameId);
+
 
   @override
   Widget build(BuildContext context){
     return SafeArea(child: PlatformScaffold(
-      appBar: PlatformAppBar(title: PlatformText("QR Options")),
-      body: buildList(groupName, nameId),
-      ));
-    }
-  }
-
-  ListView buildList(List<dynamic> groupName, List<dynamic> nameId){
-    return ListView.builder(
-      itemCount: nameId.length,
-      scrollDirection: Axis.vertical,
-      addAutomaticKeepAlives: true,
-      itemBuilder: (_, index){
-        return ListTile (
-            autofocus: true,
-            title: Center(child: QrImage(
-              data: nameId.elementAt(index),
+      appBar: PlatformAppBar(title: PlatformText(groupName)),
+      body:
+        Center(
+            child: QrImage(
+              data: nameId,
               version: QrVersions.auto,
               size: 300,
               foregroundColor: Colors.white,
               backgroundColor: Colors.deepPurple,
-            )),
-            subtitle: PlatformText(groupName.elementAt(index)),
-
-        );
-      },
-    );
+          )
+        )
+      ));
+    }
   }
-
-
