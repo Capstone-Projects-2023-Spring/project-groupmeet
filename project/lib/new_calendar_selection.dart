@@ -7,8 +7,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:date_utils/date_utils.dart' as utils;
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
+import 'package:groupmeet/new_social_onboarding.dart';
 
-import 'social_media_sign_up_onboarding.dart';
 class NewCalendarSelection extends StatelessWidget {
   NewCalendarSelection({super.key});
 
@@ -23,7 +23,7 @@ class NewCalendarSelection extends StatelessWidget {
 
   void buttonPress(BuildContext context) {
     Navigator.of(context).push(platformPageRoute(
-        context: context, builder: (context) => const SocialMediaOnboarding()));
+        context: context, builder: (context) => NewSocialOnboarding()));
   }
 
   Future<void> pressedGoogle(BuildContext context) async {
