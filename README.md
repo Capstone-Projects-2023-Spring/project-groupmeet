@@ -74,7 +74,10 @@ This document proposes a multi-platform mobile application called "GroupMeet" th
 
 #### Precompiled (Recommended for Users)
 
-Precompiled APK binaries can be found under the [Releases](https://github.com/Capstone-Projects-2023-Spring/project-groupmeet/releases) tab on Github.
+Downloaded the latest version's APK [here](https://github.com/Capstone-Projects-2023-Spring/project-groupmeet/releases/download/3.2/app-release.apk)
+
+
+Older verion's APK binaries can be found under the [Releases](https://github.com/Capstone-Projects-2023-Spring/project-groupmeet/releases) tab on Github.
 
 Further instructions on how to sideload APK files can be found [here](https://www.lifewire.com/install-apk-on-android-4177185).
 
