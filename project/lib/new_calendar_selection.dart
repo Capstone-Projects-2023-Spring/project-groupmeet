@@ -7,8 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:date_utils/date_utils.dart' as utils;
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
-
-import 'new_social_onboarding.dart';
+import 'package:groupmeet/new_social_onboarding.dart';
 
 class NewCalendarSelection extends StatelessWidget {
   NewCalendarSelection({super.key});

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/new_social_onboarding.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -11,6 +10,7 @@ import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sig
 
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'package:date_utils/date_utils.dart' as utils;
+import 'package:groupmeet/new_social_onboarding.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);

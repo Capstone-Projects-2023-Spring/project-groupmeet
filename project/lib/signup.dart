@@ -75,12 +75,11 @@ class NewSignUp extends StatelessWidget {
         "instagram": false,
         "messages": false,
         "snapchat": false,
-        "discord_name": "N/A",
-        "facebook_name": "N/A",
-        "instagram_name": "N/A",
-        "messages_name": "N/A",
-        "snapchat_name": "N/A",
-        "groupIds": {"dud": true},
+        "discord_name": null,
+        "facebook_name": null,
+        "instagram_name": null,
+        "messages_name": null,
+        "snapchat_name": null,
       });
 
       Navigator.of(context).push(
