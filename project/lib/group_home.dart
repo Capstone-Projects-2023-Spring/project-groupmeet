@@ -204,32 +204,31 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return allEvents as List<Appointment>;
   }
 
-    // call getData from this function and then use the array of events to find the next best date
   Future<List<DateTime>> findNextBestDate() async {
     List<Appointment> allEvents = await getEventList() ;
     List<DateTime> daysToPropose = [];
     // order events by the date
     allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);
 
-      // if tomorrow is not within planned events than you can propose a meeting on that day
-      // try to get 5 and then quit
-      // if the proposing time is at midnight it's because the whole day is free
-      DateTime toMeet = DateTime.now().add(const Duration(days:1));
-      toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);
-      for(int i = 0; i < 5; i++){
-        allEvents.forEach((eachEvent) {
-          DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
-          DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
-          if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
-            toMeet = toMeet.add(const Duration(days: 1));
-            // then tomorrow's date is invalid for a free day of meetings
-          }
+    // if tomorrow is not within planned events than you can propose a meeting on that day
+    // try to get 5 and then quit
+    // if the proposing time is at midnight it's because the whole day is free
+    DateTime toMeet = DateTime.now().add(const Duration(days:1));
+    toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);
+    for(int i = 0; i < 5; i++){
+      allEvents.forEach((eachEvent) {
+        DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
+        DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
+        if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
+          toMeet = toMeet.add(const Duration(days: 1));
+          // then tomorrow's date is invalid for a free day of meetings
         }
-        // if newTomorrow remains unchanged we can add it
-        daysToPropose.add(toMeet);
-        toMeet = toMeet.add(const Duration(days: 1));
-        // print(daysToPropose);
-      }
+      });
+      // if newTomorrow remains unchanged we can add it
+      daysToPropose.add(toMeet);
+      toMeet = toMeet.add(const Duration(days: 1));
+      // print(daysToPropose);
+    }
 
     // between two events - if there is a duration of time greater than  1hrs - then propose meeting time
     DateTime dateToPropose;
@@ -245,14 +244,11 @@ class _GroupHomePageState extends State<GroupHomePage> {
             // print("going to propose this date: $dateToPropose");
             daysToPropose.add(dateToPropose);
           }    }
-        }
+      }
     }
 
     print("daysToPropose: $daysToPropose");
     daysToPropose.sort();
-    return daysToPropose;
-  }
-
     //add daysToPropose to group database so we can have a running list of dates to suggest.
     Map<String, Object> dates = {};
     int counter = 0;
@@ -263,7 +259,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates");
     groupRef.update(dates);
 
-    return daysToPropose;                
+    return daysToPropose;
   }
 
   Future<DateTime> getFirstDate() async{
