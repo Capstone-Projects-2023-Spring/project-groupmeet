@@ -113,7 +113,7 @@ class NewSocialOnboarding extends StatelessWidget {
         ),
         SizedBox(width: screenWidth, height: 8),
         PlatformText("Get Around",
-            style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600)),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
         SizedBox(width: screenWidth, height: 32),
         Padding(
             padding:
