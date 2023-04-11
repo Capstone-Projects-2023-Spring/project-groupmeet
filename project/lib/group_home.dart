@@ -181,7 +181,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
   Future<List<Appointment>> getEventList() async{
     List<Appointment> allEvents = [];
-    DatabaseReference ref = await FirebaseDatabase.instance.ref("users");
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
     Map<dynamic, dynamic> allMemberEvents;
 
@@ -199,7 +199,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       }
     }    
     
-    return allEvents as List<Appointment>;
+    return allEvents;
   }
 
     // call getData from this function and then use the array of events to find the next best date
@@ -215,14 +215,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
       DateTime toMeet = DateTime.now().add(const Duration(days:1));
       toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);    
       for(int i = 0; i < 5; i++){
-        allEvents.forEach((eachEvent) { 
+        for (var eachEvent in allEvents) { 
           DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
           DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
           if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
             toMeet = toMeet.add(const Duration(days: 1));
             // then tomorrow's date is invalid for a free day of meetings
           }
-        });
+        }
         // if newTomorrow remains unchanged we can add it
         daysToPropose.add(toMeet);
         toMeet = toMeet.add(const Duration(days: 1));
@@ -267,7 +267,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     if(times.snapshot.value != null) {
       return DateTime.parse(dates[0]);
     }
-    return new DateTime(1932);
+    return DateTime(1932);
   }
 
   Future<int> removeCurrentDate() async{

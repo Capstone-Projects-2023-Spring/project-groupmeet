@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-class displayCode extends StatelessWidget{
+class DisplayCode extends StatelessWidget{
 
   late List<dynamic> groupName;
   late List<dynamic> nameId;
 
-  displayCode(this.groupName, this.nameId);
+  DisplayCode(this.groupName, this.nameId, {super.key});
 
   @override
   Widget build(BuildContext context){

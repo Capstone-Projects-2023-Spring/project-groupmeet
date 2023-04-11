@@ -39,21 +39,21 @@ class _CodeReceptionState extends State<CodeReception> {
           context: context,
           builder: (context) =>
               AlertDialog(
-                title: Text('Enter Group Code Below'),
+                title: const Text('Enter Group Code Below'),
                 content: TextField(
                   autofocus: true,
-                  decoration: InputDecoration(hintText: 'Enter here......'),
+                  decoration: const InputDecoration(hintText: 'Enter here......'),
                   controller: groupId,
                 ),
                 actions: [
                   TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: Text("Cancel")
+                      child: const Text("Cancel")
                   ),
                   TextButton(
                     //updatesDatabase use for onPressed
                       onPressed: updateDatabase,
-                      child: Text('Join Group')),
+                      child: const Text('Join Group')),
                 ],
 
               ));
@@ -162,7 +162,7 @@ class _CodeReceptionState extends State<CodeReception> {
     if (await Permission.camera.request().isGranted) {
       IconButton(
           color: Colors.white,
-          icon: Icon(size: 20, IconData(0xef26, fontFamily: 'MaterialIcons')),
+          icon: const Icon(size: 20, IconData(0xef26, fontFamily: 'MaterialIcons')),
           onPressed: () => cameraController.switchCamera());
       Stack(children:[
       MobileScanner(

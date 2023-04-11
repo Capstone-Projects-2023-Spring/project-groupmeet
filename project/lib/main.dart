@@ -6,7 +6,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/explainer.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 import 'home.dart';
 
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      firstStop = HomeScreen();
+      firstStop = const HomeScreen();
     } else {
       firstStop = Explainer(pageNo: 0);
     }
