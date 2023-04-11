@@ -13,9 +13,9 @@ class GroupHomePage extends StatefulWidget {
   // const GroupHomePage({super.key, required this.title, required this.myGroup});
   const GroupHomePage(
       {super.key,
-      required this.title,
-      required this.databaseReference,
-      this.myGroup});
+        required this.title,
+        required this.databaseReference,
+        this.myGroup});
 
   final String title;
   final DatabaseReference databaseReference;
@@ -62,7 +62,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref("users/$uid/groupIds/${widget.myGroup!["gId"]}");
     DatabaseReference groupRef =
-        FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
+    FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
 
     userRef.remove();
     groupRef.remove();
@@ -204,32 +204,31 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return allEvents as List<Appointment>;
   }
 
-    // call getData from this function and then use the array of events to find the next best date
   Future<List<DateTime>> findNextBestDate() async {
     List<Appointment> allEvents = await getEventList() ;
     List<DateTime> daysToPropose = [];
     // order events by the date
     allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);
 
-      // if tomorrow is not within planned events than you can propose a meeting on that day
-      // try to get 5 and then quit
-      // if the proposing time is at midnight it's because the whole day is free
-      DateTime toMeet = DateTime.now().add(const Duration(days:1));
-      toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);
-      for(int i = 0; i < 5; i++){
-        allEvents.forEach((eachEvent) {
-          DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
-          DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
-          if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
-            toMeet = toMeet.add(const Duration(days: 1));
-            // then tomorrow's date is invalid for a free day of meetings
-          }
+    // if tomorrow is not within planned events than you can propose a meeting on that day
+    // try to get 5 and then quit
+    // if the proposing time is at midnight it's because the whole day is free
+    DateTime toMeet = DateTime.now().add(const Duration(days:1));
+    toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);
+    for(int i = 0; i < 5; i++){
+      allEvents.forEach((eachEvent) {
+        DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
+        DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
+        if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
+          toMeet = toMeet.add(const Duration(days: 1));
+          // then tomorrow's date is invalid for a free day of meetings
         }
-        // if newTomorrow remains unchanged we can add it
-        daysToPropose.add(toMeet);
-        toMeet = toMeet.add(const Duration(days: 1));
-        // print(daysToPropose);
-      }
+      });
+      // if newTomorrow remains unchanged we can add it
+      daysToPropose.add(toMeet);
+      toMeet = toMeet.add(const Duration(days: 1));
+      // print(daysToPropose);
+    }
 
     // between two events - if there is a duration of time greater than  1hrs - then propose meeting time
     DateTime dateToPropose;
@@ -245,14 +244,11 @@ class _GroupHomePageState extends State<GroupHomePage> {
             // print("going to propose this date: $dateToPropose");
             daysToPropose.add(dateToPropose);
           }    }
-        }
+      }
     }
 
     print("daysToPropose: $daysToPropose");
     daysToPropose.sort();
-    return daysToPropose;
-  }
-
     //add daysToPropose to group database so we can have a running list of dates to suggest.
     Map<String, Object> dates = {};
     int counter = 0;
@@ -263,7 +259,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates");
     groupRef.update(dates);
 
-    return daysToPropose;                
+    return daysToPropose;
   }
 
   Future<DateTime> getFirstDate() async{
@@ -291,17 +287,17 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     return 1;
   }
-  
+
   void getQr (){
     Navigator.push(context, MaterialPageRoute(builder: (context) => Display(widget.title, "${widget.myGroup!["gId"]}")));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-          actions: <Widget> [PlatformIconButton(onPressed: getQr,
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+          title: PlatformText(widget.title),
+          trailingActions: <Widget> [PlatformIconButton(onPressed: getQr,
             icon:
             const Icon(size: 25,
                 IconData(0xe4f7, fontFamily: 'MaterialIcons')),),]
@@ -360,20 +356,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CalendarPage(
-                                        title: "Calendar",
-                                        group: widget.myGroup,
-                                      )));
+                                    title: "Calendar",
+                                    group: widget.myGroup,
+                                  )));
                         },
                         child: const Text('Calendar',
                             style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                            TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -382,7 +378,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -395,7 +391,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         },
                         child: const Text('Edit Availabilities',
                             style:
-                                TextStyle(fontSize: 20, color: Colors.white)),
+                            TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -410,19 +406,19 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           // just printing proposal dates for now
-                          findNextBestDate();                        
-  
+                          findNextBestDate();
+
                         },
                         child: PlatformText('Suggest New Meeting Time',
                             style: const TextStyle(
                                 fontSize: 25, color: Colors.white)),
                       ),
-                     
-                      
+
+
                     ],
                   ),
                 ],
@@ -436,7 +432,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () async{
                           await removeCurrentDate();
@@ -460,12 +456,12 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           //print(snapshot);
                           var membersWidget = snapshot.data!
                               .map((eachMember) => Text(
-                                    eachMember["firstName"] +
-                                        " " +
-                                        eachMember["lastName"],
-                                    style: const TextStyle(
-                                        fontSize: 15, color: Colors.white),
-                                  ))
+                            eachMember["firstName"] +
+                                " " +
+                                eachMember["lastName"],
+                            style: const TextStyle(
+                                fontSize: 15, color: Colors.white),
+                          ))
                               .toList();
                           var check = Column(
                             children: membersWidget,
@@ -473,7 +469,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           return Container(
                               decoration: BoxDecoration(
                                   border:
-                                      Border.all(width: 1, color: Colors.grey)),
+                                  Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
                                     style: const TextStyle(
@@ -497,7 +493,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -519,7 +515,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           leaveGroup().then((_) {
@@ -579,8 +575,8 @@ class _GroupHomePageState extends State<GroupHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                Text("Here are your group's $chosenPlatform handles: ",
-                    style: const TextStyle(fontSize: 20, color: Colors.white)),
+                  Text("Here are your group's $chosenPlatform handles: ",
+                      style: const TextStyle(fontSize: 20, color: Colors.white)),
                 ],
               ),
               Row(
