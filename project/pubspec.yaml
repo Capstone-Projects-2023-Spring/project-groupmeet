@@ -15,8 +15,9 @@ dependencies:
   firebase_database: ^10.0.10
   firebase_core_platform_interface: ^4.5.3
   mockito: ^5.3.2
+  build_runner: ^2.1.7
   qr_flutter: ^4.0.0
-  qr_code_scanner: ^1.0.1
+  mobile_scanner: ^3.2.0
   flutter_platform_widgets: ^3.0.0
   extension_google_sign_in_as_googleapis_auth: ^2.0.9
   google_sign_in: ^6.0.2
@@ -24,7 +25,7 @@ dependencies:
   googleapis_auth: ^1.4.0
   syncfusion_flutter_calendar: ^20.4.54
   firebase_messaging: ^14.3.0
-  permission_handler: ^9.2.0
+  permission_handler: ^10.2.0
   intl: ^0.17.0
   date_time_picker: ^2.1.0
   flutter_material_color_picker: ^1.1.0+2

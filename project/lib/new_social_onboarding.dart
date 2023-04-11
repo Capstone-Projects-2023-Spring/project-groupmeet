@@ -78,7 +78,7 @@ class NewSocialOnboarding extends StatelessWidget {
 
     Navigator.of(context).push(platformPageRoute(
         context: context,
-        builder: (context) => HomeScreen()));
+        builder: (context) => const HomeScreen()));
   }
 
   late DatabaseReference databaseReference;
