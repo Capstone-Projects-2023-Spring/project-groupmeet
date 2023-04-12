@@ -4,11 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:groupmeet/home.dart';
 
-import 'home.dart';
-
-class NewSocialOnboarding extends StatelessWidget {
-  NewSocialOnboarding({super.key});
+class SocialOnboarding extends StatelessWidget {
+  SocialOnboarding({super.key});
 
   String insta = "";
   String fb = "";
@@ -53,9 +52,9 @@ class NewSocialOnboarding extends StatelessWidget {
       sn = null;
     }
 
-    String? smss = sms.trim();
-    if(smss.isEmpty) {
-      smss = null;
+    String? smes = sms.trim();
+    if(smes.isEmpty) {
+      smes = null;
     }
 
     String? disc = discord.trim();
@@ -73,7 +72,7 @@ class NewSocialOnboarding extends StatelessWidget {
       'facebook_name': face,
       'discord_name': disc,
       'snapchat_name': sn,
-      'messages_name': smss
+      'messages_name': smes
     });
 
     Navigator.of(context).push(platformPageRoute(

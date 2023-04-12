@@ -10,7 +10,7 @@ import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sig
 
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'package:date_utils/date_utils.dart' as utils;
-import 'package:groupmeet/new_social_onboarding.dart';
+import 'package:groupmeet/onboarding/social_onboarding.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
@@ -131,7 +131,7 @@ class _CalendarState extends State<Calendar> {
             Navigator.of(context).push(
               platformPageRoute(
                   context: context,
-                  builder: (_) => NewSocialOnboarding()),
+                  builder: (_) => SocialOnboarding()),
             );
           },
           material: (_, __) => MaterialElevatedButtonData(

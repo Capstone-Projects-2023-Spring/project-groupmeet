@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:groupmeet/qr_overlay.dart';
+import 'package:groupmeet/qr/qr_overlay.dart';
 
 class CodeReception extends StatefulWidget {
   const CodeReception({super.key, required this.title});

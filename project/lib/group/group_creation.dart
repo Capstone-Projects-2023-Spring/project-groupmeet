@@ -4,19 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/theme.dart';
+import 'package:groupmeet/onboarding/signin.dart';
 
-import 'signin.dart';
-
-class NewGroupCreation extends StatefulWidget {
-  const NewGroupCreation({super.key});
+class GroupCreation extends StatefulWidget {
+  const GroupCreation({super.key});
 
   @override
-  _NewGroupCreationState createState() => _NewGroupCreationState();
+  _GroupCreationState createState() => _GroupCreationState();
 }
 
-class _NewGroupCreationState extends State<NewGroupCreation> {
+class _GroupCreationState extends State<GroupCreation> {
 
-  _NewGroupCreationState() {
+  _GroupCreationState() {
     selectedColor = createMaterialColor(roundPurple);
   }
 
@@ -132,7 +131,7 @@ class _NewGroupCreationState extends State<NewGroupCreation> {
 
   void signIn(BuildContext context) {
     Navigator.of(context).push(
-        platformPageRoute(context: context, builder: (context) => NewSignIn()));
+        platformPageRoute(context: context, builder: (context) => SignIn()));
   }
 
   void _openDialog(String title, Widget content) {

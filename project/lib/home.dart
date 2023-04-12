@@ -3,11 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/new_group_creation.dart';
-import 'package:groupmeet/new_settings.dart';
-import 'package:groupmeet/theme.dart';
-import 'code_reception.dart';
-import 'settings.dart';
+import 'package:groupmeet/group/group_creation.dart';
+import 'package:groupmeet/settings/settings.dart';
+import 'package:groupmeet/code/code_reception.dart';
 
 class Group {
   Color color;
@@ -44,7 +42,7 @@ class _HomeScreen extends State<HomeScreen> {
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) => const NewGroupCreation()),
+          builder: (context) => const GroupCreation()),
     );
   }
 
@@ -53,7 +51,7 @@ class _HomeScreen extends State<HomeScreen> {
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) => NewSettings()),
+          builder: (context) => const Settings()),
     );
   }
 

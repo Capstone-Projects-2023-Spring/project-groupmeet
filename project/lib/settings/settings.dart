@@ -1,19 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/settings.dart';
-import 'package:groupmeet/signup.dart';
+import 'package:groupmeet/settings/about.dart';
+import 'package:groupmeet/onboarding/signup.dart';
 import 'package:groupmeet/theme.dart';
 
-class NewSettings extends StatefulWidget {
+class Settings extends StatefulWidget {
+  const Settings({super.key});
 
   @override
-  State<StatefulWidget> createState() => _NewSettings();
+  State<StatefulWidget> createState() => _Settings();
 }
 
-class _NewSettings extends State<NewSettings> {
+class _Settings extends State<Settings> {
 
   // TODO: Make Stateful
   String name = "";
@@ -85,13 +85,13 @@ class _NewSettings extends State<NewSettings> {
       print(userID);
       return;
     }
-    // TODO: Socail, Name/Account Info, Link/Unlink
+    // TODO: Social, Name/Account Info, Link/Unlink
 
-    DatabaseReference userRef = FirebaseDatabase.instance.ref("users/${userID!}");
+    DatabaseReference userRef = FirebaseDatabase.instance.ref("users/$userID");
 
     userRef.onValue.listen((event) {
       if(event.snapshot.value == null) {
-        print("null snapcshot");
+        print("null snapshot");
         return;
       }
 
@@ -311,13 +311,13 @@ class _NewSettings extends State<NewSettings> {
 
   void about(BuildContext context) {
     // TODO: Future - show some fun page or description / link to github? - for now link to old settings
-    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => Settings(title: "Old Settings",)));
+    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => const About(title: "About",)));
   }
 
   void signOut(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
-      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewSignUp()));
+      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => SignUp()));
     } catch (e) {
       // TODO: Maybe show error alert?
       print(e);
@@ -345,48 +345,48 @@ class _NewSettings extends State<NewSettings> {
       ),
       body: ListView(
         children: [
-          Padding(padding: EdgeInsets.all(16), child:
+          Padding(padding: const EdgeInsets.all(16), child:
               // Name / Email
           Container(
             width: screenWidth - 32,
             height: 80,
             decoration: BoxDecoration(
               border: Border.all(
-                  color:  Color(0xFF1C1C1E)
+                  color:  const Color(0xFF1C1C1E)
               ),
-              color: Color(0xFF1C1C1E),
-              borderRadius: BorderRadius.all(Radius.circular(160)),
+              color: const Color(0xFF1C1C1E),
+              borderRadius: const BorderRadius.all(Radius.circular(160)),
             ),
             child: Row(
               children: [
                 Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: SizedBox(
                         width: screenWidth * (2/3),
                         child: Column(
                           children: [
-                            SizedBox(width: (screenWidth*(2/3)) -  32, child: PlatformText(name, textAlign: TextAlign.left, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600))),
-                            SizedBox(width: (screenWidth*(2/3)) -  32, child: PlatformText(email, textAlign: TextAlign.left, style:  TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey)),),
+                            SizedBox(width: (screenWidth*(2/3)) -  32, child: PlatformText(name, textAlign: TextAlign.left, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600))),
+                            SizedBox(width: (screenWidth*(2/3)) -  32, child: PlatformText(email, textAlign: TextAlign.left, style:  const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey)),),
                           ],
                         ))),
                 Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).edit, color: roundPurple,), onPressed: editProfile),)
               ],
             ),
           ),),
-          Padding(padding: EdgeInsets.fromLTRB(32, 16, 0, 0), child:
-          PlatformText("Linked Socials", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
+          Padding(padding: const EdgeInsets.fromLTRB(32, 16, 0, 0), child:
+          PlatformText("Linked Socials", style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
           ),
 
-          Padding(padding: EdgeInsets.all(16), child:
+          Padding(padding: const EdgeInsets.all(16), child:
           Container(
             width: screenWidth - 32,
             height: 2*((screenWidth - 32 - 64)/3),
             decoration: BoxDecoration(
               border: Border.all(
-                  color:  Color(0xFF1C1C1E)
+                  color:  const Color(0xFF1C1C1E)
               ),
-              color: Color(0xFF1C1C1E),
-              borderRadius: BorderRadius.all(Radius.elliptical(32, 32)),
+              color: const Color(0xFF1C1C1E),
+              borderRadius: const BorderRadius.all(Radius.elliptical(32, 32)),
             ),
             child:
                 Flex(
@@ -395,7 +395,7 @@ class _NewSettings extends State<NewSettings> {
                     Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: GridView.count(crossAxisCount: 3, childAspectRatio: 1.5, mainAxisSpacing: 16,   children: [
                             GestureDetector(
                               child: ColorFiltered(
@@ -532,26 +532,26 @@ class _NewSettings extends State<NewSettings> {
           //   )
           // ),),
           GestureDetector(
-            child: Padding(padding: EdgeInsets.all(16), child:
+            child: Padding(padding: const EdgeInsets.all(16), child:
             Container(
               width: screenWidth - 32,
               height: 58,
               decoration: BoxDecoration(
                 border: Border.all(
-                    color:  Color(0xFF1C1C1E)
+                    color:  const Color(0xFF1C1C1E)
                 ),
-                color: Color(0xFF1C1C1E),
-                borderRadius: BorderRadius.all(Radius.circular(160)),
+                color: const Color(0xFF1C1C1E),
+                borderRadius: const BorderRadius.all(Radius.circular(160)),
               ),
               child: Row(
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: SizedBox(
                           width: (screenWidth) * (2/3),
                           child: Column(
                             children: [
-                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("About", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
+                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("About", textAlign: TextAlign.left, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
                             ],
                           ))),
                   Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).rightChevron, color: Colors.white,)),)
@@ -561,27 +561,27 @@ class _NewSettings extends State<NewSettings> {
             onTap: () => about(context),
           ),
 
-          Padding(padding: EdgeInsets.all(16), child:
+          Padding(padding: const EdgeInsets.all(16), child:
           GestureDetector(
             child: Container(
               width: screenWidth - 32,
               height: 58,
               decoration: BoxDecoration(
                 border: Border.all(
-                    color:  Color(0xFF1C1C1E)
+                    color:  const Color(0xFF1C1C1E)
                 ),
-                color: Color(0xFF1C1C1E),
-                borderRadius: BorderRadius.all(Radius.circular(160)),
+                color: const Color(0xFF1C1C1E),
+                borderRadius: const BorderRadius.all(Radius.circular(160)),
               ),
               child: Row(
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: SizedBox(
                           width: (screenWidth) * (2/3),
                           child: Column(
                             children: [
-                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Sign Out", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
+                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Sign Out", textAlign: TextAlign.left, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
                             ],
                           )))
                 ],
