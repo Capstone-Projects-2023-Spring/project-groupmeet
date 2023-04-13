@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/new_settings.dart';
+import 'package:groupmeet/settings/settings.dart';
 import 'edit_account.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -165,7 +165,7 @@ class _AccountInfoState extends State<AccountInfo> {
                 Navigator.of(context).push(
                   platformPageRoute(
                     context: context,
-                    builder: (context) => NewSettings(),
+                    builder: (context) => const Settings(),
                   ),
                 );
               },
