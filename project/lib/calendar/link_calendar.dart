@@ -64,10 +64,7 @@ class _CalendarState extends State<Calendar> {
     DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
     final google_api.Events calEvents = await calendarApi.events
         .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
-
-    // get uid and open database reference
-    // Line not used
-    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+    
 
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
