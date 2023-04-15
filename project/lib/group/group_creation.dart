@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
@@ -7,15 +6,17 @@ import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/onboarding/signin.dart';
 
 class GroupCreation extends StatefulWidget {
-  const GroupCreation({super.key});
+  const GroupCreation({super.key, required  this.userID, required this.firebaseDatabase });
+  final String? userID;
+  final FirebaseDatabase firebaseDatabase;
 
   @override
-  _GroupCreationState createState() => _GroupCreationState();
+  GroupCreationState createState() => GroupCreationState();
 }
 
-class _GroupCreationState extends State<GroupCreation> {
+class GroupCreationState extends State<GroupCreation> {
 
-  _GroupCreationState() {
+  GroupCreationState() {
     selectedColor = createMaterialColor(roundPurple);
   }
 
@@ -56,7 +57,7 @@ class _GroupCreationState extends State<GroupCreation> {
     emoji = string;
   }
 
-  Future<void> buttonPress(BuildContext context) async {
+  Future<void> buttonPress(BuildContext context) async {  
     if(name.trim().isEmpty || emoji.trim().characters.length != 1) {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
@@ -84,10 +85,8 @@ class _GroupCreationState extends State<GroupCreation> {
     // TODO: Create Group in Firebase and Dismiss
     // TODO: Load User Groups to home screen :)
     // TODO: Then Accept Screen, Viewing, and Settings
-
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
-
-    if (userID == null) {
+    
+    if (widget.userID == null) {
 
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
@@ -113,22 +112,22 @@ class _GroupCreationState extends State<GroupCreation> {
     }
 
     final DatabaseReference groupRef =
-    FirebaseDatabase.instance.ref().child('groups').push();
+    widget.firebaseDatabase.ref().child('groups').push();
 
     await groupRef.set({
       'name': name.trim(),
       'emoji': emoji.trim(),
-      'admin': userID,
-      'members': {userID: true},
+      'admin': widget.userID,
+      'members': {widget.userID: true},
       'color': selectedColor!.shade500.value
     });
 
-    await FirebaseDatabase.instance
-        .ref("users/$userID/groupIds/${groupRef.key}").set(true);
+    await widget.firebaseDatabase
+        .ref("users/${widget.userID}/groupIds/${groupRef.key}").set(true);
 
-    Navigator.of(context).pop();
-  }
-
+    Navigator.of(context).pop();      
+  } 
+  //TODO: Not being called from anywhere?
   void signIn(BuildContext context) {
     Navigator.of(context).push(
         platformPageRoute(context: context, builder: (context) => SignIn()));
@@ -242,6 +241,7 @@ class _GroupCreationState extends State<GroupCreation> {
                         PlatformText("Color", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                         SizedBox(width: screenWidth / 16,),
                         GestureDetector(
+                          key: const Key('colorChooserGestureDetector'),
                           child: colorCircle,
                           onTap: () => colorTapped(),
                         )
