@@ -39,12 +39,22 @@ class _HomeScreen extends State<HomeScreen> {
 
   // TODO: New Group Creation
   void showAdd(context) {
+    // put the fireBaseAuth and fireDatabase into the group(isnide here), 
+    // create a mock fireBaseAuth and then do it like that ig- which is what they seemed to be trying to do
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+    // and for below pass FirebaseDatabase to Group_creation
+    //  final DatabaseReference groupRef =
+
+    // FirebaseDatabase.instance.ref().child('groups').push();
+    // just pass FirebaseAuth for below
+    // String? userID = FirebaseAuth.instance.currentUser?.uid;
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) => const GroupCreation()),
+          builder: (context) =>  GroupCreation(userID: userID , firebaseDatabase: firebaseDatabase,)),
     );
   }
+  
 
   // TODO: Actual New Settings
   void showSettings(context) {
@@ -58,14 +68,11 @@ class _HomeScreen extends State<HomeScreen> {
   void selectedGroup(int group) {
     print("Tapped group $group");
   }
-
+String? userID = FirebaseAuth.instance.currentUser?.uid;
   void observeGroups() {
     if (observing) {
       return;
-    }
-
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
-
+    }  
     if (userID == null) {
       // TODO: Alert saying not logged in yet?
       print("Not logged in");

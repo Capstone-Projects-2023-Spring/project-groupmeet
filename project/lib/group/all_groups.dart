@@ -45,6 +45,8 @@ class _AllGroupsState extends State<AllGroups> {
     print(allGroups);
     return allGroups;
   }
+  // TODO: clean up code for below
+  FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +125,7 @@ class _AllGroupsState extends State<AllGroups> {
                     platformPageRoute(
                         context: context,
                         builder: (context) =>
-                            const GroupCreation()),
+                            GroupCreation(userID: uid, firebaseDatabase: firebaseDatabase,)),
                   );
                   setState(() {});
                 },
