@@ -44,8 +44,7 @@ class _AllGroupsState extends State<AllGroups> {
     }
     print(allGroups);
     return allGroups;
-  }
-  // TODO: clean up code for below
+  }  
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 
   @override

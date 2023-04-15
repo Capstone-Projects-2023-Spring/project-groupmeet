@@ -4,10 +4,8 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/onboarding/signin.dart';
-import 'package:groupmeet/home.dart';
 
 class GroupCreation extends StatefulWidget {
-  
   const GroupCreation({super.key, required  this.userID, required this.firebaseDatabase });
   final String? userID;
   final FirebaseDatabase firebaseDatabase;
@@ -128,12 +126,8 @@ class GroupCreationState extends State<GroupCreation> {
         .ref("users/${widget.userID}/groupIds/${groupRef.key}").set(true);
 
     Navigator.of(context).pop();      
-  }    
-  
-
-  // do widget testing for the page below
-  // check to make sure the signIn page - title shows up
-  // but is it even being called right now?
+  } 
+  //TODO: Not being called from anywhere?
   void signIn(BuildContext context) {
     Navigator.of(context).push(
         platformPageRoute(context: context, builder: (context) => SignIn()));
