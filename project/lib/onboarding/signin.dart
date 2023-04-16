@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -33,12 +34,13 @@ class SignIn extends StatelessWidget {
 
       return;
     }
-
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => const HomeScreen()));
+          context: context, builder: (context) => HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: firebaseAuth,)));
     } catch (e) {
       String errorMessage = 'An error occurred, please try again later.';
 

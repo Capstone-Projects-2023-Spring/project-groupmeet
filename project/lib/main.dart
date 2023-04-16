@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -58,9 +59,9 @@ class MyApp extends StatelessWidget {
     Widget firstStop;
 
     User? user = FirebaseAuth.instance.currentUser;
-
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
     if (user != null) {
-      firstStop = const HomeScreen();
+      firstStop = HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: FirebaseAuth.instance,);
     } else {
       firstStop = Explainer(pageNo: 0);
     }

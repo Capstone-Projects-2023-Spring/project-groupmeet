@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/src/circle_color.dart';
 
 
-Future<void> main() async {  
+void main() {  
   setupFirebaseMocks();
   FirebaseDatabase firebaseDatabase;
   String? userId = 'YHrs4PbqEKOentDPS5pOHnA6sp82';  
@@ -213,5 +213,3 @@ testWidgets('Group Creation create group and submit successfully', (tester) asyn
 
 
 }
-
-// TODO: check for emoji error

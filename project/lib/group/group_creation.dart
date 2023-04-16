@@ -11,12 +11,12 @@ class GroupCreation extends StatefulWidget {
   final FirebaseDatabase firebaseDatabase;
 
   @override
-  GroupCreationState createState() => GroupCreationState();
+  State<GroupCreation> createState() => _GroupCreationState();
 }
 
-class GroupCreationState extends State<GroupCreation> {
+class _GroupCreationState extends State<GroupCreation> {
 
-  GroupCreationState() {
+  _GroupCreationState() {
     selectedColor = createMaterialColor(roundPurple);
   }
 

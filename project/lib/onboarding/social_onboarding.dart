@@ -74,10 +74,10 @@ class SocialOnboarding extends StatelessWidget {
       'snapchat_name': sn,
       'messages_name': smes
     });
-
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;  //TODO: MOVE THIS SOMEWHERE ELSE MAYBE
     Navigator.of(context).push(platformPageRoute(
         context: context,
-        builder: (context) => const HomeScreen()));
+        builder: (context) =>  HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: FirebaseAuth.instance,)));
   }
 
   late DatabaseReference databaseReference;
