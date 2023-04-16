@@ -124,6 +124,7 @@ class _AccountInfoState extends State<AccountInfo> {
 
   }
 
+
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
@@ -165,7 +166,7 @@ class _AccountInfoState extends State<AccountInfo> {
                 Navigator.of(context).push(
                   platformPageRoute(
                     context: context,
-                    builder: (context) => const Settings(),
+                    builder: (context) =>  Settings(firebaseAuth: FirebaseAuth.instance, firebaseDatabase: FirebaseDatabase.instance,),
                   ),
                 );
               },

@@ -55,7 +55,7 @@ class _HomeScreen extends State<HomeScreen> {
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) => const Settings()),
+          builder: (context) => Settings(firebaseAuth: widget.firebaseAuth, firebaseDatabase: widget.firebaseDatabase,)),
     );
   }
 
@@ -74,14 +74,12 @@ class _HomeScreen extends State<HomeScreen> {
       print("Not logged in");
     }
 
-    FirebaseDatabase.instance.ref("users/${userID!}/groupIds").onValue.listen((event) async {
+    widget.firebaseDatabase.ref("users/${userID!}/groupIds").onValue.listen((event) async {
       // FirebaseDatabase.instance.ref("users/${userID!}/groupIds").get().then((event) => {
         
       if (event.snapshot.value == null) {
         return;
       }
-      print("hi");
-      print(event.snapshot.value);
       
 
       Iterable<Object?> groups = (event.snapshot.value as Map<Object?, Object?>).keys;
@@ -90,7 +88,7 @@ class _HomeScreen extends State<HomeScreen> {
 
       for (Object? groupID in groups) {
         String groupIDCasted = groupID as String;
-        final groupInfo = await FirebaseDatabase.instance.ref("groups/$groupIDCasted/").get();
+        final groupInfo = await widget.firebaseDatabase.ref("groups/$groupIDCasted/").get();
 
         if (!groupInfo.exists) {
           continue;
@@ -204,6 +202,7 @@ class _HomeScreen extends State<HomeScreen> {
                   height: 120,
                   width: 120,
                   child: PlatformIconButton(
+                    key: Key("navigatetoCodeReceptionPageButton"),
                     icon: Image.asset("images/RoundQR.png",
                         width: 120, height: 120, isAntiAlias: true),
                     padding: EdgeInsets.zero,
@@ -223,6 +222,7 @@ class _HomeScreen extends State<HomeScreen> {
                   height: 120,
                   width: 120,
                   child: PlatformIconButton(
+                    key: Key("navigatetoSettingsPageButton"),
                     icon: Image.asset("images/RoundSettings.png",
                         width: 120, height: 120, isAntiAlias: true),
                     padding: EdgeInsets.zero,
