@@ -7,8 +7,10 @@ import 'package:groupmeet/onboarding/signup.dart';
 import 'package:groupmeet/theme.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  const Settings({super.key, required this.firebaseDatabase, required this.firebaseAuth});
 
+  final FirebaseDatabase firebaseDatabase;
+  final FirebaseAuth firebaseAuth;
   @override
   State<StatefulWidget> createState() => _Settings();
 }
@@ -42,7 +44,7 @@ class _Settings extends State<Settings> {
   void saveInfo() {
     Navigator.of(context).pop();
 
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
+    String? userID = widget.firebaseAuth.currentUser?.uid;
 
     if(userID == null) {
       // TODO: Show error dialog
@@ -50,13 +52,13 @@ class _Settings extends State<Settings> {
       return;
     }
 
-    FirebaseDatabase.instance.ref("users/$userID/email").set(newEmail);
+    widget.firebaseDatabase.ref("users/$userID/email").set(newEmail);
 
     String firstName = newName.split(" ").first;
     String lastName =  newName.split(" ").getRange(1, newName.split(" ").length).join(" ");
 
-    FirebaseDatabase.instance.ref("users/$userID/firstName").set(firstName);
-    FirebaseDatabase.instance.ref("users/$userID/lastName").set(lastName);
+    widget.firebaseDatabase.ref("users/$userID/firstName").set(firstName);
+    widget.firebaseDatabase.ref("users/$userID/lastName").set(lastName);
 
     print(newEmail);
     print(firstName);
@@ -73,7 +75,7 @@ class _Settings extends State<Settings> {
       return;
     }
 
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
+    String? userID = widget.firebaseAuth.currentUser?.uid;
 
     if (userID == null) {
       // TODO: Maybe display error
@@ -87,7 +89,7 @@ class _Settings extends State<Settings> {
     }
     // TODO: Social, Name/Account Info, Link/Unlink
 
-    DatabaseReference userRef = FirebaseDatabase.instance.ref("users/$userID");
+    DatabaseReference userRef = widget.firebaseDatabase.ref("users/$userID");
 
     userRef.onValue.listen((event) {
       if(event.snapshot.value == null) {
@@ -134,7 +136,7 @@ class _Settings extends State<Settings> {
   void saveSocial(String media) {
     Navigator.of(context).pop();
 
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
+    String? userID = widget.firebaseAuth.currentUser?.uid;
 
     if(userID == null) {
       // TODO: Show error dialog
@@ -178,7 +180,7 @@ class _Settings extends State<Settings> {
 
     print("users/$userID/$saveLocation");
     print(newSocial);
-    FirebaseDatabase.instance.ref("users/$userID/$saveLocation").set(ns);
+    widget.firebaseDatabase.ref("users/$userID/$saveLocation").set(ns);
   }
 
   String? newSocial;
@@ -316,7 +318,7 @@ class _Settings extends State<Settings> {
 
   void signOut(BuildContext context) async {
     try {
-      await FirebaseAuth.instance.signOut();
+      await widget.firebaseAuth.signOut();
       Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => SignUp()));
     } catch (e) {
       // TODO: Maybe show error alert?
