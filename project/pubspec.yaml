@@ -17,7 +17,7 @@ dependencies:
   mockito: ^5.3.2
   build_runner: ^2.1.7
   qr_flutter: ^4.0.0
-  mobile_scanner: ^3.2.0
+  flutter_barcode_scanner: ^2.0.0
   flutter_platform_widgets: ^3.0.0
   extension_google_sign_in_as_googleapis_auth: ^2.0.9
   google_sign_in: ^6.0.2
