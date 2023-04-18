@@ -11,19 +11,22 @@ class Display extends StatelessWidget{
 
 
   @override
+  //I am here
   Widget build(BuildContext context){
     return SafeArea(child: PlatformScaffold(
       appBar: PlatformAppBar(title: PlatformText(groupName)),
       body:
-        Center(
-            child: QrImage(
+          RepaintBoundary(
+        child: Center(
+            child:
+            QrImage(
               data: nameId,
-              version: QrVersions.auto,
               size: 300,
               foregroundColor: Colors.white,
               backgroundColor: Colors.deepPurple,
           )
         )
+          ),
       ));
     }
   }

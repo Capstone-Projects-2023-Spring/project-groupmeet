@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:groupmeet/qr/qr_overlay.dart';
+import 'package:flutter/cupertino.dart';
 
 class CodeReception extends StatefulWidget {
   const CodeReception({super.key, required this.title});
@@ -18,7 +17,6 @@ class CodeReception extends StatefulWidget {
 
 class _CodeReceptionState extends State<CodeReception> {
   late TextEditingController groupId;
-  MobileScannerController cameraController = MobileScannerController();
 
   @override
   void initState() {
@@ -42,7 +40,8 @@ class _CodeReceptionState extends State<CodeReception> {
                 title: const Text('Enter Group Code Below'),
                 content: TextField(
                   autofocus: true,
-                  decoration: const InputDecoration(hintText: 'Enter here......'),
+                  decoration: const InputDecoration(
+                      hintText: 'Enter here......'),
                   controller: groupId,
                 ),
                 actions: [
@@ -88,32 +87,14 @@ class _CodeReceptionState extends State<CodeReception> {
             for (var keys2 in type1.entries) {
               count_2++;
               if (keys2.key.toString().contains(groupId.text)) {
-                Fluttertoast.showToast(
-                    msg: "You have already joined this group. Please enter another Code.",
-                    toastLength: Toast.LENGTH_LONG,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 4,
-                    backgroundColor: Colors.grey,
-                    fontSize: 15);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You have already joined this group. Please enter another Code.")));
                 break;
               } else {
                 if (type1.entries.length == count_2) {
-                  Fluttertoast.showToast(
-                      msg: "Adding to group ${snapshot2.value} ....",
-                      toastLength: Toast.LENGTH_LONG,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 4,
-                      backgroundColor: Colors.grey,
-                      fontSize: 15);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Adding to group ${snapshot2.value} ....")));
                   userRef.update({groupId.text: true});
                   userRef2.update({userEx: true});
-                  Fluttertoast.showToast(
-                      msg: "You're now added to ${snapshot2.value}!",
-                      toastLength: Toast.LENGTH_LONG,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 4,
-                      backgroundColor: Colors.grey,
-                      fontSize: 15);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You're now added to ${snapshot2.value}!")));
                   Navigator.of(context).pop(false);
                   break;
                 }
@@ -122,82 +103,32 @@ class _CodeReceptionState extends State<CodeReception> {
           } else {
             userRef.update({groupId.text: true});
             userRef2.update({userEx: true});
-            Fluttertoast.showToast(
-                msg: "You've now been added to the group -> ${snapshot2.value}!",
-                toastLength: Toast.LENGTH_LONG,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 4,
-                backgroundColor: Colors.grey,
-                fontSize: 15);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You've now been added to the group -> ${snapshot2
+                .value}!")));
             Navigator.of(context).pop(false);
             break;
           }
         }
       }
       if (count.isEven) {
-        //We're gonna write
-        Fluttertoast.showToast(
-            msg: "The codes assigned doesn't match any groups that exit. Please try again!",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 4,
-            backgroundColor: Colors.grey,
-            fontSize: 15);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The codes assigned doesn't match any groups that exit. Please try again!")));
         Navigator.of(context).pop(false);
       }
     }
     else {
-      Fluttertoast.showToast(msg: "No groups exist! Please create a new group!",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 4,
-          backgroundColor: Colors.grey,
-          fontSize: 15);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No groups exist! Please create a new group!")));
     }
   }
 
   void camScanner() async {
     // get the app to ask for permissions and get the barcode to show and then link to updateDatabase()
-    var status = await Permission.camera.status;
-    if (await Permission.camera.request().isGranted) {
-      IconButton(
-          color: Colors.white,
-          icon: const Icon(size: 20, IconData(0xef26, fontFamily: 'MaterialIcons')),
-          onPressed: () => cameraController.switchCamera());
-      Stack(children:[
-      MobileScanner(
-        controller: MobileScannerController(
-          detectionSpeed: DetectionSpeed.normal,
-          facing: CameraFacing.front,
-          torchEnabled: true,),
-        onDetect: (capture) {
-          final List<Barcode> barcodes = capture.barcodes;
-          for (final barcode in barcodes) {
-            groupId = barcode.rawValue as TextEditingController;
-            updateDatabase();
-          }
-        },
-      ),
-      QRScannerOverlay(overlayColour: Colors.black.withOpacity(0.5)),
-    ]);
-    }
-    else if (status.isDenied && !status.isPermanentlyDenied) {
-      Fluttertoast.showToast(msg: "Permissions Needed to Use Feature! Accept Camera Permissions.",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 4,
-          backgroundColor: Colors.grey,
-          fontSize: 15);
-      status = await Permission.camera.request();
-    }
-    else {
-      Fluttertoast.showToast(msg: "Please Go to Settings and Allow Permissions For Camera For This App.",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 4,
-          backgroundColor: Colors.grey,
-          fontSize: 15);
-      openAppSettings();
+    try {
+      groupId = (await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", 'Cancel', true,
+          ScanMode.QR) as TextEditingController);
+      updateDatabase();
+    } on PlatformException {
+       print("Failed to scan");
     }
   }
 
