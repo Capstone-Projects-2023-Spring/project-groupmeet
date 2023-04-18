@@ -38,40 +38,6 @@ class AboutState extends State<About> {
     ref = FirebaseDatabase.instance.ref("users/$temp");
   }
 
-  Future<void> logout() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      //
-      // PlatformAlertDialog error = PlatformAlertDialog(
-      //   title: PlatformText("Logout Successful!"),
-      //   actions: [
-      //     PlatformTextButton(child: PlatformText("Ok"),
-      //       onPressed: () => Navigator.of(context).pop(),)
-      //   ],);
-      //
-      // showPlatformDialog(context: context, builder: (context) {
-      //   return error;
-      // },);
-
-      // scaffoldMessengerState.showSnackBar(
-      //   const SnackBar(
-      //     content: Text('Logged out successfully.'),
-      //     duration: Duration(seconds: 5),
-      //   ),
-      // );
-
-      Navigator.of(context).push(
-          platformPageRoute(context: context, builder: (context) => SignUp()));
-    } catch (e) {
-      // scaffoldMessengerState.showSnackBar(
-      //   SnackBar(
-      //     content: Text('An error occurred while logging out: $e'),
-      //     duration: const Duration(seconds: 5),
-      //   ),
-      // );
-    }
-  }
-
   Future<void> getPrimaryCalendar() async {
     // Google Calendar API
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
