@@ -150,22 +150,37 @@ class _Settings extends State<Settings> {
       case "snap":
         saveLocation = "snapchat_name";
         snap = newSocial;
+        setState(() {
+          snapOpacity = 0.0;
+        });
         break;
       case "sms":
         saveLocation = "messages_name";
         messages = newSocial;
+        setState(() {
+          smsOpacity = 0.0;
+        });
         break;
       case "discord":
         saveLocation = "discord_name";
         discord = newSocial;
+        setState(() {
+          discordOpacity = 0.0;
+        });
         break;
       case "insta":
         saveLocation = "instagram_name";
         insta = newSocial;
+        setState(() {
+          instaOpacity = 0.0;
+        });
         break;
       case "fb":
         saveLocation = "facebook_name";
         fb = newSocial;
+        setState(() {
+          fbOpacity = 0.0;
+        });
         break;
       default:
         print("Error");
@@ -223,6 +238,7 @@ class _Settings extends State<Settings> {
       content: Column(
         children: [
           PlatformTextField(
+            key: const Key("newSocialEditPlatformAlertKey"),
             cursorColor: roundPurple,
             hintText: hintString,
             controller: TextEditingController(text: newSocial),
@@ -242,6 +258,7 @@ class _Settings extends State<Settings> {
           },
         ),
         PlatformTextButton(
+          key: const Key("saveNewSocialTapKey"),
           child: PlatformText("Save",
               selectionColor: roundPurple,
               style: const TextStyle(color: Colors.white)),
@@ -270,12 +287,14 @@ class _Settings extends State<Settings> {
       content: Column(
         children: [
           PlatformTextField(
+            key: const Key("editNameArea"),
             cursorColor: roundPurple,
             hintText: "Name",
             controller: TextEditingController(text: name),
             onChanged: (p0) => changedName(p0),
           ),
           PlatformTextField(
+            key: const Key("editEmailArea"),
             cursorColor: roundPurple,
             hintText: "Email",
             controller: TextEditingController(text: email),
@@ -294,7 +313,7 @@ class _Settings extends State<Settings> {
             Navigator.of(context).pop();
           },
         ),
-        PlatformTextButton(
+        PlatformTextButton(          
           child: PlatformText("Save",
               selectionColor: roundPurple,
               style: const TextStyle(color: Colors.white)),
@@ -326,18 +345,27 @@ class _Settings extends State<Settings> {
     }
   }
 
+  double opaqueValue = 0.4;
+  
+  late double smsOpacity;
+  late double snapOpacity;
+  late double discordOpacity;
+  late double fbOpacity;
+  late double instaOpacity;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.height;
 
-    double opaqueValue = 0.4;
+    
 
-    double smsOpacity = messages == null ? opaqueValue : 0.0;
-    double snapOpacity = snap == null ? opaqueValue : 0.0;
-    double discordOpacity = discord == null ? opaqueValue : 0.0;
-    double fbOpacity = fb == null ? opaqueValue : 0.0;
-    double instaOpacity = insta == null ? opaqueValue : 0.0;
+    smsOpacity = messages == null ? opaqueValue : 0.0;
+    snapOpacity = snap == null ? opaqueValue : 0.0;
+    discordOpacity = discord == null ? opaqueValue : 0.0;
+    fbOpacity = fb == null ? opaqueValue : 0.0;
+    instaOpacity = insta == null ? opaqueValue : 0.0;
+
 
     observeData();
 
@@ -367,11 +395,33 @@ class _Settings extends State<Settings> {
                         width: screenWidth * (2/3),
                         child: Column(
                           children: [
-                            SizedBox(width: (screenWidth*(2/3)) -  32, child: PlatformText(name, textAlign: TextAlign.left, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600))),
-                            SizedBox(width: (screenWidth*(2/3)) -  32, child: PlatformText(email, textAlign: TextAlign.left, style:  const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey)),),
-                          ],
-                        ))),
-                Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).edit, color: roundPurple,), onPressed: editProfile),)
+                              SizedBox(
+                                  width: (screenWidth * (2 / 3)) - 32,
+                                  child: PlatformText(name,                                      
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600))),
+                              SizedBox(
+                                width: (screenWidth * (2 / 3)) - 32,
+                                child: PlatformText(email,                                    
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey)),
+                              ),
+                            ],
+                          ))),
+                Center(
+                    child: PlatformIconButton(
+                        key: const Key("editProfileButtonKey"),
+                        icon: Icon(
+                          PlatformIcons(context).edit,
+                          color: roundPurple,
+                        ),
+                        onPressed: editProfile),
+                  )
               ],
             ),
           ),),
@@ -400,35 +450,45 @@ class _Settings extends State<Settings> {
                           padding: const EdgeInsets.all(16),
                           child: GridView.count(crossAxisCount: 3, childAspectRatio: 1.5, mainAxisSpacing: 16,   children: [
                             GestureDetector(
+                              key: const Key("smsAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("smsAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(smsOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/smsApp.png",)),
                               ),
                               onTap: () => selectedSocial("sms"),
                             ),
                             GestureDetector(
+                              key: const Key("snapAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("snapAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(snapOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/snapchatApp.png",)),
                               ),
                               onTap: () => selectedSocial("snap"),
                             ),
                             GestureDetector(
+                              key: const Key("discordAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("discordAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(discordOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/discordApp.png",)),
                               ),
                               onTap: () => selectedSocial("discord"),
                             ),
                             GestureDetector(
+                              key: const Key("instagramAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("instagramAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(instaOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/instagramApp.png",)),
                               ),
                               onTap: () => selectedSocial("insta")
                             ),
                             GestureDetector(
+                              key: const Key("facebookAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("facebookAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(fbOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/facebookApp.png",)),
                               ),
@@ -563,8 +623,11 @@ class _Settings extends State<Settings> {
             onTap: () => about(context),
           ),
 
-          Padding(padding: const EdgeInsets.all(16), child:
+          Padding(            
+            padding: const EdgeInsets.all(16),
+            child:
           GestureDetector(
+            key: const Key("signOutSettingsGestureDetectorKey"),
             child: Container(
               width: screenWidth - 32,
               height: 58,
@@ -578,13 +641,19 @@ class _Settings extends State<Settings> {
               child: Row(
                 children: [
                   Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: SizedBox(
-                          width: (screenWidth) * (2/3),
-                          child: Column(
-                            children: [
-                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Sign Out", textAlign: TextAlign.left, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-                            ],
+                        padding: const EdgeInsets.all(16),
+                        child: SizedBox(
+                            width: (screenWidth) * (2 / 3),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    width: ((screenWidth) * (2 / 3)) - 32,
+                                    child: PlatformText("Sign Out",
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500))),
+                              ],
                           )))
                 ],
               ),
