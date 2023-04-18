@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +26,6 @@ class AboutState extends State<About> {
     super.initState();
     String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
     ref = FirebaseDatabase.instance.ref("users/$temp");
-    debugPrint("HomeScreen: $temp");
-    notification();
-  }
-
-  Future<void> notification() async {
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    ref.child("fcmToken").set(fcmToken);
   }
 
   Future<void> logout() async {
