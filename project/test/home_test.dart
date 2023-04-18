@@ -91,7 +91,6 @@ void main(){
     }
 
     Future<void> navigateToCodeReceptionPage(WidgetTester tester) async {
-      // Tap the button which should navigate to the details page.
       await tester.tap(find.byKey(const Key("navigatetoCodeReceptionPageButton")));
       await tester.pumpAndSettle();
     }
