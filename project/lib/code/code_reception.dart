@@ -123,9 +123,10 @@ class _CodeReceptionState extends State<CodeReception> {
   void camScanner() async {
     // get the app to ask for permissions and get the barcode to show and then link to updateDatabase()
     try {
-      groupId = (await FlutterBarcodeScanner.scanBarcode(
+      var id_ob = (await FlutterBarcodeScanner.scanBarcode(
           "#ff6666", 'Cancel', true,
-          ScanMode.QR) as TextEditingController);
+          ScanMode.QR));
+      groupId.text = id_ob;
       updateDatabase();
     } on PlatformException {
        print("Failed to scan");
