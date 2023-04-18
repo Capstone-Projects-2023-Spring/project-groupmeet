@@ -1,127 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/new_calendar_selection.dart';
 import 'package:groupmeet/theme.dart';
+import 'package:groupmeet/home.dart';
 
-import 'signin.dart';
+class SignIn extends StatelessWidget {
+  SignIn({super.key});
 
-class NewSignUp extends StatelessWidget {
-  NewSignUp({super.key});
-
-  String name = "";
   String email = "";
   String password = "";
 
-  late DatabaseReference ref;
-  String? uid;
-
-  void changedName(String string) {
-    name = string;
-  }
-
-  void changedEmail(String string) {
-    email = string;
-  }
-
-  void changedPassword(String string) {
-    password = string;
-  }
-
   Future<void> buttonPress(BuildContext context) async {
-    if (password.isEmpty ||
-        email.trim().isEmpty ||
-        name.trim().isEmpty ||
-        name.split(" ").length < 2) {
+    if (email.isEmpty || password.isEmpty) {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
-        content: PlatformText(
-            'Please enter a full first and last name, email, and password'),
-        actions: [
-          PlatformTextButton(
-            child: PlatformText("Ok",
-                selectionColor: roundPurple,
-                style: const TextStyle(color: roundPurple)),
-            onPressed: () => Navigator.of(context).pop(),
-          )
-        ],
-      );
-
-      showPlatformDialog(
-        context: context,
-        builder: (context) {
-          return error;
-        },
-      );
-      return;
-    }
-
-    FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-      email: email.trim(),
-      password: password,
-    )
-        .then((authResult) {
-      uid = authResult.user?.uid;
-      ref = FirebaseDatabase.instance.ref("users/$uid/");
-      ref.set({
-        "email": email,
-        "firstName": name.split(" ").first,
-        "lastName":
-            name.split(" ").getRange(1, name.split(" ").length).join(" "),
-        "discord": false,
-        "facebook": false,
-        "instagram": false,
-        "messages": false,
-        "snapchat": false,
-        "discord_name": "N/A",
-        "facebook_name": "N/A",
-        "instagram_name": "N/A",
-        "messages_name": "N/A",
-        "snapchat_name": "N/A",
-        "groupIds": {"dud": true},
-      });
-
-      Navigator.of(context).push(
-        platformPageRoute(
-            context: context, builder: (_) => NewCalendarSelection()),
-      );
-    }).catchError((e) {
-      String errorText =
-          "An unknown error occurred. To try again or not to try";
-      print(e);
-      if (e is! FirebaseAuthException) {
-        PlatformAlertDialog error = PlatformAlertDialog(
-          title: PlatformText("Whoops!"),
-          content: PlatformText(errorText),
-          actions: [
-            PlatformTextButton(
-              child: PlatformText("Ok"),
-              onPressed: () => Navigator.of(context).pop(),
-            )
-          ],
-        );
-
-        showPlatformDialog(
-          context: context,
-          builder: (context) {
-            return error;
-          },
-        );
-
-        return;
-      }
-      if (e.code == 'weak-password') {
-        errorText = 'The password provided is too weak';
-      } else if (e.code == 'email-already-in-use') {
-        errorText =
-            'An account already exists for that email. Please sign in fellow Rounder';
-      }
-
-      PlatformAlertDialog error = PlatformAlertDialog(
-        title: PlatformText("Whoops!"),
-        content: PlatformText(errorText),
+        content: PlatformText("Email and Password must not be empty!"),
         actions: [
           PlatformTextButton(
             child: PlatformText("Ok"),
@@ -136,12 +31,61 @@ class NewSignUp extends StatelessWidget {
           return error;
         },
       );
-    });
+
+      return;
+    }
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      Navigator.of(context).push(platformPageRoute(
+          context: context, builder: (context) => HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: firebaseAuth,)));
+    } catch (e) {
+      String errorMessage = 'An error occurred, please try again later.';
+
+      // Do NOT like dart having the ! after the is!
+      // Reminds me of as! in Swift which is VERY different
+      if (e is! FirebaseAuthException) {
+        return;
+      }
+
+      if (e.code == 'user-not-found') {
+        errorMessage = 'Invalid email address.';
+      } else if (e.code == 'wrong-password') {
+        errorMessage = 'Invalid password.';
+      }
+
+      PlatformAlertDialog error = PlatformAlertDialog(
+        title: PlatformText("Whoops!"),
+        content: PlatformText(errorMessage),
+        actions: [
+          PlatformTextButton(
+            child: PlatformText("Ok"),
+            onPressed: () => Navigator.of(context).pop(),
+          )
+        ],
+      );
+
+      showPlatformDialog(
+        context: context,
+        builder: (context) {
+          return error;
+        },
+      );
+    }
   }
 
   void signIn(BuildContext context) {
-    Navigator.of(context).push(
-        platformPageRoute(context: context, builder: (context) => NewSignIn()));
+    Navigator.of(context).pop();
+  }
+
+  void changedEmail(String string) {
+    email = string.trim();
+  }
+
+  void changedPassword(String string) {
+    password = string;
   }
 
   @override
@@ -158,32 +102,16 @@ class NewSignUp extends StatelessWidget {
             height:
                 MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
         Image.asset(
-          "images/AddPhoto.png",
+          "images/RoundCircle.png",
           height: 160,
           width: screenWidth,
           isAntiAlias: true,
         ),
         SizedBox(width: screenWidth, height: 8),
-        PlatformText("Be Round or\nbe square",
+        PlatformText("Round the world",
             style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center),
         SizedBox(width: screenWidth, height: 32),
-
-        SizedBox(
-            width: screenWidth * (3 / 4),
-            child: PlatformTextField(
-              hintText: "Name",
-              autofocus: true,
-              cursorColor: roundPurple,
-              onChanged: (p0) => changedName(p0),
-              material: (_, __) => MaterialTextFieldData(
-                  decoration: const InputDecoration(
-                      focusColor: roundPurple, hoverColor: roundPurple)),
-            )),
-        SizedBox(
-          width: screenWidth,
-          height: 16,
-        ),
         SizedBox(
             width: screenWidth * (3 / 4),
             child: PlatformTextField(
@@ -204,13 +132,12 @@ class NewSignUp extends StatelessWidget {
               cursorColor: roundPurple,
               onChanged: (p0) => changedPassword(p0),
             )),
-
-        // TODO: Goto login which is the exact same except without name and with different photo on top
         PlatformTextButton(
-            child: PlatformText("Been Round? Sign In!",
-                style: const TextStyle(color: roundPurple)),
+            child: PlatformText(
+              "New to Round? Sign Up!",
+              style: const TextStyle(color: roundPurple),
+            ),
             onPressed: () => signIn(context)),
-
         Expanded(
           child: Align(
             alignment: FractionalOffset.bottomCenter,

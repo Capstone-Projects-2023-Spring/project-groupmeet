@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/new_social_onboarding.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -11,6 +10,7 @@ import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sig
 
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'package:date_utils/date_utils.dart' as utils;
+import 'package:groupmeet/onboarding/social_onboarding.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
@@ -64,10 +64,7 @@ class _CalendarState extends State<Calendar> {
     DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
     final google_api.Events calEvents = await calendarApi.events
         .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
-
-    // get uid and open database reference
-    // Line not used
-    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+    
 
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
@@ -131,7 +128,7 @@ class _CalendarState extends State<Calendar> {
             Navigator.of(context).push(
               platformPageRoute(
                   context: context,
-                  builder: (_) => NewSocialOnboarding()),
+                  builder: (_) => SocialOnboarding()),
             );
           },
           material: (_, __) => MaterialElevatedButtonData(

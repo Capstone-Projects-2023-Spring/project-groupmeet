@@ -2,12 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'calendar.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/services.dart';
+import 'package:groupmeet/calendar/calendar.dart';
 import 'package:groupmeet/theme.dart';
-
-import 'display_qr.dart';
+import 'package:groupmeet/qr/display_qr.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
@@ -217,14 +216,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DateTime toMeet = DateTime.now().add(const Duration(days:1));
     toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);
     for(int i = 0; i < 5; i++){
-      allEvents.forEach((eachEvent) {
+      for (var eachEvent in allEvents) {
         DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
         DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
         if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
           toMeet = toMeet.add(const Duration(days: 1));
           // then tomorrow's date is invalid for a free day of meetings
         }
-      });
+      }
       // if newTomorrow remains unchanged we can add it
       daysToPropose.add(toMeet);
       toMeet = toMeet.add(const Duration(days: 1));

@@ -1,26 +1,25 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:groupmeet/group/all_groups.dart';
 import 'package:groupmeet/theme.dart';
+import 'package:groupmeet/settings/account_info.dart';
+import 'package:groupmeet/onboarding/signup.dart';
+import 'package:groupmeet/settings/add_event.dart';
 
-import 'account_info.dart';
-import 'all_groups.dart';
-import 'signup.dart';
-import 'add_event.dart';
-
-class Settings extends StatefulWidget {
-  const Settings({Key? key, required this.title}) : super(key: key);
+class About extends StatefulWidget {
+  const About({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<Settings> createState() => SettingsState();
+  State<About> createState() => AboutState();
 }
 
 @visibleForTesting
-class SettingsState extends State<Settings> {
+class AboutState extends State<About> {
   late DatabaseReference ref;
 
   @override
@@ -60,7 +59,7 @@ class SettingsState extends State<Settings> {
       // );
 
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => NewSignUp()));
+          context: context, builder: (context) => SignUp()));
     } catch (e) {
       // scaffoldMessengerState.showSnackBar(
       //   SnackBar(

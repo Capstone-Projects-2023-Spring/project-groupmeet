@@ -1,19 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/settings.dart';
-import 'package:groupmeet/signup.dart';
+import 'package:groupmeet/settings/about.dart';
+import 'package:groupmeet/onboarding/signup.dart';
 import 'package:groupmeet/theme.dart';
 
-class NewSettings extends StatefulWidget {
+class Settings extends StatefulWidget {
+  const Settings({super.key, required this.firebaseDatabase, required this.firebaseAuth});
 
+  final FirebaseDatabase firebaseDatabase;
+  final FirebaseAuth firebaseAuth;
   @override
-  State<StatefulWidget> createState() => _NewSettings();
+  State<StatefulWidget> createState() => _Settings();
 }
 
-class _NewSettings extends State<NewSettings> {
+class _Settings extends State<Settings> {
 
   // TODO: Make Stateful
   String name = "";
@@ -42,7 +44,7 @@ class _NewSettings extends State<NewSettings> {
   void saveInfo() {
     Navigator.of(context).pop();
 
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
+    String? userID = widget.firebaseAuth.currentUser?.uid;
 
     if(userID == null) {
       // TODO: Show error dialog
@@ -50,13 +52,13 @@ class _NewSettings extends State<NewSettings> {
       return;
     }
 
-    FirebaseDatabase.instance.ref("users/$userID/email").set(newEmail);
+    widget.firebaseDatabase.ref("users/$userID/email").set(newEmail);
 
     String firstName = newName.split(" ").first;
     String lastName =  newName.split(" ").getRange(1, newName.split(" ").length).join(" ");
 
-    FirebaseDatabase.instance.ref("users/$userID/firstName").set(firstName);
-    FirebaseDatabase.instance.ref("users/$userID/lastName").set(lastName);
+    widget.firebaseDatabase.ref("users/$userID/firstName").set(firstName);
+    widget.firebaseDatabase.ref("users/$userID/lastName").set(lastName);
 
     print(newEmail);
     print(firstName);
@@ -73,7 +75,7 @@ class _NewSettings extends State<NewSettings> {
       return;
     }
 
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
+    String? userID = widget.firebaseAuth.currentUser?.uid;
 
     if (userID == null) {
       // TODO: Maybe display error
@@ -85,13 +87,13 @@ class _NewSettings extends State<NewSettings> {
       print(userID);
       return;
     }
-    // TODO: Socail, Name/Account Info, Link/Unlink
+    // TODO: Social, Name/Account Info, Link/Unlink
 
-    DatabaseReference userRef = FirebaseDatabase.instance.ref("users/${userID!}");
+    DatabaseReference userRef = widget.firebaseDatabase.ref("users/$userID");
 
     userRef.onValue.listen((event) {
       if(event.snapshot.value == null) {
-        print("null snapcshot");
+        print("null snapshot");
         return;
       }
 
@@ -134,7 +136,7 @@ class _NewSettings extends State<NewSettings> {
   void saveSocial(String media) {
     Navigator.of(context).pop();
 
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
+    String? userID = widget.firebaseAuth.currentUser?.uid;
 
     if(userID == null) {
       // TODO: Show error dialog
@@ -148,22 +150,37 @@ class _NewSettings extends State<NewSettings> {
       case "snap":
         saveLocation = "snapchat_name";
         snap = newSocial;
+        setState(() {
+          snapOpacity = 0.0;
+        });
         break;
       case "sms":
         saveLocation = "messages_name";
         messages = newSocial;
+        setState(() {
+          smsOpacity = 0.0;
+        });
         break;
       case "discord":
         saveLocation = "discord_name";
         discord = newSocial;
+        setState(() {
+          discordOpacity = 0.0;
+        });
         break;
       case "insta":
         saveLocation = "instagram_name";
         insta = newSocial;
+        setState(() {
+          instaOpacity = 0.0;
+        });
         break;
       case "fb":
         saveLocation = "facebook_name";
         fb = newSocial;
+        setState(() {
+          fbOpacity = 0.0;
+        });
         break;
       default:
         print("Error");
@@ -178,7 +195,7 @@ class _NewSettings extends State<NewSettings> {
 
     print("users/$userID/$saveLocation");
     print(newSocial);
-    FirebaseDatabase.instance.ref("users/$userID/$saveLocation").set(ns);
+    widget.firebaseDatabase.ref("users/$userID/$saveLocation").set(ns);
   }
 
   String? newSocial;
@@ -221,6 +238,7 @@ class _NewSettings extends State<NewSettings> {
       content: Column(
         children: [
           PlatformTextField(
+            key: const Key("newSocialEditPlatformAlertKey"),
             cursorColor: roundPurple,
             hintText: hintString,
             controller: TextEditingController(text: newSocial),
@@ -230,6 +248,7 @@ class _NewSettings extends State<NewSettings> {
       ),
       actions: [
         PlatformTextButton(
+          key: const Key("cancelNewSocialTapKey"),
           child: PlatformText("Cancel",
               selectionColor: roundPurple,
               style: const TextStyle(color: Colors.white)),
@@ -240,6 +259,7 @@ class _NewSettings extends State<NewSettings> {
           },
         ),
         PlatformTextButton(
+          key: const Key("saveNewSocialTapKey"),
           child: PlatformText("Save",
               selectionColor: roundPurple,
               style: const TextStyle(color: Colors.white)),
@@ -268,12 +288,14 @@ class _NewSettings extends State<NewSettings> {
       content: Column(
         children: [
           PlatformTextField(
+            key: const Key("editNameArea"),
             cursorColor: roundPurple,
             hintText: "Name",
             controller: TextEditingController(text: name),
             onChanged: (p0) => changedName(p0),
           ),
           PlatformTextField(
+            key: const Key("editEmailArea"),
             cursorColor: roundPurple,
             hintText: "Email",
             controller: TextEditingController(text: email),
@@ -292,7 +314,7 @@ class _NewSettings extends State<NewSettings> {
             Navigator.of(context).pop();
           },
         ),
-        PlatformTextButton(
+        PlatformTextButton(          
           child: PlatformText("Save",
               selectionColor: roundPurple,
               style: const TextStyle(color: Colors.white)),
@@ -311,31 +333,40 @@ class _NewSettings extends State<NewSettings> {
 
   void about(BuildContext context) {
     // TODO: Future - show some fun page or description / link to github? - for now link to old settings
-    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => Settings(title: "Old Settings",)));
+    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => const About(title: "About",)));
   }
 
   void signOut(BuildContext context) async {
     try {
-      await FirebaseAuth.instance.signOut();
-      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewSignUp()));
+      await widget.firebaseAuth.signOut();
+      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => SignUp()));
     } catch (e) {
       // TODO: Maybe show error alert?
       print(e);
     }
   }
 
+  double opaqueValue = 0.4;
+
+  late double smsOpacity;
+  late double snapOpacity;
+  late double discordOpacity;
+  late double fbOpacity;
+  late double instaOpacity;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     // double screenHeight = MediaQuery.of(context).size.height;
 
-    double opaqueValue = 0.4;
+    
 
-    double smsOpacity = messages == null ? opaqueValue : 0.0;
-    double snapOpacity = snap == null ? opaqueValue : 0.0;
-    double discordOpacity = discord == null ? opaqueValue : 0.0;
-    double fbOpacity = fb == null ? opaqueValue : 0.0;
-    double instaOpacity = insta == null ? opaqueValue : 0.0;
+    smsOpacity = messages == null ? opaqueValue : 0.0;
+    snapOpacity = snap == null ? opaqueValue : 0.0;
+    discordOpacity = discord == null ? opaqueValue : 0.0;
+    fbOpacity = fb == null ? opaqueValue : 0.0;
+    instaOpacity = insta == null ? opaqueValue : 0.0;
+
 
     observeData();
 
@@ -345,48 +376,71 @@ class _NewSettings extends State<NewSettings> {
       ),
       body: ListView(
         children: [
-          Padding(padding: EdgeInsets.all(16), child:
+          Padding(padding: const EdgeInsets.all(16), child:
               // Name / Email
           Container(
             width: screenWidth - 32,
             height: 80,
             decoration: BoxDecoration(
               border: Border.all(
-                  color:  Color(0xFF1C1C1E)
+                  color:  const Color(0xFF1C1C1E)
               ),
-              color: Color(0xFF1C1C1E),
-              borderRadius: BorderRadius.all(Radius.circular(160)),
+              color: const Color(0xFF1C1C1E),
+              borderRadius: const BorderRadius.all(Radius.circular(160)),
             ),
             child: Row(
               children: [
                 Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: SizedBox(
                         width: screenWidth * (2/3),
                         child: Column(
                           children: [
-                            SizedBox(width: (screenWidth*(2/3)) -  32, child: PlatformText(name, textAlign: TextAlign.left, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600))),
-                            SizedBox(width: (screenWidth*(2/3)) -  32, child: PlatformText(email, textAlign: TextAlign.left, style:  TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey)),),
-                          ],
-                        ))),
-                Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).edit, color: roundPurple,), onPressed: editProfile),)
+                              SizedBox(
+                                  width: (screenWidth * (2 / 3)) - 32,
+                                  child: PlatformText(name,                                      
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600))),
+                              SizedBox(
+                                width: (screenWidth * (2 / 3)) - 32,
+                                child: PlatformText(email,                                    
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey)),
+                              ),
+                            ],
+                          ))),
+                Center(
+                    child: PlatformIconButton(
+                        key: const Key("editProfileButtonKey"),
+                        icon: Icon(
+                          PlatformIcons(context).edit,
+                          color: roundPurple,
+                        ),
+                        onPressed: editProfile),
+                  )
               ],
             ),
           ),),
-          Padding(padding: EdgeInsets.fromLTRB(32, 16, 0, 0), child:
-          PlatformText("Linked Socials", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
+          Padding(padding: const EdgeInsets.fromLTRB(32, 16, 0, 0), child:
+          PlatformText("Linked Socials", style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
           ),
 
-          Padding(padding: EdgeInsets.all(16), child:
-          Container(
-            width: screenWidth - 32,
+          Padding(            
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              width: screenWidth - 32,
             height: 2*((screenWidth - 32 - 64)/3),
             decoration: BoxDecoration(
               border: Border.all(
-                  color:  Color(0xFF1C1C1E)
+                  color:  const Color(0xFF1C1C1E)
               ),
-              color: Color(0xFF1C1C1E),
-              borderRadius: BorderRadius.all(Radius.elliptical(32, 32)),
+              color: const Color(0xFF1C1C1E),
+              borderRadius: const BorderRadius.all(Radius.elliptical(32, 32)),
             ),
             child:
                 Flex(
@@ -395,38 +449,48 @@ class _NewSettings extends State<NewSettings> {
                     Expanded(
                         flex: 1,
                         child: Padding(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: GridView.count(crossAxisCount: 3, childAspectRatio: 1.5, mainAxisSpacing: 16,   children: [
                             GestureDetector(
+                              key: const Key("smsAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("smsAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(smsOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/smsApp.png",)),
                               ),
                               onTap: () => selectedSocial("sms"),
                             ),
                             GestureDetector(
+                              key: const Key("snapAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("snapAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(snapOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/snapchatApp.png",)),
                               ),
                               onTap: () => selectedSocial("snap"),
                             ),
                             GestureDetector(
+                              key: const Key("discordAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("discordAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(discordOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/discordApp.png",)),
                               ),
                               onTap: () => selectedSocial("discord"),
                             ),
                             GestureDetector(
+                              key: const Key("instagramAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("instagramAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(instaOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/instagramApp.png",)),
                               ),
                               onTap: () => selectedSocial("insta")
                             ),
                             GestureDetector(
+                              key: const Key("facebookAppGestureKey"),
                               child: ColorFiltered(
+                                key : const Key("facebookAppOpacityKey"),
                                 colorFilter: ColorFilter.mode(Colors.black.withOpacity(fbOpacity), BlendMode.srcATop),
                                 child: SizedBox(child: Image.asset("images/facebookApp.png",)),
                               ),
@@ -532,26 +596,26 @@ class _NewSettings extends State<NewSettings> {
           //   )
           // ),),
           GestureDetector(
-            child: Padding(padding: EdgeInsets.all(16), child:
+            child: Padding(padding: const EdgeInsets.all(16), child:
             Container(
               width: screenWidth - 32,
               height: 58,
               decoration: BoxDecoration(
                 border: Border.all(
-                    color:  Color(0xFF1C1C1E)
+                    color:  const Color(0xFF1C1C1E)
                 ),
-                color: Color(0xFF1C1C1E),
-                borderRadius: BorderRadius.all(Radius.circular(160)),
+                color: const Color(0xFF1C1C1E),
+                borderRadius: const BorderRadius.all(Radius.circular(160)),
               ),
               child: Row(
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: SizedBox(
                           width: (screenWidth) * (2/3),
                           child: Column(
                             children: [
-                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("About", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
+                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("About", textAlign: TextAlign.left, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
                             ],
                           ))),
                   Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).rightChevron, color: Colors.white,)),)
@@ -561,28 +625,37 @@ class _NewSettings extends State<NewSettings> {
             onTap: () => about(context),
           ),
 
-          Padding(padding: EdgeInsets.all(16), child:
+          Padding(            
+            padding: const EdgeInsets.all(16),
+            child:
           GestureDetector(
+            key: const Key("signOutSettingsGestureDetectorKey"),
             child: Container(
               width: screenWidth - 32,
               height: 58,
               decoration: BoxDecoration(
                 border: Border.all(
-                    color:  Color(0xFF1C1C1E)
+                    color:  const Color(0xFF1C1C1E)
                 ),
-                color: Color(0xFF1C1C1E),
-                borderRadius: BorderRadius.all(Radius.circular(160)),
+                color: const Color(0xFF1C1C1E),
+                borderRadius: const BorderRadius.all(Radius.circular(160)),
               ),
               child: Row(
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SizedBox(
-                          width: (screenWidth) * (2/3),
-                          child: Column(
-                            children: [
-                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Sign Out", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-                            ],
+                        padding: const EdgeInsets.all(16),
+                        child: SizedBox(
+                            width: (screenWidth) * (2 / 3),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    width: ((screenWidth) * (2 / 3)) - 32,
+                                    child: PlatformText("Sign Out",
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500))),
+                              ],
                           )))
                 ],
               ),
