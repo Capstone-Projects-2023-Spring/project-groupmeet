@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'display_code.dart';
+import 'package:groupmeet/code/display_code.dart';
 
 class CodeSharing extends StatefulWidget {
   const CodeSharing({Key? key, required this.title}) : super(key: key);

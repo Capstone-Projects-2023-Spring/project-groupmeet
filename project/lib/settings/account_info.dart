@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'socials.dart';
+import 'package:groupmeet/settings/settings.dart';
 import 'edit_account.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -124,6 +124,7 @@ class _AccountInfoState extends State<AccountInfo> {
 
   }
 
+
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
@@ -165,7 +166,7 @@ class _AccountInfoState extends State<AccountInfo> {
                 Navigator.of(context).push(
                   platformPageRoute(
                     context: context,
-                    builder: (context) => SocialMedia(databaseReference: ref),
+                    builder: (context) =>  Settings(firebaseAuth: FirebaseAuth.instance, firebaseDatabase: FirebaseDatabase.instance,),
                   ),
                 );
               },

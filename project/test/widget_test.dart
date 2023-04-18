@@ -5,16 +5,16 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:groupmeet/home.dart';
-import 'package:groupmeet/settings.dart';
+import 'package:groupmeet/settings/about.dart';
 import './mock.dart'; // from: https://github.com/FirebaseExtended/flutterfire/blob/master/packages/firebase_auth/firebase_auth/test/mock.dart
 
 import 'package:mockito/mockito.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:groupmeet/group_home.dart';
 
 class MockDatabaseReference extends Mock implements DatabaseReference {}
 
@@ -59,7 +59,8 @@ void main() {
   });
 
   test("unit test example", () {
-    var widget = HomeScreen();
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+    var widget = HomeScreen(firebaseDatabase: firebaseDatabase,firebaseAuth: FirebaseAuth.instance,);
     widget.createElement();
     expect(widget, "Test");
   });
@@ -68,10 +69,10 @@ void main() {
     // Tests to write
     Widget testWidget = const MediaQuery(
         data: MediaQueryData(),
-        child: MaterialApp(home: Settings(title: "Test",))
+        child: MaterialApp(home: About(title: "Test",))
     );
     await tester.pumpWidget(testWidget);
-    final SettingsState settingsState = tester.state(find.byType(Settings));
+    final AboutState settingsState = tester.state(find.byType(About));
     expect(settingsState.widget.title, "Test");
   });
 }
