@@ -248,6 +248,7 @@ class _Settings extends State<Settings> {
       ),
       actions: [
         PlatformTextButton(
+          key: const Key("cancelNewSocialTapKey"),
           child: PlatformText("Cancel",
               selectionColor: roundPurple,
               style: const TextStyle(color: Colors.white)),
@@ -346,7 +347,7 @@ class _Settings extends State<Settings> {
   }
 
   double opaqueValue = 0.4;
-  
+
   late double smsOpacity;
   late double snapOpacity;
   late double discordOpacity;
@@ -429,9 +430,10 @@ class _Settings extends State<Settings> {
           PlatformText("Linked Socials", style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
           ),
 
-          Padding(padding: const EdgeInsets.all(16), child:
-          Container(
-            width: screenWidth - 32,
+          Padding(            
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              width: screenWidth - 32,
             height: 2*((screenWidth - 32 - 64)/3),
             decoration: BoxDecoration(
               border: Border.all(

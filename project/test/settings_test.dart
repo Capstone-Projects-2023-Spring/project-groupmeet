@@ -6,6 +6,10 @@ import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:mockito/mockito.dart';
+import 'package:groupmeet/settings/about.dart';
+
+class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
 void main(){
   setupFirebaseMocks();
@@ -52,9 +56,11 @@ void main(){
     final auth = MockFirebaseAuth(signedIn: true,mockUser: user);
   
       Future<void> buildSettingsPage(WidgetTester tester) async {
+        NavigatorObserver mockObserver = MockNavigatorObserver();
       await tester.pumpWidget(MaterialApp(
         home: Settings(firebaseDatabase: firebaseDatabase,firebaseAuth: auth,),
         
+        navigatorObservers: [mockObserver],
       ));
       }
     testWidgets(
@@ -77,24 +83,26 @@ void main(){
          
     });
 
-    // TODO: click cancel after editing -
+     testWidgets(
+        'cancelling after editing profile',
+        (WidgetTester tester) async {
+          await buildSettingsPage(tester);
+        // button calls editProfile
+        await  tester.tap(find.byKey(const Key("editProfileButtonKey")));
 
+        await tester.pump();
 
-// TODO: not finding the signing gesture detector for some reason?
-    // testWidgets("signing out", (WidgetTester tester) async {
-      
-    //   await buildSettingsPage(tester);
-    //   await tester.pumpAndSettle();
-    //   await tester.tap(find.byKey( const Key("signOutSettingsGestureDetectorKey")));
+        await tester.enterText(find.byKey(const Key("editNameArea")), "edited name");
 
-    //   // await widgetTester.tap(
-    //   //   find.descendant(of: find.byKey(const Key("paddingsignOutSettingsGestureDetectorKey")) , matching: find.byKey( const Key("signOutSettingsGestureDetectorKey"))));
-      
-    //   await tester.pump();
+        await tester.enterText(find.byKey(const Key("editEmailArea")), "new Email");
 
-    //   expect(find.byType(SignUp), findsOneWidget);
-
-    // });
+        await tester.tap(find.text("Cancel"));
+        await tester.pump();
+        expect(find.text("first last"), findsOneWidget);
+        expect(find.text("email@email.com"), findsOneWidget);        
+         
+    });
+    
 
     testWidgets("adding a phone number changes the opacity of the widget", (WidgetTester tester) async{
       await buildSettingsPage(tester);
@@ -195,6 +203,54 @@ testWidgets("adding instagram info changes the opacity of the widget", (WidgetTe
        expect(tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
        isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.0), BlendMode.srcATop) ));
 });
+
+testWidgets("clicking cancel after making social media changes and opacity remains the same", (WidgetTester tester) async{
+      await buildSettingsPage(tester);
+      await tester.tap(find.byKey(const Key("instagramAppGestureKey")));
+
+      await tester.pump();
+      //  opacity first should be 0.4 here
+      expect(tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
+       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
+      // entering insta information 
+      await tester.enterText(find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
+      // click cancel
+      await tester.tap(find.byKey(const Key("cancelNewSocialTapKey")));
+      await tester.pump();
+      await tester.pumpAndSettle();
+      
+   
+      expect(tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
+      isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
+});
+
+// testWidgets("successfully navigating to about page", (WidgetTester tester) async {
+//     await buildSettingsPage(tester);
+//     await tester.tap(find.byKey(const Key("aboutNavigationGestureDetectorKey")));
+//     await tester.pumpAndSettle(const Duration(seconds: 2));
+//     // tester.widget(find.text("About"));
+
+
+//     expect(find.byType(About), findsOneWidget);
+
+
+// });
+
+// TODO: not finding the signing out gesture detector for some reason?
+    // testWidgets("signing out", (WidgetTester tester) async {
+      
+    //   await buildSettingsPage(tester);
+    //   await tester.pumpAndSettle();
+    //   await tester.tap(find.byKey( const Key("signOutSettingsGestureDetectorKey")));
+
+    //   // await widgetTester.tap(
+    //   //   find.descendant(of: find.byKey(const Key("paddingsignOutSettingsGestureDetectorKey")) , matching: find.byKey( const Key("signOutSettingsGestureDetectorKey"))));
+      
+    //   await tester.pump();
+
+    //   expect(find.byType(SignUp), findsOneWidget);
+
+    // });
 
 
 }
