@@ -113,7 +113,7 @@ When the application is needed, the user will have to create an instance that ge
 
 <h2> Conceptual Design </h2>
 
-IRounds's programming environment will be in Dart using the Flutter framework. This will allow the application to be developed for both iOS and Android devices simultaneously. This is to ensure that the only requirement to use our application is owning a smartphone so that the most users can be reached and assisted with Round. As for hosting of the application, there is currently an attempt to acquire the necessary physical hardware, however this is a situation that can be circumnavigated. The backend will be utilizing a known cloud service such as AWS or Firebase.
+Rounds's programming environment will be in Dart using the Flutter framework. This will allow the application to be developed for both iOS and Android devices simultaneously. This is to ensure that the only requirement to use our application is owning a smartphone so that the most users can be reached and assisted with Round. As for hosting of the application, there is currently an attempt to acquire the necessary physical hardware, however this is a situation that can be circumnavigated. The backend will be utilizing a known cloud service such as AWS or Firebase.
 
 <h2> Background </h2>
 
