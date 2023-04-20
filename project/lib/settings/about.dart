@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:groupmeet/group/all_groups.dart';
-import 'package:groupmeet/theme.dart';
-import 'package:groupmeet/onboarding/signup.dart';
 import 'package:groupmeet/settings/add_event.dart';
 import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:date_utils/date_utils.dart' as utils;
