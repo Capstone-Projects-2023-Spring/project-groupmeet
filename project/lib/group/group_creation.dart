@@ -44,7 +44,7 @@ class _GroupCreationState extends State<GroupCreation> {
   MaterialColor? tempColor;
 
   String name = "";
-  String emoji = "";
+  String emoji = "😃";
 
   late DatabaseReference ref;
   String? uid;
@@ -58,7 +58,7 @@ class _GroupCreationState extends State<GroupCreation> {
   }
 
   Future<void> buttonPress(BuildContext context) async {  
-    if(name.trim().isEmpty || emoji.trim().characters.length != 1) {
+    if(emoji.trim().characters.length != 1) {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
         content: PlatformText(
