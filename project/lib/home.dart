@@ -3,19 +3,22 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/group/group_creation.dart';
+import 'package:groupmeet/group/group_home_new.dart';
 import 'package:groupmeet/settings/settings.dart';
 import 'package:groupmeet/code/code_reception.dart';
 
 class Group {
+  String id;
   Color color;
   String emoji;
   String name;
 
-  Group(this.color, this.emoji, this.name);
+  Group(this.id, this.color, this.emoji, this.name);
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.firebaseDatabase, required this.firebaseAuth});
+  const HomeScreen(
+      {super.key, required this.firebaseDatabase, required this.firebaseAuth});
 
   final FirebaseDatabase firebaseDatabase;
   final FirebaseAuth firebaseAuth;
@@ -25,8 +28,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  
-
   List<Group> displayedGroups = [];
 
   bool observing = false;
@@ -41,12 +42,15 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   // TODO: New Group Creation
-  void showAdd(context) {   
-    String? userID = widget.firebaseAuth.currentUser?.uid;         
+  void showAdd(context) {
+    String? userID = widget.firebaseAuth.currentUser?.uid;
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) =>  GroupCreation(userID: userID , firebaseDatabase: widget.firebaseDatabase,)),
+          builder: (context) => GroupCreation(
+                userID: userID,
+                firebaseDatabase: widget.firebaseDatabase,
+              )),
     );
   }
 
@@ -55,64 +59,76 @@ class _HomeScreen extends State<HomeScreen> {
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) => Settings(firebaseAuth: widget.firebaseAuth, firebaseDatabase: widget.firebaseDatabase,)),
+          builder: (context) => Settings(
+                firebaseAuth: widget.firebaseAuth,
+                firebaseDatabase: widget.firebaseDatabase,
+              )),
     );
   }
 
-  void selectedGroup(int group) {
-    print("Tapped group $group");
+  void selectedGroup(int groupIndex) {
+    Navigator.of(context).push(
+      platformPageRoute(
+        context: context,
+        builder: (context) => GroupHomeNew(
+          groupID: displayedGroups[groupIndex].id,
+        ),
+      ),
+    );
   }
-  
 
-  void observeGroups() {    
-    String? userID = widget.firebaseAuth.currentUser?.uid;
+  void observeGroups() {
     if (observing) {
       return;
-    }  
+    }
+
+    String? userID = widget.firebaseAuth.currentUser?.uid;
     if (userID == null) {
       // TODO: Alert saying not logged in yet?
       print("Not logged in");
     }
 
-    widget.firebaseDatabase.ref("users/${userID!}/groupIds").onValue.listen((event) async {
+    widget.firebaseDatabase
+        .ref("users/${userID!}/groupIds")
+        .onValue
+        .listen((event) async {
       // FirebaseDatabase.instance.ref("users/${userID!}/groupIds").get().then((event) => {
-        
+
       if (event.snapshot.value == null) {
         return;
       }
-      
 
-      Iterable<Object?> groups = (event.snapshot.value as Map<Object?, Object?>).keys;
+      Iterable<Object?> groups =
+          (event.snapshot.value as Map<Object?, Object?>).keys;
 
       List<Group> newGroups = [];
 
       for (Object? groupID in groups) {
         String groupIDCasted = groupID as String;
-        final groupInfo = await widget.firebaseDatabase.ref("groups/$groupIDCasted/").get();
+        final groupInfo =
+            await widget.firebaseDatabase.ref("groups/$groupIDCasted/").get();
 
         if (!groupInfo.exists) {
           continue;
-        }        
+        }
 
         Map<Object?, Object?> vals = groupInfo.value as Map<Object?, Object?>;
 
         int color = vals['color'] as int;
         String emoji = vals['emoji'] as String;
-        String name = vals['name'] as String;                
+        String name = vals['name'] as String;
 
-        newGroups.add(Group(Color(color), emoji, name));
+        newGroups.add(Group(groupIDCasted, Color(color), emoji, name));
       }
 
       setState(() => displayedGroups = newGroups);
     });
 
     observing = true;
-  
   }
 
   @override
   Widget build(BuildContext context) {
-
     observeGroups();
 
     double screenWidth = MediaQuery.of(context).size.width;
@@ -143,7 +159,8 @@ class _HomeScreen extends State<HomeScreen> {
                           children: [
                             ColorFiltered(
                               colorFilter: ColorFilter.mode(
-                                  displayedGroups[index].color, BlendMode.srcIn),
+                                  displayedGroups[index].color,
+                                  BlendMode.srcIn),
                               child: Image.asset("images/GroupRound.png",
                                   width: 120, height: 120, isAntiAlias: true),
                             ),
