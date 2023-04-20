@@ -4,7 +4,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/group/all_groups.dart';
 import 'package:groupmeet/home.dart';
 import 'package:groupmeet/theme.dart';
-import 'package:groupmeet/settings/account_info.dart';
 import 'package:groupmeet/settings/add_event.dart';
 
 class GroupHomeNew extends StatefulWidget {
