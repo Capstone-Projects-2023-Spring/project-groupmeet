@@ -8,6 +8,8 @@ import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/settings/account_info.dart';
 import 'package:groupmeet/onboarding/signup.dart';
 import 'package:groupmeet/settings/add_event.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class About extends StatefulWidget {
   const About({Key? key, required this.title}) : super(key: key);
@@ -59,7 +61,7 @@ class AboutState extends State<About> {
       // );
 
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => SignUp()));
+          context: context, builder: (context) => SignUp(firebaseAuth: FirebaseAuth.instance, firebaseDatabase: FirebaseDatabase.instance,)));
     } catch (e) {
       // scaffoldMessengerState.showSnackBar(
       //   SnackBar(

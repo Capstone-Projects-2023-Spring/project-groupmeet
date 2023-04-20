@@ -15,6 +15,7 @@ dependencies:
   firebase_database: ^10.0.10
   firebase_core_platform_interface: ^4.5.3
   mockito: ^5.3.2
+  mock_exceptions: ^0.8.2
   firebase_auth_mocks: ^0.11.0
   firebase_database_mocks: ^0.6.0
   build_runner: ^2.1.7

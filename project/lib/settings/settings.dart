@@ -339,7 +339,7 @@ class _Settings extends State<Settings> {
   void signOut(BuildContext context) async {
     try {
       await widget.firebaseAuth.signOut();
-      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => SignUp()));
+      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => SignUp(firebaseAuth: FirebaseAuth.instance,firebaseDatabase: FirebaseDatabase.instance,)));
     } catch (e) {
       // TODO: Maybe show error alert?
       print(e);
