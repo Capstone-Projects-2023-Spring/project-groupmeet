@@ -1,10 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/group/all_groups.dart';
 import 'package:groupmeet/home.dart';
-import 'package:groupmeet/theme.dart';
-import 'package:groupmeet/settings/add_event.dart';
 
 class GroupHomeNew extends StatefulWidget {
   GroupHomeNew({Key? key, required this.groupID}) : super(key: key);
