@@ -7,8 +7,9 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/home.dart';
 
 class SocialOnboarding extends StatelessWidget {
-  SocialOnboarding({super.key});
-
+  SocialOnboarding({super.key, required this.firebaseDatabase, required this.firebaseAuth});
+  final FirebaseDatabase firebaseDatabase;
+  final FirebaseAuth firebaseAuth;
   String insta = "";
   String fb = "";
   String discord = "";
@@ -73,19 +74,18 @@ class SocialOnboarding extends StatelessWidget {
       'discord_name': disc,
       'snapchat_name': sn,
       'messages_name': smes
-    });
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;  //TODO: MOVE THIS SOMEWHERE ELSE MAYBE
+    });    
     Navigator.of(context).push(platformPageRoute(
         context: context,
-        builder: (context) =>  HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: FirebaseAuth.instance,)));
+        builder: (context) =>  HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: firebaseAuth,)));
   }
 
   late DatabaseReference databaseReference;
 
   @override
   Widget build(BuildContext context) {
-    String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
-    databaseReference = FirebaseDatabase.instance.ref("users/$temp");
+    String temp = firebaseAuth.currentUser?.uid ?? "";
+    databaseReference = firebaseDatabase.ref("users/$temp");
 
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;

@@ -65,11 +65,8 @@ void main(){
     
     
   group('navigation tests', () {
-    late NavigatorObserver mockObserver;
-
-    setUp(() {
-      mockObserver = MockNavigatorObserver();
-    });
+    late NavigatorObserver mockObserver = MockNavigatorObserver();
+    
 
     Future<void> buildHomePage(WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(

@@ -7,8 +7,9 @@ import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/onboarding/signin.dart';
 
 class SignUp extends StatelessWidget {
-  SignUp({super.key});
-
+  SignUp({super.key, required this.firebaseDatabase, required this.firebaseAuth});
+  final FirebaseDatabase firebaseDatabase;
+  final FirebaseAuth firebaseAuth;
   String name = "";
   String email = "";
   String password = "";
@@ -56,14 +57,14 @@ class SignUp extends StatelessWidget {
       return;
     }
 
-    FirebaseAuth.instance
+    firebaseAuth
         .createUserWithEmailAndPassword(
       email: email.trim(),
       password: password,
     )
         .then((authResult) {
       uid = authResult.user?.uid;
-      ref = FirebaseDatabase.instance.ref("users/$uid/");
+      ref = firebaseDatabase.ref("users/$uid/");
       ref.set({
         "email": email,
         "firstName": name.split(" ").first,
@@ -139,7 +140,7 @@ class SignUp extends StatelessWidget {
 
   void signIn(BuildContext context) {
     Navigator.of(context).push(
-        platformPageRoute(context: context, builder: (context) => SignIn()));
+        platformPageRoute(context: context, builder: (context) => SignIn(firebaseAuth: firebaseAuth, firebaseDatabase:  firebaseDatabase,)));
   }
 
   @override

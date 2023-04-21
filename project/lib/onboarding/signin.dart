@@ -7,12 +7,14 @@ import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/home.dart';
 
 class SignIn extends StatelessWidget {
-  SignIn({super.key});
-
+  SignIn({super.key, required this.firebaseDatabase, required this.firebaseAuth});
+  final FirebaseDatabase firebaseDatabase;
+  final FirebaseAuth firebaseAuth;
   String email = "";
   String password = "";
 
   Future<void> buttonPress(BuildContext context) async {
+    
     if (email.isEmpty || password.isEmpty) {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
@@ -33,11 +35,9 @@ class SignIn extends StatelessWidget {
       );
 
       return;
-    }
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    }    
     try {
-      await FirebaseAuth.instance
+      await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
       Navigator.of(context).push(platformPageRoute(
           context: context, builder: (context) => HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: firebaseAuth,)));
@@ -49,7 +49,6 @@ class SignIn extends StatelessWidget {
       if (e is! FirebaseAuthException) {
         return;
       }
-
       if (e.code == 'user-not-found') {
         errorMessage = 'Invalid email address.';
       } else if (e.code == 'wrong-password') {
@@ -115,6 +114,7 @@ class SignIn extends StatelessWidget {
         SizedBox(
             width: screenWidth * (3 / 4),
             child: PlatformTextField(
+              key: const Key("emailInputAreaSignInKey"),
               hintText: "Email",
               keyboardType: TextInputType.emailAddress,
               cursorColor: roundPurple,
@@ -127,6 +127,7 @@ class SignIn extends StatelessWidget {
         SizedBox(
             width: screenWidth * (3 / 4),
             child: PlatformTextField(
+              key: const Key("passwordInputAreaSignInKey"),
               hintText: "Password",
               obscureText: true,
               cursorColor: roundPurple,
