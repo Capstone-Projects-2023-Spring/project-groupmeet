@@ -91,7 +91,7 @@ class _NewSettings extends State<NewSettings> {
 
     userRef.onValue.listen((event) {
       if(event.snapshot.value == null) {
-        print("null snapcshot");
+        print("null snapshot");
         return;
       }
 
@@ -594,9 +594,6 @@ class _NewSettings extends State<NewSettings> {
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 10)),
           // About
-
-          // Notifications - will need 3 cells with dividers so - flutter is dumb as fuck
-
       ]
       )
     );

@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
       firstStop = Explainer(pageNo: 0);
     }
 
-    firstStop = NewGroupView();
+    // firstStop = NewGroupView(RoundGroup("id", roundRed, "🍒", "Cherry Chums", "admin", []));
 
     return PlatformApp(
         checkerboardOffscreenLayers: false,

@@ -7,14 +7,17 @@ import 'package:groupmeet/new_group_creation.dart';
 import 'package:groupmeet/new_settings.dart';
 import 'package:groupmeet/theme.dart';
 import 'code_reception.dart';
-import 'settings.dart';
+import 'new_group_view.dart';
 
-class Group {
+class RoundGroup {
   Color color;
   String emoji;
   String name;
+  String id;
+  String admin;
+  List<String> memberIDs;
 
-  Group(this.color, this.emoji, this.name);
+  RoundGroup(this.id, this.color, this.emoji, this.name, this.admin, this.memberIDs);
 }
 
 class HomeScreen extends StatefulWidget {
@@ -26,7 +29,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
 
-  List<Group> displayedGroups = [];
+  List<RoundGroup> displayedGroups = [];
 
   bool observing = false;
 
@@ -39,7 +42,6 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
-  // TODO: New Group Creation
   void showAdd(context) {
     Navigator.of(context).push(
       platformPageRoute(
@@ -48,7 +50,6 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
-  // TODO: Actual New Settings
   void showSettings(context) {
     Navigator.of(context).push(
       platformPageRoute(
@@ -58,7 +59,15 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   void selectedGroup(int group) {
+    RoundGroup selectedGroup = displayedGroups[group];
     print("Tapped group $group");
+
+    Navigator.of(context).push(
+      platformPageRoute(
+          context: context,
+          builder: (context) => NewGroupView(selectedGroup)),
+    );
+
   }
 
   void observeGroups() {
@@ -82,7 +91,7 @@ class _HomeScreen extends State<HomeScreen> {
 
       Iterable<Object?> groups = (event.snapshot.value as Map<Object?, Object?>).keys;
 
-      List<Group> newGroups = [];
+      List<RoundGroup> newGroups = [];
 
       for (Object? groupID in groups) {
         String groupIDCasted = groupID as String;
@@ -98,12 +107,21 @@ class _HomeScreen extends State<HomeScreen> {
         int color = vals['color'] as int;
         String emoji = vals['emoji'] as String;
         String name = vals['name'] as String;
+        String admin = vals['admin'] as String;
+        Map<Object?, Object?> members = vals['members'] as Map<Object?, Object?>;
 
+        List<String> memberIDs = [];
+
+        for(var member in members.keys) {
+          memberIDs.add(member as String);
+        }
+
+        print(memberIDs);
         print(color);
         print(emoji);
         print(name);
 
-        newGroups.add(Group(Color(color), emoji, name));
+        newGroups.add(RoundGroup(groupIDCasted, Color(color), emoji, name, admin, memberIDs));
       }
 
       setState(() => displayedGroups = newGroups);
