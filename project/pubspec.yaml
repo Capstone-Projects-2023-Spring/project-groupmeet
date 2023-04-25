@@ -29,6 +29,8 @@ dependencies:
   intl: ^0.17.0
   date_time_picker: ^2.1.0
   flutter_material_color_picker: ^1.1.0+2
+  adaptive_action_sheet: ^2.0.2
+  url_launcher: ^6.0.9
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,11 +1,20 @@
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:groupmeet/new_calendar_selection.dart';
 import 'package:groupmeet/settings.dart';
 import 'package:groupmeet/signup.dart';
 import 'package:groupmeet/theme.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:googleapis/calendar/v3.dart' as google_api;
+import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
+import 'package:date_utils/date_utils.dart' as utils;
+
+import 'calendar.dart';
 
 class NewSettings extends StatefulWidget {
 
@@ -24,7 +33,7 @@ class _NewSettings extends State<NewSettings> {
   String? discord;
   String? insta;
   String? fb;
-  String? cal;
+  bool? cal;
 
   String newName = "";
   String newEmail = "";
@@ -38,6 +47,15 @@ class _NewSettings extends State<NewSettings> {
   void changedEmail(String newEmail) {
     this.newEmail = newEmail;
   }
+
+  void manualCalendar() {
+
+  }
+
+  void legacySettings() {
+    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => Settings(title: "Old Settings",)));
+  }
+
 
   void saveInfo() {
     Navigator.of(context).pop();
@@ -109,6 +127,7 @@ class _NewSettings extends State<NewSettings> {
       print(data["facebook_name"] as String?);
       print(data["instagram_name"] as String?);
       print(data["snapchat_name"] as String?);
+      print(data["has_calendar"] as bool?);
 
       setState(() {
         name = "${data["firstName"] as String} ${data["lastName"] as String}";
@@ -119,6 +138,8 @@ class _NewSettings extends State<NewSettings> {
         fb =  data["facebook_name"] as String?;
         insta = data["instagram_name"] as String?;
         snap = data["snapchat_name"] as String?;
+        cal = data['has_calendar'] as bool?;
+
         newEmail = email;
         newName = newName;
       });
@@ -131,7 +152,74 @@ class _NewSettings extends State<NewSettings> {
     newSocial = text;
   }
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    // Optional clientId
+    // clientId: '[YOUR_OAUTH_2_CLIENT_ID]',
+    scopes: <String>[google_api.CalendarApi.calendarScope],
+  );
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> getPrimaryCalendar() async {
+    // Google Calendar API
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      setState(() {
+      });
+    });
+
+    await _handleSignIn();
+    // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
+    final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
+    if (client == null) {
+      print("null client");
+      return;
+    }
+
+    // Prepare a calendar authenticated client.
+    final google_api.CalendarApi calendarApi = google_api.CalendarApi(client);
+    DateTime end = utils.DateUtils.lastDayOfMonth(DateTime.now());
+    DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
+    final google_api.Events calEvents = await calendarApi.events
+        .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
+
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if(uid == null) {
+      return;
+    }
+
+    //get uid and open database reference
+    late DatabaseReference ref = FirebaseDatabase.instance.ref("users/${uid}");
+
+    //list of events to add to firebase (temporarily just printing)
+    List<google_api.Event> eventItems = calEvents.items!;
+    //array that holds all critical information from each item.
+    List<List<String?>> events = [];
+    for (var element in eventItems) {
+      //create array of objects to be added to CalendarEvents
+      List<String?> temp = [
+        element.start!.date.toString(),
+        element.start!.dateTime.toString(),
+        element.end!.date.toString(),
+        element.end!.dateTime.toString()
+      ];
+      print(temp);
+      events.add(temp);
+    }
+    await ref.update({"calendarEvents": events});
+
+  }
+
   void saveSocial(String media) {
+
+    // Calendar is gonna be a different case
+
     Navigator.of(context).pop();
 
     String? userID = FirebaseAuth.instance.currentUser?.uid;
@@ -184,6 +272,47 @@ class _NewSettings extends State<NewSettings> {
   String? newSocial;
 
   void selectedSocial(String social) {
+
+    if(social == "calendar") {
+
+      if(cal == null) {
+        // If cal is null - bring up calendar sync page
+        Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewCalendarSelection(fromSettings: true,)));
+        return;
+      }
+
+      // ask if u want to refresh
+      PlatformAlertDialog confirmation = PlatformAlertDialog(
+        title: PlatformText("Are you sure?"),
+        content: PlatformText("Syncing your Google calendar will remove any manually added events"),
+        actions: [
+          PlatformTextButton(
+            child: PlatformText("Cancel", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          PlatformTextButton(
+              child: PlatformText("Sync", selectionColor: roundRed, style: TextStyle(color: roundRed)),
+              onPressed: () {
+                Navigator.pop(context);
+
+                getPrimaryCalendar();
+
+                Navigator.pop(context);
+              })
+        ],
+      );
+
+      showPlatformDialog(
+        context: context,
+        builder: (context) {
+          return confirmation;
+        },
+      );
+      // Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => CalendarPage(title: "Manual Calendar & Sync", group: null,)));
+      return;
+    }
+
+
     String hintString;
 
     switch (social) {
@@ -309,9 +438,10 @@ class _NewSettings extends State<NewSettings> {
     );
   }
 
-  void about(BuildContext context) {
-    // TODO: Future - show some fun page or description / link to github? - for now link to old settings
-    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => Settings(title: "Old Settings",)));
+  void about(BuildContext context) async {
+    Uri aboutURL = Uri.parse("https://github.com/Capstone-Projects-2023-Spring/project-groupmeet");
+
+    await launchUrl(aboutURL, mode: LaunchMode.externalApplication);
   }
 
   void signOut(BuildContext context) async {
@@ -336,6 +466,7 @@ class _NewSettings extends State<NewSettings> {
     double discordOpacity = discord == null ? opaqueValue : 0.0;
     double fbOpacity = fb == null ? opaqueValue : 0.0;
     double instaOpacity = insta == null ? opaqueValue : 0.0;
+    double calOpacity = cal == null ? opaqueValue : 0.0;
 
     observeData();
 
@@ -432,6 +563,13 @@ class _NewSettings extends State<NewSettings> {
                               ),
                               onTap: () => selectedSocial("fb"),
                             ),
+                            GestureDetector(
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(calOpacity), BlendMode.srcATop),
+                                child: SizedBox(child: Image.asset("images/calendarApp.png",)),
+                              ),
+                              onTap: () => selectedSocial("calendar"),
+                            )
                           ],),
                         ))
                   ],
@@ -531,6 +669,38 @@ class _NewSettings extends State<NewSettings> {
           //     ],
           //   )
           // ),),
+
+
+          // GestureDetector(
+          //   child: Padding(padding: EdgeInsets.all(16), child:
+          //   Container(
+          //     width: screenWidth - 32,
+          //     height: 58,
+          //     decoration: BoxDecoration(
+          //       border: Border.all(
+          //           color:  Color(0xFF1C1C1E)
+          //       ),
+          //       color: Color(0xFF1C1C1E),
+          //       borderRadius: BorderRadius.all(Radius.circular(160)),
+          //     ),
+          //     child: Row(
+          //       children: [
+          //         Padding(
+          //             padding: EdgeInsets.all(16),
+          //             child: SizedBox(
+          //                 width: (screenWidth) * (2/3),
+          //                 child: Column(
+          //                   children: [
+          //                     SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Manual Calendar & Sync", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
+          //                   ],
+          //                 ))),
+          //         Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).rightChevron, color: Colors.white,)),)
+          //       ],
+          //     ),
+          //   ),),
+          //   onTap: () => manualCalendar(),
+          // ),
+
           GestureDetector(
             child: Padding(padding: EdgeInsets.all(16), child:
             Container(
@@ -561,6 +731,37 @@ class _NewSettings extends State<NewSettings> {
             onTap: () => about(context),
           ),
 
+
+          // GestureDetector(
+          //   child: Padding(padding: EdgeInsets.all(16), child:
+          //   Container(
+          //     width: screenWidth - 32,
+          //     height: 58,
+          //     decoration: BoxDecoration(
+          //       border: Border.all(
+          //           color:  Color(0xFF1C1C1E)
+          //       ),
+          //       color: Color(0xFF1C1C1E),
+          //       borderRadius: BorderRadius.all(Radius.circular(160)),
+          //     ),
+          //     child: Row(
+          //       children: [
+          //         Padding(
+          //             padding: EdgeInsets.all(16),
+          //             child: SizedBox(
+          //                 width: (screenWidth) * (2/3),
+          //                 child: Column(
+          //                   children: [
+          //                     SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Legacy Settings", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
+          //                   ],
+          //                 ))),
+          //         Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).rightChevron, color: Colors.white,)),)
+          //       ],
+          //     ),
+          //   ),),
+          //   onTap: () => legacySettings(),
+          // ),
+
           Padding(padding: EdgeInsets.all(16), child:
           GestureDetector(
             child: Container(
@@ -581,7 +782,7 @@ class _NewSettings extends State<NewSettings> {
                           width: (screenWidth) * (2/3),
                           child: Column(
                             children: [
-                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Sign Out", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
+                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Sign Out", textAlign: TextAlign.left, style: TextStyle(color: roundRed, fontSize: 20, fontWeight: FontWeight.w500))),
                             ],
                           )))
                 ],
@@ -590,9 +791,9 @@ class _NewSettings extends State<NewSettings> {
             onTap: () => signOut(context),
           ),),
 
-          PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
+          Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 32), child: PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 10)),
+              style: const TextStyle(fontSize: 10)),)
           // About
       ]
       )

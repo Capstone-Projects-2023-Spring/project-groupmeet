@@ -1,11 +1,19 @@
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/home.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:intl/intl.dart';
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+import 'calendar.dart';
+
 
 class NewGroupView extends StatefulWidget {
 
@@ -27,8 +35,9 @@ class GroupMember {
   String? discord;
   String? instagram;
   String? facebook;
+  bool? hasCalendar;
 
-  GroupMember(this.uid, this.name, this.email, this.snapchat, this.sms, this.discord, this.instagram, this.facebook);
+  GroupMember(this.uid, this.name, this.email, this.snapchat, this.sms, this.discord, this.instagram, this.facebook, this.hasCalendar);
 }
 
 class _NewGroupView extends State<NewGroupView> {
@@ -43,6 +52,7 @@ class _NewGroupView extends State<NewGroupView> {
   int discordCount = 0;
   int instaCount = 0;
   int fbCount = 0;
+  int calCount = 0;
 
   bool isObserving = false;
 
@@ -51,6 +61,17 @@ class _NewGroupView extends State<NewGroupView> {
   RoundGroup group;
 
   _NewGroupView(this.group);
+
+  Future<DateTime?> getFirstDate() async{
+    final times = await FirebaseDatabase.instance.ref("groups/${group.id}/proposedDates").once();
+
+    if(times.snapshot.value != null) {
+      List<dynamic> dates = times.snapshot.value as List<dynamic>;
+      return DateTime.parse(dates[0]);
+    }
+
+    return null;
+  }
 
   Future<void> observeGroup() async {
     if (isObserving) {
@@ -63,6 +84,8 @@ class _NewGroupView extends State<NewGroupView> {
     print("entering loop");
 
     isAdmin = FirebaseAuth.instance.currentUser?.uid == group.admin;
+    print("First Date ");
+    appointment = await getFirstDate();
 
     print(isAdmin);
 
@@ -95,8 +118,9 @@ class _NewGroupView extends State<NewGroupView> {
         print(data["facebook_name"] as String?);
         print(data["instagram_name"] as String?);
         print(data["snapchat_name"] as String?);
+        print(data["has_calendar"] as bool?);
 
-        GroupMember parsedMember = GroupMember(memberID, "${data["firstName"] as String} ${data["lastName"] as String}", data["email"] as String, data["snapchat_name"] as String?, data["messages_name"] as String?, data["discord_name"] as String?, data["instagram_name"] as String?, data["facebook_name"] as String?);
+        GroupMember parsedMember = GroupMember(memberID, "${data["firstName"] as String} ${data["lastName"] as String}", data["email"] as String, data["snapchat_name"] as String?, data["messages_name"] as String?, data["discord_name"] as String?, data["instagram_name"] as String?, data["facebook_name"] as String?, data["has_calendar"] as bool?);
 
         completedFetches += 1;
         parsedMembers.add(parsedMember);
@@ -120,39 +144,80 @@ class _NewGroupView extends State<NewGroupView> {
   }
 
   void triggerDelete() async {
-    print("Poof!");
 
-    PlatformAlertDialog confirmation = PlatformAlertDialog(
-      title: PlatformText("Are you sure?"),
-      content: PlatformText("This cannot be undone!"),
-      actions: [
-        PlatformTextButton(
-          child: PlatformText("Cancel", selectionColor: roundRed),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        PlatformTextButton(
-          child: PlatformText("Delete", selectionColor: roundRed),
-          onPressed: () {
-            Navigator.pop(context);
+    if (isAdmin) {
+      print("Poof!");
 
-            // Remove each member from group
-            for(var user in parsedMembers) {
-              FirebaseDatabase.instance.ref("user/${user.uid}/groupIds/${group.id}").remove();
-            }
-            // Delete Group
-            FirebaseDatabase.instance.ref("groups/${group.id}").remove();
+      PlatformAlertDialog confirmation = PlatformAlertDialog(
+        title: PlatformText("Are you sure?"),
+        content: PlatformText("This cannot be undone!"),
+        actions: [
+          PlatformTextButton(
+            child: PlatformText("Cancel", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          PlatformTextButton(
+              child: PlatformText("Delete", selectionColor: roundRed, style: TextStyle(color: roundRed)),
+              onPressed: () {
+                Navigator.pop(context);
 
-            Navigator.pop(context);
-        })
-      ],
-    );
+                // Remove each member from group
+                for(var user in parsedMembers) {
+                  FirebaseDatabase.instance.ref("user/${user.uid}/groupIds/${group.id}").remove();
+                }
+                // Delete Group
+                FirebaseDatabase.instance.ref("groups/${group.id}").remove();
 
-    showPlatformDialog(
-      context: context,
-      builder: (context) {
-        return confirmation;
-      },
-    );
+                Navigator.pop(context);
+              })
+        ],
+      );
+
+      showPlatformDialog(
+        context: context,
+        builder: (context) {
+          return confirmation;
+        },
+      );
+    } else {
+
+      PlatformAlertDialog confirmation = PlatformAlertDialog(
+        title: PlatformText("Are you sure?"),
+        actions: [
+          PlatformTextButton(
+            child: PlatformText("Cancel", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          PlatformTextButton(
+              child: PlatformText("Leave", selectionColor: roundRed, style: TextStyle(color: roundRed)),
+              onPressed: () {
+                Navigator.pop(context);
+
+                leaveGroup();
+
+                Navigator.pop(context);
+              })
+        ],
+      );
+
+      showPlatformDialog(
+        context: context,
+        builder: (context) {
+          return confirmation;
+        },
+      );
+    }
+  }
+
+  Future<void> leaveGroup() async {
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+    DatabaseReference userRef = FirebaseDatabase.instance
+        .ref("users/$uid/groupIds/${group.id}");
+    DatabaseReference groupRef =
+    FirebaseDatabase.instance.ref("groups/${group.id}");
+
+    userRef.remove();
+    groupRef.remove();
   }
 
   void calculateSocialCounts() {
@@ -161,6 +226,7 @@ class _NewGroupView extends State<NewGroupView> {
     discordCount = 0;
     smsCount = 0;
     snapCount = 0;
+    calCount = 0;
 
     for (var member in parsedMembers) {
 
@@ -182,6 +248,11 @@ class _NewGroupView extends State<NewGroupView> {
 
       if(member.snapchat != null) {
         snapCount += 1;
+      }
+
+      if(member.hasCalendar != null) {
+        calCount += 1;
+        rsvped.add(member);
       }
     }
   }
@@ -441,7 +512,7 @@ class _NewGroupView extends State<NewGroupView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        PlatformText(rsvped.length.toString() + " Available", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                        PlatformText(rsvped.length.toString() + " Confirmed", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                         PlatformText(infoString, style: TextStyle(fontSize: 16,), textAlign: TextAlign.center),
                       ],
                     ),
@@ -497,7 +568,7 @@ class _NewGroupView extends State<NewGroupView> {
               PlatformText(parsedMembers[index].name, style: TextStyle(fontSize: 20),),
               Expanded(flex: 1,
                 child: Align(alignment: Alignment.centerRight,
-                    child: PlatformTextButton(child: PlatformText("View Profile"), padding: EdgeInsets.fromLTRB(16, 0, 16, 0), color: roundPurple, onPressed: () => profileTap(index),),
+                    child: PlatformTextButton(child: PlatformText("View Profile", style: TextStyle(color: Colors.white),), padding: EdgeInsets.fromLTRB(16, 0, 16, 0), color: roundPurple, onPressed: () => profileTap(index),),
                   )
                 ,)
             ],
@@ -508,16 +579,17 @@ class _NewGroupView extends State<NewGroupView> {
 
     mainWidgets.add(SizedBox(width: screenWidth, height: 16,));
 
-    if (isAdmin) {
-      mainWidgets.add(
-          PlatformTextButton(child: PlatformText("Delete Circle", selectionColor: roundRed), onPressed: triggerDelete,)
-      );
-    }
+    mainWidgets.add(
+        PlatformTextButton(child: PlatformText(isAdmin ? "Delete Circle" : "Leave Group", style: TextStyle(color: Colors.white), selectionColor: Colors.white), onPressed: triggerDelete, color: roundRed,)
+    );
 
     mainWidgets.add(SizedBox(width: screenWidth, height: 16,));
 
     return PlatformScaffold(
-      appBar: PlatformAppBar(title: PlatformText(group.emoji + " " + group.name, style: TextStyle(color: Colors.black)), backgroundColor: group.color,),
+      appBar: PlatformAppBar(title: PlatformText(group.emoji + " " + group.name, style: TextStyle(color: Colors.black)), backgroundColor: group.color, trailingActions: [
+        PlatformIconButton(icon: Icon(PlatformIcons(context).book), color: Colors.black, onPressed: () => calendar(),),
+        PlatformIconButton(icon: Icon(PlatformIcons(context).share), color: Colors.black, onPressed: () => share(),)
+      ], material: (context, platform) => MaterialAppBarData(iconTheme: IconThemeData(color: Colors.black))),
       body: SingleChildScrollView(
         child: Column(
           children: mainWidgets,
@@ -526,9 +598,175 @@ class _NewGroupView extends State<NewGroupView> {
     );
   }
 
-  void handleCalendarRequest() {
-    appointment = DateTime.now();
+  int appointmentIndex = 0;
+
+  void handleCalendarRequest() async {
+    // appointment = DateTime.now();
+    print(appointment);
+    if(appointment == null) {
+      await findNextBestDate();
+      appointment = await getFirstDate();
+
+      setState(() {});
+      return;
+    }
+
+    print(await removeCurrentDate());
+    appointment = await getFirstDate();
+
+    // Decided to keep prior less-intuitive functionality due to time limitations
+    // Rather than implementing this and adding a cancel meeting button
+
+    // if(appointment == null) {
+    //   await findNextBestDate();
+    //   appointment = await getFirstDate();
+    // }
+
+    print(appointment);
+
     setState(() {});
+  }
+
+  Future<int> removeCurrentDate() async{
+    final times = await FirebaseDatabase.instance.ref("groups/${group.id}/proposedDates").once();
+    if(times.snapshot.value == null){
+      return -1;
+    }
+    List<dynamic> dates = times.snapshot.value as List<dynamic>;
+
+    Map<String, Object> newDates = {};
+    for(int i = 1; i < dates.length; i++){
+      newDates[(i-1).toString()] = dates[i].toString();
+    }
+    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${group.id}/proposedDates");
+    groupRef.set(newDates);
+
+    return 1;
+  }
+
+  Future<List<Appointment>> getEventList() async{
+    List<Appointment> allEvents = [];
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users");
+
+    for (var memberId in group.memberIDs) {
+      print(memberId);
+      final memberSnapshot = await ref.child(memberId+"/calendarEvents").get();
+      if(memberSnapshot.value == null) continue;
+      for (var event in memberSnapshot.value as List){
+        var tempStart;
+        var tempEnd;
+        event[0] == "null" ? tempStart = event[1] : tempStart = event[0];
+        event[2] == "null" ? tempEnd = event[3] : tempEnd = event[2];
+
+        allEvents.add(Appointment(startTime: DateTime.parse(tempStart), endTime: DateTime.parse(tempEnd)));
+      }
+    }
+
+    return allEvents;
+  }
+
+  Future<List<DateTime>> findNextBestDate() async {
+    List<Appointment> allEvents = await getEventList() ;
+    List<DateTime> daysToPropose = [];
+    // order events by the date
+    allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);
+
+    // if tomorrow is not within planned events than you can propose a meeting on that day
+    // try to get 5 and then quit
+    // if the proposing time is at midnight it's because the whole day is free
+    DateTime toMeet = DateTime.now().add(const Duration(days:1));
+    toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);
+    for(int i = 0; i < 5; i++){
+      for (var eachEvent in allEvents) {
+        DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
+        DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
+        if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
+          toMeet = toMeet.add(const Duration(days: 1));
+          // then tomorrow's date is invalid for a free day of meetings
+        }
+      }
+      // if newTomorrow remains unchanged we can add it
+      daysToPropose.add(toMeet);
+      toMeet = toMeet.add(const Duration(days: 1));
+      // print(daysToPropose);
+    }
+
+    // between two events - if there is a duration of time greater than  1hrs - then propose meeting time
+    DateTime dateToPropose;
+    for(int i = 0; i < allEvents.length - 1 ; i++){
+
+      if(allEvents[i].isAllDay){
+        i++;
+      }else{
+        if(allEvents[i + 1].startTime.difference(allEvents[i].endTime) > const Duration(hours: 1)){
+          dateToPropose = allEvents[i].endTime.add(const Duration(minutes: 20));
+
+          if(dateToPropose.hour < 22 && dateToPropose.hour > 9){
+            // print("going to propose this date: $dateToPropose");
+            daysToPropose.add(dateToPropose);
+          }    }
+      }
+    }
+
+    print("daysToPropose: $daysToPropose");
+    daysToPropose.sort();
+    //add daysToPropose to group database so we can have a running list of dates to suggest.
+    Map<String, Object> dates = {};
+    int counter = 0;
+    for(var item in daysToPropose){
+      dates[counter.toString()] = item.toString();
+      counter++;
+    }
+    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${group.id}/proposedDates");
+    groupRef.update(dates);
+
+    return daysToPropose;
+  }
+
+  void calendar() async {
+    DataSnapshot snapshot = await FirebaseDatabase.instance.ref("groups/${group.id}").get();
+
+    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => CalendarPage(title: "Manual Calendar & Sync", group: snapshot.value as Map<dynamic, dynamic>?,)));
+  }
+
+  void share() {
+    showAdaptiveActionSheet(
+      context: context,
+      androidBorderRadius: 30,
+      isDismissible: true,
+      bottomSheetColor: roundPurple,
+      actions: <BottomSheetAction>[
+        BottomSheetAction(title: PlatformText('Copy ID'), onPressed: (context) {
+          Clipboard.setData(ClipboardData(text: group.id));
+        }),
+        BottomSheetAction(title: PlatformText('Display QR'), onPressed: (context) {
+
+          showDialog(
+              context:context,
+              builder: (BuildContext context){
+                return AlertDialog(
+                    backgroundColor: Colors.transparent,
+                    content: Container(
+                        width: MediaQuery.of(context).size.width * (2/3),
+                        height: MediaQuery.of(context).size.width * (2/3),
+                        alignment: AlignmentDirectional.center,
+                        child: QrImage(
+                            data: group.id,
+                            version: QrVersions.auto,
+                            size: MediaQuery.of(context).size.width * (2/3),
+                            foregroundColor: Colors.white,
+                            backgroundColor: roundPurple,
+                )));
+              }
+          );
+
+
+
+
+        }),
+      ],
+      cancelAction: CancelAction(title: PlatformText('Cancel', style: TextStyle(color: Colors.white),)),// onPressed parameter is optional by default will dismiss the ActionSheet
+    );
   }
 
   void showRSVPList() {

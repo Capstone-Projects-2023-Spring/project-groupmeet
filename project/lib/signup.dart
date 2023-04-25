@@ -85,7 +85,7 @@ class NewSignUp extends StatelessWidget {
 
       Navigator.of(context).push(
         platformPageRoute(
-            context: context, builder: (_) => NewCalendarSelection()),
+            context: context, builder: (_) => NewCalendarSelection(fromSettings: false,)),
       );
     }).catchError((e) {
       String errorText =
