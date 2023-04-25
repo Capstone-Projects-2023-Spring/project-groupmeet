@@ -212,7 +212,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     // if tomorrow is not within planned events than you can propose a meeting on that day
     // try to get 5 and then quit
-    // if the proposing time is at midnight it's because the whole day is free
+    // if the proposing time is at 9am it's because the whole day is free
     DateTime toMeet = DateTime.now().add(const Duration(days:1));
     toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day, 9);
     for(int i = 0; i < 5; i++){
