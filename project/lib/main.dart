@@ -1,21 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/explainer.dart';
+import 'package:groupmeet/onboarding/explainer.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:permission_handler/permission_handler.dart';
-
 import 'home.dart';
-import 'new_group_creation.dart';
-import 'new_group_view.dart';
-import 'new_settings.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await Permission.notification.request();
   await Firebase.initializeApp();
   runApp(const RoundApp());
 }
@@ -64,14 +62,12 @@ class RoundApp extends StatelessWidget {
     Widget firstStop;
 
     User? user = FirebaseAuth.instance.currentUser;
-
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
     if (user != null) {
-      firstStop = const HomeScreen();
+      firstStop = HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: FirebaseAuth.instance,);
     } else {
       firstStop = Explainer(pageNo: 0);
     }
-
-    // firstStop = NewGroupView(RoundGroup("id", roundRed, "🍒", "Cherry Chums", "admin", []));
 
     return PlatformApp(
         checkerboardOffscreenLayers: false,

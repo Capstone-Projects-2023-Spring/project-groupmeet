@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/signup.dart';
+import 'package:groupmeet/onboarding/signup.dart';
 
 class Explainer extends StatelessWidget {
   Explainer({super.key, required this.pageNo});
@@ -28,7 +28,7 @@ class Explainer extends StatelessWidget {
 
     if (nextPage == 3) {
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => NewSignUp()));
+          context: context, builder: (context) => SignUp()));
       return;
     }
 

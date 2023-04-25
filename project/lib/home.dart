@@ -1,19 +1,17 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/new_group_creation.dart';
-import 'package:groupmeet/new_settings.dart';
-import 'package:groupmeet/theme.dart';
-import 'code_reception.dart';
-import 'new_group_view.dart';
+import 'package:groupmeet/group/group_creation.dart';
+import 'package:groupmeet/group/group_home_new.dart';
+import 'package:groupmeet/settings/settings.dart';
+import 'package:groupmeet/code/code_reception.dart';
 
 class RoundGroup {
+  String id;
   Color color;
   String emoji;
   String name;
-  String id;
   String admin;
   List<String> memberIDs;
 
@@ -21,14 +19,17 @@ class RoundGroup {
 }
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen(
+      {super.key, required this.firebaseDatabase, required this.firebaseAuth});
+
+  final FirebaseDatabase firebaseDatabase;
+  final FirebaseAuth firebaseAuth;
 
   @override
-  _HomeScreen createState() => _HomeScreen();
+  State<HomeScreen> createState() => _HomeScreen();
 }
 
 class _HomeScreen extends State<HomeScreen> {
-
   List<RoundGroup> displayedGroups = [];
 
   bool observing = false;
@@ -43,10 +44,14 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   void showAdd(context) {
+    String? userID = widget.firebaseAuth.currentUser?.uid;
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) => const NewGroupCreation()),
+          builder: (context) => GroupCreation(
+                userID: userID,
+                firebaseDatabase: widget.firebaseDatabase,
+              )),
     );
   }
 
@@ -54,7 +59,10 @@ class _HomeScreen extends State<HomeScreen> {
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) => NewSettings()),
+          builder: (context) => Settings(
+                firebaseAuth: widget.firebaseAuth,
+                firebaseDatabase: widget.firebaseDatabase,
+              )),
     );
   }
 
@@ -75,32 +83,35 @@ class _HomeScreen extends State<HomeScreen> {
       return;
     }
 
-    String? userID = FirebaseAuth.instance.currentUser?.uid;
-
+    String? userID = widget.firebaseAuth.currentUser?.uid;
     if (userID == null) {
       // TODO: Alert saying not logged in yet?
       print("Not logged in");
     }
 
-    FirebaseDatabase.instance.ref("users/${userID!}/groupIds").onValue.listen((event) async {
+    widget.firebaseDatabase
+        .ref("users/${userID!}/groupIds")
+        .onValue
+        .listen((event) async {
+      // FirebaseDatabase.instance.ref("users/${userID!}/groupIds").get().then((event) => {
+
       if (event.snapshot.value == null) {
         return;
       }
 
-      print(event.snapshot.value);
-
-      Iterable<Object?> groups = (event.snapshot.value as Map<Object?, Object?>).keys;
+      Iterable<Object?> groups =
+          (event.snapshot.value as Map<Object?, Object?>).keys;
 
       List<RoundGroup> newGroups = [];
 
       for (Object? groupID in groups) {
         String groupIDCasted = groupID as String;
-        final groupInfo = await FirebaseDatabase.instance.ref("groups/$groupIDCasted/").get();
+        final groupInfo =
+            await widget.firebaseDatabase.ref("groups/$groupIDCasted/").get();
 
         if (!groupInfo.exists) {
           continue;
         }
-        print(groupInfo.value);
 
         Map<Object?, Object?> vals = groupInfo.value as Map<Object?, Object?>;
 
@@ -132,7 +143,6 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     observeGroups();
 
     double screenWidth = MediaQuery.of(context).size.width;
@@ -163,7 +173,8 @@ class _HomeScreen extends State<HomeScreen> {
                           children: [
                             ColorFiltered(
                               colorFilter: ColorFilter.mode(
-                                  displayedGroups[index].color, BlendMode.srcIn),
+                                  displayedGroups[index].color,
+                                  BlendMode.srcIn),
                               child: Image.asset("images/GroupRound.png",
                                   width: 120, height: 120, isAntiAlias: true),
                             ),
@@ -222,6 +233,7 @@ class _HomeScreen extends State<HomeScreen> {
                   height: 120,
                   width: 120,
                   child: PlatformIconButton(
+                    key: Key("navigatetoCodeReceptionPageButton"),
                     icon: Image.asset("images/RoundQR.png",
                         width: 120, height: 120, isAntiAlias: true),
                     padding: EdgeInsets.zero,
@@ -231,6 +243,7 @@ class _HomeScreen extends State<HomeScreen> {
                   height: 120,
                   width: 120,
                   child: PlatformIconButton(
+                    key: const Key("navigatetoGroupCreationPageButton"),
                     icon: Image.asset("images/RoundPlus.png",
                         width: 120, height: 120, isAntiAlias: true),
                     padding: EdgeInsets.zero,
@@ -240,6 +253,7 @@ class _HomeScreen extends State<HomeScreen> {
                   height: 120,
                   width: 120,
                   child: PlatformIconButton(
+                    key: Key("navigatetoSettingsPageButton"),
                     icon: Image.asset("images/RoundSettings.png",
                         width: 120, height: 120, isAntiAlias: true),
                     padding: EdgeInsets.zero,

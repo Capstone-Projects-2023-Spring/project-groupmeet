@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 const roundPurple = Color(0xFF513BDB);
-
 const roundBlack = Color(0xFF020300);
 const roundWhite = Color(0xFFEBEBEB);
 const roundRed = Color(0xFFAF1B3F);
