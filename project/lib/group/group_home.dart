@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:groupmeet/calendar/calendar.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/qr/display_qr.dart';
+import 'package:rich_clipboard/rich_clipboard.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
@@ -366,7 +367,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           style: const TextStyle(
                               color: Colors.white, fontSize: 20),
                           "${widget.myGroup!["gId"]}"),
-                    ],
+                      PlatformIconButton(
+                        color: Colors.lightBlue,
+                        onPressed: () async {
+                        await RichClipboard.setData(RichClipboardData(text: widget.myGroup!["gId"],));
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Group Code Successfully Copied!")));},
+                        icon: const Icon(size: 15,
+                            IconData(0xe190, fontFamily: 'MaterialIcons'),
+                      ),)
+                      ],
                   ),
                 ],
               ),
