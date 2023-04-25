@@ -11,7 +11,7 @@ class Display extends StatelessWidget{
 
 
   @override
-  //I am here
+
   Widget build(BuildContext context){
     return SafeArea(child: PlatformScaffold(
       appBar: PlatformAppBar(title: PlatformText(groupName)),
