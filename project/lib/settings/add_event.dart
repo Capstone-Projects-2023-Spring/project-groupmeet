@@ -72,12 +72,13 @@ class _AddEventState extends State<AddEvent> {
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2100),
                   dateLabelText: 'Date',
-                  onChanged: (val) => print(val),
+                  onChanged: (val) => end = DateTime.parse(val as String),
                   validator: (val) {
                     print(val);
                     return null;
                   },
                   onSaved: (val) {
+                    print(val);
                     end = DateTime.parse(val as String);
                   },
                 ),
@@ -93,14 +94,15 @@ class _AddEventState extends State<AddEvent> {
                     final memberSnapshot =
                         await ref.child("calendarEvents").get();
                     for (var event in memberSnapshot.value as List) {
+                      print(event);
                       events.add([event[0], event[1], event[2], event[3]]);
                     }
 
                     List<String?> temp = [
+                      "null",
                       start.toString(),
-                      null,
-                      end.toString(),
-                      null
+                      "null",
+                      end.toString()
                     ];
                     events.add(temp);
 
