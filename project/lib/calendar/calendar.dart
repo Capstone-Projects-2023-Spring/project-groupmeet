@@ -137,7 +137,6 @@ class _CalendarPageState extends State<CalendarPage> {
       events.add(temp);
     }
     await ref.update({"calendarEvents": events});
-
   }
 
   @override

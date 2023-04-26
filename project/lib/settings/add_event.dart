@@ -56,7 +56,7 @@ class _AddEventState extends State<AddEvent> {
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                     dateLabelText: 'Date',
-                    onChanged: (val) => print(val),
+                    onChanged: (val) => start = DateTime.parse(val as String),
                     validator: (val) {
                       print(val);
                       return null;
@@ -80,7 +80,7 @@ class _AddEventState extends State<AddEvent> {
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                     dateLabelText: 'Date',
-                    onChanged: (val) => print(val),
+                    onChanged: (val) => end = DateTime.parse(val as String),
                     validator: (val) {
                       print(val);
                       return null;
@@ -107,10 +107,10 @@ class _AddEventState extends State<AddEvent> {
                     }
 
                     List<String?> temp = [
+                      "null",
                       start.toString(),
-                      null,
-                      end.toString(),
-                      null
+                      "null",
+                      end.toString()
                     ];
                     events.add(temp);
 
