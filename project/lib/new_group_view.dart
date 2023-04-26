@@ -695,7 +695,7 @@ class _NewGroupView extends State<NewGroupView> {
     // try to get 5 and then quit
     // if the proposing time is at midnight it's because the whole day is free
     DateTime toMeet = DateTime.now().add(const Duration(days:1));
-    toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day);
+    toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day, 9);
     for(int i = 0; i < 5; i++){
       for (var eachEvent in allEvents) {
         DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
