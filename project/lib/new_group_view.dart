@@ -144,6 +144,8 @@ class _NewGroupView extends State<NewGroupView> {
 
   void triggerDelete() async {
 
+    print(isAdmin);
+
     if (isAdmin) {
       print("Poof!");
 
@@ -212,11 +214,8 @@ class _NewGroupView extends State<NewGroupView> {
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref("users/$uid/groupIds/${group.id}");
-    DatabaseReference groupRef =
-    FirebaseDatabase.instance.ref("groups/${group.id}");
 
     userRef.remove();
-    groupRef.remove();
   }
 
   void calculateSocialCounts() {
