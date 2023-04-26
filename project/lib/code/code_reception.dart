@@ -124,7 +124,7 @@ class _CodeReceptionState extends State<CodeReception> {
     // get the app to ask for permissions and get the barcode to show and then link to updateDatabase()
     try {
       var id_ob = (await FlutterBarcodeScanner.scanBarcode(
-          "#ff6666", 'Cancel', true,
+          "#513BDB", 'Cancel', true,
           ScanMode.QR));
       groupId.text = id_ob;
       updateDatabase();

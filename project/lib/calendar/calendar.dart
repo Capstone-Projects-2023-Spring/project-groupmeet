@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -144,7 +146,7 @@ class _CalendarPageState extends State<CalendarPage> {
       appBar: PlatformAppBar(
         title: PlatformText('Manual Calendar'),
         trailingActions: [
-          PlatformIconButton(icon: Icon(PlatformIcons(context).add, color: Colors.white), onPressed:() {
+          GestureDetector(child: Icon(PlatformIcons(context).add, color: Colors.white), onTap:() {
 
             if(FirebaseAuth.instance.currentUser?.uid == null) {
               return;
@@ -169,6 +171,8 @@ class _CalendarPageState extends State<CalendarPage> {
             children: [
               SfCalendar(
                 view: CalendarView.month,
+                // Just gonna burn your eyes on iOS - gray helps a *little*
+                backgroundColor: Platform.isIOS ? Colors.grey : Colors.transparent,
                 todayHighlightColor: roundPurple,
                 dataSource: Event(events: snapshot.data ?? []),
                 monthViewSettings: const MonthViewSettings(

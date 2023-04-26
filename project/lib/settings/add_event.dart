@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -35,6 +37,7 @@ class _AddEventState extends State<AddEvent> {
     TextStyle titleStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
 
     return Scaffold(
+      backgroundColor: Platform.isIOS ? Colors.grey : null,
       appBar: AppBar(
         title: PlatformText(widget.title),
       ),
@@ -115,6 +118,7 @@ class _AddEventState extends State<AddEvent> {
                       "calendarEvents": events,
                     });
                     print("added");
+                    Navigator.of(context).pop();
                   },
                   color: roundPurple,
                   child: PlatformText(

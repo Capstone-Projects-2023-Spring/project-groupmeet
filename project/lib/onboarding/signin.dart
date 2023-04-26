@@ -94,84 +94,85 @@ class SignIn extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return PlatformScaffold(
-        body: Center(
+        body: GestureDetector(child: Center(
             child: Column(
-      children: [
-        SizedBox(
-            width: screenWidth,
-            height:
-                MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
-        Image.asset(
-          "images/RoundCircle.png",
-          height: 160,
-          width: screenWidth,
-          isAntiAlias: true,
-        ),
-        SizedBox(width: screenWidth, height: 8),
-        PlatformText("Round the world",
-            style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
-            textAlign: TextAlign.center),
-        SizedBox(width: screenWidth, height: 32),
-        SizedBox(
-            width: screenWidth * (3 / 4),
-            child: PlatformTextField(
-              hintText: "Email",
-              keyboardType: TextInputType.emailAddress,
-              cursorColor: roundPurple,
-              onChanged: (p0) => changedEmail(p0),
-            )),
-        SizedBox(
-          width: screenWidth,
-          height: 16,
-        ),
-        SizedBox(
-            width: screenWidth * (3 / 4),
-            child: PlatformTextField(
-              hintText: "Password",
-              obscureText: true,
-              cursorColor: roundPurple,
-              onChanged: (p0) => changedPassword(p0),
-            )),
-        PlatformTextButton(
-            child: PlatformText(
-              "New to Round? Sign Up!",
-              style: const TextStyle(color: roundPurple),
-            ),
-            onPressed: () => signIn(context)),
-        Expanded(
-          child: Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(
-                    height: 64,
-                    width: 64,
-                    child: PlatformIconButton(
-                      icon: Image.asset(
-                        "images/OnboardingNext.png",
-                        height: 64,
-                        width: 64,
-                        isAntiAlias: true,
-                      ),
-                      padding: EdgeInsets.zero,
-                      onPressed: () => buttonPress(context),
+                    width: screenWidth,
+                    height:
+                    MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
+                Image.asset(
+                  "images/RoundCircle.png",
+                  height: 160,
+                  width: screenWidth,
+                  isAntiAlias: true,
+                ),
+                SizedBox(width: screenWidth, height: 8),
+                PlatformText("Round the world",
+                    style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center),
+                SizedBox(width: screenWidth, height: 32),
+                SizedBox(
+                    width: screenWidth * (3 / 4),
+                    child: PlatformTextField(
+                      hintText: "Email",
+                      keyboardType: TextInputType.emailAddress,
+                      cursorColor: roundPurple,
+                      onChanged: (p0) => changedEmail(p0),
                     )),
-                SizedBox(width: screenWidth, height: 16),
-                PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 10)),
                 SizedBox(
                   width: screenWidth,
-                  height: 32,
-                )
+                  height: 16,
+                ),
+                SizedBox(
+                    width: screenWidth * (3 / 4),
+                    child: PlatformTextField(
+                      hintText: "Password",
+                      obscureText: true,
+                      cursorColor: roundPurple,
+                      onChanged: (p0) => changedPassword(p0),
+                    )),
+                PlatformTextButton(
+                    child: PlatformText(
+                      "New to Round? Sign Up!",
+                      style: const TextStyle(color: roundPurple),
+                    ),
+                    onPressed: () => signIn(context)),
+                Expanded(
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                            height: 64,
+                            width: 64,
+                            child: PlatformIconButton(
+                              icon: Image.asset(
+                                "images/OnboardingNext.png",
+                                height: 64,
+                                width: 64,
+                                isAntiAlias: true,
+                              ),
+                              padding: EdgeInsets.zero,
+                              onPressed: () => buttonPress(context),
+                            )),
+                        SizedBox(width: screenWidth, height: 16),
+                        PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 10)),
+                        SizedBox(
+                          width: screenWidth,
+                          height: 32,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ],
-            ),
-          ),
-        ),
-      ],
-    )));
+            )),
+        onTap: () => FocusScope.of(context).unfocus()));
   }
 }
