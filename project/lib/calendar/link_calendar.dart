@@ -105,8 +105,8 @@ class _CalendarState extends State<Calendar> {
         ),
         const Text(
             style: TextStyle(fontSize: 15),
-            "Link third-party calendars to be used "),
-        const Text("with Round (optional)"),
+            "Link your Google Calendar Here"),
+        const Text("(optional)"),
         Padding(
           padding: const EdgeInsets.fromLTRB(50, 50, 50, 150),
           child: PlatformElevatedButton(

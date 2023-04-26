@@ -162,8 +162,8 @@ class SignUp extends StatelessWidget {
                   isAntiAlias: true,
                 ),
                 SizedBox(width: screenWidth, height: 8),
-                PlatformText("Be Round or\nbe square",
-                    style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
+                PlatformText("Sign Up",
+                    style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center),
                 SizedBox(width: screenWidth, height: 32),
 
@@ -230,13 +230,13 @@ class SignUp extends StatelessWidget {
                               padding: EdgeInsets.zero,
                               onPressed: () => buttonPress(context),
                             )),
-                        SizedBox(width: screenWidth, height: 16),
+                        SizedBox(width: screenWidth, height: 20),
                         PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 10)),
                         SizedBox(
                           width: screenWidth,
-                          height: 32,
+                          height: MediaQuery.of(context).viewPadding.bottom,
                         )
                       ],
                     ),

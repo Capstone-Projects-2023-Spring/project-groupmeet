@@ -112,17 +112,17 @@ class SocialOnboarding extends StatelessWidget {
                 ),
                 SizedBox(width: screenWidth, height: 8),
                 PlatformText("Get Around",
-                    style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600)),
-                SizedBox(width: screenWidth, height: 32),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
+                SizedBox(width: screenWidth, height: 12),
                 Padding(
                     padding:
                     EdgeInsets.symmetric(horizontal: screenWidth / 8, vertical: 0),
                     child: PlatformText(
                       "Save third-party usernames to be used with Round (optional)",
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
                     )),
-                const SizedBox(height: 32),
+                const SizedBox(height: 12),
                 SizedBox(
                     width: screenWidth * (3 / 4),
                     child: Row(
@@ -243,13 +243,13 @@ class SocialOnboarding extends StatelessWidget {
                               padding: EdgeInsets.zero,
                               onPressed: () => buttonPress(context),
                             )),
-                        SizedBox(width: screenWidth, height: 16),
+                        SizedBox(width: screenWidth, height: 12),
                         PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 10)),
                         SizedBox(
                           width: screenWidth,
-                          height: 32,
+                          height: MediaQuery.of(context).viewPadding.bottom,
                         )
                       ],
                     ),
