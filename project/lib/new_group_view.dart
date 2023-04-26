@@ -11,8 +11,7 @@ import 'package:intl/intl.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
-
-import 'calendar.dart';
+import 'package:groupmeet/calendar/calendar.dart';
 
 
 class NewGroupView extends StatefulWidget {
@@ -587,8 +586,12 @@ class _NewGroupView extends State<NewGroupView> {
 
     return PlatformScaffold(
       appBar: PlatformAppBar(title: PlatformText(group.emoji + " " + group.name, style: TextStyle(color: Colors.black)), backgroundColor: group.color, trailingActions: [
-        PlatformIconButton(icon: Icon(PlatformIcons(context).book), color: Colors.black, onPressed: () => calendar(),),
-        PlatformIconButton(icon: Icon(PlatformIcons(context).share), color: Colors.black, onPressed: () => share(),)
+
+        Padding(padding: EdgeInsets.fromLTRB(32, 0, 16, 0), child: GestureDetector(child: Icon(PlatformIcons(context).book, color: Colors.black), onTap: () => calendar(),),),
+        Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 4), child: GestureDetector(child: Icon(PlatformIcons(context).share, color: Colors.black), onTap: () => share(),),)
+
+        // Padding(padding: EdgeInsets.zero, child: SizedBox(width: 80, height: 80, child: PlatformIconButton(icon: Icon(PlatformIcons(context).book), color: Colors.black, onPressed: () => calendar(), cupertino: (context, platform) => CupertinoIconButtonData(color: Colors.transparent),)),),
+        // Padding(padding: EdgeInsets.zero, child: SizedBox(width: 80, height: 80, child: PlatformIconButton(icon: Icon(PlatformIcons(context).share), color: Colors.black, onPressed: () => share(), cupertino: (context, platform) => CupertinoIconButtonData(color: Colors.transparent),)),)
       ], material: (context, platform) => MaterialAppBarData(iconTheme: IconThemeData(color: Colors.black))),
       body: SingleChildScrollView(
         child: Column(
@@ -644,15 +647,27 @@ class _NewGroupView extends State<NewGroupView> {
     return 1;
   }
 
-  Future<List<Appointment>> getEventList() async{
+  Future<List<Appointment>> getEventList() async {
     List<Appointment> allEvents = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
     for (var memberId in group.memberIDs) {
+      print("member id is");
       print(memberId);
+      print(ref.child(memberId+"/calendarEvents").path);
       final memberSnapshot = await ref.child(memberId+"/calendarEvents").get();
-      if(memberSnapshot.value == null) continue;
-      for (var event in memberSnapshot.value as List){
+      if(memberSnapshot.value == null) {
+        continue;
+      }
+      print("value");
+      print(memberSnapshot.value);
+
+
+      if (memberSnapshot.value is! List) {
+        continue;
+      }
+
+      for (var event in memberSnapshot.value as List) {
         var tempStart;
         var tempEnd;
         event[0] == "null" ? tempStart = event[1] : tempStart = event[0];

@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/group/group_creation.dart';
-import 'package:groupmeet/group/group_home_new.dart';
+import 'package:groupmeet/new_group_view.dart';
 import 'package:groupmeet/settings/settings.dart';
 import 'package:groupmeet/code/code_reception.dart';
 

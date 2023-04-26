@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:groupmeet/new_calendar_selection.dart';
-import 'package:groupmeet/settings.dart';
-import 'package:groupmeet/signup.dart';
+import 'package:groupmeet/calendar/calendar_selection.dart';
 import 'package:groupmeet/onboarding/signup.dart';
 
 import 'package:groupmeet/theme.dart';
@@ -15,8 +13,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'package:date_utils/date_utils.dart' as utils;
-
-import 'calendar.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key, required this.firebaseDatabase, required this.firebaseAuth});
@@ -28,8 +24,6 @@ class Settings extends StatefulWidget {
 }
 
 class _Settings extends State<Settings> {
-
-  // TODO: Make Stateful
   String name = "";
   String email = "";
 
@@ -53,12 +47,10 @@ class _Settings extends State<Settings> {
     this.newEmail = newEmail;
   }
 
-  void manualCalendar() {
-
-  }
-
+  // Legacy Settings was here so we could validate functionality and ensure no regressions
+  // But you guys deleted it pre-maturely so ???
   void legacySettings() {
-    Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => Settings(title: "Old Settings",)));
+    // Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => Settings(title: "Old Settings",)));
   }
 
 
@@ -297,7 +289,7 @@ class _Settings extends State<Settings> {
 
       if(cal == null) {
         // If cal is null - bring up calendar sync page
-        Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => NewCalendarSelection(fromSettings: true,)));
+        Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => CalendarSelection(fromSettings: true,)));
         return;
       }
 

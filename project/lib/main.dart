@@ -59,6 +59,10 @@ class RoundApp extends StatelessWidget {
             primaryColor: Colors.white,
             textStyle: TextStyle(fontFamily: "Urbanist")));
 
+    var cupertinoDarkTheme = MaterialBasedCupertinoThemeData(materialTheme: materialTheme.copyWith(
+      cupertinoOverrideTheme: cupertinoTheme
+    ));
+
     Widget firstStop;
 
     User? user = FirebaseAuth.instance.currentUser;
@@ -76,7 +80,7 @@ class RoundApp extends StatelessWidget {
         material: (context, platform) =>
             MaterialAppData(theme: materialTheme, color: roundPurple),
         cupertino: (context, platform) => CupertinoAppData(
-                theme: cupertinoTheme,
+                theme: cupertinoDarkTheme,
                 color: roundPurple,
                 localizationsDelegates: [
                   DefaultCupertinoLocalizations.delegate,

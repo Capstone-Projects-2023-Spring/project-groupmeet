@@ -34,8 +34,8 @@ class _AddEventState extends State<AddEvent> {
 
     TextStyle titleStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
 
-    return PlatformScaffold(
-      appBar: PlatformAppBar(
+    return Scaffold(
+      appBar: AppBar(
         title: PlatformText(widget.title),
       ),
       body: Column(
