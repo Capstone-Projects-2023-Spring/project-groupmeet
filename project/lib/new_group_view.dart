@@ -160,16 +160,18 @@ class _NewGroupView extends State<NewGroupView> {
           PlatformTextButton(
               child: PlatformText("Delete", selectionColor: roundRed, style: TextStyle(color: roundRed)),
               onPressed: () {
-                Navigator.pop(context);
+                print("Deleting...");
 
                 // Remove each member from group
                 for(var user in parsedMembers) {
-                  FirebaseDatabase.instance.ref("user/${user.uid}/groupIds/${group.id}").remove();
+                  print("users/${user.uid}/groupIds/${group.id}");
+                  FirebaseDatabase.instance.ref("users/${user.uid}/groupIds/${group.id}").set(null);
                 }
                 // Delete Group
-                FirebaseDatabase.instance.ref("groups/${group.id}").remove();
+                print("groups/${group.id}");
+                FirebaseDatabase.instance.ref("groups/${group.id}").set(null);
 
-                Navigator.pop(context);
+                popMain();
               })
         ],
       );
@@ -208,6 +210,10 @@ class _NewGroupView extends State<NewGroupView> {
         },
       );
     }
+  }
+
+  void popMain() {
+    Navigator.of(context).pop();
   }
 
   Future<void> leaveGroup() async {
@@ -750,10 +756,13 @@ class _NewGroupView extends State<NewGroupView> {
       isDismissible: true,
       bottomSheetColor: roundPurple,
       actions: <BottomSheetAction>[
-        BottomSheetAction(title: PlatformText('Copy ID'), onPressed: (context) {
+        BottomSheetAction(title: PlatformText('Copy ID', style: const TextStyle(color: Colors.white)), onPressed: (context) {
           Clipboard.setData(ClipboardData(text: group.id));
+          Navigator.of(context).pop();
         }),
-        BottomSheetAction(title: PlatformText('Display QR'), onPressed: (context) {
+        BottomSheetAction(title: PlatformText('Display QR', style: const TextStyle(color: Colors.white)), onPressed: (context) {
+
+          Navigator.of(context).pop();
 
           showDialog(
               context:context,

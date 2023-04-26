@@ -108,7 +108,7 @@ class _HomeScreen extends State<HomeScreen> {
       isDismissible: true,
       bottomSheetColor: roundPurple,
       actions: <BottomSheetAction>[
-        BottomSheetAction(title: PlatformText('Enter ID'), onPressed: (context) {
+        BottomSheetAction(title: PlatformText('Enter ID', style: const TextStyle(color: Colors.white)), onPressed: (context) {
           PlatformAlertDialog error = PlatformAlertDialog(
             title: PlatformText("Enter Group ID"),
             content: PlatformText(
@@ -150,7 +150,7 @@ class _HomeScreen extends State<HomeScreen> {
             },
           );
         }),
-        BottomSheetAction(title: PlatformText('Scan QR'), onPressed: (context) {
+        BottomSheetAction(title: PlatformText('Scan QR Code', style: const TextStyle(color: Colors.white)), onPressed: (context) {
           Navigator.of(context).push(
             platformPageRoute(
                 context: context,
