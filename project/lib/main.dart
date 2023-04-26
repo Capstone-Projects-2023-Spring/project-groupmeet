@@ -7,16 +7,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/onboarding/explainer.dart';
 import 'package:groupmeet/theme.dart';
-import 'package:groupmeet/home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:permission_handler/permission_handler.dart';
+import 'home.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(const RoundApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class RoundApp extends StatelessWidget {
+  const RoundApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +59,10 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.white,
             textStyle: TextStyle(fontFamily: "Urbanist")));
 
+    var cupertinoDarkTheme = MaterialBasedCupertinoThemeData(materialTheme: materialTheme.copyWith(
+      cupertinoOverrideTheme: cupertinoTheme
+    ));
+
     Widget firstStop;
 
     User? user = FirebaseAuth.instance.currentUser;
@@ -66,8 +73,6 @@ class MyApp extends StatelessWidget {
       firstStop = Explainer(pageNo: 0);
     }
 
-    // firstStop = NewSettings();
-
     return PlatformApp(
         checkerboardOffscreenLayers: false,
         checkerboardRasterCacheImages: false,
@@ -75,7 +80,7 @@ class MyApp extends StatelessWidget {
         material: (context, platform) =>
             MaterialAppData(theme: materialTheme, color: roundPurple),
         cupertino: (context, platform) => CupertinoAppData(
-                theme: cupertinoTheme,
+                theme: cupertinoDarkTheme,
                 color: roundPurple,
                 localizationsDelegates: [
                   DefaultCupertinoLocalizations.delegate,

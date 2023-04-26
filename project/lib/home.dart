@@ -3,17 +3,19 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/group/group_creation.dart';
-import 'package:groupmeet/group/group_home_new.dart';
+import 'package:groupmeet/new_group_view.dart';
 import 'package:groupmeet/settings/settings.dart';
 import 'package:groupmeet/code/code_reception.dart';
 
-class Group {
+class RoundGroup {
   String id;
   Color color;
   String emoji;
   String name;
+  String admin;
+  List<String> memberIDs;
 
-  Group(this.id, this.color, this.emoji, this.name);
+  RoundGroup(this.id, this.color, this.emoji, this.name, this.admin, this.memberIDs);
 }
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +30,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  List<Group> displayedGroups = [];
+  List<RoundGroup> displayedGroups = [];
 
   bool observing = false;
 
@@ -41,7 +43,6 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
-  // TODO: New Group Creation
   void showAdd(context) {
     String? userID = widget.firebaseAuth.currentUser?.uid;
     Navigator.of(context).push(
@@ -54,7 +55,6 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
-  // TODO: Actual New Settings
   void showSettings(context) {
     Navigator.of(context).push(
       platformPageRoute(
@@ -66,15 +66,16 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
-  void selectedGroup(int groupIndex) {
+  void selectedGroup(int group) {
+    RoundGroup selectedGroup = displayedGroups[group];
+    print("Tapped group $group");
+
     Navigator.of(context).push(
       platformPageRoute(
-        context: context,
-        builder: (context) => GroupHomeNew(
-          groupID: displayedGroups[groupIndex].id,
-        ),
-      ),
+          context: context,
+          builder: (context) => NewGroupView(selectedGroup)),
     );
+
   }
 
   void observeGroups() {
@@ -101,7 +102,7 @@ class _HomeScreen extends State<HomeScreen> {
       Iterable<Object?> groups =
           (event.snapshot.value as Map<Object?, Object?>).keys;
 
-      List<Group> newGroups = [];
+      List<RoundGroup> newGroups = [];
 
       for (Object? groupID in groups) {
         String groupIDCasted = groupID as String;
@@ -117,8 +118,21 @@ class _HomeScreen extends State<HomeScreen> {
         int color = vals['color'] as int;
         String emoji = vals['emoji'] as String;
         String name = vals['name'] as String;
+        String admin = vals['admin'] as String;
+        Map<Object?, Object?> members = vals['members'] as Map<Object?, Object?>;
 
-        newGroups.add(Group(groupIDCasted, Color(color), emoji, name));
+        List<String> memberIDs = [];
+
+        for(var member in members.keys) {
+          memberIDs.add(member as String);
+        }
+
+        print(memberIDs);
+        print(color);
+        print(emoji);
+        print(name);
+
+        newGroups.add(RoundGroup(groupIDCasted, Color(color), emoji, name, admin, memberIDs));
       }
 
       setState(() => displayedGroups = newGroups);

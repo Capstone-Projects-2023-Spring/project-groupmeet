@@ -1,9 +1,10 @@
+---
 name: groupmeet
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: none
 version: 1.0.0+1
 environment:
-  sdk: '>=2.18.5 <3.0.0'
+  sdk: ">=2.18.5 <3.0.0"
 dependencies:
   flutter:
     sdk: flutter
@@ -31,16 +32,18 @@ dependencies:
   intl: ^0.17.0
   date_time_picker: ^2.1.0
   flutter_material_color_picker: ^1.1.0+2
+  adaptive_action_sheet: ^2.0.2
+  url_launcher: ^6.0.9
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
 flutter:
-  uses-material-design: true
-  assets:
-    - images/
-    - fonts/
   fonts:
     - family: Urbanist
       fonts:
         - asset: fonts/Urbanist.ttf
+  assets:
+    - images/
+    - fonts/
+  uses-material-design: true

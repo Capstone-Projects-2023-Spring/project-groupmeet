@@ -83,7 +83,7 @@ class SignUp extends StatelessWidget {
 
       Navigator.of(context).push(
         platformPageRoute(
-            context: context, builder: (_) => CalendarSelection()),
+            context: context, builder: (_) => CalendarSelection(fromSettings: false)),
       );
     }).catchError((e) {
       String errorText =
