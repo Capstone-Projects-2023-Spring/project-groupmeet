@@ -114,19 +114,27 @@ void main() {
   });
 
   testWidgets("login attempt with invalid email", (WidgetTester tester) async {
+      final newUser = MockUser(
+    isAnonymous: false,
+    uid: 'YHrs4PbqEKOentDPS5pOHnA6sp82',
+    email: 'email@email.com',
+    displayName: 'Bob',
+  );
+    final NewAuth = MockFirebaseAuth(signedIn: false, mockUser: newUser);
+
     await buildSignInPage(tester);
     whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
-    .on(auth)
+    .on(NewAuth)
     .thenThrow(FirebaseAuthException(code: "user-not-found"));
     
     await tester.enterText(find.byKey(const Key("emailInputAreaSignInKey")),
-        "email@email.com");
+        "nonexist@gmail.com");
     await tester.enterText(find.byKey(const Key("passwordInputAreaSignInKey"),),
         "password");    
     await tester.tap(find.byType(PlatformIconButton));
     await tester.pump();
     expect(
-      auth.currentUser,
+      NewAuth.currentUser,
       isNull,
     ); 
     // expect(find.text("Email and Password must not be empty!"), findsOneWidget);
@@ -134,6 +142,9 @@ void main() {
   });
 
     testWidgets("login attempt with invalid password", (WidgetTester tester) async {
+
+      final auth = MockFirebaseAuth(signedIn: false, mockUser: user);
+      
     await buildSignInPage(tester);
     whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
     .on(auth)
@@ -141,7 +152,7 @@ void main() {
     
  
     await tester.enterText(find.byKey(const Key("emailInputAreaSignInKey")),
-        "email@email.com");
+        "email@gmail.com");
     await tester.enterText(find.byKey(const Key("passwordInputAreaSignInKey"),),
         "password");    
     await tester.tap(find.byType(PlatformIconButton));
