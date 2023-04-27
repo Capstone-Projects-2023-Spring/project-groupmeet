@@ -225,36 +225,43 @@ class _HomeScreen extends State<HomeScreen> {
 
       for (Object? groupID in groups) {
         String groupIDCasted = groupID as String;
-        final groupInfo =
-            await widget.firebaseDatabase.ref("groups/$groupIDCasted/").get();
+        // final groupInfo = await widget.firebaseDatabase.ref("groups/$groupIDCasted/").get();
 
-        if (!groupInfo.exists) {
-          continue;
-        }
+        widget.firebaseDatabase.ref("groups/$groupIDCasted/").onValue.listen((event) {
+          print("event triggered for group id: $groupIDCasted");
+          DataSnapshot groupInfo =  event.snapshot;
 
-        Map<Object?, Object?> vals = groupInfo.value as Map<Object?, Object?>;
+          if (!groupInfo.exists) {
+            return;
+          }
 
-        int color = vals['color'] as int;
-        String emoji = vals['emoji'] as String;
-        String name = vals['name'] as String;
-        String admin = vals['admin'] as String;
-        Map<Object?, Object?> members = vals['members'] as Map<Object?, Object?>;
+          Map<Object?, Object?> vals = groupInfo.value as Map<Object?, Object?>;
 
-        List<String> memberIDs = [];
+          int color = vals['color'] as int;
+          String emoji = vals['emoji'] as String;
+          String name = vals['name'] as String;
+          String admin = vals['admin'] as String;
+          Map<Object?, Object?> members = vals['members'] as Map<Object?, Object?>;
 
-        for(var member in members.keys) {
-          memberIDs.add(member as String);
-        }
+          List<String> memberIDs = [];
 
-        print(memberIDs);
-        print(color);
-        print(emoji);
-        print(name);
+          for(var member in members.keys) {
+            memberIDs.add(member as String);
+          }
 
-        newGroups.add(RoundGroup(groupIDCasted, Color(color), emoji, name, admin, memberIDs));
+          print(memberIDs);
+          print(color);
+          print(emoji);
+          print(name);
+
+          RoundGroup newGroup = RoundGroup(groupIDCasted, Color(color), emoji, name, admin, memberIDs);
+
+          displayedGroups.removeWhere((element) => element.id == newGroup.id);
+          displayedGroups.add(newGroup);
+
+          setState(() => print("set state"));
+        });
       }
-
-      setState(() => displayedGroups = newGroups);
     });
 
     observing = true;
