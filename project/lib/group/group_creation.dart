@@ -44,7 +44,7 @@ class _GroupCreationState extends State<GroupCreation> {
   MaterialColor? tempColor;
 
   String name = "";
-  String emoji = "";
+  String emoji = "😃";
 
   late DatabaseReference ref;
   String? uid;
@@ -58,7 +58,7 @@ class _GroupCreationState extends State<GroupCreation> {
   }
 
   Future<void> buttonPress(BuildContext context) async {  
-    if(name.trim().isEmpty || emoji.trim().characters.length != 1) {
+    if(emoji.trim().characters.length != 1 || name.trim().isEmpty) {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
         content: PlatformText(
@@ -82,10 +82,6 @@ class _GroupCreationState extends State<GroupCreation> {
       return;
     }
 
-    // TODO: Create Group in Firebase and Dismiss
-    // TODO: Load User Groups to home screen :)
-    // TODO: Then Accept Screen, Viewing, and Settings
-    
     if (widget.userID == null) {
 
       PlatformAlertDialog error = PlatformAlertDialog(
@@ -192,7 +188,7 @@ class _GroupCreationState extends State<GroupCreation> {
 
     return PlatformScaffold(
         appBar: PlatformAppBar(title: PlatformText("New Circle")),
-        body: Center(
+        body: GestureDetector(child: Center(
             child: Column(
               children: [
                 SizedBox(
@@ -237,14 +233,14 @@ class _GroupCreationState extends State<GroupCreation> {
                           cursorColor: roundPurple,
                           onChanged: (p0) => changedEmoji(p0),
                         )),
-                        SizedBox(width: screenWidth / 16,),
-                        PlatformText("Color", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                        SizedBox(width: screenWidth / 16,),
-                        GestureDetector(
-                          key: const Key('colorChooserGestureDetector'),
-                          child: colorCircle,
-                          onTap: () => colorTapped(),
-                        )
+                    SizedBox(width: screenWidth / 16,),
+                    PlatformText("Color", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    SizedBox(width: screenWidth / 16,),
+                    GestureDetector(
+                      key: const Key('colorChooserGestureDetector'),
+                      child: colorCircle,
+                      onTap: () => colorTapped(),
+                    )
                   ],
                 ),
 
@@ -282,6 +278,6 @@ class _GroupCreationState extends State<GroupCreation> {
                   ),
                 ),
               ],
-            )));
+            )), onTap: () => FocusScope.of(context).unfocus(),));
   }
 }

@@ -10,10 +10,13 @@ import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'package:groupmeet/onboarding/social_onboarding.dart';
 
 class CalendarSelection extends StatelessWidget {
-  CalendarSelection({super.key});
+  CalendarSelection({super.key, required this.fromSettings});
+
+  bool fromSettings = false;
+
+  late DatabaseReference ref;
 
   GoogleSignInAccount? _currentUser;
-  late DatabaseReference ref;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     // Optional clientId
@@ -22,6 +25,11 @@ class CalendarSelection extends StatelessWidget {
   );
 
   void buttonPress(BuildContext context) {
+    if(fromSettings) {
+        Navigator.of(context).pop();
+        return;
+    }
+
     Navigator.of(context).push(platformPageRoute(
         context: context, builder: (context) => SocialOnboarding(firebaseDatabase: FirebaseDatabase.instance, firebaseAuth: FirebaseAuth.instance,)));
   }
@@ -37,7 +45,7 @@ class CalendarSelection extends StatelessWidget {
     }
 
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      _currentUser = account;
+        _currentUser = account;
     });
 
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
@@ -67,6 +75,10 @@ class CalendarSelection extends StatelessWidget {
       events.add(temp);
     }
     await ref.update({"calendarEvents": events});
+
+    await ref.update({"has_calendar": true});
+
+    Navigator.of(context).pop();
   }
 
   void pressedApple(BuildContext context) {
@@ -129,12 +141,7 @@ class CalendarSelection extends StatelessWidget {
                 onPressed: () => pressedGoogle(context),
                 child: PlatformText("Google"))),
         SizedBox(width: screenWidth, height: 16),
-        SizedBox(
-            width: 180,
-            child: PlatformElevatedButton(
-                color: const Color.fromRGBO(170, 170, 170, 0.3),
-                onPressed: () => pressedApple(context),
-                child: PlatformText("iCloud"))),
+
         Expanded(
           child: Align(
             alignment: FractionalOffset.bottomCenter,
@@ -148,7 +155,7 @@ class CalendarSelection extends StatelessWidget {
                     width: 64,
                     child: PlatformIconButton(
                       icon: Image.asset(
-                        "images/OnboardingNext.png",
+                        fromSettings ? "images/OnboardingClap.png" : "images/OnboardingNext.png",
                         height: 64,
                         width: 64,
                         isAntiAlias: true,

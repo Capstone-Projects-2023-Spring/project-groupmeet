@@ -1,7 +1,17 @@
+import 'dart:io';
+
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:googleapis/calendar/v3.dart' as google_api;
+import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
+import 'package:date_utils/date_utils.dart' as utils;
+import 'package:groupmeet/settings/add_event.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key, required this.title, required this.group});
@@ -63,12 +73,95 @@ class _CalendarPageState extends State<CalendarPage> {
 
   }
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    // Optional clientId
+    // clientId: '[YOUR_OAUTH_2_CLIENT_ID]',
+    scopes: <String>[google_api.CalendarApi.calendarScope],
+  );
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  GoogleSignInAccount? _currentUser;
+
+  Future<void> getPrimaryCalendar() async {
+    // Google Calendar API
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      setState(() {
+        _currentUser = account;
+      });
+    });
+
+    await _handleSignIn();
+    // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
+    final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
+    if (client == null) {
+      print("null client");
+      return;
+    }
+
+    // Prepare a calendar authenticated client.
+    final google_api.CalendarApi calendarApi = google_api.CalendarApi(client);
+    DateTime end = utils.DateUtils.lastDayOfMonth(DateTime.now());
+    DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
+    final google_api.Events calEvents = await calendarApi.events
+        .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
+
+    final String? uid = FirebaseAuth.instance.currentUser?.uid;
+
+    if(uid == null) {
+      return;
+    }
+
+    //get uid and open database reference
+    late DatabaseReference ref = FirebaseDatabase.instance.ref("users/${uid}");
+
+    //list of events to add to firebase (temporarily just printing)
+    List<google_api.Event> eventItems = calEvents.items!;
+    //array that holds all critical information from each item.
+    List<List<String?>> events = [];
+    for (var element in eventItems) {
+      //create array of objects to be added to CalendarEvents
+      List<String?> temp = [
+        element.start!.date.toString(),
+        element.start!.dateTime.toString(),
+        element.end!.date.toString(),
+        element.end!.dateTime.toString()
+      ];
+      print(temp);
+      events.add(temp);
+    }
+    await ref.update({"calendarEvents": events});
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Event Calendar'),
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
+        title: PlatformText('Manual Calendar'),
+        trailingActions: [
+          GestureDetector(child: Icon(PlatformIcons(context).add, color: Colors.white), onTap:() {
+
+            if(FirebaseAuth.instance.currentUser?.uid == null) {
+              return;
+            }
+
+            DatabaseReference ref = FirebaseDatabase.instance.ref("users/${FirebaseAuth.instance.currentUser!.uid}");
+
+            Navigator.of(context).push(
+              platformPageRoute(
+                context: context,
+                builder: (context) =>
+                    AddEvent(title: "Add New Event", ref: ref),
+              ),
+            );
+          },)
+        ],
       ),
       body: FutureBuilder(
         future: getData(),
@@ -77,6 +170,9 @@ class _CalendarPageState extends State<CalendarPage> {
             children: [
               SfCalendar(
                 view: CalendarView.month,
+                // Just gonna burn your eyes on iOS - gray helps a *little*
+                backgroundColor: Platform.isIOS ? Colors.grey : Colors.transparent,
+                todayHighlightColor: roundPurple,
                 dataSource: Event(events: snapshot.data ?? []),
                 monthViewSettings: const MonthViewSettings(
                   appointmentDisplayMode: MonthAppointmentDisplayMode.appointment,
