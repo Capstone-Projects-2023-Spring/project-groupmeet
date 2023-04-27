@@ -32,7 +32,7 @@ void main() {
         child: MaterialApp(home: GroupCreation(userID: userId, firebaseDatabase: firebaseDatabase,))
     );
     await tester.pumpWidget(groupCreationtestWidget);
-     final titleFinder = find.text('Get Around');
+     final titleFinder = find.text('NEW CIRCLE');
      expect(titleFinder, findsOneWidget);
 
   });
@@ -96,7 +96,7 @@ void main() {
     
     await tester.tap(find.byType(PlatformIconButton));
     await tester.pump();
-    expect(find.text('Please enter a group name and 1 character emoji. You may optionally select a non-default color'), findsOneWidget);
+    expect(find.text('Please enter a group name and 1 character emoji. You may optionally select a non-default color'.toUpperCase()), findsOneWidget);
 
      });
 
@@ -113,7 +113,7 @@ testWidgets('log in error message appears when userId is not logged in', (tester
     await tester.tap(find.byType(PlatformIconButton));
     await tester.pump();
 
-    expect(find.text('You are not logged in. Log back in or check your internet connection'), findsOneWidget);
+    expect(find.text('You are not logged in. Log back in or check your internet connection'.toUpperCase()), findsOneWidget);
 });
 
 testWidgets('Group Creation has color picker', (tester) async {
@@ -125,7 +125,7 @@ testWidgets('Group Creation has color picker', (tester) async {
 
     await tester.tap(find.byKey(const Key('colorChooserGestureDetector')));
     await tester.pump();    
-    expect(find.text('Color Picker'), findsOneWidget);
+    expect(find.text('Color Picker'.toUpperCase()), findsOneWidget);
     
 });
 
@@ -138,12 +138,12 @@ testWidgets('Group Creation click cancel button', (tester) async {
 
     await tester.tap(find.byKey(const Key('colorChooserGestureDetector')));
     await tester.pump();    
-    expect(find.text('Color Picker'), findsOneWidget);
+    expect(find.text('Color Picker'.toUpperCase()), findsOneWidget);
 
-    await tester.tap(find.text('Cancel'));
+    await tester.tap(find.text('Cancel'.toUpperCase()));
     await tester.pump();
 
-    expect(find.text('Get Around'), findsOneWidget);
+    expect(find.text('Get Around'.toUpperCase()), findsOneWidget);
     
 });
 
@@ -156,14 +156,14 @@ testWidgets('Group Creation click submit button after choosing white', (tester) 
 
     await tester.tap(find.byKey(const Key('colorChooserGestureDetector')));
     await tester.pump();    
-    expect(find.text('Color Picker'), findsOneWidget);
+    expect(find.text('Color Picker'.toUpperCase()), findsOneWidget);
     
     //choosing white
     await tester.tap(find.byType(CircleColor).at(1));
-    await tester.tap(find.text('Submit'));
+    await tester.tap(find.text('Submit'.toUpperCase()));
     await tester.pump();
 
-    expect(find.text('Get Around'), findsOneWidget);
+    expect(find.text('Get Around'.toUpperCase()), findsOneWidget);
     
 });
 
