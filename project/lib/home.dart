@@ -341,9 +341,7 @@ class _HomeScreen extends State<HomeScreen> {
           ),
         ),
         Positioned(
-          width: screenWidth - 32,
           height: 0.20 * screenHeight - 16,
-          left: 16,
           bottom: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

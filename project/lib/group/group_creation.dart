@@ -271,7 +271,7 @@ class _GroupCreationState extends State<GroupCreation> {
                             style: const TextStyle(fontSize: 10)),
                         SizedBox(
                           width: screenWidth,
-                          height: 32,
+                          height: MediaQuery.of(context).viewPadding.bottom,
                         )
                       ],
                     ),

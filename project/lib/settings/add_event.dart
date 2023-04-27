@@ -119,6 +119,7 @@ class _AddEventState extends State<AddEvent> {
                     });
                     print("added");
                     Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                   color: roundPurple,
                   child: PlatformText(
