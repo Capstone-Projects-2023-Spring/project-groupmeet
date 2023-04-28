@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/theme.dart';
-import 'package:groupmeet/onboarding/signin.dart';
+// import 'package:groupmeet/onboarding/signin.dart';
 
 class GroupCreation extends StatefulWidget {
   const GroupCreation({super.key, required  this.userID, required this.firebaseDatabase });
@@ -124,10 +124,10 @@ class _GroupCreationState extends State<GroupCreation> {
     Navigator.of(context).pop();      
   } 
   //TODO: Not being called from anywhere?
-  void signIn(BuildContext context) {
-    Navigator.of(context).push(
-        platformPageRoute(context: context, builder: (context) => SignIn()));
-  }
+  // void signIn(BuildContext context) {
+  //   Navigator.of(context).push(
+  //       platformPageRoute(context: context, builder: (context) => SignIn()));
+  // }
 
   void _openDialog(String title, Widget content) {
     showDialog(

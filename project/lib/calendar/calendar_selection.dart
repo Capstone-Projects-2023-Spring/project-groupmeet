@@ -31,7 +31,7 @@ class CalendarSelection extends StatelessWidget {
     }
 
     Navigator.of(context).push(platformPageRoute(
-        context: context, builder: (context) => SocialOnboarding()));
+        context: context, builder: (context) => SocialOnboarding(firebaseDatabase: FirebaseDatabase.instance, firebaseAuth: FirebaseAuth.instance,)));
   }
 
   Future<void> pressedGoogle(BuildContext context) async {

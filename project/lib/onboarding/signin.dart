@@ -7,12 +7,14 @@ import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/home.dart';
 
 class SignIn extends StatelessWidget {
-  SignIn({super.key});
-
+  SignIn({super.key, required this.firebaseDatabase, required this.firebaseAuth});
+  final FirebaseDatabase firebaseDatabase;
+  final FirebaseAuth firebaseAuth;
   String email = "";
   String password = "";
 
   Future<void> buttonPress(BuildContext context) async {
+    
     if (email.isEmpty || password.isEmpty) {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
@@ -33,11 +35,9 @@ class SignIn extends StatelessWidget {
       );
 
       return;
-    }
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    }    
     try {
-      await FirebaseAuth.instance
+      await firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
       Navigator.of(context).push(platformPageRoute(
           context: context, builder: (context) => HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: firebaseAuth,)));
@@ -49,7 +49,6 @@ class SignIn extends StatelessWidget {
       if (e is! FirebaseAuthException) {
         return;
       }
-
       if (e.code == 'user-not-found') {
         errorMessage = 'Invalid email address.';
       } else if (e.code == 'wrong-password') {

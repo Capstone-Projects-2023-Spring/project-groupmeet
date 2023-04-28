@@ -68,6 +68,7 @@ class AboutState extends State<About> {
     late DatabaseReference ref = widget.key as DatabaseReference;
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
+
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
     //array that holds all critical information from each item.

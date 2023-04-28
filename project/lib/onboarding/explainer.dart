@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/onboarding/signup.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 class Explainer extends StatelessWidget {
   Explainer({super.key, required this.pageNo});
 
@@ -28,7 +29,7 @@ class Explainer extends StatelessWidget {
 
     if (nextPage == 3) {
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => SignUp()));
+          context: context, builder: (context) => SignUp(firebaseAuth: FirebaseAuth.instance, firebaseDatabase: FirebaseDatabase.instance,)));
       return;
     }
 

@@ -128,7 +128,7 @@ class _CalendarState extends State<Calendar> {
             Navigator.of(context).push(
               platformPageRoute(
                   context: context,
-                  builder: (_) => SocialOnboarding()),
+                  builder: (_) => SocialOnboarding(firebaseAuth: FirebaseAuth.instance, firebaseDatabase: FirebaseDatabase.instance,)),
             );
           },
           material: (_, __) => MaterialElevatedButtonData(
