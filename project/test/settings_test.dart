@@ -44,8 +44,8 @@ void main(){
       }
     }
   };
-  MockFirebaseDatabase.instance.ref().set(fakeData);
-  firebaseDatabase = MockFirebaseDatabase.instance;
+  
+  
 
    final user = MockUser(
       isAnonymous: false,
@@ -56,10 +56,11 @@ void main(){
     final auth = MockFirebaseAuth(signedIn: true,mockUser: user);
   
       Future<void> buildSettingsPage(WidgetTester tester) async {
+        MockFirebaseDatabase.instance.ref().set(fakeData);
+        firebaseDatabase = MockFirebaseDatabase.instance;
         NavigatorObserver mockObserver = MockNavigatorObserver();
       await tester.pumpWidget(MaterialApp(
-        home: Settings(firebaseDatabase: firebaseDatabase,firebaseAuth: auth,),
-        
+        home: Settings(firebaseDatabase: firebaseDatabase,firebaseAuth: auth,),        
         navigatorObservers: [mockObserver],
       ));
       }
@@ -76,10 +77,10 @@ void main(){
 
         await tester.enterText(find.byKey(const Key("editEmailArea")), "new Email");
 
-        await tester.tap(find.text("Save"));
+        await tester.tap(find.text("SAVE"));
         await tester.pump();
-        expect(find.text("edited name"), findsOneWidget);
-        expect(find.text("new Email"), findsOneWidget);        
+        expect(find.text("EDITED NAME"), findsOneWidget);
+        expect(find.text("NEW EMAIL"), findsOneWidget);        
          
     });
 
@@ -96,10 +97,10 @@ void main(){
 
         await tester.enterText(find.byKey(const Key("editEmailArea")), "new Email");
 
-        await tester.tap(find.text("Cancel"));
+        await tester.tap(find.text("CANCEL"));
         await tester.pump();
-        expect(find.text("first last"), findsOneWidget);
-        expect(find.text("email@email.com"), findsOneWidget);        
+        expect(find.text("FIRST LAST"), findsOneWidget);
+        expect(find.text("EMAIL@EMAIL.COM"), findsOneWidget);        
          
     });
     
