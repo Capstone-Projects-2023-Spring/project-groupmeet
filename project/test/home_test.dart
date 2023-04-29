@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:groupmeet/code/code_reception.dart';
 import 'package:groupmeet/settings/settings.dart';
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 class MockFirebaseDatabaseV extends Mock implements MockFirebaseDatabase {
@@ -105,8 +104,8 @@ void main(){
       await buildHomePage(tester);
       await navigateToGroupCreationPage(tester);
 
-         expect(find.byType(GroupCreation), findsOneWidget);
-         expect(find.text('Get Around'), findsOneWidget);
+      expect(find.byType(GroupCreation), findsOneWidget);
+      expect(find.text('GET AROUND'), findsOneWidget);
     });
 
     testWidgets('when tapping on QR button, should navigate to code reception page', 
@@ -114,8 +113,11 @@ void main(){
       await buildHomePage(widgetTester);
       await navigateToCodeReceptionPage(widgetTester);
 
-      expect(find.byType(CodeReception), findsOneWidget);
-      expect(find.text("Joining Group Options"), findsOneWidget);            
+      expect(find.text('ENTER ID'), findsOneWidget);
+      expect(find.text('SCAN QR CODE'), findsOneWidget);
+      expect(find.text('CANCEL'), findsOneWidget);
+      
+
     });
 
     testWidgets("when tapping settings page, should navigate to settings page",
