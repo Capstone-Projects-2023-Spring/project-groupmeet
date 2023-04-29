@@ -114,7 +114,9 @@ class _HomeScreen extends State<HomeScreen> {
             content: PlatformText(
                 'The Group ID or QR Code can be found by selecting a group and tapping the share icon in the top right'),
             actions: [
-              PlatformTextField(onChanged: (newString) => code = newString),
+              PlatformTextField(
+                key: const Key("enterGroupIdToJoinKey"),
+                onChanged: (newString) => code = newString),
               PlatformTextButton(
                 child: PlatformText("Cancel",
                     selectionColor: roundPurple,
@@ -126,6 +128,7 @@ class _HomeScreen extends State<HomeScreen> {
               ),
               PlatformTextButton(
                 child: PlatformText("Ok",
+                    key: const Key("OKButtonForNewGroupIdKey"),
                     selectionColor: roundPurple,
                     style: const TextStyle(color: roundPurple)),
                 onPressed: () {

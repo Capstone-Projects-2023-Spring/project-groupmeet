@@ -48,10 +48,23 @@ void main() {
         'emoji': "😎",
         'members': {'YHrs4PbqEKOentDPS5pOHnA6sp82': true},
         'check': 'check-vv'
+      }, 
+      '-NUBnwU0pAWO4JTMlLCw' : {
+        "admin" : "kBqgZhe0uIajVQTjyotOfAPPSXG3", 
+        "color" : 4283513819,
+        "emoji" : "🙂", 
+        "members" : {
+          "kBqgZhe0uIajVQTjyotOfAPPSXG3" : true,
+        }, 
+        "name" : "newGroup"
       }
     }
-  };
-  MockFirebaseDatabaseV.instance.ref().set(fakeData);
+  }; 
+  group('navigation tests', () {
+    late NavigatorObserver mockObserver = MockNavigatorObserver();
+
+    Future<void> buildHomePage(WidgetTester tester) async {
+      MockFirebaseDatabaseV.instance.ref().set(fakeData);
 
   firebaseDatabase = MockFirebaseDatabaseV.instance;
   final user = MockUser(
@@ -61,11 +74,6 @@ void main() {
     displayName: 'Bob',
   );
   final auth = MockFirebaseAuth(signedIn: true, mockUser: user);
-
-  group('navigation tests', () {
-    late NavigatorObserver mockObserver = MockNavigatorObserver();
-
-    Future<void> buildHomePage(WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: HomeScreen(
           firebaseDatabase: firebaseDatabase,
@@ -127,5 +135,22 @@ void main() {
 
       expect(find.byType(Settings), findsOneWidget);
     });
+
+    testWidgets("entering group Id and pressing Ok should result in an group icon",
+    (widgetTester) async {
+      await buildHomePage(widgetTester);
+      await navigateToCodeReceptionPage(widgetTester);
+      await widgetTester.tap(find.text('ENTER ID'));
+
+      await widgetTester.pump();
+      expect(find.text("newGroup"), findsNothing);
+      await widgetTester.enterText(find.byKey(const Key("enterGroupIdToJoinKey")), "-NUBnwU0pAWO4JTMlLCw");      
+
+      await widgetTester.tap(find.byKey(const Key("OKButtonForNewGroupIdKey")));
+      expect(find.text("newGroup"), findsOneWidget);
+
+    });
+
+
   });
 }
