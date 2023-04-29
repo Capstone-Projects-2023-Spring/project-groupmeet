@@ -10,158 +10,66 @@ Round is an iOS/Android application that utilizes Google Firebase for the backen
 
 **Algorithms**
 
-Round plans to implement a complex sorting algorithm to generate a static calendar to display the most convenient meetup times for our groups.
+Round implements a sorting algorithm to display a non-invasive view of all times a group's members are busy. This will allow them to have a visual representation of general available days/times, without any extra details such as what the event times actually contain (Round only stores the start and end times of each event). Additionally, Round has the capacity to determine the next available time for a potential meeting by using these stored event times as references.
 
 **Class Diagrams**
-**Diagram 1 - Individual-Related Classes**
+**Diagram 1 - Classes Related to Calendar Creation, Display, and Integration**
 ```mermaid
-classDiagram
-    class MyApp{
-      -key
-      +build(context)
+classDiagram    
+    class CalendarPage {
+        <<StatefulWidget>>
+        +group: Map<dynamic, dynamic>?
+        +title: String
+    }
+    _CalendarPageState--|>CalendarPage
+    class _CalendarPageState{
+        -allEvents: List<Appointment>
+        -getData(): Future<List<Appointment>>
+        -chosenDateAddedToCalendar(begTime: DateTime, finTime: DateTime, meetingName: String)
+        -_googleSignIn: GoogleSignIn
+        -_currentUser: GoogleSignInAccount?
+        -_handleSignIn()
+        -getPrimaryCalendar()
+    }
+    class Appointment {
+        -startTime: DateTime
+        -endTime: DateTime
+        -subject: String?
+        -color: Color?
+    }
+    _CalendarPageState --|> Appointment
+
+    class CalendarSelection {
+        - bool fromSettings
+        - DatabaseReference ref
+        - GoogleSignInAccount? _currentUser
+        - GoogleSignIn _googleSignIn
+        + CalendarSelection(super.key, required this.fromSettings)
+        + buttonPress(BuildContext context)
+        + pressedGoogle(BuildContext context): Future<void>
+        + pressedApple(BuildContext context)
+        + build(BuildContext context): Widget
     }
 
-    class HomeScreen{
-      +title
-      +createState()
+    class Calendar {
+        - GoogleSignInAccount _currentUser
+        - DatabaseReference ref
+        - GoogleSignIn _googleSignIn
+        + Calendar(Key? key)
+        + getGoogleCalendar() : Future<void>
+        + _handleSignIn() : Future<void>
+        + initState() : void
+        + build(BuildContext) : Widget
     }
-
-    class HomeScreenState{
-        +ref
-        +initState()
-        +logout()
-        +build(context)
+    class _CalendarState {
+        + initState() : void
+        - final GoogleSignIn _googleSignIn
+        - Future<void> _handleSignIn() : Future<void>
+        + getGoogleCalendar() : Future<void>
+        - late DatabaseReference ref
+        - GoogleSignInAccount? _currentUser
     }
-    
-    HomeScreen --> HomeScreenState
-    
-    class LoginScreen{
-      +createState()
-    }
-
-    class LoginScreenState{
-        -_usernameController
-        -_passwordController
-        -_isUsernameValid
-        -_isPasswordValid
-        -_navigateToHomeScreen()
-        -_login()
-        +build(context)
-    }
-    
-    LoginScreen-->LoginScreenState
-    
-    class SocialMedia{
-      +title
-      +databaseReference
-      +createState()
-    }
-
-    class _SocialMediaState{
-        +databaseReference
-        +instaSelect
-        +fbSelect
-        +discordSelect
-        +messageSelect
-        +snapSelect
-        +initState()
-        +getData()
-        +build(context)
-    }
-    
-    SocialMedia-->_SocialMediaState
-    
-    class AccountInfo{
-        +ref
-        +title
-        +createState()
-    }
-
-    class _AccountInfoState{
-        +email
-        +name
-        +ref
-        +initState()
-        +getData()
-        +build(context)
-    }
-
-    AccountInfo-->_AccountInfoState
-
-    class AllGroups{
-        +ref
-        +title
-        +createState()
-    }
-
-    class _AllGroupsState{
-        +ref
-        +uid
-        +grabGroups()
-        +build(context)
-    }
-
-    AllGroups-->_AllGroupsState
-
-    class CodeReception{
-        +title
-        +createState()
-    }
-
-    class _CodeReceptionState{
-        -_hash
-        -_key
-        -_scannedCode
-        +data
-        +keep
-        +one
-        +getQR()
-        +build(context)
-    }
-
-    CodeReception-->_CodeReceptionState
-
-    class CreateAccount{
-        +title
-        +createState()
-    }
-
-    class _CreateAccountState{
-        -_emailController
-        -_passwordController
-        -_fnameController
-        -_lnameController
-        +ref
-        +uid
-        +createUserProfile()
-        +build()
-    }
-
-    CreateAccount-->_CreateAccountState
-
-    class EditAccountInfo{
-        +title
-        +ref
-        +createState()
-    }
-
-    class _EditAccountInfoState{
-        -firstNameController
-        -lastNameController
-        -emailController
-        +email
-        +fName
-        +lName
-        +ref
-        +getData()
-        +initState()
-        +saveChanges()
-        +build()
-    }
-
-    EditAccountInfo-->_EditAccountInfoState
-    
-    MyApp-->MyHomePage
+    _CalendarState--|>Calendar
 ```
 
 **Diagram 2 - Group-related Classes**
