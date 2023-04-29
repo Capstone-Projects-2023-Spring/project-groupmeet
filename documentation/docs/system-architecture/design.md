@@ -72,50 +72,68 @@ classDiagram
     _CalendarState--|>Calendar
 ```
 
-**Diagram 2 - Group-related Classes**
+**Diagram 2 - Classes Related to Code Generation, Usage, and Display (both QR and String)**
 ```mermaid
-classDiagram    
-    class GroupCreation{
-        +groupTitle
-        +createState()
+classDiagram
+    class CodeReception {
+        - TextEditingController groupId
+        - int one
+        + openDialog()
+        + updateDatabase()
+        + camScanner()
+        + build()
     }
-
-    class _GroupCreationState{
-        -_groupNameController
-        -_numMembersController
-        -_formKey
-        +initState()
-        +createGroupLinkUser()
-        +build()
-    }
-
-    GroupCreation-->_GroupCreationState
-
-    class GroupHomePage{
+    class _CodeReceptionState{
         +title
-        +databaseReference
-        +myGroup
-        +createState()
+    }
+    CodeReception --> _CodeReceptionState
+
+    class CodeSharing {
+        - String title
+        - Future<DataSnapshot> _grabGroupId()
+        + void getCode()
+        + Widget build(BuildContext context)
+        }
+    class _CodeSharingState{
+        + void getCode()
+        + Widget build(BuildContext context)
+    }
+    CodeSharing --> _CodeSharingState
+
+    class DisplayCode {
+        -List<dynamic> groupName
+        -List<dynamic> nameId
+        +DisplayCode(groupName, nameId, key)
+        +buildList(groupName, nameId)
+        +build(BuildContext): Widget
     }
 
-    class _GroupHomePageState{
-        +databaseReference
-        +instaCount
-        +fbCount
-        +discordCount
-        +messagesCount
-        +snapCount
-        +initState()
-        +leaveGroup()
-        +getData()
-        +grabGroupMembers()
-        +build()
+    class NewQR {
+        - scanning: bool
+        + scanQR(context: BuildContext): void
+        + build(context: BuildContext): Widget
+        - updateDatabase(groupID): void
     }
 
-    GroupHomePage-->_GroupHomePageState
+    class Display{
+        -final groupName: String
+        -final nameId: String
+        +Display(groupName: String, nameId: String)
+        +build(context: BuildContext): Widget
+    }
 ```
 
-**Diagram 3**
+**Diagram 3 - Classes Related to Group Creation, Display, and Usage**
+
+**Diagram 4 - Classes Related to the Onboarding Process**
+
+**Diagram 5 - Classes Related to User Settings**
+
+**Diagram 6 - Classes Related to the User's Individual Homepage and Usage**
+
+**Diagram 7 - Dependencies Between all Classes seen in Diagrams 1-6**
+
+**Diagram 8 - General Relationship Between State, StatefulWidget, and the way classes utilize them.**
 ```mermaid
 classDiagram
     class State
