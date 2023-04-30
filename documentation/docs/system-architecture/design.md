@@ -278,10 +278,102 @@ classDiagram
     }
 ```
 **Diagram 5 - Classes Related to User Settings**
+```mermaid
+classDiagram
+    class About {
+    - Key? key
+    - final String title
+    + State<About> createState()
+    }
+
+    class AboutState {
+    - DatabaseReference ref
+    - final GoogleSignIn _googleSignIn
+    - GoogleSignInAccount? _currentUser
+    + void initState()
+    + Future<void> getPrimaryCalendar()
+    + Widget build(BuildContext context)
+    }
+
+    About --> AboutState
+
+    class AddEvent {
+    - late DateTime start
+    - late DateTime end
+    - late DatabaseReference ref
+    + AddEvent(Key? key, required this.title, required this.ref)
+    + final String title
+    + @override State<AddEvent> createState()
+    }
+
+    class _AddEventState {
+    - late DateTime start
+    - late DateTime end
+    - late DatabaseReference ref
+    + @override void initState()
+    + @override Widget build(BuildContext context)
+    }
+
+    AddEvent --> _AddEventState
+
+    class EditAccountInfo{
+        +String title  
+        +DatabaseReference ref
+    }
+    class _EditAccountInfoState{
+        -String fName
+        -String lName
+        -String email
+        -DatabaseReference ref
+        -TextEditingController _firstNameController
+        -TextEditingController _lastNameController
+        -TextEditingController _emailController
+        +void initState()
+        +void getData()
+        +void saveChanges()
+        +Widget build(BuildContext context)
+    }
+    EditAccountInfo --> _EditAccountInfoState
+
+    class _Settings {
+        - String name = ""
+        - String email = ""
+        - String? snap
+        - String? messages
+        - String? discord
+        - String? insta
+        - String? fb
+        - bool? cal
+        - String newName = ""
+        - String newEmail = ""
+        - bool observing = false
+        + void changedName(newName:String)
+        + void changedEmail(newEmail:String)
+        + void legacySettings()
+        + void saveInfo()
+        + void observeData()
+        + void socialChanged(text:String)
+        + Future<void> getPrimaryCalendar()
+    }
+    class Settings {
+        -FirebaseDatabase firebaseDatabase
+        -FirebaseAuth firebaseAuth
+        +Settings(super.key, firebaseDatabase:FirebaseDatabase, firebaseAuth:FirebaseAuth)
+        +State<StatefulWidget> createState()
+    }
+
+    Settings --> _Settings
+```
 
 **Diagram 6 - Classes Related to the User's Individual Homepage and Usage**
+```mermaid
+
+```
 
 **Diagram 7 - Dependencies Between all Classes seen in Diagrams 1-6**
+```mermaid
+
+```
 
 **Diagram 8 - General Relationship Between State, StatefulWidget, and the way classes utilize them.**
 ```mermaid
