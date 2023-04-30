@@ -42,16 +42,16 @@ class _HomeScreen extends State<HomeScreen> {
   void updateDatabase(groupID) async {
     int count = 0;
     int count_2 = 0;
-    String? userEx = FirebaseAuth.instance.currentUser!.uid;
-    DatabaseReference ref = FirebaseDatabase.instance.ref();
+    String? userEx = widget.firebaseAuth.currentUser!.uid;
+    DatabaseReference ref = widget.firebaseDatabase.ref();
     final snapshot = await ref.child('groups').get();
     DatabaseReference ref2 =
-    FirebaseDatabase.instance.ref("groups/${groupID}");
+    widget.firebaseDatabase.ref("groups/${groupID}");
     // final snapshot2 = await ref2.child('name').get();
-    DatabaseReference userRef = FirebaseDatabase.instance.ref(
+    DatabaseReference userRef = widget.firebaseDatabase.ref(
         "users/$userEx/groupIds");
     DatabaseReference userRef2 =
-    FirebaseDatabase.instance.ref("groups/${groupID}/members");
+    widget.firebaseDatabase.ref("groups/${groupID}/members");
     Map<dynamic, dynamic> type = snapshot.value as Map<dynamic, dynamic>;
     if (snapshot.key != null) {
       for (var keys in type.entries) {
@@ -114,7 +114,9 @@ class _HomeScreen extends State<HomeScreen> {
             content: PlatformText(
                 'The Group ID or QR Code can be found by selecting a group and tapping the share icon in the top right'),
             actions: [
-              PlatformTextField(onChanged: (newString) => code = newString),
+              PlatformTextField(
+                key: const Key("enterGroupIdToJoinKey"),
+                onChanged: (newString) => code = newString),
               PlatformTextButton(
                 child: PlatformText("Cancel",
                     selectionColor: roundPurple,
@@ -125,11 +127,11 @@ class _HomeScreen extends State<HomeScreen> {
                 },
               ),
               PlatformTextButton(
-                child: PlatformText("Ok",
+                key: const Key("OKButtonForNewGroupIdKey"),
+                child: PlatformText("Ok",                    
                     selectionColor: roundPurple,
                     style: const TextStyle(color: roundPurple)),
                 onPressed: () {
-
                   if(code.isEmpty) {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
@@ -211,8 +213,7 @@ class _HomeScreen extends State<HomeScreen> {
     widget.firebaseDatabase
         .ref("users/${userID!}/groupIds")
         .onValue
-        .listen((event) async {
-      // FirebaseDatabase.instance.ref("users/${userID!}/groupIds").get().then((event) => {
+        .listen((event) async {      
 
       if (event.snapshot.value == null) {
         return;

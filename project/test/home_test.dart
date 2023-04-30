@@ -6,7 +6,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:groupmeet/code/code_reception.dart';
 import 'package:groupmeet/settings/settings.dart';
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
@@ -29,7 +28,6 @@ void main() {
       'YHrs4PbqEKOentDPS5pOHnA6sp82': {
         'groupIds': {
           '-NStkS14Cj-_CDlqRUxC': true,
-          '-NSxq2rKNNWX4rpFkES6': true
         },
         "firstName": "first",
         "lastName": "last",
@@ -43,30 +41,38 @@ void main() {
       }
     },
     'groups': {
-      'NStkS14Cj-_CDlqRUxC': {
+      '-NStkS14Cj-_CDlqRUxC': {
         'admin': 'YHrs4PbqEKOentDPS5pOHnA6sp82',
         'color': 4289665855,
         'emoji': "😎",
         'members': {'YHrs4PbqEKOentDPS5pOHnA6sp82': true},
-        'check': 'check-vv'
+        'name': 'check-vv'
+      },
+      '-NUBnwU0pAWO4JTMlLCw': {
+        "admin": "kBqgZhe0uIajVQTjyotOfAPPSXG3",
+        "color": 4283513819,
+        "emoji": "🙂",
+        "members": {
+          "kBqgZhe0uIajVQTjyotOfAPPSXG3": true,
+        },
+        "name": "newGroup"
       }
     }
   };
-  MockFirebaseDatabaseV.instance.ref().set(fakeData);
-
-  firebaseDatabase = MockFirebaseDatabaseV.instance;
-  final user = MockUser(
-    isAnonymous: false,
-    uid: 'YHrs4PbqEKOentDPS5pOHnA6sp82',
-    email: 'v@gmail.com',
-    displayName: 'Bob',
-  );
-  final auth = MockFirebaseAuth(signedIn: true, mockUser: user);
-
   group('navigation tests', () {
     late NavigatorObserver mockObserver = MockNavigatorObserver();
 
     Future<void> buildHomePage(WidgetTester tester) async {
+      MockFirebaseDatabaseV.instance.ref().set(fakeData);
+      firebaseDatabase = MockFirebaseDatabaseV.instance;
+
+      final user = MockUser(
+        isAnonymous: false,
+        uid: 'YHrs4PbqEKOentDPS5pOHnA6sp82',
+        email: 'v@gmail.com',
+        displayName: 'Bob',
+      );
+      final auth = MockFirebaseAuth(signedIn: true, mockUser: user);
       await tester.pumpWidget(MaterialApp(
         home: HomeScreen(
           firebaseDatabase: firebaseDatabase,
@@ -108,18 +114,16 @@ void main() {
       await navigateToGroupCreationPage(tester);
 
       expect(find.byType(GroupCreation), findsOneWidget);
+      expect(find.text('GET AROUND'), findsOneWidget);
     });
 
-    testWidgets('test code page on home screen',
-        (WidgetTester tester) async {
+    testWidgets('test code page on home screen', (WidgetTester tester) async {
       await buildHomePage(tester);
       await navigateToCodeReceptionPage(tester);
 
-        expect(find.text('Enter ID'), findsOneWidget);
-        expect(find.text('Scan QR Code'), findsOneWidget);
-        expect(find.text('Cancel'), findsOneWidget);
-
-
+      expect(find.text('ENTER ID'), findsOneWidget);
+      expect(find.text('SCAN QR CODE'), findsOneWidget);
+      expect(find.text('CANCEL'), findsOneWidget);
     });
 
     testWidgets("when tapping settings page, should navigate to settings page",
@@ -128,6 +132,23 @@ void main() {
       await navigateToSettingsPage(widgetTester);
 
       expect(find.byType(Settings), findsOneWidget);
+    });
+
+    testWidgets("entering group Id and pressing Ok should result in an group icon",
+        (widgetTester) async {
+      await buildHomePage(widgetTester);
+      await navigateToCodeReceptionPage(widgetTester);
+      await widgetTester.tap(find.text('ENTER ID'));
+
+      await widgetTester.pump();
+      expect(find.text("newGroup"), findsNothing);
+      await widgetTester.enterText(
+          find.byKey(const Key("enterGroupIdToJoinKey")),
+          "-NUBnwU0pAWO4JTMlLCw");
+
+      await widgetTester.tap(find.byKey(const Key("OKButtonForNewGroupIdKey")));
+      await widgetTester.pump();
+      expect(find.text("CHECK-VV"), findsOneWidget);
     });
   });
 }
