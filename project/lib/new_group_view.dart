@@ -222,6 +222,10 @@ class _NewGroupView extends State<NewGroupView> {
         .ref("users/$uid/groupIds/${group.id}");
 
     userRef.remove();
+
+    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${group.id}/members/$uid");
+
+    groupRef.remove();
   }
 
   void calculateSocialCounts() {
