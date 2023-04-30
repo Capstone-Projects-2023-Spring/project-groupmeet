@@ -367,7 +367,39 @@ classDiagram
 
 **Diagram 6 - Classes Related to the User's Individual Homepage and Usage**
 ```mermaid
+classDiagram
+class RoundGroup {
+            -String id
+            -Color color
+            -String emoji
+            -String name
+            -String admin
+            -List<String> memberIDs
+            +RoundGroup(id:String, color:Color, emoji:String, name:String, admin:String, memberIDs:List<String>)
+        }
+        class HomeScreen {
+            -FirebaseDatabase firebaseDatabase
+            -FirebaseAuth firebaseAuth
+            +HomeScreen(key:super.key, firebaseDatabase:FirebaseDatabase, firebaseAuth:FirebaseAuth)
+            +State<HomeScreen> createState()
+        }
+        class _HomeScreen {
+            <<class>>
+            -List<RoundGroup> displayedGroups
+            -bool observing
+            -String code
+            +updateDatabase(groupID:String)
+            +showQR(context:context)
+            +showAdd(context:context)
+        }
+        RoundGroup *-- _HomeScreen
+        HomeScreen --> _HomeScreen
 
+    class RoundApp {
+        - Key? key
+        + RoundApp()
+        + build(BuildContext context): Widget
+    }
 ```
 
 **Diagram 7 - Dependencies Between all Classes seen in Diagrams 1-6**
