@@ -33,59 +33,75 @@ gantt
          Software Development Plan Assignment: milestone, done, 2023-02-12, 1d
          
         section Development 
-         Sprint 1: , 2023-02-15, 2w
+         Sprint 1 - First pass of Individual and group designs and functionality: done, 2023-02-15, 2w
         section Development 
-         Design Prototype:  , 2023-02-08, 3w
+         Design Prototype:  done, 2023-02-08, 3w
         section Development 
-         Foundational social media integration:  , 2023-02-15, 2w
+         Mark which social medias the user has:  done, 2023-02-15, 2w
         section Development 
-         Group creation Development:  , 2023-02-15, 2w
+         Store user social media foundations in database:  done, 2023-02-15, 2w
         section Development 
-         Code/link sharing feature Development:  , 2023-02-15, 2w
+         First pass of Group creation:  done, 2023-02-15, 2w
         section Development 
-         Design Document Part 1 (Architecture) Assignment: milestone, , 2023-02-19, 1d
+         First pass of Group page design:  done, 2023-02-15, 2w
         section Development 
-         Design Document Part 2 (API) Assignment: milestone, , 2023-02-26, 1d
+         Code/link sharing feature Development:  done, 2023-02-15, 8w
+        section Development 
+         Design Document Part 1 (Architecture) Assignment: milestone, done, 2023-02-19, 1d
+        section Development 
+         Design Document Part 2 (API) Assignment: milestone, done, 2023-02-26, 1d
          
         section Development 
-         Sprint 2: , 2023-03-01, 1w
+         Sprint 2 - Hosting, refinement of individual and group functionality: done, 2023-03-01, 1w
         section Development 
-         Create group finalization algorithms & procedures:  , 2023-03-01, 1d
+         Create group finalization:  done, 2023-03-01, 1d
         section Development 
-         Test Procedures Document Assignment: milestone, , 2023-03-05, 1d
+         Authentication finalized:  done, 2023-03-01, 1d
+        section Development 
+         First pass of database development:  done, 2023-03-01, 1d
+        section Development 
+         Test Procedures Document Assignment: milestone, done, 2023-03-05, 1d
         section Development 
          Spring Break (no classes held): done, 2023-03-06, 1d
         section Development 
-         Milestone Demo 1 :crit, milestone,  , 2023-03-14, 1d
+         Milestone Demo 1 :crit, milestone,  done, 2023-03-14, 1d
          
         section Development 
-         Sprint 3: , 2023-03-15, 2w
+         Sprint 3 - Calendar Integration, Group Finalization: , 2023-03-15, 2w
         section Development 
-         Establish Google Calendar sync integration:  , 2023-03-15, 1d
+         Establish Google Calendar sync integration:  done, 2023-03-15, 1d
         section Development 
-         Milestone Demo 2 :crit, milestone,  , 2023-03-28, 1d
+         Create manual calendar events:  done, 2023-03-15, 1d
+        section Development 
+         Redesign UI for better user flow:  done, 2023-03-15, 1d
+        section Development 
+         Allow users to join groups based on ID:  done, 2023-03-15, 1d
+        section Development 
+         Milestone Demo 2 :crit, milestone,  done, 2023-03-28, 1d
          
         section Development 
-         Sprint 4: , 2023-03-29, 2w
+         Sprint 4 - Calendar Finalization, Social Media First Pass: , 2023-03-29, 2w
         section Development 
-         Develop misc. features to fulfill various scenarios in user flow:  , 2023-03-29, 1d
+         Allow users to cancel meetings that don't work for them:  done, 2023-03-29, 1d
         section Development 
-         Notification integration:  , 2023-03-29, 1d
+         Android and iOS compatibility:  done, 2023-03-29, 1w
         section Development 
-         Milestone Demo 3 :crit, milestone,  , 2023-04-11, 1d
+         Notification integration:  done, 2023-03-29, 2w
+        section Development 
+         Milestone Demo 3 :crit, milestone,  done, 2023-04-11, 1d
          
         section Development 
          Sprint 5: , 2023-04-12, 16d
         section Development 
-         App finalizations and alloted time to integrate optional desired features:  , 2023-04-12, 1d
+         App finalizations and alloted time to integrate optional desired features:  done, 2023-04-12, 1d
         section Development 
-         Final Presentation & Demo :crit, milestone,  , 2023-04-27, 1d
+         Final Presentation & Demo :crit, milestone,  done, 2023-04-27, 1d
         section Development 
-         Test Report Document Assignment: milestone, , 2023-05-06, 1d
+         Test Report Document Assignment: milestone, done, 2023-05-06, 1d
         section Development 
-         Final Software Release Assignment: milestone, , 2023-05-07, 1d
+         Final Software Release Assignment: milestone, done, 2023-05-07, 1d
         section Development 
-         Final Grade Submissions 🎓 :  , 2023-05-12, 1d
+         Final Grade Submissions 🎓 :  done, 2023-05-12, 1d
         
 ```
 ## Milestone 1 Deliverables:
