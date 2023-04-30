@@ -124,6 +124,102 @@ classDiagram
 ```
 
 **Diagram 3 - Classes Related to Group Creation, Display, and Usage**
+'''mermaid
+classDiagram
+    class AllGroups {
+        - final String title
+        - final DatabaseReference ref
+        - late DatabaseReference ref
+        - final String? uid
+        + grabGroups() : Future<List<Map>>
+        - firebaseDatabase : FirebaseDatabase
+        + build(context: BuildContext) : Widget
+    }
+    class _AllGroupsState {
+        - late DatabaseReference ref = widget.ref
+        + grabGroups() : Future<List<Map>>
+        - firebaseDatabase : FirebaseDatabase
+        + build(context: BuildContext) : Widget
+    }
+    AllGroups --> _AllGroupsState
+
+    class GroupCreation {
+        - final String? userID
+        - final FirebaseDatabase firebaseDatabase
+        - MaterialColor? selectedColor
+        - MaterialColor? tempColor
+        - String name
+        - String emoji
+        - DatabaseReference ref
+        - String? uid
+        + GroupCreation(super.key, required this.userID, required this.firebaseDatabase)
+        + changedName(string: String): void
+        + changedEmoji(string: String): void
+        + buttonPress(context: BuildContext): Future<void>
+        + _openDialog(title: String, content: Widget): void
+        + colorTapped(): void
+        - createMaterialColor(color: Color): MaterialColor
+        - _GroupCreationState()
+        + createState(): _GroupCreationState
+    }
+
+    class _GroupCreationState {
+        + _GroupCreationState()
+        + createMaterialColor(color: Color): MaterialColor
+    }    
+    GroupCreation --> _GroupCreationState
+
+
+    class NewGroupView {
+        -RoundGroup group
+    }
+    class _NewGroupView {
+        -List<GroupMember> parsedMembers
+        -List<GroupMember> rsvped
+        -int smsCount
+        -int snapCount
+        -int discordCount
+        -int instaCount
+        -int fbCount
+        -int calCount
+        -bool isObserving
+        -bool isAdmin
+        -DateTime? appointment
+        - int appointmentIndex = 0
+        + handleCalendarRequest() : void
+        + removeCurrentDate() : Future<int>
+        + getEventList() : Future<List<Appointment>>
+        + findNextBestDate() : Future<List<DateTime>>
+        + calendar() : void
+        +NewGroupView(group, super.key)
+        +_NewGroupView(group)
+        +Future<void> observeGroup()
+        +Future<DateTime?> getFirstDate()
+        +void triggerDelete()
+        +State<NewGroupView> createState()
+    }
+    class GroupMember {
+        -String uid
+        -String name
+        -String email
+        -String? snapchat
+        -String? sms
+        -String? discord
+        -String? instagram
+        -String? facebook
+        -bool? hasCalendar
+        +GroupMember(uid, name, email, snapchat, sms, discord, instagram, facebook, hasCalendar)
+    }
+
+    class Appointment {
+        - DateTime startTime
+        - DateTime endTime
+    }
+
+    NewGroupView --> _NewGroupView
+    _NewGroupView --> GroupMember
+    _NewGroupView --> Appointment
+'''
 
 **Diagram 4 - Classes Related to the Onboarding Process**
 
