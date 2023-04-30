@@ -222,7 +222,61 @@ classDiagram
 ```
 
 **Diagram 4 - Classes Related to the Onboarding Process**
-
+```mermaid
+classDiagram
+    class Explainer{
+        -pageNo: int
+        -headers: String[]
+        -texts: String[]
+        -images: String[]
+        +buttonPress(context: BuildContext): void
+        +build(context: BuildContext): Widget
+    }
+    class SignIn {
+        + SignIn(super.key, required this.firebaseDatabase, required this.firebaseAuth)
+        - final FirebaseDatabase firebaseDatabase
+        - final FirebaseAuth firebaseAuth
+        - String email
+        - String password
+        + Future<void> buttonPress(BuildContext context)
+        - void signIn(BuildContext context)
+        - void changedEmail(String string)
+        - void changedPassword(String string)
+        + Widget build(BuildContext context)
+    }
+    class SignUp {
+        -FirebaseDatabase firebaseDatabase
+        -FirebaseAuth firebaseAuth
+        #String name
+        #String email
+        #String password
+        #DatabaseReference ref
+        #String? uid
+        +void changedName(String string)
+        +void changedEmail(String string)
+        +void changedPassword(String string)
+        +Future<void> buttonPress(BuildContext context)
+        +void signIn(BuildContext context)
+        +Widget build(BuildContext context)
+    }
+    class SocialOnboarding {
+        -FirebaseDatabase firebaseDatabase
+        -FirebaseAuth firebaseAuth
+        -String insta = ""
+        -String fb = ""
+        -String discord = ""
+        -String snap = ""
+        -String sms = ""
+        +void facebookChanged(String string)
+        +void instagramChanged(String string)
+        +void discordChanged(String string)
+        +void snapChanged(String string)
+        +void smsChanged(String string)
+        +void buttonPress(BuildContext context)
+        -DatabaseReference databaseReference
+        +Widget build(BuildContext context)
+    }
+```
 **Diagram 5 - Classes Related to User Settings**
 
 **Diagram 6 - Classes Related to the User's Individual Homepage and Usage**
