@@ -124,7 +124,7 @@ classDiagram
 ```
 
 **Diagram 3 - Classes Related to Group Creation, Display, and Usage**
-'''mermaid
+```mermaid
 classDiagram
     class AllGroups {
         - final String title
@@ -219,7 +219,7 @@ classDiagram
     NewGroupView --> _NewGroupView
     _NewGroupView --> GroupMember
     _NewGroupView --> Appointment
-'''
+```
 
 **Diagram 4 - Classes Related to the Onboarding Process**
 
