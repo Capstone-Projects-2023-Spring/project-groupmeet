@@ -14,14 +14,14 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:groupmeet/calendar/calendar.dart';
 
 
-class NewGroupView extends StatefulWidget {
+class GroupView extends StatefulWidget {
 
   RoundGroup group;
 
-  NewGroupView(this.group, {super.key});
+  GroupView(this.group, {super.key});
 
   @override
-  _NewGroupView createState() => _NewGroupView(group);
+  _GroupView createState() => _GroupView(group);
 }
 
 class GroupMember {
@@ -39,7 +39,7 @@ class GroupMember {
   GroupMember(this.uid, this.name, this.email, this.snapchat, this.sms, this.discord, this.instagram, this.facebook, this.hasCalendar);
 }
 
-class _NewGroupView extends State<NewGroupView> {
+class _GroupView extends State<GroupView> {
 
   DateTime? appointment;
 
@@ -59,7 +59,7 @@ class _NewGroupView extends State<NewGroupView> {
 
   RoundGroup group;
 
-  _NewGroupView(this.group);
+  _GroupView(this.group);
 
   Future<DateTime?> getFirstDate() async{
     final times = await FirebaseDatabase.instance.ref("groups/${group.id}/proposedDates").once();
