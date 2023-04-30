@@ -407,9 +407,72 @@ Diagram 6 shows all the UML for the classes related to creation, maintenance, an
 
 **Diagram 7 - Dependencies Between all Classes seen in Diagrams 1-6**
 ```mermaid
+classDiagram
+note for FirebaseDatabase "External Library"
+note for FirebaseAuthentication "External Library"
+note for Cupertino "External Library"
+note for Material "External Library"
+note for PlatformWidget "External Library"
+note for Theme "Design Used Throughout"
+RoundApp --> FirebaseAuthentication
+RoundApp --> FirebaseDatabase
+RoundApp --> Cupertino
+RoundApp --> Material
+RoundApp --> PlatformWidget
+RoundApp --> Explainer
+RoundApp --> Theme
+RoundApp --> HomeScreen
 
+HomeScreen --> GroupCreation
+HomeScreen --> NewGroupView
+HomeScreen --> NewQR
+HomeScreen --> Settings
+
+NewGroupView --> HomeScreen
+NewGroupView --> intl
+NewGroupView --> QrFlutter
+NewGroupView --> SyncFusionFlutterCalendar
+NewGroupView --> CalendarPage
+
+CalendarPage --> GoogleAPI
+CalendarPage --> SyncFusionFlutterCalendar
+CalendarPage --> AddEvent
+
+CalendarSelection --> SocialOnboarding
+
+Calendar --> SocialOnboarding
+
+CodeReception --> BarcodeScanner
+
+CodeSharing --> FlutterToast
+CodeSharing --> DisplayCode
+
+NewQR --> Services
+NewQR --> BarcodeScanner
+
+AllGroups --> GroupHomePage
+AllGroups --> GroupCreation
+
+GroupHomePage --> CalendarPage
+GroupHomePage --> Display
+GroupHomePage --> SyncFusionFlutterCalendar
+
+Explainer --> Signup
+
+Signin --> HomeScreen
+
+Signup --> CalendarSelection
+Signup --> Signin
+
+SocialOnboarding --> HomeScreen
+
+About --> AllGroups
+About --> AddEvent
+
+Settings --> CalendarSelection
+Settings --> Signup
 ```
-Diagram 7 shows the dependendencies of all classes seen in Diagrams 1-6, and how they are all connected within each other, and the libraries used. As can be seen in the diagram, there are many libraries that are consistently used, and these are due to them being core components throughout the application. Other dependencies, while not seemingly as critical, are still very important due to having unique but critical functionality within Round.
+Diagram 7 shows the dependendencies of all classes seen in Diagrams 1-6, and how they are all connected within each other, and the libraries used. As can be seen in the diagram, there are many libraries that are consistently used, and these are due to them being core components throughout the application. Other dependencies, while not seemingly as critical, are still very important due to having unique but critical functionality within Round. Note that all libraries labelled "External Library" are used persistently throughout the entire application. Other external libraries, such as BarcodeScanner, are not labeled as such, but are included in every instance of their usage. This was done to clean up the diagram and make it easier to read.
 
 **Diagram 8 - General Relationship Between State, StatefulWidget, and the way classes utilize them.**
 ```mermaid
