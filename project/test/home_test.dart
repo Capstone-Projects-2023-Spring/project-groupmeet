@@ -134,7 +134,6 @@ void main() {
       expect(find.byType(Settings), findsOneWidget);
     });
 
-// THIS ONE STILL FAILING.....
     testWidgets("entering group Id and pressing Ok should result in an group icon",
         (widgetTester) async {
       await buildHomePage(widgetTester);
