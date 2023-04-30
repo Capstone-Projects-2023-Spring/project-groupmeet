@@ -34,8 +34,6 @@ classDiagram
     class Appointment {
         -startTime: DateTime
         -endTime: DateTime
-        -subject: String?
-        -color: Color?
     }
     _CalendarPageState --|> Appointment
 
@@ -71,7 +69,7 @@ classDiagram
     }
     _CalendarState--|>Calendar
 ```
-
+Diagram 1 shows all the UML for the classes related to creation, maintenance, and display of the calendars within Round. As can be seen, there are not many external dependencies save from a utility class called Appointments that is seen throughout, and library imports which are not included for cleanliness, but can be seen in diagram 7. Also note there are constant relationships between classes that look somewhat like the following: ClassState inherits from Class. This relationship is further described for the stateful widgets in diagram 8. CalendarSelection is a Stateless Widget, and as a result does not have that relationship.
 **Diagram 2 - Classes Related to Code Generation, Usage, and Display (both QR and String)**
 ```mermaid
 classDiagram
@@ -122,6 +120,7 @@ classDiagram
         +build(context: BuildContext): Widget
     }
 ```
+Diagram 2 shows all the UML for the classes related to creation, maintenance, and display of both String and QR codes within Round. Library imports which are not included for cleanliness, but can be seen in diagram 7. Also note there are constant relationships between classes that look somewhat like the following: ClassState inherits from Class. This relationship is further described for the stateful widgets in diagram 8. DisplayCode, NewQR, and Display are Stateless Widgets, and as a result does not have that relationship.
 
 **Diagram 3 - Classes Related to Group Creation, Display, and Usage**
 ```mermaid
@@ -220,6 +219,7 @@ classDiagram
     _NewGroupView --> GroupMember
     _NewGroupView --> Appointment
 ```
+Diagram 3 shows all the UML for the classes related to creation, maintenance, and display of the groups within Round. As can be seen, there are not many external dependencies shown within the diagram except a utility class called Appointments that is also seen in Diagram 1. Library imports, which are not included for cleanliness, can be seen in diagram 7. Also note there are constant relationships between classes that look somewhat like the following: ClassState inherits from Class. This is further explained in Diagram 8.
 
 **Diagram 4 - Classes Related to the Onboarding Process**
 ```mermaid
@@ -277,6 +277,8 @@ classDiagram
         +Widget build(BuildContext context)
     }
 ```
+Diagram 4 shows all the UML for the classes related to creation, maintenance, and display of the onboarding process within Round. Library imports, which are not included for cleanliness, can be seen in diagram 7. Also note the typical ClassState inherits from Class relationship is not here, and instead these classes comprise entirely of Stateless Widgets.
+
 **Diagram 5 - Classes Related to User Settings**
 ```mermaid
 classDiagram
@@ -364,6 +366,7 @@ classDiagram
 
     Settings --> _Settings
 ```
+Diagram 5 shows all the UML for the classes related to creation, maintenance, and display of the user settings within Round, as well as the generation of custom events not associated with any calendar. As can be seen, there are not many external dependencies, and library imports which are not included for cleanliness, but can be seen in diagram 7. Also note there are constant relationships between classes that look somewhat like the following: ClassState inherits from Class. This relationship is further described for the stateful widgets in diagram 8.
 
 **Diagram 6 - Classes Related to the User's Individual Homepage and Usage**
 ```mermaid
@@ -384,7 +387,6 @@ class RoundGroup {
             +State<HomeScreen> createState()
         }
         class _HomeScreen {
-            <<class>>
             -List<RoundGroup> displayedGroups
             -bool observing
             -String code
@@ -401,11 +403,13 @@ class RoundGroup {
         + build(BuildContext context): Widget
     }
 ```
+Diagram 6 shows all the UML for the classes related to creation, maintenance, and display of Round itself, and the user's individual home page. As can be seen, there are not many external dependencies, and library imports are not included for cleanliness. These can be seen in diagram 7. Also note there are constant relationships between classes that look somewhat like the following: ClassState inherits from Class. This relationship is further described for the stateful widgets in diagram 8. RoundApp is a Stateless Widget, and as a result does not have that relationship.
 
 **Diagram 7 - Dependencies Between all Classes seen in Diagrams 1-6**
 ```mermaid
 
 ```
+Diagram 7 shows the dependendencies of all classes seen in Diagrams 1-6, and how they are all connected within each other, and the libraries used. As can be seen in the diagram, there are many libraries that are consistently used, and these are due to them being core components throughout the application. Other dependencies, while not seemingly as critical, are still very important due to having unique but critical functionality within Round.
 
 **Diagram 8 - General Relationship Between State, StatefulWidget, and the way classes utilize them.**
 ```mermaid
@@ -422,6 +426,7 @@ classDiagram
     _GenericPageState --|> State
     GenericPage --> _GenericPageState
 ```
+Diagram 8 shows the relationship between ClassState and Class that has been mentioned in Diagrams 1-6. Both of these rely on libraries within the Flutter framework to work, however the relationship is consistently the same for all Stateful Widgets, which is why it was deemed better to save this relationship for it's own diagram rather than overcomplicate the previous diagrams.
 
 **Sequence Diagrams**
 **Use Case 1: Registration**
@@ -434,11 +439,11 @@ sequenceDiagram
     FirebaseAuthentication->>+RealtimeDatabase: Creates a new entry
     RealtimeDatabase-->>-FirebaseAuthentication: Creation Successful
     FirebaseAuthentication-->>-Round: Account Created
-    Round-->>-User: Prompts to confirm email address
-    User->>+Round: Validates email address
-    Round-->>-User: Confirms validation, thanks user
+    Round-->>-User: Account Created
 ```
-**Use Case 2: Login**
+Use case 1 shows the registration process. This process allows the user to create an account with Round, which is then used throughout the rest of the application. The process will be user friendly, and accessible throughout onboarding.
+
+**Use Case 2: First-Time Login**
 ```mermaid
 sequenceDiagram
     actor User
@@ -456,7 +461,9 @@ sequenceDiagram
     RealtimeDatabase-->>-Round: entry updated
     Round-->>-User: Thanks user for information
 ```
-**Use Case 3: Event Creation**
+Use case 2 shows the login process for when a user is already registered. If they are logging in for the first time, they will have to enter their email and password. However, if they are logging in after having previously done so, their state is saved so they do not have to consistently log in every time the application was opened. This decision was made due to the overall goal of Round to make group planning and creation as streamlined as possible, with the hopes of allowing all the maintenance of groups to be done within a minute of intiation.
+
+**Use Case 3: Group Creation**
 ```mermaid
 sequenceDiagram
     actor User
@@ -471,6 +478,8 @@ sequenceDiagram
     User->>+Round App: Enters group information
     Round App->>+Realtime Database : Update information to group settings
 ```
+Use case 3 shows the sequence of events needed to create a group. Once the user is logged in, all they need to do is press the create group button, follow the prompts for information, and then the group is created. This group can then be sent to other members to allow them to also join the group, which is highlighted further in Use case 4.
+
 **Use Case 4: Invite Other Users**
 ```mermaid
 sequenceDiagram
@@ -483,10 +492,12 @@ sequenceDiagram
     Round App -->> User1: Prompts user for group information
     User1->>+Round App: Enters group information
     Round App->>+Realtime Database : Update information to group settings
-    Round App ->>+ Round App: QR code/link/code is generated
-    User2->>+ User2: Scan the QR code and click the link
+    Round App ->>+ Round App: QR code and generated code are created
+    User2->>+ User2: Scan the QR code or enter the generated code
     User2->>+ Round App: Join scheduling group
 ```
+Use case 4, as briefly mentioned above, shows how other users can join a previously created group. Once said group is initialized, the original user has to present the QR code or generated code to any other users they want to join the group. Once these codes are input by the other users, they have joined the group, and Round is able to account for their information.
+
 **Use Case 5: Time Block Selection**
 ```mermaid
 sequenceDiagram
@@ -512,6 +523,8 @@ sequenceDiagram
     Round App->>+Round App: Finalizes Calendar
     Round App->>+Round App: Publishes Times of Best Fitted Availability in Internalize Group
 ``` 
+Use case 5 is a relatively complicated scenario, but explains how time blocks are created. In summary, the founding user creates the group and invites all other users to the group. Once that is done, the users can choose to integrate their Google calendar so the event start and end times are saved for future reference (no other personal data is ever stored in regards to event information, solely the start and end times). Afterwards, any user may choose to ask for a meeting time to be generated, in which Round will then use all stored events to find the next best time for a meeting between all users.
+
 **Use Case 6: Last Second Changes**
 ```mermaid
 sequenceDiagram
@@ -522,35 +535,16 @@ sequenceDiagram
 
     Group->>Round App: All users join the group
     Round App->>+ Round App: Static Calendar is generated with everyone's schedules
-    UserX->>Round App: Selects "green" time (where everyone is available), clicking on the time and proposing it
-    Round App->>Group: Sends notifications to all members, asking for time approval
-    Group->>Round App: All users approve meeting time
-    UserY->>Round App: User later realizes that they actually cannot make that time
+    UserX->>Round App: User requests a new meeting time.
+    Round App->>Group: First available time is displayed to all members.
+    UserY->>Round App: User later realizes that they actually cannot make that time, and requests a new time.
     UserY->>Round App: Cancels the current meeting time
-    Round App->>Group: Sends notifications to all members
-    Round App->>Group: Notification includes notice of cancellation and suggestion for next best time to meet
+    Round App->>Group: Selects and displays the next best time on a different day.
 
 ```
-**Use Case 7: Modification of Project Lifespan**
-```mermaid
-sequenceDiagram
-    actor User
-    actor UserX
-    participant System
+Use case 6 shows what would happen if a time was chosen, and then another user realizes they cannot attend that meeting. Upon realization, the user just needs to notify Round through a button press. Round will then pick the next best day to have a meeting. Round will always pick another day entirely, under the assumption that if someone is unable to make a meeting time due to a last minute change, then the change likely has an unknown end time on that day, so a new day altogether is the best chance for a successful meeting.
 
-    User->>System: Logs in
-    User->>System: Navigates to Group Settings
-    User->>System: Selects Longevity
-    System->>User: Prompts user with add new, change existing, or delete current timeline options
-    User->>System: Chooses Change Existing
-    System->>User: Prompts user with calendar
-    User->>System: User selects new timeline date
-    User->>System: User saves new timeline
-    System->>UserX: Sends message to Group Chat with new timeline adjustments
-    UserX->>System: Receives message from System
-    System->>User: Confirms change of timeline
-```
-**Use Case 8: Push Notifications and Reminders**
+**Use Case 7: Push Notifications and Reminders**
 ```mermaid
 sequenceDiagram
     actor User
@@ -569,9 +563,7 @@ sequenceDiagram
     User->>Round App: Returns to the app's home page
     Round App->>User: Brings user back to homepage
 ```
-Describe algorithms employed in your project, e.g. neural network paradigm, training and training data set, etc.
-
-If there is a database:
+Use case 7 shows how push notification would affect users in Round. Due to the unexpected complexity of push notifications, this was not included in the current version of Round, but it is a very possible feature to be implemented in the future. What would happen is Round would load the upcoming meeting time, and send notifications to the users in a timely manner to allow them to know the state of the meeting, such as if it was cancelled or delayed. Additionally, there would be reminders sent out to the users to assist them with managing their schedule for all groups associated with Round.
 
 **Entity-relation diagram
 ```mermaid
