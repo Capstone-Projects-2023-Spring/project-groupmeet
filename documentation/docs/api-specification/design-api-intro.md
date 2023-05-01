@@ -28,8 +28,7 @@ Properties
 *observing - boolean*  
 *code - String*
 
-Methods
--------
+Methods  
 *updateDatabase(groupID)*  
 * updates the database with user information
 * **parameters** - groupID - Updates database with new information
@@ -58,11 +57,11 @@ public class CalendarPage
 **Purpose**  
 The page that allows the user to view their calendar  
 
-**Properties**
+**Properties**  
 *group: A map of dynamic and dynamic type that represents the group.*  
 *title: A string representing the title of the calendar page.*  
 
-**Methods**
+**Methods**  
 *createState()*  
 * Returns a state object for the CalendarPage.
 
