@@ -7,10 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/onboarding/explainer.dart';
 import 'package:groupmeet/theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:permission_handler/permission_handler.dart';
-import 'home.dart';
-
+import 'package:groupmeet/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

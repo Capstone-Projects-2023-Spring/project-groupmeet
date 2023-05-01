@@ -5,13 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
-import 'package:groupmeet/onboarding/signin.dart';
-// import 'package:flutter_platform_widgets';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/home.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:groupmeet/onboarding/signup.dart';
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}

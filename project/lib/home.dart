@@ -2,7 +2,6 @@ import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/group/group_creation.dart';
 import 'package:groupmeet/group/group_view.dart';

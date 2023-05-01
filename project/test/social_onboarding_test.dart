@@ -1,11 +1,8 @@
 
-import 'package:groupmeet/group/group_creation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database_mocks/firebase_database_mocks.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_material_color_picker/src/circle_color.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:groupmeet/onboarding/social_onboarding.dart';
 void main(){

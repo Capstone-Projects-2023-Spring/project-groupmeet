@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 class CodeReception extends StatefulWidget {
   const CodeReception({super.key, required this.title});
