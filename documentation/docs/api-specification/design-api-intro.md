@@ -9,18 +9,17 @@ This class is the first page the user sees upon logging in, and helps them navig
 
 **Properties**
 ***firebaseDatabase - FirebaseDatabase***
-Stores a reference to the database
+* Stores a reference to the database
 ***firebaseAuth - FirebaseAuth***
-Stores a reference to the authenticator
+* Stores a reference to the authenticator
 
 **Methods**
--------
 ***public HomeScreen(firebaseDatabase, firebaseAuth)***
-constructor for the class
+* constructor for the class
 
 private class _HomeScreen
 =========================================================================================================
-First page that is generated when the application opens.
+* First page that is generated when the application opens.
 
 Properties
 ----------
