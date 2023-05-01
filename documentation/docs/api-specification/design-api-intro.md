@@ -73,10 +73,13 @@ private class _CalendarPage
 **Methods**  
 *getData()*  
 * Asynchronously gets all the calendar events and round meetings for the members in the group.  
+
 *chosenDateAddedToCalendar(DateTime begTime, DateTime finTime, String meetingName)*
 * Asynchronously adds a new meeting to the calendar.  
+
 *_handleSignIn()*
 * Asynchronously handles signing into Google.
+
 *getPrimaryCalendar()*  
 * Asynchronously retrieves the primary calendar for the current user.
 
