@@ -113,6 +113,7 @@ void main() {
     //TODO: sees that user is logged in successfully, but not checking for navigation to homescreen 'cause IDK how to do that right now
   });
 
+// not working
   testWidgets("login attempt with invalid email", (WidgetTester tester) async {
       final newUser = MockUser(
     isAnonymous: false,
@@ -139,8 +140,8 @@ void main() {
       isNull,
     ); 
     // expect(find.text("Email and Password must not be empty!"), findsOneWidget);
-    // expect(find.text('Invalid email address.'), findsOneWidget);    
-    expect(find.text("An error occurred, please try again later."), findsOneWidget);    
+    expect(find.text('Invalid email address.'), findsOneWidget);    
+    // expect(find.text("An error occurred, please try again later."), findsOneWidget);    
     
   });
 

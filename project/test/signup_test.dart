@@ -13,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:groupmeet/onboarding/signup.dart';
+import 'package:groupmeet/calendar/calendar_selection.dart';
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
@@ -31,9 +32,13 @@ void main(){
   MockFirebaseDatabase.instance.ref().set(fakeData);
   final auth = MockFirebaseAuth();
   late NavigatorObserver mockObserver = MockNavigatorObserver();
+
   Future<void> buildSignUpPage(
     WidgetTester tester,
   ) async {
+    final TestWidgetsFlutterBinding binding =
+        TestWidgetsFlutterBinding.ensureInitialized();
+    await binding.setSurfaceSize(const Size(640, 680));
     await tester.pumpWidget(MaterialApp(
       home: SignUp(
         firebaseDatabase: firebaseDatabase,
@@ -44,15 +49,45 @@ void main(){
       navigatorObservers: [mockObserver],
     ));
   }
-  testWidgets("creating user account successfully", (WidgetTester tester) async{
+  testWidgets("full name not entered", (WidgetTester tester) async{    
     await buildSignUpPage(tester);
-    // render flex exception being thrown
-    // unable to proceed rn :(
+    await tester.enterText(find.byKey(const Key("EnterFullNameInputKey")), "singleName");
+    await tester.enterText(find.byKey(const Key("signUpEnterEmailInputKey"),), "email@gmail.com");
+    await tester.enterText(find.byKey(const Key("signUpPasswordKey")), "password");
 
+    await tester.tap(find.byKey(const Key("signUpButtonAndGoToCalendarLinkingPageKey")));
+    await tester.pump();
 
-
+    expect(find.text("PLEASE ENTER A FULL FIRST AND LAST NAME, EMAIL, AND PASSWORD"), findsOneWidget);
+    
   });
 
 
+  testWidgets("successfully creating profile and navigating to calendar selection page", (WidgetTester tester) async{    
+    await buildSignUpPage(tester);
 
+    await tester.enterText(find.byKey(const Key("EnterFullNameInputKey")), "first last");
+    await tester.enterText(find.byKey(const Key("signUpEnterEmailInputKey"),), "email@gmail.com");
+    await tester.enterText(find.byKey(const Key("signUpPasswordKey")), "password");
+
+    await tester.tap(find.byKey(const Key("signUpButtonAndGoToCalendarLinkingPageKey")));
+    await tester.pumpAndSettle(const Duration(seconds: 2));
+
+    expect(find.byType(CalendarSelection), findsOneWidget);
+  });
+
+  // testWidgets("", (WidgetTester tester) async{   
+  //   whenCalling(Invocation.method(#createUserWithEmailAndPassword, null))
+  //   .on(auth)
+  //   .thenThrow(FirebaseAuthException(code: "wrong-password"));
+  //   await buildSignUpPage(tester);
+
+  //   await tester.enterText(find.byKey(const Key("EnterFullNameInputKey")), "first last");
+  //   await tester.enterText(find.byKey(const Key("signUpEnterEmailInputKey"),), "email@gmail.com");
+  //   await tester.enterText(find.byKey(const Key("signUpPasswordKey")), "password");
+
+  //   await tester.tap(find.byKey(const Key("signUpButtonAndGoToCalendarLinkingPageKey")));
+  //   await tester.pumpAndSettle(const Duration(seconds: 2));
+  // });
 }
+
