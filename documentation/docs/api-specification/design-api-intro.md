@@ -8,13 +8,13 @@ public class HomeScreen
 This class is the first page the user sees upon logging in, and helps them navigate the application.
 
 **Properties**  
-***firebaseDatabase - FirebaseDatabase***
+*firebaseDatabase - FirebaseDatabase*
 * Stores a reference to the database  
-***firebaseAuth - FirebaseAuth***  
+*firebaseAuth - FirebaseAuth*  
 * Stores a reference to the authenticator  
 
 **Methods**  
-***public HomeScreen(firebaseDatabase, firebaseAuth)***  
+*public HomeScreen(firebaseDatabase, firebaseAuth)*  
 * constructor for the class  
 
 private class _HomeScreen
@@ -23,29 +23,29 @@ private class _HomeScreen
 
 Properties
 ----------
-***displayedGroups - RoundGroup List***
-***observing - boolean***
-***code - String***
+*displayedGroups - RoundGroup List*  
+*observing - boolean*  
+*code - String*
 
 Methods
 -------
-***updateDatabase(groupID)***
-updates the database with user information
+*updateDatabase(groupID)*  
+* updates the database with user information
 
-***showQR(context)***
-Allows the user to scan or enter a QR code/manual code
+*showQR(context)*  
+* Allows the user to scan or enter a QR code/manual code
 
-***showAdd(context)***
-Allows the user to add a new group
+*showAdd(context)*  
+* Allows the user to add a new group
 
-***showSettings(context)***
-Allows the user to go the settings page
+*showSettings(context)*  
+* Allows the user to go the settings page
 
-***selectedGroup(int group)***
-Takes user to the appropriate group page depending on what they clicked.
+*selectedGroup(int group)*  
+* Takes user to the appropriate group page depending on what they clicked.
 
-***observeGroups()***
-Allows the user to view all groups they are a part of
+*observeGroups()*  
+* Allows the user to view all groups they are a part of
 
 CreateAccount class
 ============================================================================================================
