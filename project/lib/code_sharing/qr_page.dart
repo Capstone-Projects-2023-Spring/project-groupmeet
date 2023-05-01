@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
-class NewQR extends StatelessWidget {
+class Qr extends StatelessWidget {
 
   bool scanning = false;
 

@@ -6,7 +6,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:flutter/services.dart';
 import 'package:groupmeet/calendar/calendar.dart';
 import 'package:groupmeet/theme.dart';
-import 'package:groupmeet/qr/display_qr.dart';
+import 'package:groupmeet/code_sharing/display_qr.dart';
 
 // change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {

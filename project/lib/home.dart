@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/group/group_creation.dart';
-import 'package:groupmeet/new_group_view.dart';
+import 'package:groupmeet/group/group_view.dart';
 import 'package:groupmeet/settings/settings.dart';
 import 'package:groupmeet/theme.dart';
-
-import 'code/new_qr.dart';
+import 'package:groupmeet/code_sharing/qr_page.dart';
 
 class RoundGroup {
   String id;
@@ -156,7 +155,7 @@ class _HomeScreen extends State<HomeScreen> {
           Navigator.of(context).push(
             platformPageRoute(
                 context: context,
-                builder: (context) => NewQR()),
+                builder: (context) => Qr()),
           );
         }),
       ],
@@ -194,7 +193,7 @@ class _HomeScreen extends State<HomeScreen> {
     Navigator.of(context).push(
       platformPageRoute(
           context: context,
-          builder: (context) => NewGroupView(selectedGroup)),
+          builder: (context) => GroupView(selectedGroup)),
     );
 
   }
