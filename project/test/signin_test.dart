@@ -86,14 +86,14 @@ void main() {
 
     await tester.tap(find.byType(PlatformIconButton));
     await tester.pump();
-    expect(find.text("Email and Password must not be empty!"), findsOneWidget);
+    expect(find.text("EMAIL AND PASSWORD MUST NOT BE EMPTY!"), findsOneWidget);
         
 
   });
 
   testWidgets("login successfully", (WidgetTester tester) async {
     await buildSignInPage(tester);
-    await tester.pumpAndSettle(const Duration(seconds: 2));
+    // await tester.pumpAndSettle(const Duration(seconds: 2));
     // expect(tester.widget(find.byType(SignIn)), findsOneWidget); //failing because it's not a statefull widget? - but also causing home navigation expectation test to fail....?
     await tester.enterText(
         find.byKey(const Key("emailInputAreaSignInKey")), "email@email.com");
@@ -113,6 +113,7 @@ void main() {
     //TODO: sees that user is logged in successfully, but not checking for navigation to homescreen 'cause IDK how to do that right now
   });
 
+// not working
   testWidgets("login attempt with invalid email", (WidgetTester tester) async {
       final newUser = MockUser(
     isAnonymous: false,
@@ -121,11 +122,12 @@ void main() {
     displayName: 'Bob',
   );
     final NewAuth = MockFirebaseAuth(signedIn: false, mockUser: newUser);
-
-    await buildSignInPage(tester);
+    
     whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
     .on(NewAuth)
-    .thenThrow(FirebaseAuthException(code: "user-not-found"));
+    .thenThrow(FirebaseAuthException(code: 'user-not-found'));
+
+    await buildSignInPage(tester);
     
     await tester.enterText(find.byKey(const Key("emailInputAreaSignInKey")),
         "nonexist@gmail.com");
@@ -138,7 +140,9 @@ void main() {
       isNull,
     ); 
     // expect(find.text("Email and Password must not be empty!"), findsOneWidget);
-    expect(find.text("Invalid email address."), findsOneWidget);    
+    expect(find.text('Invalid email address.'), findsOneWidget);    
+    // expect(find.text("An error occurred, please try again later."), findsOneWidget);    
+    
   });
 
     testWidgets("login attempt with invalid password", (WidgetTester tester) async {

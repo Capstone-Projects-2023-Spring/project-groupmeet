@@ -114,6 +114,7 @@ class SignIn extends StatelessWidget {
                 SizedBox(
                     width: screenWidth * (3 / 4),
                     child: PlatformTextField(
+                      key: const Key("emailInputAreaSignInKey"),
                       hintText: "Email",
                       keyboardType: TextInputType.emailAddress,
                       cursorColor: roundPurple,
@@ -126,6 +127,7 @@ class SignIn extends StatelessWidget {
                 SizedBox(
                     width: screenWidth * (3 / 4),
                     child: PlatformTextField(
+                      key: const Key("passwordInputAreaSignInKey"),
                       hintText: "Password",
                       obscureText: true,
                       cursorColor: roundPurple,
