@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:groupmeet/calendar/calendar_selection.dart';
+import 'package:groupmeet/calendar/link_calendar.dart';
 import 'package:groupmeet/onboarding/signup.dart';
 
 import 'package:groupmeet/theme.dart';
@@ -289,7 +289,7 @@ class _Settings extends State<Settings> {
 
       if(cal == null) {
         // If cal is null - bring up calendar sync page
-        Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => CalendarSelection(fromSettings: true,)));
+        Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => LinkCalendar()));
         return;
       }
 

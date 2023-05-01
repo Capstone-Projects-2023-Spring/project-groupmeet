@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:groupmeet/calendar/calendar_selection.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/onboarding/signin.dart';
+import 'package:groupmeet/onboarding/social_onboarding.dart';
 
 class SignUp extends StatelessWidget {
   SignUp({super.key, required this.firebaseDatabase, required this.firebaseAuth});
@@ -84,7 +84,7 @@ class SignUp extends StatelessWidget {
 
       Navigator.of(context).push(
         platformPageRoute(
-            context: context, builder: (_) => CalendarSelection(fromSettings: false)),
+            context: context, builder: (_) => SocialOnboarding(firebaseDatabase: FirebaseDatabase.instance, firebaseAuth: FirebaseAuth.instance,)),
       );
     }).catchError((e) {
       String errorText =
