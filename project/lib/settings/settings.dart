@@ -179,7 +179,7 @@ class _Settings extends State<Settings> {
       return;
     }
 
-    late DatabaseReference ref = FirebaseDatabase.instance.ref("users/${uid}");
+    late DatabaseReference ref = FirebaseDatabase.instance.ref("users/$uid");
 
     List<google_api.Event> eventItems = calEvents.items!;
 
@@ -278,13 +278,13 @@ class _Settings extends State<Settings> {
         actions: [
           PlatformTextButton(
             child: PlatformText("Cancel",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold)),
             onPressed: () => Navigator.of(context).pop(),
           ),
           PlatformTextButton(
               child: PlatformText("Sync",
-                  selectionColor: roundRed, style: TextStyle(color: roundRed)),
+                  selectionColor: roundRed, style: const TextStyle(color: roundRed)),
               onPressed: () {
                 Navigator.pop(context);
 
@@ -679,7 +679,7 @@ class _Settings extends State<Settings> {
             onTap: () => about(context),
           ),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: GestureDetector(
               key: const Key("signOutSettingsGestureDetectorKey"),
               child: Container(
@@ -693,7 +693,7 @@ class _Settings extends State<Settings> {
                 child: Row(
                   children: [
                     Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: SizedBox(
                             width: (screenWidth) * (2 / 3),
                             child: Column(
@@ -702,7 +702,7 @@ class _Settings extends State<Settings> {
                                     width: ((screenWidth) * (2 / 3)) - 32,
                                     child: PlatformText("Sign Out",
                                         textAlign: TextAlign.left,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: roundRed,
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500))),
@@ -715,7 +715,7 @@ class _Settings extends State<Settings> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 32),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 32),
             child: PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 10)),

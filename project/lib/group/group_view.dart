@@ -156,13 +156,13 @@ class _GroupView extends State<GroupView> {
         actions: [
           PlatformTextButton(
             child: PlatformText("Cancel",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold)),
             onPressed: () => Navigator.of(context).pop(),
           ),
           PlatformTextButton(
               child: PlatformText("Delete",
-                  selectionColor: roundRed, style: TextStyle(color: roundRed)),
+                  selectionColor: roundRed, style: const TextStyle(color: roundRed)),
               onPressed: () {
                 print("Deleting...");
 
@@ -193,13 +193,13 @@ class _GroupView extends State<GroupView> {
         actions: [
           PlatformTextButton(
             child: PlatformText("Cancel",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold)),
             onPressed: () => Navigator.of(context).pop(),
           ),
           PlatformTextButton(
               child: PlatformText("Leave",
-                  selectionColor: roundRed, style: TextStyle(color: roundRed)),
+                  selectionColor: roundRed, style: const TextStyle(color: roundRed)),
               onPressed: () {
                 Navigator.pop(context);
 
@@ -380,7 +380,7 @@ class _GroupView extends State<GroupView> {
               onPressed: Navigator.of(context).pop,
               child: PlatformText('Dismiss',
                   selectionColor: roundPurple,
-                  style: TextStyle(color: roundPurple)),
+                  style: const TextStyle(color: roundPurple)),
             ),
           ],
         );
@@ -398,7 +398,7 @@ class _GroupView extends State<GroupView> {
           children: [
             GestureDetector(
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(32, 0, 16, 0),
+                  padding: const EdgeInsets.fromLTRB(32, 0, 16, 0),
                   child: SizedBox(
                     child: Image.asset("images/$name" + "App.png"),
                     width: 48,
@@ -407,12 +407,12 @@ class _GroupView extends State<GroupView> {
                 ),
                 onTap: () => socialTap(name)),
             Container(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               width: barWidth,
               height: 32,
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.elliptical(48, 48)),
+                borderRadius: const BorderRadius.all(Radius.elliptical(48, 48)),
                 border: Border.all(color: Colors.white),
               ),
               child: Align(
@@ -422,17 +422,17 @@ class _GroupView extends State<GroupView> {
                     decoration: BoxDecoration(
                       color: roundPurple,
                       borderRadius:
-                          BorderRadius.all(Radius.elliptical(200000, 200000)),
+                          const BorderRadius.all(Radius.elliptical(200000, 200000)),
                       border: Border.all(color: roundPurple),
                     )),
                 alignment: Alignment.centerLeft,
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: PlatformText(
                 count.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 18),
@@ -496,7 +496,7 @@ class _GroupView extends State<GroupView> {
                 EdgeInsets.fromLTRB(32, 32, 0, appointment != null ? 16 : 0),
             child: PlatformText(
               "Round Up",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
               textAlign: TextAlign.left,
             )),
       )
@@ -528,7 +528,7 @@ class _GroupView extends State<GroupView> {
         height: (screenWidth - 32) * (2.6 / 5),
         decoration: BoxDecoration(
             color: roundPurple,
-            borderRadius: BorderRadius.all(Radius.elliptical(48, 48)),
+            borderRadius: const BorderRadius.all(Radius.elliptical(48, 48)),
             border: Border.all(color: roundPurple)),
         child: Row(
           children: [
@@ -537,7 +537,7 @@ class _GroupView extends State<GroupView> {
                 children: [
                   PlatformText(
                     new DateFormat.MMMM().format(appointment!).toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.w500,
                         color: roundPurple,
@@ -545,14 +545,14 @@ class _GroupView extends State<GroupView> {
                   ),
                   PlatformText(
                       new DateFormat.d().format(appointment!).toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 96,
                           fontWeight: FontWeight.w900,
                           color: roundPurple,
                           height: 1.0)),
                   PlatformText(
                       new DateFormat.jm().format(appointment!).toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.w900,
                           color: roundPurple,
@@ -562,7 +562,7 @@ class _GroupView extends State<GroupView> {
               width: (screenWidth - 64) * 0.6,
               decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.elliptical(48, 48)),
+                  borderRadius: const BorderRadius.all(Radius.elliptical(48, 48)),
                   border: Border.all(color: Colors.white)),
             ),
             Container(
@@ -571,10 +571,10 @@ class _GroupView extends State<GroupView> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     PlatformText(rsvped.length.toString() + " Confirmed",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 22, fontWeight: FontWeight.bold)),
                     PlatformText(infoString,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                         textAlign: TextAlign.center),
@@ -591,7 +591,7 @@ class _GroupView extends State<GroupView> {
 
     mainWidgets.add(
       Padding(
-        padding: EdgeInsets.fromLTRB(32, 32, 32, 32),
+        padding: const EdgeInsets.fromLTRB(32, 32, 32, 32),
         child: Container(
           width: screenWidth - 64,
           child: PlatformTextButton(
@@ -599,7 +599,7 @@ class _GroupView extends State<GroupView> {
                 appointment != null
                     ? "Request Another Time"
                     : "Generate a New Round Up",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold)),
             color: roundPurple,
             onPressed: handleCalendarRequest,
@@ -612,10 +612,10 @@ class _GroupView extends State<GroupView> {
       Container(
         width: screenWidth,
         child: Padding(
-            padding: EdgeInsets.fromLTRB(32, 0, 0, 16),
+            padding: const EdgeInsets.fromLTRB(32, 0, 0, 16),
             child: PlatformText(
               "Round Table",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
               textAlign: TextAlign.left,
             )),
       ),
@@ -629,7 +629,7 @@ class _GroupView extends State<GroupView> {
           padding: EdgeInsets.fromLTRB(32, 16, 0, appointment != null ? 16 : 0),
           child: PlatformText(
             "Rounders (" + parsedMembers.length.toString() + ")",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
             textAlign: TextAlign.left,
           )),
     ));
@@ -641,12 +641,12 @@ class _GroupView extends State<GroupView> {
         shrinkWrap: true,
         children: List.generate(parsedMembers.length, (index) {
           return Padding(
-              padding: EdgeInsets.fromLTRB(32, 16, 32, 0),
+              padding: const EdgeInsets.fromLTRB(32, 16, 32, 0),
               child: Row(
                 children: [
                   PlatformText(
                     parsedMembers[index].name,
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
                   Expanded(
                     flex: 1,
@@ -655,9 +655,9 @@ class _GroupView extends State<GroupView> {
                       child: PlatformTextButton(
                         child: PlatformText(
                           "View Profile",
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                         color: roundPurple,
                         onPressed: () => profileTap(index),
                       ),
@@ -676,7 +676,7 @@ class _GroupView extends State<GroupView> {
 
     mainWidgets.add(PlatformTextButton(
       child: PlatformText(isAdmin ? "Delete Circle" : "Leave Group",
-          style: TextStyle(color: Colors.white), selectionColor: Colors.white),
+          style: const TextStyle(color: Colors.white), selectionColor: Colors.white),
       onPressed: triggerDelete,
       color: roundRed,
     ));
@@ -689,18 +689,18 @@ class _GroupView extends State<GroupView> {
     return PlatformScaffold(
         appBar: PlatformAppBar(
             title: PlatformText(group.emoji + " " + group.name,
-                style: TextStyle(color: Colors.black)),
+                style: const TextStyle(color: Colors.black)),
             backgroundColor: group.color,
             trailingActions: [
               Padding(
-                padding: EdgeInsets.fromLTRB(32, 0, 16, 0),
+                padding: const EdgeInsets.fromLTRB(32, 0, 16, 0),
                 child: GestureDetector(
                   child: Icon(PlatformIcons(context).book, color: Colors.black),
                   onTap: () => calendar(),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 4),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
                 child: GestureDetector(
                   child:
                       Icon(PlatformIcons(context).share, color: Colors.black),
@@ -709,7 +709,7 @@ class _GroupView extends State<GroupView> {
               )
             ],
             material: (context, platform) => MaterialAppBarData(
-                iconTheme: IconThemeData(color: Colors.black))),
+                iconTheme: const IconThemeData(color: Colors.black))),
         body: SingleChildScrollView(
           child: Column(
             children: mainWidgets,
@@ -904,7 +904,7 @@ class _GroupView extends State<GroupView> {
       cancelAction: CancelAction(
           title: PlatformText(
         'Cancel',
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       )),
     );
   }

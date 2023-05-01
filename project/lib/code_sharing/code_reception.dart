@@ -75,7 +75,7 @@ class _CodeReceptionState extends State<CodeReception> {
             for (var keys2 in type1.entries) {
               count_2++;
               if (keys2.key.toString().contains(groupId.text)) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text(
                         "You have already joined this group. Please enter another Code.")));
                 break;
@@ -106,13 +106,13 @@ class _CodeReceptionState extends State<CodeReception> {
         }
       }
       if (count.isEven) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text(
                 "The codes assigned doesn't match any groups that exit. Please try again!")));
         Navigator.of(context).pop(false);
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("No groups exist! Please create a new group!")));
     }
   }

@@ -129,7 +129,7 @@ class _CalendarPageState extends State<CalendarPage> {
       return;
     }
 
-    late DatabaseReference ref = FirebaseDatabase.instance.ref("users/${uid}");
+    late DatabaseReference ref = FirebaseDatabase.instance.ref("users/$uid");
 
     List<google_api.Event> eventItems = calEvents.items!;
 

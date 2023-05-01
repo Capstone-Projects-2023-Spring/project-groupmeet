@@ -8,6 +8,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 class Qr extends StatelessWidget {
   bool scanning = false;
 
+  Qr({super.key});
+
   void scanQR(BuildContext context) async {
     if (scanning) {
       return;
@@ -40,12 +42,12 @@ class Qr extends StatelessWidget {
     String? userEx = FirebaseAuth.instance.currentUser!.uid;
     DatabaseReference ref = FirebaseDatabase.instance.ref();
     final snapshot = await ref.child('groups').get();
-    DatabaseReference ref2 = FirebaseDatabase.instance.ref("groups/${groupID}");
+    DatabaseReference ref2 = FirebaseDatabase.instance.ref("groups/$groupID");
 
     DatabaseReference userRef =
         FirebaseDatabase.instance.ref("users/$userEx/groupIds");
     DatabaseReference userRef2 =
-        FirebaseDatabase.instance.ref("groups/${groupID}/members");
+        FirebaseDatabase.instance.ref("groups/$groupID/members");
     Map<dynamic, dynamic> type = snapshot.value as Map<dynamic, dynamic>;
     if (snapshot.key != null) {
       for (var keys in type.entries) {

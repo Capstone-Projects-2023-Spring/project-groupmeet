@@ -150,7 +150,7 @@ class _HomeScreen extends State<HomeScreen> {
       cancelAction: CancelAction(
           title: PlatformText(
         'Cancel',
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       )),
     );
   }
@@ -351,7 +351,7 @@ class _HomeScreen extends State<HomeScreen> {
                   height: 120,
                   width: 120,
                   child: PlatformIconButton(
-                    key: Key("navigatetoCodeReceptionPageButton"),
+                    key: const Key("navigatetoCodeReceptionPageButton"),
                     icon: Image.asset("images/RoundQR.png",
                         width: 120, height: 120, isAntiAlias: true),
                     padding: EdgeInsets.zero,
@@ -371,7 +371,7 @@ class _HomeScreen extends State<HomeScreen> {
                   height: 120,
                   width: 120,
                   child: PlatformIconButton(
-                    key: Key("navigatetoSettingsPageButton"),
+                    key: const Key("navigatetoSettingsPageButton"),
                     icon: Image.asset("images/RoundSettings.png",
                         width: 120, height: 120, isAntiAlias: true),
                     padding: EdgeInsets.zero,

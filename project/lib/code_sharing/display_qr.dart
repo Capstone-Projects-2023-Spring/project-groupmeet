@@ -6,7 +6,7 @@ class Display extends StatelessWidget {
   final String groupName;
   final String nameId;
 
-  Display(this.groupName, this.nameId, {super.key});
+  const Display(this.groupName, this.nameId, {super.key});
 
   @override
   Widget build(BuildContext context) {

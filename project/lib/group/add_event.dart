@@ -33,7 +33,7 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle titleStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
+    TextStyle titleStyle = const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
 
     return Scaffold(
       backgroundColor: Platform.isIOS ? Colors.grey : null,
@@ -43,7 +43,7 @@ class _AddEventState extends State<AddEvent> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.fromLTRB(0, 32, 0, 32),
+            padding: const EdgeInsets.fromLTRB(0, 32, 0, 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -58,7 +58,7 @@ class _AddEventState extends State<AddEvent> {
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2100),
                   dateLabelText: 'Date',
-                  onChanged: (val) => start = DateTime.parse(val as String),
+                  onChanged: (val) => start = DateTime.parse(val),
                   validator: (val) {
                     print(val);
                     return null;
@@ -71,7 +71,7 @@ class _AddEventState extends State<AddEvent> {
             ),
           ),
           Padding(
-              padding: EdgeInsets.fromLTRB(0, 32, 0, 32),
+              padding: const EdgeInsets.fromLTRB(0, 32, 0, 32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -83,7 +83,7 @@ class _AddEventState extends State<AddEvent> {
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                     dateLabelText: 'Date',
-                    onChanged: (val) => end = DateTime.parse(val as String),
+                    onChanged: (val) => end = DateTime.parse(val),
                     validator: (val) {
                       print(val);
                       return null;
@@ -95,7 +95,7 @@ class _AddEventState extends State<AddEvent> {
                 ],
               )),
           Padding(
-              padding: EdgeInsets.fromLTRB(0, 32, 0, 32),
+              padding: const EdgeInsets.fromLTRB(0, 32, 0, 32),
               child: Column(
                 children: [
                   PlatformTextButton(
@@ -128,7 +128,7 @@ class _AddEventState extends State<AddEvent> {
                     child: PlatformText(
                       "Submit",
                       selectionColor: Colors.white,
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ],
