@@ -61,7 +61,6 @@ class _EditAccountInfoState extends State<EditAccountInfo> {
     var messagesHandle = event.snapshot.child("messages_name").value;
     var snapHandle = event.snapshot.child("snapchat_name").value;
 
-
     ref.set({
       "email": _emailController.text.trim(),
       "firstName": _firstNameController.text.trim(),

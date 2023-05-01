@@ -7,7 +7,8 @@ import 'package:groupmeet/onboarding/signin.dart';
 import 'package:groupmeet/onboarding/social_onboarding.dart';
 
 class SignUp extends StatelessWidget {
-  SignUp({super.key, required this.firebaseDatabase, required this.firebaseAuth});
+  SignUp(
+      {super.key, required this.firebaseDatabase, required this.firebaseAuth});
   final FirebaseDatabase firebaseDatabase;
   final FirebaseAuth firebaseAuth;
   String name = "";
@@ -84,7 +85,11 @@ class SignUp extends StatelessWidget {
 
       Navigator.of(context).push(
         platformPageRoute(
-            context: context, builder: (_) => SocialOnboarding(firebaseDatabase: FirebaseDatabase.instance, firebaseAuth: FirebaseAuth.instance,)),
+            context: context,
+            builder: (_) => SocialOnboarding(
+                  firebaseDatabase: FirebaseDatabase.instance,
+                  firebaseAuth: FirebaseAuth.instance,
+                )),
       );
     }).catchError((e) {
       String errorText =
@@ -139,8 +144,12 @@ class SignUp extends StatelessWidget {
   }
 
   void signIn(BuildContext context) {
-    Navigator.of(context).push(
-        platformPageRoute(context: context, builder: (context) => SignIn(firebaseAuth: firebaseAuth, firebaseDatabase:  firebaseDatabase,)));
+    Navigator.of(context).push(platformPageRoute(
+        context: context,
+        builder: (context) => SignIn(
+              firebaseAuth: firebaseAuth,
+              firebaseDatabase: firebaseDatabase,
+            )));
   }
 
   @override
@@ -149,105 +158,105 @@ class SignUp extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return PlatformScaffold(
-        body: GestureDetector(child: Center(
-            child: Column(
-              children: [
-                SizedBox(
+        body: GestureDetector(
+      child: Center(
+          child: Column(
+        children: [
+          SizedBox(
+              width: screenWidth,
+              height:
+                  MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
+          Image.asset(
+            "images/AddPhoto.png",
+            height: 160,
+            width: screenWidth,
+            isAntiAlias: true,
+          ),
+          SizedBox(width: screenWidth, height: 8),
+          PlatformText("Be Round or\nbe square",
+              style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center),
+          SizedBox(width: screenWidth, height: 32),
+          SizedBox(
+              width: screenWidth * (3 / 4),
+              child: PlatformTextField(
+                key: const Key("EnterFullNameInputKey"),
+                hintText: "Name",
+                autofocus: true,
+                cursorColor: roundPurple,
+                onChanged: (p0) => changedName(p0),
+                material: (_, __) => MaterialTextFieldData(
+                    decoration: const InputDecoration(
+                        focusColor: roundPurple, hoverColor: roundPurple)),
+              )),
+          SizedBox(
+            width: screenWidth,
+            height: 16,
+          ),
+          SizedBox(
+              width: screenWidth * (3 / 4),
+              child: PlatformTextField(
+                key: const Key("signUpEnterEmailInputKey"),
+                hintText: "Email",
+                keyboardType: TextInputType.emailAddress,
+                cursorColor: roundPurple,
+                onChanged: (p0) => changedEmail(p0),
+              )),
+          SizedBox(
+            width: screenWidth,
+            height: 16,
+          ),
+          SizedBox(
+              width: screenWidth * (3 / 4),
+              child: PlatformTextField(
+                key: const Key("signUpPasswordKey"),
+                hintText: "Password",
+                obscureText: true,
+                cursorColor: roundPurple,
+                onChanged: (p0) => changedPassword(p0),
+              )),
+          PlatformTextButton(
+              child: PlatformText("Been Round? Sign In!",
+                  style: const TextStyle(color: roundPurple)),
+              onPressed: () => signIn(context)),
+          Expanded(
+            child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  SizedBox(
+                      height: 64,
+                      width: 64,
+                      child: PlatformIconButton(
+                        key: const Key(
+                            "signUpButtonAndGoToCalendarLinkingPageKey"),
+                        icon: Image.asset(
+                          "images/OnboardingNext.png",
+                          height: 64,
+                          width: 64,
+                          isAntiAlias: true,
+                        ),
+                        padding: EdgeInsets.zero,
+                        onPressed: () => buttonPress(context),
+                      )),
+                  SizedBox(width: screenWidth, height: 16),
+                  PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 10)),
+                  SizedBox(
                     width: screenWidth,
-                    height:
-                    MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
-                Image.asset(
-                  "images/AddPhoto.png",
-                  height: 160,
-                  width: screenWidth,
-                  isAntiAlias: true,
-                ),
-                SizedBox(width: screenWidth, height: 8),
-                PlatformText("Be Round or\nbe square",
-                    style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center),
-                SizedBox(width: screenWidth, height: 32),
-
-                SizedBox(
-                    width: screenWidth * (3 / 4),
-                    child: PlatformTextField(
-                      key: const Key("EnterFullNameInputKey"),
-                      hintText: "Name",
-                      autofocus: true,
-                      cursorColor: roundPurple,
-                      onChanged: (p0) => changedName(p0),
-                      material: (_, __) => MaterialTextFieldData(
-                          decoration: const InputDecoration(
-                              focusColor: roundPurple, hoverColor: roundPurple)),
-                    )),
-                SizedBox(
-                  width: screenWidth,
-                  height: 16,
-                ),
-                SizedBox(
-                    width: screenWidth * (3 / 4),
-                    child: PlatformTextField(
-                      key: const Key("signUpEnterEmailInputKey"),
-                      hintText: "Email",
-                      keyboardType: TextInputType.emailAddress,
-                      cursorColor: roundPurple,
-                      onChanged: (p0) => changedEmail(p0),
-                    )),
-                SizedBox(
-                  width: screenWidth,
-                  height: 16,
-                ),
-                SizedBox(
-                    width: screenWidth * (3 / 4),
-                    child: PlatformTextField(
-                      key: const Key("signUpPasswordKey"),
-                      hintText: "Password",
-                      obscureText: true,
-                      cursorColor: roundPurple,
-                      onChanged: (p0) => changedPassword(p0),
-                    )),
-
-                // TODO: Goto login which is the exact same except without name and with different photo on top
-                PlatformTextButton(
-                    child: PlatformText("Been Round? Sign In!",
-                        style: const TextStyle(color: roundPurple)),
-                    onPressed: () => signIn(context)),
-
-                Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                            height: 64,
-                            width: 64,
-                            child: PlatformIconButton(
-                              key: const Key("signUpButtonAndGoToCalendarLinkingPageKey"),
-                              icon: Image.asset(
-                                "images/OnboardingNext.png",
-                                height: 64,
-                                width: 64,
-                                isAntiAlias: true,
-                              ),
-                              padding: EdgeInsets.zero,
-                              onPressed: () => buttonPress(context),
-                            )),
-                        SizedBox(width: screenWidth, height: 16),
-                        PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 10)),
-                        SizedBox(
-                          width: screenWidth,
-                          height: 32,
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )), onTap: () => FocusScope.of(context).unfocus(),));
+                    height: 32,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      )),
+      onTap: () => FocusScope.of(context).unfocus(),
+    ));
   }
 }

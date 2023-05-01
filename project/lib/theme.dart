@@ -13,5 +13,3 @@ const roundGreen = Color(0xFF0CF574);
 const roundSilver = Color(0xFFD9D9D9);
 const roundForest = Color(0xFF023618);
 const roundTeal = Color(0xFF177E89);
-
-// Group Colors - White, Purple, Red, Blue, Orange, Yellow, Blue, Green,

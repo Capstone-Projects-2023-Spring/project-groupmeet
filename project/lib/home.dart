@@ -17,7 +17,8 @@ class RoundGroup {
   String admin;
   List<String> memberIDs;
 
-  RoundGroup(this.id, this.color, this.emoji, this.name, this.admin, this.memberIDs);
+  RoundGroup(
+      this.id, this.color, this.emoji, this.name, this.admin, this.memberIDs);
 }
 
 class HomeScreen extends StatefulWidget {
@@ -43,36 +44,30 @@ class _HomeScreen extends State<HomeScreen> {
     String? userEx = widget.firebaseAuth.currentUser!.uid;
     DatabaseReference ref = widget.firebaseDatabase.ref();
     final snapshot = await ref.child('groups').get();
-    DatabaseReference ref2 =
-    widget.firebaseDatabase.ref("groups/${groupID}");
-    // final snapshot2 = await ref2.child('name').get();
-    DatabaseReference userRef = widget.firebaseDatabase.ref(
-        "users/$userEx/groupIds");
+    DatabaseReference ref2 = widget.firebaseDatabase.ref("groups/${groupID}");
+
+    DatabaseReference userRef =
+        widget.firebaseDatabase.ref("users/$userEx/groupIds");
     DatabaseReference userRef2 =
-    widget.firebaseDatabase.ref("groups/${groupID}/members");
+        widget.firebaseDatabase.ref("groups/${groupID}/members");
     Map<dynamic, dynamic> type = snapshot.value as Map<dynamic, dynamic>;
     if (snapshot.key != null) {
       for (var keys in type.entries) {
-        if (keys.key.toString().contains(groupID) &&
-            groupID.isNotEmpty) {
+        if (keys.key.toString().contains(groupID) && groupID.isNotEmpty) {
           count = 1;
           final snapshot1 = await ref.child('users/$userEx/groupIds').get();
           if (snapshot1.exists) {
-            Map<dynamic, dynamic> type1 = snapshot1.value as Map<
-                dynamic,
-                dynamic>;
+            Map<dynamic, dynamic> type1 =
+                snapshot1.value as Map<dynamic, dynamic>;
             for (var keys2 in type1.entries) {
               count_2++;
               if (keys2.key.toString().contains(groupID)) {
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You have already joined this group. Please enter another Code.")));
                 break;
               } else {
                 if (type1.entries.length == count_2) {
-                  // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Adding to group ${snapshot2.value} ....")));
                   userRef.update({groupID: true});
                   userRef2.update({userEx: true});
-                  // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You're now added to ${snapshot2.value}!")));
-                  // Navigator.of(context).pop(false);
+
                   break;
                 }
               }
@@ -80,85 +75,83 @@ class _HomeScreen extends State<HomeScreen> {
           } else {
             userRef.update({groupID: true});
             userRef2.update({userEx: true});
-            // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("You've now been added to the group -> ${snapshot2
-            //     .value}!")));
-            // Navigator.of(context).pop(false);
+
             break;
           }
         }
       }
-      if (count.isEven) {
-        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The codes assigned doesn't match any groups that exit. Please try again!")));
-        // Navigator.of(context).pop(false);
-      }
-    }
-    else {
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No groups exist! Please create a new group!")));
-    }
+      if (count.isEven) {}
+    } else {}
   }
 
-  // TODO: Cross-Platform working QR Screen
   void showQR(context) {
-
     showAdaptiveActionSheet(
       context: context,
       androidBorderRadius: 30,
       isDismissible: true,
       bottomSheetColor: roundPurple,
       actions: <BottomSheetAction>[
-        BottomSheetAction(title: PlatformText('Enter ID', style: const TextStyle(color: Colors.white)), onPressed: (context) {
-          PlatformAlertDialog error = PlatformAlertDialog(
-            title: PlatformText("Enter Group ID"),
-            content: PlatformText(
-                'The Group ID or QR Code can be found by selecting a group and tapping the share icon in the top right'),
-            actions: [
-              PlatformTextField(
-                key: const Key("enterGroupIdToJoinKey"),
-                onChanged: (newString) => code = newString),
-              PlatformTextButton(
-                child: PlatformText("Cancel",
-                    selectionColor: roundPurple,
-                    style: const TextStyle(color: Colors.white)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-              ),
-              PlatformTextButton(
-                key: const Key("OKButtonForNewGroupIdKey"),
-                child: PlatformText("Ok",                    
-                    selectionColor: roundPurple,
-                    style: const TextStyle(color: roundPurple)),
-                onPressed: () {
-                  if(code.isEmpty) {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    return;
-                  }
-                  updateDatabase(code);
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
+        BottomSheetAction(
+            title: PlatformText('Enter ID',
+                style: const TextStyle(color: Colors.white)),
+            onPressed: (context) {
+              PlatformAlertDialog error = PlatformAlertDialog(
+                title: PlatformText("Enter Group ID"),
+                content: PlatformText(
+                    'The Group ID or QR Code can be found by selecting a group and tapping the share icon in the top right'),
+                actions: [
+                  PlatformTextField(
+                      key: const Key("enterGroupIdToJoinKey"),
+                      onChanged: (newString) => code = newString),
+                  PlatformTextButton(
+                    child: PlatformText("Cancel",
+                        selectionColor: roundPurple,
+                        style: const TextStyle(color: Colors.white)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  PlatformTextButton(
+                    key: const Key("OKButtonForNewGroupIdKey"),
+                    child: PlatformText("Ok",
+                        selectionColor: roundPurple,
+                        style: const TextStyle(color: roundPurple)),
+                    onPressed: () {
+                      if (code.isEmpty) {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        return;
+                      }
+                      updateDatabase(code);
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
 
-          showPlatformDialog(
-            context: context,
-            builder: (context) {
-              return error;
-            },
-          );
-        }),
-        BottomSheetAction(title: PlatformText('Scan QR Code', style: const TextStyle(color: Colors.white)), onPressed: (context) {
-          Navigator.of(context).push(
-            platformPageRoute(
+              showPlatformDialog(
                 context: context,
-                builder: (context) => Qr()),
-          );
-        }),
+                builder: (context) {
+                  return error;
+                },
+              );
+            }),
+        BottomSheetAction(
+            title: PlatformText('Scan QR Code',
+                style: const TextStyle(color: Colors.white)),
+            onPressed: (context) {
+              Navigator.of(context).push(
+                platformPageRoute(context: context, builder: (context) => Qr()),
+              );
+            }),
       ],
-      cancelAction: CancelAction(title: PlatformText('Cancel', style: TextStyle(color: Colors.white),)),// onPressed parameter is optional by default will dismiss the ActionSheet
+      cancelAction: CancelAction(
+          title: PlatformText(
+        'Cancel',
+        style: TextStyle(color: Colors.white),
+      )),
     );
   }
 
@@ -191,10 +184,8 @@ class _HomeScreen extends State<HomeScreen> {
 
     Navigator.of(context).push(
       platformPageRoute(
-          context: context,
-          builder: (context) => GroupView(selectedGroup)),
+          context: context, builder: (context) => GroupView(selectedGroup)),
     );
-
   }
 
   void observeGroups() {
@@ -204,15 +195,13 @@ class _HomeScreen extends State<HomeScreen> {
 
     String? userID = widget.firebaseAuth.currentUser?.uid;
     if (userID == null) {
-      // TODO: Alert saying not logged in yet?
       print("Not logged in");
     }
 
     widget.firebaseDatabase
         .ref("users/${userID!}/groupIds")
         .onValue
-        .listen((event) async {      
-
+        .listen((event) async {
       if (event.snapshot.value == null) {
         return;
       }
@@ -224,11 +213,13 @@ class _HomeScreen extends State<HomeScreen> {
 
       for (Object? groupID in groups) {
         String groupIDCasted = groupID as String;
-        // final groupInfo = await widget.firebaseDatabase.ref("groups/$groupIDCasted/").get();
 
-        widget.firebaseDatabase.ref("groups/$groupIDCasted/").onValue.listen((event) {
+        widget.firebaseDatabase
+            .ref("groups/$groupIDCasted/")
+            .onValue
+            .listen((event) {
           print("event triggered for group id: $groupIDCasted");
-          DataSnapshot groupInfo =  event.snapshot;
+          DataSnapshot groupInfo = event.snapshot;
 
           if (!groupInfo.exists) {
             return;
@@ -240,11 +231,12 @@ class _HomeScreen extends State<HomeScreen> {
           String emoji = vals['emoji'] as String;
           String name = vals['name'] as String;
           String admin = vals['admin'] as String;
-          Map<Object?, Object?> members = vals['members'] as Map<Object?, Object?>;
+          Map<Object?, Object?> members =
+              vals['members'] as Map<Object?, Object?>;
 
           List<String> memberIDs = [];
 
-          for(var member in members.keys) {
+          for (var member in members.keys) {
             memberIDs.add(member as String);
           }
 
@@ -253,7 +245,8 @@ class _HomeScreen extends State<HomeScreen> {
           print(emoji);
           print(name);
 
-          RoundGroup newGroup = RoundGroup(groupIDCasted, Color(color), emoji, name, admin, memberIDs);
+          RoundGroup newGroup = RoundGroup(
+              groupIDCasted, Color(color), emoji, name, admin, memberIDs);
 
           displayedGroups.removeWhere((element) => element.id == newGroup.id);
           displayedGroups.add(newGroup);

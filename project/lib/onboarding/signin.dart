@@ -7,14 +7,14 @@ import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/home.dart';
 
 class SignIn extends StatelessWidget {
-  SignIn({super.key, required this.firebaseDatabase, required this.firebaseAuth});
+  SignIn(
+      {super.key, required this.firebaseDatabase, required this.firebaseAuth});
   final FirebaseDatabase firebaseDatabase;
   final FirebaseAuth firebaseAuth;
   String email = "";
   String password = "";
 
   Future<void> buttonPress(BuildContext context) async {
-    
     if (email.isEmpty || password.isEmpty) {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
@@ -35,17 +35,19 @@ class SignIn extends StatelessWidget {
       );
 
       return;
-    }    
+    }
     try {
-      await firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
+      await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: firebaseAuth,)));
+          context: context,
+          builder: (context) => HomeScreen(
+                firebaseDatabase: firebaseDatabase,
+                firebaseAuth: firebaseAuth,
+              )));
     } catch (e) {
       String errorMessage = 'An error occurred, please try again later.';
 
-      // Do NOT like dart having the ! after the is!
-      // Reminds me of as! in Swift which is VERY different
       if (e is! FirebaseAuthException) {
         return;
       }
@@ -93,13 +95,14 @@ class SignIn extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return PlatformScaffold(
-        body: GestureDetector(child: Center(
-            child: Column(
+        body: GestureDetector(
+            child: Center(
+                child: Column(
               children: [
                 SizedBox(
                     width: screenWidth,
-                    height:
-                    MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
+                    height: MediaQuery.of(context).viewPadding.top +
+                        0.08 * screenHeight),
                 Image.asset(
                   "images/RoundCircle.png",
                   height: 160,
@@ -108,7 +111,8 @@ class SignIn extends StatelessWidget {
                 ),
                 SizedBox(width: screenWidth, height: 8),
                 PlatformText("Round the world",
-                    style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                        fontSize: 36, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center),
                 SizedBox(width: screenWidth, height: 32),
                 SizedBox(
@@ -161,7 +165,8 @@ class SignIn extends StatelessWidget {
                               onPressed: () => buttonPress(context),
                             )),
                         SizedBox(width: screenWidth, height: 16),
-                        PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
+                        PlatformText(
+                            "© 2023 Round Corp\nFrom Philly with Love 🤍",
                             textAlign: TextAlign.center,
                             style: const TextStyle(fontSize: 10)),
                         SizedBox(
@@ -174,6 +179,6 @@ class SignIn extends StatelessWidget {
                 ),
               ],
             )),
-        onTap: () => FocusScope.of(context).unfocus()));
+            onTap: () => FocusScope.of(context).unfocus()));
   }
 }
