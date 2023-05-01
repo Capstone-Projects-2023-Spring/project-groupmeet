@@ -171,6 +171,7 @@ class SignUp extends StatelessWidget {
                 SizedBox(
                     width: screenWidth * (3 / 4),
                     child: PlatformTextField(
+                      key: const Key("EnterFullNameInputKey"),
                       hintText: "Name",
                       autofocus: true,
                       cursorColor: roundPurple,
@@ -186,6 +187,7 @@ class SignUp extends StatelessWidget {
                 SizedBox(
                     width: screenWidth * (3 / 4),
                     child: PlatformTextField(
+                      key: const Key("signUpEnterEmailInputKey"),
                       hintText: "Email",
                       keyboardType: TextInputType.emailAddress,
                       cursorColor: roundPurple,
@@ -198,6 +200,7 @@ class SignUp extends StatelessWidget {
                 SizedBox(
                     width: screenWidth * (3 / 4),
                     child: PlatformTextField(
+                      key: const Key("signUpPasswordKey"),
                       hintText: "Password",
                       obscureText: true,
                       cursorColor: roundPurple,
@@ -222,6 +225,7 @@ class SignUp extends StatelessWidget {
                             height: 64,
                             width: 64,
                             child: PlatformIconButton(
+                              key: const Key("signUpButtonAndGoToCalendarLinkingPageKey"),
                               icon: Image.asset(
                                 "images/OnboardingNext.png",
                                 height: 64,

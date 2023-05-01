@@ -55,7 +55,7 @@ void main() {
         "members": {
           "kBqgZhe0uIajVQTjyotOfAPPSXG3": true,
         },
-        "name": "newGroup"
+        "name": "newgroup"
       }
     }
   };
@@ -134,6 +134,7 @@ void main() {
       expect(find.byType(Settings), findsOneWidget);
     });
 
+// not working yet
     testWidgets("entering group Id and pressing Ok should result in an group icon",
         (widgetTester) async {
       await buildHomePage(widgetTester);
@@ -141,14 +142,14 @@ void main() {
       await widgetTester.tap(find.text('ENTER ID'));
 
       await widgetTester.pump();
-      expect(find.text("newGroup"), findsNothing);
+      expect(find.text("newgroup"), findsNothing);
       await widgetTester.enterText(
           find.byKey(const Key("enterGroupIdToJoinKey")),
           "-NUBnwU0pAWO4JTMlLCw");
 
       await widgetTester.tap(find.byKey(const Key("OKButtonForNewGroupIdKey")));
       await widgetTester.pump();
-      expect(find.text("CHECK-VV"), findsOneWidget);
+      expect(find.text("NEWGROUP"), findsOneWidget);
     });
   });
 }
