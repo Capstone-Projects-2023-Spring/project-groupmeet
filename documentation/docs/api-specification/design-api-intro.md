@@ -22,8 +22,7 @@ private class _HomeScreen
 =========================================================================================================
 * First page that is generated when the application opens.
 
-Properties
-----------
+**Properties**
 *displayedGroups - RoundGroup List*  
 *observing - boolean*  
 *code - String*
@@ -59,7 +58,7 @@ The page that allows the user to view their calendar
 
 **Properties**  
 *group: A map of dynamic and dynamic type that represents the group.*  
-*title: A string representing the title of the calendar page.*  
+*title: A string representing the title of the page.*  
 
 **Methods**  
 *createState()*  
@@ -75,6 +74,55 @@ private class _CalendarPage
 * Asynchronously gets all the calendar events and round meetings for the members in the group.  
 
 *chosenDateAddedToCalendar(DateTime begTime, DateTime finTime, String meetingName)*
+* Asynchronously adds a new meeting to the calendar.  
+* **Parameters** begTime, finTime, meetingName - Adds the appropriate information to the page's calendar.
+
+*_handleSignIn()*
+* Asynchronously handles signing into Google.
+
+*getPrimaryCalendar()*  
+* Asynchronously retrieves the primary calendar for the current user.
+
+public class LinkCalendar
+============================================================================================================
+**Properties**  
+*allEvents: A list of Appointment objects representing all the events in the calendar.* 
+
+**Methods**  
+*getData()*  
+* Asynchronously gets all the calendar events and round meetings for the members in the group.  
+
+*chosenDateAddedToCalendar(DateTime begTime, DateTime finTime, String meetingName)*
+* Asynchronously adds a new meeting to the calendar.  
+
+*_handleSignIn()*
+* Asynchronously handles signing into Google.
+
+*getPrimaryCalendar()*  
+* Asynchronously retrieves the primary calendar for the current user.  
+
+public class CodeReception
+============================================================================================================
+**Purpose**  
+The page that allows the user to receive a QR code and handle it
+
+**Properties**  
+*title: A string representing the title of the page.*  
+
+**Methods**  
+*createState()*  
+* Returns a state object for CodeReception.
+
+private class _CodeReceptionState
+============================================================================================================
+**Properties**  
+*groupId: TextEditingController that reads the incoming group information* 
+
+**Methods**  
+*updateDatabase()*  
+* Asynchronously updates the database with the incoming group information.  
+
+*camSanner(DateTime begTime, DateTime finTime, String meetingName)*
 * Asynchronously adds a new meeting to the calendar.  
 
 *_handleSignIn()*
