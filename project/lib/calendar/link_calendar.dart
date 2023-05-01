@@ -1,35 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-
+import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-
-import 'package:googleapis/calendar/v3.dart' as google_api;
+import 'package:flutter/widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
-
-import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
+import 'package:googleapis/calendar/v3.dart' as google_api;
 import 'package:date_utils/date_utils.dart' as utils;
+import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'package:groupmeet/onboarding/social_onboarding.dart';
 
-class Calendar extends StatefulWidget {
-  const Calendar({Key? key}) : super(key: key);
+class LinkCalendar extends StatelessWidget {
+  LinkCalendar({super.key});
 
-  @override
-  State<Calendar> createState() => _CalendarState();
-}
+  bool fromSettings = false;
 
-class _CalendarState extends State<Calendar> {
-  // This line is not being called in getCalendarEvents()
-  GoogleSignInAccount? _currentUser;
   late DatabaseReference ref;
 
-  @override
-  void initState() {
-    super.initState();
-    String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
-    ref = FirebaseDatabase.instance.ref("users/$temp");
-  }
+  GoogleSignInAccount? _currentUser;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     // Optional clientId
@@ -37,24 +24,20 @@ class _CalendarState extends State<Calendar> {
     scopes: <String>[google_api.CalendarApi.calendarScope],
   );
 
-  Future<void> _handleSignIn() async {
+  Future<void> pressedGoogle(BuildContext context) async {
+    String temp = FirebaseAuth.instance.currentUser?.uid ?? "";
+    ref = FirebaseDatabase.instance.ref("users/$temp");
+
     try {
       await _googleSignIn.signIn();
     } catch (error) {
       print(error);
     }
-  }
 
-  Future<void> getGoogleCalendar() async {
-    // Google Calendar API
-    await _handleSignIn();
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-        _currentUser = account;
-      });
+      _currentUser = account;
     });
 
-    // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
     assert(client != null, 'Authenticated client missing!');
 
@@ -64,7 +47,6 @@ class _CalendarState extends State<Calendar> {
     DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
     final google_api.Events calEvents = await calendarApi.events
         .list("primary", timeMax: end.toUtc(), timeMin: start.toUtc());
-    
 
     //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
@@ -82,70 +64,72 @@ class _CalendarState extends State<Calendar> {
       events.add(temp);
     }
     await ref.update({"calendarEvents": events});
+
+    await ref.update({"has_calendar": true});
+
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return PlatformScaffold(
         body: Center(
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Padding(
-            padding: const EdgeInsets.fromLTRB(50, 0, 50, 20),
-            child: Material(
-              borderRadius: BorderRadius.circular(65),
-              elevation: 2,
-              child: const CircleAvatar(
-                backgroundColor: Color.fromARGB(230, 81, 63, 219),
-                radius: 75,
-              ),
-            )),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(50, 0, 50, 20),
-          child: Text(style: TextStyle(fontSize: 40), "Round Up"),
+            child: Column(
+      children: [
+        SizedBox(
+            width: screenWidth,
+            height:
+                MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
+        Image.asset(
+          "images/RoundTable.png",
+          height: 242,
+          width: screenWidth,
+          isAntiAlias: true,
         ),
-        const Text(
-            style: TextStyle(fontSize: 15),
-            "Link third-party calendars to be used "),
-        const Text("with Round (optional)"),
+        SizedBox(width: screenWidth, height: 8),
+        PlatformText("Round Up",
+            style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600)),
+        SizedBox(width: screenWidth, height: 32),
         Padding(
-          padding: const EdgeInsets.fromLTRB(50, 50, 50, 150),
-          child: PlatformElevatedButton(
-            onPressed: () async {
-              await getGoogleCalendar();
-            },
-            material: (context, platform) => MaterialElevatedButtonData(
-                style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-              fixedSize: const Size(125, 10),
-              backgroundColor: const Color.fromARGB(255, 38, 61, 80),
+            padding:
+                EdgeInsets.symmetric(horizontal: screenWidth / 8, vertical: 0),
+            child: PlatformText(
+              "Link third-party calendars to be used with Round (optional)",
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
             )),
-            child: const Text(style: TextStyle(color: Colors.blue), "Google"),
-          ),
-        ),
-        PlatformElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              platformPageRoute(
-                  context: context,
-                  builder: (_) => SocialOnboarding(firebaseAuth: FirebaseAuth.instance, firebaseDatabase: FirebaseDatabase.instance,)),
-            );
-          },
-          material: (_, __) => MaterialElevatedButtonData(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              side: const BorderSide(
-                width: 5.0,
-                color: Color.fromARGB(255, 89, 4, 106),
-              ),
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.all(24),
+        SizedBox(width: screenWidth, height: 32),
+        SizedBox(
+            width: 180,
+            child: PlatformElevatedButton(
+                color: const Color.fromRGBO(45, 140, 255, 0.3),
+                onPressed: () => pressedGoogle(context),
+                child: PlatformText("Google"))),
+        SizedBox(width: screenWidth, height: 16),
+        Expanded(
+          child: Align(
+            alignment: FractionalOffset.bottomCenter,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(width: screenWidth, height: 16),
+                PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 10)),
+                SizedBox(
+                  width: screenWidth,
+                  height: 32,
+                )
+              ],
             ),
           ),
-          cupertino: (_, __) => CupertinoElevatedButtonData(),
-          child: Icon(color: Colors.black, PlatformIcons(context).forward),
-        )
-      ]),
-    ));
+        ),
+      ],
+    )));
   }
 }
