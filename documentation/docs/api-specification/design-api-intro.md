@@ -39,8 +39,8 @@ Methods
 * **parameters** - context - The page the user is currently on
 
 *showAdd(context)*  
-* Allows the user to add a new group
-* **parameters** - context - The page the user is currently on
+* Allows the user to add a new group  
+* * **parameters** - context - The page the user is currently on
 
 *showSettings(context)*  
 * Allows the user to go the settings page
@@ -72,9 +72,9 @@ private class _CalendarPage
 *allEvents: A list of Appointment objects representing all the events in the calendar.*  
 **Methods**
 *getData()*  
-* Asynchronously gets all the calendar events and round meetings for the members in the group.
-*chosenDateAddedToCalendar(DateTime begTime, DateTime finTime, String meetingName)*  
-* Asynchronously adds a new meeting to the calendar.
+* Asynchronously gets all the calendar events and round meetings for the members in the group.  
+*chosenDateAddedToCalendar(DateTime begTime, DateTime finTime, String meetingName)*
+* Asynchronously adds a new meeting to the calendar.  
 *_handleSignIn()*
 * Asynchronously handles signing into Google.
 *getPrimaryCalendar()*  
