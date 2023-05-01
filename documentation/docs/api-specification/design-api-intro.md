@@ -28,7 +28,7 @@ Properties
 *observing - boolean*  
 *code - String*
 
-Methods  
+**Methods**  
 *updateDatabase(groupID)*  
 * updates the database with user information
 * **parameters** - groupID - Updates database with new information
@@ -67,9 +67,10 @@ The page that allows the user to view their calendar
 
 private class _CalendarPage
 ============================================================================================================
-**Properties**
-*allEvents: A list of Appointment objects representing all the events in the calendar.*  
-**Methods**
+**Properties**  
+*allEvents: A list of Appointment objects representing all the events in the calendar.* 
+
+**Methods**  
 *getData()*  
 * Asynchronously gets all the calendar events and round meetings for the members in the group.  
 *chosenDateAddedToCalendar(DateTime begTime, DateTime finTime, String meetingName)*
