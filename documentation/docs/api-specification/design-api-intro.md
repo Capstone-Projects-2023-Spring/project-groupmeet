@@ -8,7 +8,7 @@ public class HomeScreen
 This class is the first page the user sees upon logging in, and helps them navigate the application.
 
 **Properties**  
-***firebaseDatabase - FirebaseDatabase***  
+***firebaseDatabase - FirebaseDatabase***
 * Stores a reference to the database  
 ***firebaseAuth - FirebaseAuth***  
 * Stores a reference to the authenticator  
