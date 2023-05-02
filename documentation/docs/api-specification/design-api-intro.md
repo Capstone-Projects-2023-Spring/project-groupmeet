@@ -154,12 +154,12 @@ The page that allows the user to display the code for others to utilize
 *groupName: A dynamic list that contains the group names.*  
 *nameId: A dynamic list that contains the ID names.*  
 
-**Methods**  
+**Methods**
 *buildList(List<dynamic> groupName, List<dynamic> nameId)*  
 * Creates the group code in a presentable manner for the user to see it
 * **parameters** groupName, nameId - Lists that allow for the QR code to be created.
 * **returns** a Widget to be used to display the QR code  
-  
+
 public class Display
 ============================================================================================================
 **Purpose**  
@@ -170,7 +170,7 @@ The page that allows the user to display the code for others to utilize
 *nameId: A dynamic list that contains the ID names.*  
 
 **Methods**  
-  
+
 public class Qr
 ============================================================================================================
 **Purpose**  
@@ -181,5 +181,50 @@ Allows for the scanning of the QR code
 
 **Methods**  
 *scanQR(Buildcontext context)*  
-* 
- 
+* Scans the QR code given the current state of the application.  
+
+public class AddEvent
+============================================================================================================
+**Purpose**  
+The page that allows the user to share a QR code to others
+
+**Properties**  
+*title: A string representing the title of the page.*  
+*ref: a Database reference that refers to the user's currently stored events.*  
+
+**Methods**  
+*createState()*  
+* Returns a state object for AddEvent.
+
+private class _AddEventState
+============================================================================================================
+**Properties**  
+*start: the start date of the custom event*  
+*end: The end date of the custome event*  
+*ref: a Database reference that refers to the user's currently stored events.*  
+
+**Methods**  
+  
+public class AllGroups
+============================================================================================================
+**Purpose**  
+The page that displays all groups to the user.
+
+**Properties**  
+*uid: The user's database ID*  
+*ref: A Database reference that refers to the user's currently stored events.*  
+
+**Methods**  
+*createState()*  
+* Returns a state object for AddEvent.
+
+private class _AllGroupsState
+============================================================================================================
+**Properties**  
+*uid: The user's database ID*  
+*ref: A Database reference that refers to the user's currently stored events.*  
+
+**Methods**  
+*grabGroups()*  
+* Returns the groups for the user from the database to be displayed to the user
+* **Returns** a Future List of Maps that contain all groups and their pertinent information.
