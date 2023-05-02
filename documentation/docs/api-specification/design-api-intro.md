@@ -122,22 +122,64 @@ private class _CodeReceptionState
 *updateDatabase()*  
 * Asynchronously updates the database with the incoming group information.  
 
-*camSanner(DateTime begTime, DateTime finTime, String meetingName)*
-* Asynchronously adds a new meeting to the calendar.  
+*camSanner()*
+* Allows for access to the camera to read the QR code and update the database accordingly.  
 
-*_handleSignIn()*
-* Asynchronously handles signing into Google.
-
-*getPrimaryCalendar()*  
-* Asynchronously retrieves the primary calendar for the current user.
-
-AccountInfo class
-=================
+public class CodeSharing
+============================================================================================================
 **Purpose**  
-The page that allows the user to view their calendar  
+The page that allows the user to share a QR code to others
 
-**Properties**
-*group: A map of dynamic and dynamic type that represents the group.*  
-*title: A string representing the title of the calendar page.  
+**Properties**  
+*title: A string representing the title of the page.*  
 
-**Methods**
+**Methods**  
+*createState()*  
+* Returns a state object for CodeSharing.
+
+private class _CodeSharingState
+============================================================================================================
+**Properties**  
+
+**Methods**  
+*getCode()*  
+* Asynchronously obtains the code from the database to be used.  
+
+public class DisplayCode
+============================================================================================================
+**Purpose**  
+The page that allows the user to display the code for others to utilize
+
+**Properties**  
+*groupName: A dynamic list that contains the group names.*  
+*nameId: A dynamic list that contains the ID names.*  
+
+**Methods**  
+*buildList(List<dynamic> groupName, List<dynamic> nameId)*  
+* Creates the group code in a presentable manner for the user to see it
+* **parameters** groupName, nameId - Lists that allow for the QR code to be created.
+* **returns** a Widget to be used to display the QR code  
+  
+public class Display
+============================================================================================================
+**Purpose**  
+The page that allows the user to display the code for others to utilize
+
+**Properties**  
+*groupName: A dynamic list that contains the group names.*  
+*nameId: A dynamic list that contains the ID names.*  
+
+**Methods**  
+  
+public class Qr
+============================================================================================================
+**Purpose**  
+Allows for the scanning of the QR code
+
+**Properties**  
+*scanning: A boolean that determines whether the code is being scanned.*  
+
+**Methods**  
+*scanQR(Buildcontext context)*  
+* 
+ 
