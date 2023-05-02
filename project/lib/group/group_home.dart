@@ -8,14 +8,12 @@ import 'package:groupmeet/calendar/calendar.dart';
 import 'package:groupmeet/theme.dart';
 import 'package:groupmeet/code_sharing/display_qr.dart';
 
-// change to commented out after groupHome is no longer accessible from main.dart (my group is not available in main.dart)
 class GroupHomePage extends StatefulWidget {
-  // const GroupHomePage({super.key, required this.title, required this.myGroup});
   const GroupHomePage(
       {super.key,
-        required this.title,
-        required this.databaseReference,
-        this.myGroup});
+      required this.title,
+      required this.databaseReference,
+      this.myGroup});
 
   final String title;
   final DatabaseReference databaseReference;
@@ -53,7 +51,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
       allMembersMap.putIfAbsent("uid", () => memberId.key);
       allMembers.add(allMembersMap);
     }
-    //print(allMembers);
+
     return allMembers;
   }
 
@@ -62,7 +60,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     DatabaseReference userRef = FirebaseDatabase.instance
         .ref("users/$uid/groupIds/${widget.myGroup!["gId"]}");
     DatabaseReference groupRef =
-    FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
+        FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}");
 
     userRef.remove();
     groupRef.remove();
@@ -181,7 +179,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return socialMediaMap;
   }
 
-  Future<List<Appointment>> getEventList() async{
+  Future<List<Appointment>> getEventList() async {
     List<Appointment> allEvents = [];
     DatabaseReference ref = FirebaseDatabase.instance.ref("users");
 
@@ -189,15 +187,18 @@ class _GroupHomePageState extends State<GroupHomePage> {
 
     for (var memberId in widget.myGroup!["members"].entries) {
       print(memberId);
-      final memberSnapshot = await ref.child(memberId.key+"/calendarEvents").get();
-      if(memberSnapshot.value == null) continue;
-      for (var event in memberSnapshot.value as List){
+      final memberSnapshot =
+          await ref.child(memberId.key + "/calendarEvents").get();
+      if (memberSnapshot.value == null) continue;
+      for (var event in memberSnapshot.value as List) {
         var tempStart;
         var tempEnd;
         event[0] == "null" ? tempStart = event[1] : tempStart = event[0];
         event[2] == "null" ? tempEnd = event[3] : tempEnd = event[2];
 
-        allEvents.add(Appointment(startTime: DateTime.parse(tempStart), endTime: DateTime.parse(tempEnd)));
+        allEvents.add(Appointment(
+            startTime: DateTime.parse(tempStart),
+            endTime: DateTime.parse(tempEnd)));
       }
     }
 
@@ -205,68 +206,70 @@ class _GroupHomePageState extends State<GroupHomePage> {
   }
 
   Future<List<DateTime>> findNextBestDate() async {
-    List<Appointment> allEvents = await getEventList() ;
+    List<Appointment> allEvents = await getEventList();
     List<DateTime> daysToPropose = [];
-    // order events by the date
-    allEvents.sort((a, b) => a.startTime.compareTo(b.startTime),);
 
-    // if tomorrow is not within planned events than you can propose a meeting on that day
-    // try to get 5 and then quit
-    // if the proposing time is at midnight it's because the whole day is free
-    DateTime toMeet = DateTime.now().add(const Duration(days:1));
+    allEvents.sort(
+      (a, b) => a.startTime.compareTo(b.startTime),
+    );
+
+    DateTime toMeet = DateTime.now().add(const Duration(days: 1));
     toMeet = DateTime(toMeet.year, toMeet.month, toMeet.day, 9);
-    for(int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
       for (var eachEvent in allEvents) {
-        DateTime eventStartDate = DateTime(eachEvent.startTime.year, eachEvent.startTime.month, eachEvent.startTime.day);
-        DateTime eventEndDate = DateTime(eachEvent.endTime.year, eachEvent.endTime.month, eachEvent.endTime.day);
-        if(toMeet.isAtSameMomentAs(eventStartDate) || toMeet.isAtSameMomentAs(eventEndDate)){
+        DateTime eventStartDate = DateTime(eachEvent.startTime.year,
+            eachEvent.startTime.month, eachEvent.startTime.day);
+        DateTime eventEndDate = DateTime(eachEvent.endTime.year,
+            eachEvent.endTime.month, eachEvent.endTime.day);
+        if (toMeet.isAtSameMomentAs(eventStartDate) ||
+            toMeet.isAtSameMomentAs(eventEndDate)) {
           toMeet = toMeet.add(const Duration(days: 1));
-          // then tomorrow's date is invalid for a free day of meetings
         }
       }
-      // if newTomorrow remains unchanged we can add it
+
       daysToPropose.add(toMeet);
       toMeet = toMeet.add(const Duration(days: 1));
-      // print(daysToPropose);
     }
 
-    // between two events - if there is a duration of time greater than  1hrs - then propose meeting time
     DateTime dateToPropose;
-    for(int i = 0; i < allEvents.length - 1 ; i++){
-
-      if(allEvents[i].isAllDay){
+    for (int i = 0; i < allEvents.length - 1; i++) {
+      if (allEvents[i].isAllDay) {
         i++;
-      }else{
-        if(allEvents[i + 1].startTime.difference(allEvents[i].endTime) > const Duration(hours: 1)){
+      } else {
+        if (allEvents[i + 1].startTime.difference(allEvents[i].endTime) >
+            const Duration(hours: 1)) {
           dateToPropose = allEvents[i].endTime.add(const Duration(minutes: 20));
 
-          if(dateToPropose.hour < 22 && dateToPropose.hour > 9){
-            // print("going to propose this date: $dateToPropose");
+          if (dateToPropose.hour < 22 && dateToPropose.hour > 9) {
             daysToPropose.add(dateToPropose);
-          }    }
+          }
+        }
       }
     }
 
     print("daysToPropose: $daysToPropose");
     daysToPropose.sort();
-    //add daysToPropose to group database so we can have a running list of dates to suggest.
+
     Map<String, Object> dates = {};
     int counter = 0;
-    for(var item in daysToPropose){
+    for (var item in daysToPropose) {
       dates[counter.toString()] = item.toString();
       counter++;
     }
-    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates");
+    DatabaseReference groupRef = FirebaseDatabase.instance
+        .ref("groups/${widget.myGroup!["gId"]}/proposedDates");
     groupRef.update(dates);
 
     return daysToPropose;
   }
 
-  Future<DateTime> getFirstDate() async{
-    final times = await FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates").once();
+  Future<DateTime> getFirstDate() async {
+    final times = await FirebaseDatabase.instance
+        .ref("groups/${widget.myGroup!["gId"]}/proposedDates")
+        .once();
     DateTime finalDate = DateTime(1932);
     List<dynamic> dates = times.snapshot.value as List<dynamic>;
-    if(times.snapshot.value != null) {
+    if (times.snapshot.value != null) {
       finalDate = DateTime.parse(dates[0]);
     }
 
@@ -299,38 +302,46 @@ class _GroupHomePageState extends State<GroupHomePage> {
     return finalDate;
   }
 
-  Future<int> removeCurrentDate() async{
-    final times = await FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates").once();
-    if(times.snapshot.value == null){
+  Future<int> removeCurrentDate() async {
+    final times = await FirebaseDatabase.instance
+        .ref("groups/${widget.myGroup!["gId"]}/proposedDates")
+        .once();
+    if (times.snapshot.value == null) {
       return -1;
     }
     List<dynamic> dates = times.snapshot.value as List<dynamic>;
 
     Map<String, Object> newDates = {};
-    for(int i = 1; i < dates.length; i++){
-      newDates[(i-1).toString()] = dates[i].toString();
+    for (int i = 1; i < dates.length; i++) {
+      newDates[(i - 1).toString()] = dates[i].toString();
     }
-    DatabaseReference groupRef = FirebaseDatabase.instance.ref("groups/${widget.myGroup!["gId"]}/proposedDates");
+    DatabaseReference groupRef = FirebaseDatabase.instance
+        .ref("groups/${widget.myGroup!["gId"]}/proposedDates");
     groupRef.set(newDates);
 
     return 1;
   }
 
-  void getQr (){
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Display(widget.title, "${widget.myGroup!["gId"]}")));
+  void getQr() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Display(widget.title, "${widget.myGroup!["gId"]}")));
   }
 
-  //
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(
       appBar: PlatformAppBar(
           title: PlatformText(widget.title),
-          trailingActions: <Widget> [PlatformIconButton(onPressed: getQr,
-            icon:
-            const Icon(size: 25,
-                IconData(0xe4f7, fontFamily: 'MaterialIcons')),),]
-      ),
+          trailingActions: <Widget>[
+            PlatformIconButton(
+              onPressed: getQr,
+              icon: const Icon(
+                  size: 25, IconData(0xe4f7, fontFamily: 'MaterialIcons')),
+            ),
+          ]),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -370,13 +381,6 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   ),
                 ],
               ),
-              // const Image(
-              //   image: NetworkImage(
-              //       // TEMPORARY IMAGE, SHOW STATIC CALENDAR HERE
-              //       "https://cdn.discordapp.com/attachments/979937535272816703/1079918387339206886/image.png"),
-              //   width: 400,
-              //   height: 200,
-              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -385,20 +389,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => CalendarPage(
-                                    title: "Calendar",
-                                    group: widget.myGroup,
-                                  )));
+                                        title: "Calendar",
+                                        group: widget.myGroup,
+                                      )));
                         },
                         child: const Text('Calendar',
                             style:
-                            TextStyle(fontSize: 20, color: Colors.white)),
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -407,14 +411,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                              getFirstDate();
+                          getFirstDate();
                         },
                         child: const Text('See Next Availability',
                             style:
-                            TextStyle(fontSize: 20, color: Colors.white)),
+                                TextStyle(fontSize: 20, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -429,19 +433,15 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
-                          // just printing proposal dates for now
                           findNextBestDate();
-
                         },
                         child: PlatformText('Suggest New Meeting Time',
                             style: const TextStyle(
                                 fontSize: 25, color: Colors.white)),
                       ),
-
-
                     ],
                   ),
                 ],
@@ -455,9 +455,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
-                        onPressed: () async{
+                        onPressed: () async {
                           await removeCurrentDate();
                         },
                         child: PlatformText('Cancel Active Meeting',
@@ -476,15 +476,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       future: grabGroupMembers(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          //print(snapshot);
                           var membersWidget = snapshot.data!
                               .map((eachMember) => Text(
-                            eachMember["firstName"] +
-                                " " +
-                                eachMember["lastName"],
-                            style: const TextStyle(
-                                fontSize: 15, color: Colors.white),
-                          ))
+                                    eachMember["firstName"] +
+                                        " " +
+                                        eachMember["lastName"],
+                                    style: const TextStyle(
+                                        fontSize: 15, color: Colors.white),
+                                  ))
                               .toList();
                           var check = Column(
                             children: membersWidget,
@@ -492,7 +491,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                           return Container(
                               decoration: BoxDecoration(
                                   border:
-                                  Border.all(width: 1, color: Colors.grey)),
+                                      Border.all(width: 1, color: Colors.grey)),
                               child: Column(children: [
                                 PlatformText(
                                     style: const TextStyle(
@@ -516,7 +515,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -538,7 +537,7 @@ class _GroupHomePageState extends State<GroupHomePage> {
                       OutlinedButton(
                         style: ButtonStyle(
                           foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
+                              MaterialStateProperty.all<Color>(Colors.black),
                         ),
                         onPressed: () {
                           leaveGroup().then((_) {
@@ -566,30 +565,20 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   FutureBuilder(
                       future: getData(),
                       builder: (context, snapshot) {
-                        //List<Text> socialMediaText = [];
                         int count = 0;
                         String highest = "";
-                        // if (snapshot.hasData) {
-                        //   snapshot.data!.forEach((key, value) {
-                        //     socialMediaText.add(Text("$key Users: $value",
-                        //         style: const TextStyle(
-                        //             fontSize: 20, color: Colors.white)));
-                        //   });
-                        // }
-                        // var check = Column(children: socialMediaText);
-                        // return Container(
-                        //   child: check,
-                        // );
+
                         if (snapshot.hasData) {
                           snapshot.data!.forEach((key, value) {
-                            if(value > count) {
+                            if (value > count) {
                               count = value;
                               highest = key;
                             }
                           });
                           chosenPlatform = highest;
                         }
-                        return Text("$highest is the most used platform with $count users",
+                        return Text(
+                            "$highest is the most used platform with $count users",
                             style: const TextStyle(
                                 fontSize: 15, color: Colors.white));
                       }),
@@ -598,8 +587,9 @@ class _GroupHomePageState extends State<GroupHomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                Text("Here are your group's $chosenPlatform handles: ",
-                    style: const TextStyle(fontSize: 15, color: Colors.white)),
+                  Text("Here are your group's $chosenPlatform handles: ",
+                      style:
+                          const TextStyle(fontSize: 15, color: Colors.white)),
                 ],
               ),
               Row(
@@ -611,14 +601,13 @@ class _GroupHomePageState extends State<GroupHomePage> {
                         List<String> output = [];
                         if (snapshot.hasData) {
                           snapshot.data!.forEach((key, value) {
-                            if(key == chosenPlatform) {
+                            if (key == chosenPlatform) {
                               output = value;
                               chosenHandles = value;
                             }
                             print(chosenPlatform);
                             print(chosenHandles);
                           });
-
                         }
                         return Text("$output",
                             style: const TextStyle(
@@ -631,14 +620,14 @@ class _GroupHomePageState extends State<GroupHomePage> {
                   OutlinedButton(
                     style: ButtonStyle(
                       foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                          MaterialStateProperty.all<Color>(Colors.black),
                     ),
                     onPressed: () async {
-                      await Clipboard.setData(ClipboardData(text: chosenHandles.toString()));
+                      await Clipboard.setData(
+                          ClipboardData(text: chosenHandles.toString()));
                     },
                     child: const Text('Copy to Clipboard',
-                        style:
-                        TextStyle(fontSize: 20, color: Colors.white)),
+                        style: TextStyle(fontSize: 20, color: Colors.white)),
                   ),
                 ],
               ),

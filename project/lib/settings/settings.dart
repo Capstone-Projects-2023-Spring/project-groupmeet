@@ -15,7 +15,8 @@ import 'package:googleapis_auth/googleapis_auth.dart' as auth show AuthClient;
 import 'package:date_utils/date_utils.dart' as utils;
 
 class Settings extends StatefulWidget {
-  const Settings({super.key, required this.firebaseDatabase, required this.firebaseAuth});
+  const Settings(
+      {super.key, required this.firebaseDatabase, required this.firebaseAuth});
 
   final FirebaseDatabase firebaseDatabase;
   final FirebaseAuth firebaseAuth;
@@ -47,20 +48,14 @@ class _Settings extends State<Settings> {
     this.newEmail = newEmail;
   }
 
-  // Legacy Settings was here so we could validate functionality and ensure no regressions
-  // But you guys deleted it pre-maturely so ???
-  void legacySettings() {
-    // Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => Settings(title: "Old Settings",)));
-  }
-
+  void legacySettings() {}
 
   void saveInfo() {
     Navigator.of(context).pop();
 
     String? userID = widget.firebaseAuth.currentUser?.uid;
 
-    if(userID == null) {
-      // TODO: Show error dialog
+    if (userID == null) {
       print("Null User ID");
       return;
     }
@@ -68,7 +63,8 @@ class _Settings extends State<Settings> {
     widget.firebaseDatabase.ref("users/$userID/email").set(newEmail);
 
     String firstName = newName.split(" ").first;
-    String lastName =  newName.split(" ").getRange(1, newName.split(" ").length).join(" ");
+    String lastName =
+        newName.split(" ").getRange(1, newName.split(" ").length).join(" ");
 
     widget.firebaseDatabase.ref("users/$userID/firstName").set(firstName);
     widget.firebaseDatabase.ref("users/$userID/lastName").set(lastName);
@@ -91,21 +87,17 @@ class _Settings extends State<Settings> {
     String? userID = widget.firebaseAuth.currentUser?.uid;
 
     if (userID == null) {
-      // TODO: Maybe display error
-
-      // TODO: Left off debugging this, need to login bc user is null
       print("Current user is null");
 
       print(userID);
       print(userID);
       return;
     }
-    // TODO: Social, Name/Account Info, Link/Unlink
 
     DatabaseReference userRef = widget.firebaseDatabase.ref("users/$userID");
 
     userRef.onValue.listen((event) {
-      if(event.snapshot.value == null) {
+      if (event.snapshot.value == null) {
         print("null snapshot");
         return;
       }
@@ -113,7 +105,8 @@ class _Settings extends State<Settings> {
       print(event.snapshot.value);
       print(event.snapshot.value.runtimeType);
 
-      Map<Object?, Object?> data = event.snapshot.value as Map<Object?, Object?>;
+      Map<Object?, Object?> data =
+          event.snapshot.value as Map<Object?, Object?>;
 
       print(data["firstName"] as String);
       print(data["lastName"] as String);
@@ -132,7 +125,7 @@ class _Settings extends State<Settings> {
 
         messages = data["messages_name"] as String?;
         discord = data["discord_name"] as String?;
-        fb =  data["facebook_name"] as String?;
+        fb = data["facebook_name"] as String?;
         insta = data["instagram_name"] as String?;
         snap = data["snapchat_name"] as String?;
         cal = data['has_calendar'] as bool?;
@@ -150,8 +143,6 @@ class _Settings extends State<Settings> {
   }
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
-    // Optional clientId
-    // clientId: '[YOUR_OAUTH_2_CLIENT_ID]',
     scopes: <String>[google_api.CalendarApi.calendarScope],
   );
 
@@ -164,21 +155,18 @@ class _Settings extends State<Settings> {
   }
 
   Future<void> getPrimaryCalendar() async {
-    // Google Calendar API
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
-      setState(() {
-      });
+      setState(() {});
     });
 
     await _handleSignIn();
-    // Retrieve an [auth.AuthClient] from the current [GoogleSignIn] instance.
+
     final auth.AuthClient? client = await _googleSignIn.authenticatedClient();
     if (client == null) {
       print("null client");
       return;
     }
 
-    // Prepare a calendar authenticated client.
     final google_api.CalendarApi calendarApi = google_api.CalendarApi(client);
     DateTime end = utils.DateUtils.lastDayOfMonth(DateTime.now());
     DateTime start = utils.DateUtils.firstDayOfMonth(DateTime.now());
@@ -187,19 +175,16 @@ class _Settings extends State<Settings> {
 
     final String? uid = FirebaseAuth.instance.currentUser?.uid;
 
-    if(uid == null) {
+    if (uid == null) {
       return;
     }
 
-    //get uid and open database reference
-    late DatabaseReference ref = FirebaseDatabase.instance.ref("users/${uid}");
+    late DatabaseReference ref = FirebaseDatabase.instance.ref("users/$uid");
 
-    //list of events to add to firebase (temporarily just printing)
     List<google_api.Event> eventItems = calEvents.items!;
-    //array that holds all critical information from each item.
+
     List<List<String?>> events = [];
     for (var element in eventItems) {
-      //create array of objects to be added to CalendarEvents
       List<String?> temp = [
         element.start!.date.toString(),
         element.start!.dateTime.toString(),
@@ -210,19 +195,14 @@ class _Settings extends State<Settings> {
       events.add(temp);
     }
     await ref.update({"calendarEvents": events});
-
   }
 
   void saveSocial(String media) {
-
-    // Calendar is gonna be a different case
-
     Navigator.of(context).pop();
 
     String? userID = widget.firebaseAuth.currentUser?.uid;
 
-    if(userID == null) {
-      // TODO: Show error dialog
+    if (userID == null) {
       print("Null User ID");
       return;
     }
@@ -284,26 +264,27 @@ class _Settings extends State<Settings> {
   String? newSocial;
 
   void selectedSocial(String social) {
-
-    if(social == "calendar") {
-
-      if(cal == null) {
-        // If cal is null - bring up calendar sync page
-        Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => LinkCalendar()));
+    if (social == "calendar") {
+      if (cal == null) {
+        Navigator.of(context).push(platformPageRoute(
+            context: context, builder: (context) => LinkCalendar()));
         return;
       }
 
-      // ask if u want to refresh
       PlatformAlertDialog confirmation = PlatformAlertDialog(
         title: PlatformText("Are you sure?"),
-        content: PlatformText("Syncing your Google calendar will remove any manually added events"),
+        content: PlatformText(
+            "Syncing your Google calendar will remove any manually added events"),
         actions: [
           PlatformTextButton(
-            child: PlatformText("Cancel", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: PlatformText("Cancel",
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
             onPressed: () => Navigator.of(context).pop(),
           ),
           PlatformTextButton(
-              child: PlatformText("Sync", selectionColor: roundRed, style: TextStyle(color: roundRed)),
+              child: PlatformText("Sync",
+                  selectionColor: roundRed, style: const TextStyle(color: roundRed)),
               onPressed: () {
                 Navigator.pop(context);
 
@@ -320,10 +301,9 @@ class _Settings extends State<Settings> {
           return confirmation;
         },
       );
-      // Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => CalendarPage(title: "Manual Calendar & Sync", group: null,)));
+
       return;
     }
-
 
     String hintString;
 
@@ -353,10 +333,6 @@ class _Settings extends State<Settings> {
         newSocial = "";
     }
 
-    // Switch and set based on that
-
-
-    // TODO: Alert to edit that particular social media
     PlatformAlertDialog error = PlatformAlertDialog(
       title: PlatformText("Edit " + hintString),
       content: Column(
@@ -400,13 +376,9 @@ class _Settings extends State<Settings> {
     );
   }
 
-  void handleCal(BuildContext context) {
-    // TODO: Either give ability to remove existing calendar or sync new one (bring up calendar screen)
-  }
+  void handleCal(BuildContext context) {}
 
   void editProfile() {
-    // TODO: Display alert which will
-
     PlatformAlertDialog error = PlatformAlertDialog(
       title: PlatformText("Edit Profile"),
       content: Column(
@@ -438,7 +410,7 @@ class _Settings extends State<Settings> {
             Navigator.of(context).pop();
           },
         ),
-        PlatformTextButton(          
+        PlatformTextButton(
           child: PlatformText("Save",
               selectionColor: roundPurple,
               style: const TextStyle(color: Colors.white)),
@@ -456,7 +428,8 @@ class _Settings extends State<Settings> {
   }
 
   void about(BuildContext context) async {
-    Uri aboutURL = Uri.parse("https://github.com/Capstone-Projects-2023-Spring/project-groupmeet");
+    Uri aboutURL = Uri.parse(
+        "https://github.com/Capstone-Projects-2023-Spring/project-groupmeet");
 
     await launchUrl(aboutURL, mode: LaunchMode.externalApplication);
   }
@@ -464,9 +437,13 @@ class _Settings extends State<Settings> {
   void signOut(BuildContext context) async {
     try {
       await widget.firebaseAuth.signOut();
-      Navigator.of(context).push(platformPageRoute(context: context, builder: (context) => SignUp(firebaseAuth: FirebaseAuth.instance,firebaseDatabase: FirebaseDatabase.instance,)));
+      Navigator.of(context).push(platformPageRoute(
+          context: context,
+          builder: (context) => SignUp(
+                firebaseAuth: FirebaseAuth.instance,
+                firebaseDatabase: FirebaseDatabase.instance,
+              )));
     } catch (e) {
-      // TODO: Maybe show error alert?
       print(e);
     }
   }
@@ -482,7 +459,6 @@ class _Settings extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    // double screenHeight = MediaQuery.of(context).size.height;
 
     double smsOpacity = messages == null ? opaqueValue : 0.0;
     double snapOpacity = snap == null ? opaqueValue : 0.0;
@@ -491,282 +467,18 @@ class _Settings extends State<Settings> {
     double instaOpacity = insta == null ? opaqueValue : 0.0;
     double calOpacity = cal == null ? opaqueValue : 0.0;
 
-
     observeData();
 
     return PlatformScaffold(
-      appBar: PlatformAppBar(
-          title: PlatformText("Settings")
-      ),
-      body: ListView(
-        children: [
-          Padding(padding: const EdgeInsets.all(16), child:
-              // Name / Email
-          Container(
-            width: screenWidth - 32,
-            height: 80,
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color:  const Color(0xFF1C1C1E)
-              ),
-              color: const Color(0xFF1C1C1E),
-              borderRadius: const BorderRadius.all(Radius.circular(160)),
-            ),
-            child: Row(
-              children: [
-                Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: SizedBox(
-                        width: screenWidth * (2/3),
-                        child: Column(
-                          children: [
-                              SizedBox(
-                                  width: (screenWidth * (2 / 3)) - 32,
-                                  child: PlatformText(name,                                      
-                                      textAlign: TextAlign.left,
-                                      style: const TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.w600))),
-                              SizedBox(
-                                width: (screenWidth * (2 / 3)) - 32,
-                                child: PlatformText(email,                                    
-                                    textAlign: TextAlign.left,
-                                    style: const TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.grey)),
-                              ),
-                            ],
-                          ))),
-                Center(
-                    child: PlatformIconButton(
-                        key: const Key("editProfileButtonKey"),
-                        icon: Icon(
-                          PlatformIcons(context).edit,
-                          color: roundPurple,
-                        ),
-                        onPressed: editProfile),
-                  )
-              ],
-            ),
-          ),),
-          Padding(padding: const EdgeInsets.fromLTRB(32, 16, 0, 0), child:
-          PlatformText("Linked Socials", style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
-          ),
-
-          Padding(            
+        appBar: PlatformAppBar(title: PlatformText("Settings")),
+        body: ListView(children: [
+          Padding(
             padding: const EdgeInsets.all(16),
             child: Container(
               width: screenWidth - 32,
-            height: 2*((screenWidth - 32 - 64)/3),
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color:  const Color(0xFF1C1C1E)
-              ),
-              color: const Color(0xFF1C1C1E),
-              borderRadius: const BorderRadius.all(Radius.elliptical(32, 32)),
-            ),
-            child:
-                Flex(
-                  direction: Axis.vertical,
-                  children: [
-                    Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: GridView.count(crossAxisCount: 3, childAspectRatio: 1.5, mainAxisSpacing: 16,   children: [
-                            GestureDetector(
-                              key: const Key("smsAppGestureKey"),
-                              child: ColorFiltered(
-                                key : const Key("smsAppOpacityKey"),
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(smsOpacity), BlendMode.srcATop),
-                                child: SizedBox(child: Image.asset("images/smsApp.png",)),
-                              ),
-                              onTap: () => selectedSocial("sms"),
-                            ),
-                            GestureDetector(
-                              key: const Key("snapAppGestureKey"),
-                              child: ColorFiltered(
-                                key : const Key("snapAppOpacityKey"),
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(snapOpacity), BlendMode.srcATop),
-                                child: SizedBox(child: Image.asset("images/snapchatApp.png",)),
-                              ),
-                              onTap: () => selectedSocial("snap"),
-                            ),
-                            GestureDetector(
-                              key: const Key("discordAppGestureKey"),
-                              child: ColorFiltered(
-                                key : const Key("discordAppOpacityKey"),
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(discordOpacity), BlendMode.srcATop),
-                                child: SizedBox(child: Image.asset("images/discordApp.png",)),
-                              ),
-                              onTap: () => selectedSocial("discord"),
-                            ),
-                            GestureDetector(
-                              key: const Key("instagramAppGestureKey"),
-                              child: ColorFiltered(
-                                key : const Key("instagramAppOpacityKey"),
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(instaOpacity), BlendMode.srcATop),
-                                child: SizedBox(child: Image.asset("images/instagramApp.png",)),
-                              ),
-                              onTap: () => selectedSocial("insta")
-                            ),
-                            GestureDetector(
-                              key: const Key("facebookAppGestureKey"),
-                              child: ColorFiltered(
-                                key : const Key("facebookAppOpacityKey"),
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(fbOpacity), BlendMode.srcATop),
-                                child: SizedBox(child: Image.asset("images/facebookApp.png",)),
-                              ),
-                              onTap: () => selectedSocial("fb"),
-                            ),
-                            GestureDetector(
-                              child: ColorFiltered(
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(calOpacity), BlendMode.srcATop),
-                                child: SizedBox(child: Image.asset("images/calendarApp.png",)),
-                              ),
-                              onTap: () => selectedSocial("calendar"),
-                            )
-                          ],),
-                        ))
-                  ],
-                    ),
-          ),),
-
-          // Padding(padding: EdgeInsets.fromLTRB(32, 16, 0, 0), child:
-          //   PlatformText("Linked Calendar", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
-          // ),
-          //
-          // // Calendar Link
-          // Padding(padding: EdgeInsets.all(16), child:
-          // Container(
-          //   width: screenWidth - 32,
-          //   height: 58,
-          //   decoration: BoxDecoration(
-          //     border: Border.all(
-          //         color:  Color(0xFF1C1C1E)
-          //     ),
-          //     color: Color(0xFF1C1C1E),
-          //     borderRadius: BorderRadius.all(Radius.circular(160)),
-          //   ),
-          //   child: Row(
-          //     children: [
-          //       Padding(
-          //           padding: EdgeInsets.all(16),
-          //           child: SizedBox(
-          //               width: (screenWidth-32) * (2/3),
-          //               child: Column(
-          //                 children: [
-          //                   SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("JaredStefDev (Gmail)", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-          //                 ],
-          //               ))),
-          //       Center(child: GestureDetector(child: PlatformText("Unlink", selectionColor: Colors.white, style: TextStyle(fontSize: 20, color: roundPurple, fontWeight: FontWeight.w600)), onTap: () => handleCal(context)),)
-          //     ],
-          //   ),
-          // ),),
-          // Padding(padding: EdgeInsets.fromLTRB(32, 16, 0, 0), child:
-          // PlatformText("Notifications", style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
-          // ),
-          //
-          // // "Cells"
-          // Padding(padding: EdgeInsets.all(16), child:
-          // Container(
-          //   width: screenWidth - 32,
-          //   height: 216,
-          //   decoration: BoxDecoration(
-          //     border: Border.all(
-          //         color:  Color(0xFF1C1C1E)
-          //     ),
-          //     color: Color(0xFF1C1C1E),
-          //     borderRadius: BorderRadius.all(Radius.elliptical(32, 32)),
-          //   ),
-          //   child: Column(
-          //     children: [
-          //       Padding(padding: EdgeInsets.fromLTRB(16, 16, 16, 8), child:
-          //       Row(
-          //         children: [
-          //           SizedBox(
-          //               width: ((screenWidth) * (2/3)),
-          //               child: Column(
-          //                 children: [
-          //                   SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Group Activity", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-          //                 ],
-          //               )),
-          //           Center(child: PlatformSwitch(onChanged: (_) {}, value: true, activeColor: roundPurple),)
-          //         ],
-          //       )),
-          //       SizedBox(width: (screenWidth - 32 - 32), child: Divider(color: Colors.grey, thickness: 1)),
-          //       Padding(padding: EdgeInsets.fromLTRB(16, 8, 16, 8), child:
-          //       Row(
-          //         children: [
-          //           SizedBox(
-          //               width: ((screenWidth) * (2/3)),
-          //               child: Column(
-          //                 children: [
-          //                   SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Meeting Request", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-          //                 ],
-          //               )),
-          //           Center(child: PlatformSwitch(onChanged: (_) {}, value: true, activeColor: roundPurple),)
-          //         ],
-          //       )),
-          //       SizedBox(width: (screenWidth - 32 - 32), child: Divider(color: Colors.grey, thickness: 1)),
-          //       Padding(padding: EdgeInsets.fromLTRB(16, 8, 16, 8), child:
-          //       Row(
-          //         children: [
-          //           SizedBox(
-          //               width: ((screenWidth) * (2/3)),
-          //               child: Column(
-          //                 children: [
-          //                   SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Some Third Thing", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-          //                 ],
-          //               )),
-          //           Center(child: PlatformSwitch(onChanged: (_) {}, value: true, activeColor: roundPurple),)
-          //         ],
-          //       )),
-          //     ],
-          //   )
-          // ),),
-
-
-          // GestureDetector(
-          //   child: Padding(padding: EdgeInsets.all(16), child:
-          //   Container(
-          //     width: screenWidth - 32,
-          //     height: 58,
-          //     decoration: BoxDecoration(
-          //       border: Border.all(
-          //           color:  Color(0xFF1C1C1E)
-          //       ),
-          //       color: Color(0xFF1C1C1E),
-          //       borderRadius: BorderRadius.all(Radius.circular(160)),
-          //     ),
-          //     child: Row(
-          //       children: [
-          //         Padding(
-          //             padding: EdgeInsets.all(16),
-          //             child: SizedBox(
-          //                 width: (screenWidth) * (2/3),
-          //                 child: Column(
-          //                   children: [
-          //                     SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Manual Calendar & Sync", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-          //                   ],
-          //                 ))),
-          //         Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).rightChevron, color: Colors.white,)),)
-          //       ],
-          //     ),
-          //   ),),
-          //   onTap: () => manualCalendar(),
-          // ),
-
-          GestureDetector(
-            child: Padding(padding: const EdgeInsets.all(16), child:
-            Container(
-              width: screenWidth - 32,
-              height: 58,
+              height: 80,
               decoration: BoxDecoration(
-                border: Border.all(
-                    color:  const Color(0xFF1C1C1E)
-                ),
+                border: Border.all(color: const Color(0xFF1C1C1E)),
                 color: const Color(0xFF1C1C1E),
                 borderRadius: const BorderRadius.all(Radius.circular(160)),
               ),
@@ -775,86 +487,239 @@ class _Settings extends State<Settings> {
                   Padding(
                       padding: const EdgeInsets.all(16),
                       child: SizedBox(
-                          width: (screenWidth) * (2/3),
+                          width: screenWidth * (2 / 3),
                           child: Column(
                             children: [
-                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("About", textAlign: TextAlign.left, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
+                              SizedBox(
+                                  width: (screenWidth * (2 / 3)) - 32,
+                                  child: PlatformText(name,
+                                      textAlign: TextAlign.left,
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600))),
+                              SizedBox(
+                                width: (screenWidth * (2 / 3)) - 32,
+                                child: PlatformText(email,
+                                    textAlign: TextAlign.left,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey)),
+                              ),
                             ],
                           ))),
-                  Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).rightChevron, color: Colors.white,)),)
-                ],
-              ),
-            ),),
-            onTap: () => about(context),
-          ),
-
-
-          // GestureDetector(
-          //   child: Padding(padding: EdgeInsets.all(16), child:
-          //   Container(
-          //     width: screenWidth - 32,
-          //     height: 58,
-          //     decoration: BoxDecoration(
-          //       border: Border.all(
-          //           color:  Color(0xFF1C1C1E)
-          //       ),
-          //       color: Color(0xFF1C1C1E),
-          //       borderRadius: BorderRadius.all(Radius.circular(160)),
-          //     ),
-          //     child: Row(
-          //       children: [
-          //         Padding(
-          //             padding: EdgeInsets.all(16),
-          //             child: SizedBox(
-          //                 width: (screenWidth) * (2/3),
-          //                 child: Column(
-          //                   children: [
-          //                     SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Legacy Settings", textAlign: TextAlign.left, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500))),
-          //                   ],
-          //                 ))),
-          //         Center(child: PlatformIconButton(icon: Icon(PlatformIcons(context).rightChevron, color: Colors.white,)),)
-          //       ],
-          //     ),
-          //   ),),
-          //   onTap: () => legacySettings(),
-          // ),
-
-          Padding(padding: EdgeInsets.all(16), child:
-          GestureDetector(
-            key: const Key("signOutSettingsGestureDetectorKey"),
-            child: Container(
-              width: screenWidth - 32,
-              height: 58,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color:  const Color(0xFF1C1C1E)
-                ),
-                color: const Color(0xFF1C1C1E),
-                borderRadius: const BorderRadius.all(Radius.circular(160)),
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SizedBox(
-                          width: (screenWidth) * (2/3),
-                          child: Column(
-                            children: [
-                              SizedBox(width: ((screenWidth)*(2/3)) - 32, child: PlatformText("Sign Out", textAlign: TextAlign.left, style: TextStyle(color: roundRed, fontSize: 20, fontWeight: FontWeight.w500))),
-                            ],
-                          )))
+                  Center(
+                    child: PlatformIconButton(
+                        key: const Key("editProfileButtonKey"),
+                        icon: Icon(
+                          PlatformIcons(context).edit,
+                          color: roundPurple,
+                        ),
+                        onPressed: editProfile),
+                  )
                 ],
               ),
             ),
-            onTap: () => signOut(context),
-          ),),
-
-          Padding(padding: EdgeInsets.fromLTRB(0, 0, 0, 32), child: PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 10)),)
-          // About
-      ]
-      )
-    );
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(32, 16, 0, 0),
+            child: PlatformText("Linked Socials",
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.w600)),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              width: screenWidth - 32,
+              height: 2 * ((screenWidth - 32 - 64) / 3),
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xFF1C1C1E)),
+                color: const Color(0xFF1C1C1E),
+                borderRadius: const BorderRadius.all(Radius.elliptical(32, 32)),
+              ),
+              child: Flex(
+                direction: Axis.vertical,
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: GridView.count(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1.5,
+                          mainAxisSpacing: 16,
+                          children: [
+                            GestureDetector(
+                              key: const Key("smsAppGestureKey"),
+                              child: ColorFiltered(
+                                key: const Key("smsAppOpacityKey"),
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(smsOpacity),
+                                    BlendMode.srcATop),
+                                child: SizedBox(
+                                    child: Image.asset(
+                                  "images/smsApp.png",
+                                )),
+                              ),
+                              onTap: () => selectedSocial("sms"),
+                            ),
+                            GestureDetector(
+                              key: const Key("snapAppGestureKey"),
+                              child: ColorFiltered(
+                                key: const Key("snapAppOpacityKey"),
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(snapOpacity),
+                                    BlendMode.srcATop),
+                                child: SizedBox(
+                                    child: Image.asset(
+                                  "images/snapchatApp.png",
+                                )),
+                              ),
+                              onTap: () => selectedSocial("snap"),
+                            ),
+                            GestureDetector(
+                              key: const Key("discordAppGestureKey"),
+                              child: ColorFiltered(
+                                key: const Key("discordAppOpacityKey"),
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(discordOpacity),
+                                    BlendMode.srcATop),
+                                child: SizedBox(
+                                    child: Image.asset(
+                                  "images/discordApp.png",
+                                )),
+                              ),
+                              onTap: () => selectedSocial("discord"),
+                            ),
+                            GestureDetector(
+                                key: const Key("instagramAppGestureKey"),
+                                child: ColorFiltered(
+                                  key: const Key("instagramAppOpacityKey"),
+                                  colorFilter: ColorFilter.mode(
+                                      Colors.black.withOpacity(instaOpacity),
+                                      BlendMode.srcATop),
+                                  child: SizedBox(
+                                      child: Image.asset(
+                                    "images/instagramApp.png",
+                                  )),
+                                ),
+                                onTap: () => selectedSocial("insta")),
+                            GestureDetector(
+                              key: const Key("facebookAppGestureKey"),
+                              child: ColorFiltered(
+                                key: const Key("facebookAppOpacityKey"),
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(fbOpacity),
+                                    BlendMode.srcATop),
+                                child: SizedBox(
+                                    child: Image.asset(
+                                  "images/facebookApp.png",
+                                )),
+                              ),
+                              onTap: () => selectedSocial("fb"),
+                            ),
+                            GestureDetector(
+                              child: ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(calOpacity),
+                                    BlendMode.srcATop),
+                                child: SizedBox(
+                                    child: Image.asset(
+                                  "images/calendarApp.png",
+                                )),
+                              ),
+                              onTap: () => selectedSocial("calendar"),
+                            )
+                          ],
+                        ),
+                      ))
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                width: screenWidth - 32,
+                height: 58,
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xFF1C1C1E)),
+                  color: const Color(0xFF1C1C1E),
+                  borderRadius: const BorderRadius.all(Radius.circular(160)),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: SizedBox(
+                            width: (screenWidth) * (2 / 3),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    width: ((screenWidth) * (2 / 3)) - 32,
+                                    child: PlatformText("About",
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500))),
+                              ],
+                            ))),
+                    Center(
+                      child: PlatformIconButton(
+                          icon: Icon(
+                        PlatformIcons(context).rightChevron,
+                        color: Colors.white,
+                      )),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            onTap: () => about(context),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: GestureDetector(
+              key: const Key("signOutSettingsGestureDetectorKey"),
+              child: Container(
+                width: screenWidth - 32,
+                height: 58,
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xFF1C1C1E)),
+                  color: const Color(0xFF1C1C1E),
+                  borderRadius: const BorderRadius.all(Radius.circular(160)),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: SizedBox(
+                            width: (screenWidth) * (2 / 3),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                    width: ((screenWidth) * (2 / 3)) - 32,
+                                    child: PlatformText("Sign Out",
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                            color: roundRed,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500))),
+                              ],
+                            )))
+                  ],
+                ),
+              ),
+              onTap: () => signOut(context),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 32),
+            child: PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 10)),
+          )
+        ]));
   }
 }

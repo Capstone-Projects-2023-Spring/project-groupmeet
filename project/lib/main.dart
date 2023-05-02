@@ -7,10 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/onboarding/explainer.dart';
 import 'package:groupmeet/theme.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:permission_handler/permission_handler.dart';
-import 'home.dart';
-
+import 'package:groupmeet/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,16 +56,19 @@ class RoundApp extends StatelessWidget {
             primaryColor: Colors.white,
             textStyle: TextStyle(fontFamily: "Urbanist")));
 
-    var cupertinoDarkTheme = MaterialBasedCupertinoThemeData(materialTheme: materialTheme.copyWith(
-      cupertinoOverrideTheme: cupertinoTheme
-    ));
+    var cupertinoDarkTheme = MaterialBasedCupertinoThemeData(
+        materialTheme:
+            materialTheme.copyWith(cupertinoOverrideTheme: cupertinoTheme));
 
     Widget firstStop;
 
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
     if (user != null) {
-      firstStop = HomeScreen(firebaseDatabase: firebaseDatabase, firebaseAuth: FirebaseAuth.instance,);
+      firstStop = HomeScreen(
+        firebaseDatabase: firebaseDatabase,
+        firebaseAuth: FirebaseAuth.instance,
+      );
     } else {
       firstStop = Explainer(pageNo: 0);
     }
@@ -87,7 +87,7 @@ class RoundApp extends StatelessWidget {
                   DefaultMaterialLocalizations.delegate,
                   DefaultWidgetsLocalizations.delegate,
                 ]),
-        home: firstStop, //Explainer(pageNo: 0),
+        home: firstStop,
         title: "Round",
         color: roundPurple);
   }

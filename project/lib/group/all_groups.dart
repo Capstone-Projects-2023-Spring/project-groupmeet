@@ -34,10 +34,10 @@ class _AllGroupsState extends State<AllGroups> {
 
       Map<dynamic, dynamic> groupInfoMap;
       for (var entry in values.entries) {
-        if(entry.key == "dud") continue;
+        if (entry.key == "dud") continue;
         final groupInfoSnapshot =
-          await accessGroupInfoRef.child(entry.key).get();
-        if(groupInfoSnapshot.value == null) continue;
+            await accessGroupInfoRef.child(entry.key).get();
+        if (groupInfoSnapshot.value == null) continue;
         groupInfoMap = groupInfoSnapshot.value as Map<dynamic, dynamic>;
         groupInfoMap.putIfAbsent("gId", () => entry.key);
         allGroups.add(groupInfoMap);
@@ -46,7 +46,8 @@ class _AllGroupsState extends State<AllGroups> {
     }
     print(allGroups);
     return allGroups;
-  }  
+  }
+
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
 
   @override
@@ -125,8 +126,10 @@ class _AllGroupsState extends State<AllGroups> {
                   await Navigator.of(context).push(
                     platformPageRoute(
                         context: context,
-                        builder: (context) =>
-                            GroupCreation(userID: uid, firebaseDatabase: firebaseDatabase,)),
+                        builder: (context) => GroupCreation(
+                              userID: uid,
+                              firebaseDatabase: firebaseDatabase,
+                            )),
                   );
                   setState(() {});
                 },

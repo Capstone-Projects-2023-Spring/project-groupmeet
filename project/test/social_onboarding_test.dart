@@ -1,11 +1,8 @@
 
-import 'package:groupmeet/group/group_creation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database_mocks/firebase_database_mocks.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_material_color_picker/src/circle_color.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:groupmeet/onboarding/social_onboarding.dart';
 void main(){
@@ -59,20 +56,23 @@ void main(){
   
 
     Future<void> buildSocialOnboardingPage(
+     
     WidgetTester tester,
   ) async {
+        final TestWidgetsFlutterBinding binding =
+        TestWidgetsFlutterBinding.ensureInitialized();
+    await binding.setSurfaceSize(const Size(640, 684));
     await tester.pumpWidget(MaterialApp(
       home: SocialOnboarding(
         firebaseDatabase: firebaseDatabase,
         firebaseAuth: auth,
       ),
+      
 
     ));
   }
 
-  testWidgets("social media message is present", (WidgetTester tester) async {
-    // render flex exception being thrown
-    // unable to proceed rn :(
+  testWidgets("social media message is present", (WidgetTester tester) async {    
     await buildSocialOnboardingPage(tester);
     find.text("Save third-party usernames to be used with Round (optional)");
 

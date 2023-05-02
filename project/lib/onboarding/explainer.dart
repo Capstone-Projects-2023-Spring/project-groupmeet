@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/onboarding/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+
 class Explainer extends StatelessWidget {
   Explainer({super.key, required this.pageNo});
 
@@ -12,7 +13,7 @@ class Explainer extends StatelessWidget {
 
   var texts = [
     "A single platform to organize and spark team-based communication",
-    "Sync entire team’s calendars for auto generated meeting times selected to optimize flow and minimize disruption",
+    "Sync entire team's calendars for auto generated meeting times selected to optimize flow and minimize disruption",
     "Sync team communication preferences from multiple apps to know what everyone's talking on"
   ];
 
@@ -23,13 +24,15 @@ class Explainer extends StatelessWidget {
   ];
 
   void buttonPress(BuildContext context) {
-    // Push page with next page No
-    // setState(() {
     int nextPage = pageNo + 1;
 
     if (nextPage == 3) {
       Navigator.of(context).push(platformPageRoute(
-          context: context, builder: (context) => SignUp(firebaseAuth: FirebaseAuth.instance, firebaseDatabase: FirebaseDatabase.instance,)));
+          context: context,
+          builder: (context) => SignUp(
+                firebaseAuth: FirebaseAuth.instance,
+                firebaseDatabase: FirebaseDatabase.instance,
+              )));
       return;
     }
 
@@ -93,6 +96,7 @@ class Explainer extends StatelessWidget {
                       ),
                       padding: EdgeInsets.zero,
                       onPressed: () => buttonPress(context),
+                      key: const Key("nextButton")
                     )),
                 SizedBox(width: screenWidth, height: 16),
                 PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",

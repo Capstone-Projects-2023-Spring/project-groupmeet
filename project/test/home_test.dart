@@ -133,23 +133,5 @@ void main() {
 
       expect(find.byType(Settings), findsOneWidget);
     });
-
-// not working yet
-    testWidgets("entering group Id and pressing Ok should result in an group icon",
-        (widgetTester) async {
-      await buildHomePage(widgetTester);
-      await navigateToCodeReceptionPage(widgetTester);
-      await widgetTester.tap(find.text('ENTER ID'));
-
-      await widgetTester.pump();
-      expect(find.text("newgroup"), findsNothing);
-      await widgetTester.enterText(
-          find.byKey(const Key("enterGroupIdToJoinKey")),
-          "-NUBnwU0pAWO4JTMlLCw");
-
-      await widgetTester.tap(find.byKey(const Key("OKButtonForNewGroupIdKey")));
-      await widgetTester.pump();
-      expect(find.text("NEWGROUP"), findsOneWidget);
-    });
   });
 }

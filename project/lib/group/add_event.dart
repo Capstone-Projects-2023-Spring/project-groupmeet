@@ -33,8 +33,7 @@ class _AddEventState extends State<AddEvent> {
 
   @override
   Widget build(BuildContext context) {
-
-    TextStyle titleStyle = TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
+    TextStyle titleStyle = const TextStyle(fontSize: 24, fontWeight: FontWeight.bold);
 
     return Scaffold(
       backgroundColor: Platform.isIOS ? Colors.grey : null,
@@ -42,33 +41,37 @@ class _AddEventState extends State<AddEvent> {
         title: PlatformText(widget.title),
       ),
       body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 32, 0, 32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PlatformText("Start Time", style: titleStyle,),
-                  DateTimePicker(
-                    type: DateTimePickerType.dateTimeSeparate,
-                    initialValue: DateTime.now().toString(),
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2100),
-                    dateLabelText: 'Date',
-                    onChanged: (val) => start = DateTime.parse(val as String),
-                    validator: (val) {
-                      print(val);
-                      return null;
-                    },
-                    onSaved: (val) {
-                      start = DateTime.parse(val as String);
-                    },
-                  ),
-                ],
-              ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 32, 0, 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PlatformText(
+                  "Start Time",
+                  style: titleStyle,
+                ),
+                DateTimePicker(
+                  type: DateTimePickerType.dateTimeSeparate,
+                  initialValue: DateTime.now().toString(),
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                  dateLabelText: 'Date',
+                  onChanged: (val) => start = DateTime.parse(val),
+                  validator: (val) {
+                    print(val);
+                    return null;
+                  },
+                  onSaved: (val) {
+                    start = DateTime.parse(val as String);
+                  },
+                ),
+              ],
             ),
-            Padding( padding: EdgeInsets.fromLTRB(0, 32, 0, 32),
+          ),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 32, 0, 32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -80,7 +83,7 @@ class _AddEventState extends State<AddEvent> {
                     firstDate: DateTime(2000),
                     lastDate: DateTime(2100),
                     dateLabelText: 'Date',
-                    onChanged: (val) => end = DateTime.parse(val as String),
+                    onChanged: (val) => end = DateTime.parse(val),
                     validator: (val) {
                       print(val);
                       return null;
@@ -90,48 +93,47 @@ class _AddEventState extends State<AddEvent> {
                     },
                   ),
                 ],
-              )
-            ),
-            Padding(padding: EdgeInsets.fromLTRB(0, 32, 0, 32), child:
-            Column(
-              children: [
-                PlatformTextButton(
-                  onPressed: () async {
-                    print("start");
-                    List<List<String?>> events = [];
-                    //create array of events that already existed.
-                    final memberSnapshot =
-                    await ref.child("calendarEvents").get();
-                    for (var event in memberSnapshot.value as List) {
-                      events.add([event[0], event[1], event[2], event[3]]);
-                    }
+              )),
+          Padding(
+              padding: const EdgeInsets.fromLTRB(0, 32, 0, 32),
+              child: Column(
+                children: [
+                  PlatformTextButton(
+                    onPressed: () async {
+                      print("start");
+                      List<List<String?>> events = [];
 
-                    List<String?> temp = [
-                      "null",
-                      start.toString(),
-                      "null",
-                      end.toString()
-                    ];
-                    events.add(temp);
+                      final memberSnapshot =
+                          await ref.child("calendarEvents").get();
+                      for (var event in memberSnapshot.value as List) {
+                        events.add([event[0], event[1], event[2], event[3]]);
+                      }
 
-                    ref.update({
-                      "calendarEvents": events,
-                    });
-                    print("added");
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    
-                  },
-                  color: roundPurple,
-                  child: PlatformText(
-                    "Submit",
-                    selectionColor: Colors.white,
-                    style: TextStyle(color: Colors.white),
+                      List<String?> temp = [
+                        "null",
+                        start.toString(),
+                        "null",
+                        end.toString()
+                      ];
+                      events.add(temp);
+
+                      ref.update({
+                        "calendarEvents": events,
+                      });
+                      print("added");
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    color: roundPurple,
+                    child: PlatformText(
+                      "Submit",
+                      selectionColor: Colors.white,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-              ],
-            )),
-          ],
+                ],
+              )),
+        ],
       ),
     );
   }

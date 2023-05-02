@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:groupmeet/theme.dart';
-// import 'package:groupmeet/onboarding/signin.dart';
 
 class GroupCreation extends StatefulWidget {
-  const GroupCreation({super.key, required  this.userID, required this.firebaseDatabase });
+  const GroupCreation(
+      {super.key, required this.userID, required this.firebaseDatabase});
   final String? userID;
   final FirebaseDatabase firebaseDatabase;
 
@@ -15,7 +15,6 @@ class GroupCreation extends StatefulWidget {
 }
 
 class _GroupCreationState extends State<GroupCreation> {
-
   _GroupCreationState() {
     selectedColor = createMaterialColor(roundPurple);
   }
@@ -57,8 +56,8 @@ class _GroupCreationState extends State<GroupCreation> {
     emoji = string;
   }
 
-  Future<void> buttonPress(BuildContext context) async {  
-    if(emoji.trim().characters.length != 1 || name.trim().isEmpty) {
+  Future<void> buttonPress(BuildContext context) async {
+    if (emoji.trim().characters.length != 1 || name.trim().isEmpty) {
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
         content: PlatformText(
@@ -83,7 +82,6 @@ class _GroupCreationState extends State<GroupCreation> {
     }
 
     if (widget.userID == null) {
-
       PlatformAlertDialog error = PlatformAlertDialog(
         title: PlatformText("Whoops!"),
         content: PlatformText(
@@ -108,7 +106,7 @@ class _GroupCreationState extends State<GroupCreation> {
     }
 
     final DatabaseReference groupRef =
-    widget.firebaseDatabase.ref().child('groups').push();
+        widget.firebaseDatabase.ref().child('groups').push();
 
     await groupRef.set({
       'name': name.trim(),
@@ -119,15 +117,11 @@ class _GroupCreationState extends State<GroupCreation> {
     });
 
     await widget.firebaseDatabase
-        .ref("users/${widget.userID}/groupIds/${groupRef.key}").set(true);
+        .ref("users/${widget.userID}/groupIds/${groupRef.key}")
+        .set(true);
 
-    Navigator.of(context).pop();      
-  } 
-  //TODO: Not being called from anywhere?
-  // void signIn(BuildContext context) {
-  //   Navigator.of(context).push(
-  //       platformPageRoute(context: context, builder: (context) => SignIn()));
-  // }
+    Navigator.of(context).pop();
+  }
 
   void _openDialog(String title, Widget content) {
     showDialog(
@@ -156,7 +150,7 @@ class _GroupCreationState extends State<GroupCreation> {
 
   void colorTapped() {
     _openDialog(
-      "Color Picker",
+        "Color Picker",
         MaterialColorPicker(
           selectedColor: selectedColor,
           colors: [
@@ -174,110 +168,121 @@ class _GroupCreationState extends State<GroupCreation> {
             createMaterialColor(roundTeal)
           ],
           allowShades: false,
-          onMainColorChange: (color) => setState(() => tempColor = color as MaterialColor?),
-
-        )
-    );
+          onMainColorChange: (color) =>
+              setState(() => tempColor = color as MaterialColor?),
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    CircleColor colorCircle = CircleColor(color: selectedColor!.shade500, circleSize: 32,);
+    CircleColor colorCircle = CircleColor(
+      color: selectedColor!.shade500,
+      circleSize: 32,
+    );
 
     return PlatformScaffold(
         appBar: PlatformAppBar(title: PlatformText("New Circle")),
-        body: GestureDetector(child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                    width: screenWidth,
-                    height:
-                    MediaQuery.of(context).viewPadding.top + 0.08 * screenHeight),
-                Image.asset(
-                  "images/AddPhoto.png",
-                  height: 160,
+        body: GestureDetector(
+          child: Center(
+              child: Column(
+            children: [
+              SizedBox(
                   width: screenWidth,
-                  isAntiAlias: true,
-                ),
-                SizedBox(width: screenWidth, height: 8),
-                PlatformText("Get Around",
-                    style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w600),
-                    textAlign: TextAlign.center),
-                SizedBox(width: screenWidth, height: 32),
-
-                SizedBox(
-                    width: screenWidth * (3 / 4),
-                    child: PlatformTextField(
-                      hintText: "Group Name",
-                      autofocus: true,
-                      cursorColor: roundPurple,
-                      onChanged: (p0) => changedName(p0),
-                      material: (_, __) => MaterialTextFieldData(
-                          decoration: const InputDecoration(
-                              focusColor: roundPurple, hoverColor: roundPurple)),
-                    )),
-                SizedBox(
-                  width: screenWidth,
-                  height: 16,
-                ),
-                Row(
-                  children: [
-                    SizedBox(width: screenWidth / 8),
-                    SizedBox(
-                        width: screenWidth * (3 / 8),
-                        child: PlatformTextField(
-                          hintText: "Emoji",
-                          keyboardType: TextInputType.text,
-                          cursorColor: roundPurple,
-                          onChanged: (p0) => changedEmoji(p0),
-                        )),
-                    SizedBox(width: screenWidth / 16,),
-                    PlatformText("Color", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                    SizedBox(width: screenWidth / 16,),
-                    GestureDetector(
-                      key: const Key('colorChooserGestureDetector'),
-                      child: colorCircle,
-                      onTap: () => colorTapped(),
-                    )
-                  ],
-                ),
-
-                Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomCenter,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                            height: 64,
-                            width: 64,
-                            child: PlatformIconButton(
-                              icon: Image.asset(
-                                "images/OnboardingNext.png",
-                                height: 64,
-                                width: 64,
-                                isAntiAlias: true,
-                              ),
-                              padding: EdgeInsets.zero,
-                              onPressed: () => buttonPress(context),
-                            )),
-                        SizedBox(width: screenWidth, height: 16),
-                        PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 10)),
-                        SizedBox(
-                          width: screenWidth,
-                          height: 32,
-                        )
-                      ],
-                    ),
+                  height: MediaQuery.of(context).viewPadding.top +
+                      0.08 * screenHeight),
+              Image.asset(
+                "images/AddPhoto.png",
+                height: 160,
+                width: screenWidth,
+                isAntiAlias: true,
+              ),
+              SizedBox(width: screenWidth, height: 8),
+              PlatformText("Get Around",
+                  style: const TextStyle(
+                      fontSize: 36, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center),
+              SizedBox(width: screenWidth, height: 32),
+              SizedBox(
+                  width: screenWidth * (3 / 4),
+                  child: PlatformTextField(
+                    hintText: "Group Name",
+                    autofocus: true,
+                    cursorColor: roundPurple,
+                    onChanged: (p0) => changedName(p0),
+                    material: (_, __) => MaterialTextFieldData(
+                        decoration: const InputDecoration(
+                            focusColor: roundPurple, hoverColor: roundPurple)),
+                  )),
+              SizedBox(
+                width: screenWidth,
+                height: 16,
+              ),
+              Row(
+                children: [
+                  SizedBox(width: screenWidth / 8),
+                  SizedBox(
+                      width: screenWidth * (3 / 8),
+                      child: PlatformTextField(
+                        hintText: "Emoji",
+                        keyboardType: TextInputType.text,
+                        cursorColor: roundPurple,
+                        onChanged: (p0) => changedEmoji(p0),
+                      )),
+                  SizedBox(
+                    width: screenWidth / 16,
+                  ),
+                  PlatformText("Color",
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w600)),
+                  SizedBox(
+                    width: screenWidth / 16,
+                  ),
+                  GestureDetector(
+                    key: const Key('colorChooserGestureDetector'),
+                    child: colorCircle,
+                    onTap: () => colorTapped(),
+                  )
+                ],
+              ),
+              Expanded(
+                child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                          height: 64,
+                          width: 64,
+                          child: PlatformIconButton(
+                            icon: Image.asset(
+                              "images/OnboardingNext.png",
+                              height: 64,
+                              width: 64,
+                              isAntiAlias: true,
+                            ),
+                            padding: EdgeInsets.zero,
+                            onPressed: () => buttonPress(context),
+                          )),
+                      SizedBox(width: screenWidth, height: 16),
+                      PlatformText(
+                          "© 2023 Round Corp\nFrom Philly with Love 🤍",
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 10)),
+                      SizedBox(
+                        width: screenWidth,
+                        height: 32,
+                      )
+                    ],
                   ),
                 ),
-              ],
-            )), onTap: () => FocusScope.of(context).unfocus(),));
+              ),
+            ],
+          )),
+          onTap: () => FocusScope.of(context).unfocus(),
+        ));
   }
 }

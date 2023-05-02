@@ -1,5 +1,3 @@
-import 'package:flutter/widgets.dart';
-import 'package:groupmeet/onboarding/signup.dart';
 import 'package:groupmeet/settings/settings.dart';
 import 'package:firebase_database_mocks/firebase_database_mocks.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
@@ -7,263 +5,283 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:mockito/mockito.dart';
-import 'package:groupmeet/settings/about.dart';
 
 class MockNavigatorObserver extends Mock implements NavigatorObserver {}
 
-void main(){
+void main() {
   setupFirebaseMocks();
-  FirebaseDatabase firebaseDatabase;  
+  FirebaseDatabase firebaseDatabase;
 
-    var fakeData = {
-    'users':{
-      'YHrs4PbqEKOentDPS5pOHnA6sp82':{
-        'groupIds':{
-          '-NStkS14Cj-_CDlqRUxC' : true,
-          '-NSxq2rKNNWX4rpFkES6' : true
-        }, 
-        "firstName" : "first",
-        "lastName" : "last",
-        "email" : "email@email.com",               
-        "discord" : false,
-        "facebook" : false,
-        "instagram" : false,
-        "messages" : false,
-        "snapchat" : false
+  var fakeData = {
+    'users': {
+      'YHrs4PbqEKOentDPS5pOHnA6sp82': {
+        'groupIds': {
+          '-NStkS14Cj-_CDlqRUxC': true,
+          '-NSxq2rKNNWX4rpFkES6': true
+        },
+        "firstName": "first",
+        "lastName": "last",
+        "email": "email@email.com",
+        "discord": false,
+        "facebook": false,
+        "instagram": false,
+        "messages": false,
+        "snapchat": false
       }
     },
-    'groups' :{
-      'NStkS14Cj-_CDlqRUxC' : {
-        'admin' : 'YHrs4PbqEKOentDPS5pOHnA6sp82', 
-        'color' : 4289665855, 
-        'emoji' : "😎", 
-        'members' : {
-          'YHrs4PbqEKOentDPS5pOHnA6sp82' : true
-        }, 
-        'check' : 'check-vv'
+    'groups': {
+      'NStkS14Cj-_CDlqRUxC': {
+        'admin': 'YHrs4PbqEKOentDPS5pOHnA6sp82',
+        'color': 4289665855,
+        'emoji': "😎",
+        'members': {'YHrs4PbqEKOentDPS5pOHnA6sp82': true},
+        'check': 'check-vv'
       }
     }
   };
-  
-  
 
-   final user = MockUser(
-      isAnonymous: false,
-      uid: 'YHrs4PbqEKOentDPS5pOHnA6sp82',
-      email: 'v@gmail.com',
-      displayName: 'Bob',
-    );
-    final auth = MockFirebaseAuth(signedIn: true,mockUser: user);
-  
-      Future<void> buildSettingsPage(WidgetTester tester) async {
-        MockFirebaseDatabase.instance.ref().set(fakeData);
-        firebaseDatabase = MockFirebaseDatabase.instance;
-        NavigatorObserver mockObserver = MockNavigatorObserver();
-      await tester.pumpWidget(MaterialApp(
-        home: Settings(firebaseDatabase: firebaseDatabase,firebaseAuth: auth,),        
-        navigatorObservers: [mockObserver],
-      ));
-      }
-    testWidgets(
-        'able to edit profile successfully',
-        (WidgetTester tester) async {
-          await buildSettingsPage(tester);
-        // button calls editProfile
-        await  tester.tap(find.byKey(const Key("editProfileButtonKey")));
+  final user = MockUser(
+    isAnonymous: false,
+    uid: 'YHrs4PbqEKOentDPS5pOHnA6sp82',
+    email: 'v@gmail.com',
+    displayName: 'Bob',
+  );
+  final auth = MockFirebaseAuth(signedIn: true, mockUser: user);
 
-        await tester.pump();
+  Future<void> buildSettingsPage(WidgetTester tester) async {
+    MockFirebaseDatabase.instance.ref().set(fakeData);
+    firebaseDatabase = MockFirebaseDatabase.instance;
+    NavigatorObserver mockObserver = MockNavigatorObserver();
+    await tester.pumpWidget(MaterialApp(
+      home: Settings(
+        firebaseDatabase: firebaseDatabase,
+        firebaseAuth: auth,
+      ),
+      navigatorObservers: [mockObserver],
+    ));
+  }
 
-        await tester.enterText(find.byKey(const Key("editNameArea")), "edited name");
+  testWidgets('able to edit profile successfully', (WidgetTester tester) async {
+    await buildSettingsPage(tester);
+    // button calls editProfile
+    await tester.tap(find.byKey(const Key("editProfileButtonKey")));
 
-        await tester.enterText(find.byKey(const Key("editEmailArea")), "new Email");
+    await tester.pump();
 
-        await tester.tap(find.text("SAVE"));
-        await tester.pump();
-        expect(find.text("EDITED NAME"), findsOneWidget);
-        expect(find.text("NEW EMAIL"), findsOneWidget);        
-         
-    });
+    await tester.enterText(
+        find.byKey(const Key("editNameArea")), "edited name");
 
-     testWidgets(
-        'cancelling after editing profile',
-        (WidgetTester tester) async {
-          await buildSettingsPage(tester);
-        // button calls editProfile
-        await  tester.tap(find.byKey(const Key("editProfileButtonKey")));
+    await tester.enterText(find.byKey(const Key("editEmailArea")), "new Email");
 
-        await tester.pump();
+    await tester.tap(find.text("SAVE"));
+    await tester.pump();
+    expect(find.text("EDITED NAME"), findsOneWidget);
+    expect(find.text("NEW EMAIL"), findsOneWidget);
+  });
 
-        await tester.enterText(find.byKey(const Key("editNameArea")), "edited name");
+  testWidgets('cancelling after editing profile', (WidgetTester tester) async {
+    await buildSettingsPage(tester);
+    // button calls editProfile
+    await tester.tap(find.byKey(const Key("editProfileButtonKey")));
 
-        await tester.enterText(find.byKey(const Key("editEmailArea")), "new Email");
+    await tester.pump();
 
-        await tester.tap(find.text("CANCEL"));
-        await tester.pump();
-        expect(find.text("FIRST LAST"), findsOneWidget);
-        expect(find.text("EMAIL@EMAIL.COM"), findsOneWidget);        
-         
-    });
-    
+    await tester.enterText(
+        find.byKey(const Key("editNameArea")), "edited name");
 
-    testWidgets("adding a phone number changes the opacity of the widget", (WidgetTester tester) async{
-      await buildSettingsPage(tester);
-      await tester.tap(find.byKey(const Key("smsAppGestureKey")));
+    await tester.enterText(find.byKey(const Key("editEmailArea")), "new Email");
 
-      await tester.pump();
-      //  opacity first should be 0.4 here
-      expect(tester.widget(find.byKey(const Key("smsAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
-      // entering phone number here
-      await tester.enterText(find.byKey(const Key("newSocialEditPlatformAlertKey")), "7688-567-1234");
-      // saving phone number
-      await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
-      await tester.pump();
-      await tester.pumpAndSettle();
-      
-   
-       expect(tester.widget(find.byKey(const Key("smsAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.0), BlendMode.srcATop) ));
-});
-    
-  testWidgets("adding snap info changes the opacity of the widget", (WidgetTester tester) async{
-      await buildSettingsPage(tester);
-      await tester.tap(find.byKey(const Key("snapAppGestureKey")));
+    await tester.tap(find.text("CANCEL"));
+    await tester.pump();
+    expect(find.text("FIRST LAST"), findsOneWidget);
+    expect(find.text("EMAIL@EMAIL.COM"), findsOneWidget);
+  });
 
-      await tester.pump();
-      //  opacity first should be 0.4 here
-      expect(tester.widget(find.byKey(const Key("snapAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
-      // entering phone number here
-      await tester.enterText(find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
-      // saving phone number
-      await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
-      await tester.pump();
-      await tester.pumpAndSettle();
-      
-   
-       expect(tester.widget(find.byKey(const Key("snapAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.0), BlendMode.srcATop) ));
-});
+  testWidgets("adding a phone number changes the opacity of the widget",
+      (WidgetTester tester) async {
+    await buildSettingsPage(tester);
+    await tester.tap(find.byKey(const Key("smsAppGestureKey")));
 
-  testWidgets("adding discord info changes the opacity of the widget", (WidgetTester tester) async{
-      await buildSettingsPage(tester);
-      await tester.tap(find.byKey(const Key("discordAppGestureKey")));
+    await tester.pump();
+    //  opacity first should be 0.4 here
+    expect(
+        tester.widget(find.byKey(const Key("smsAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.4), BlendMode.srcATop)));
+    // entering phone number here
+    await tester.enterText(
+        find.byKey(const Key("newSocialEditPlatformAlertKey")),
+        "7688-567-1234");
+    // saving phone number
+    await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
+    await tester.pump();
+    await tester.pumpAndSettle();
 
-      await tester.pump();
-      //  opacity first should be 0.4 here
-      expect(tester.widget(find.byKey(const Key("discordAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
-      // entering phone number here
-      await tester.enterText(find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
-      // saving phone number
-      await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
-      await tester.pump();
-      await tester.pumpAndSettle();
-      
-   
-       expect(tester.widget(find.byKey(const Key("discordAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.0), BlendMode.srcATop) ));
-});
+    expect(
+        tester.widget(find.byKey(const Key("smsAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.0), BlendMode.srcATop)));
+  });
 
- testWidgets("adding facebook info changes the opacity of the widget", (WidgetTester tester) async{
-      await buildSettingsPage(tester);
-      await tester.tap(find.byKey(const Key("facebookAppGestureKey")));
+  testWidgets("adding snap info changes the opacity of the widget",
+      (WidgetTester tester) async {
+    await buildSettingsPage(tester);
+    await tester.tap(find.byKey(const Key("snapAppGestureKey")));
 
-      await tester.pump();
-      //  opacity first should be 0.4 here
-      expect(tester.widget(find.byKey(const Key("facebookAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
-      // entering phone number here
-      await tester.enterText(find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
-      // saving phone number
-      await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
-      await tester.pump();
-      await tester.pumpAndSettle();
-      
-   
-       expect(tester.widget(find.byKey(const Key("facebookAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.0), BlendMode.srcATop) ));
-});
+    await tester.pump();
+    //  opacity first should be 0.4 here
+    expect(
+        tester.widget(find.byKey(const Key("snapAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.4), BlendMode.srcATop)));
+    // entering phone number here
+    await tester.enterText(
+        find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
+    // saving phone number
+    await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
+    await tester.pump();
+    await tester.pumpAndSettle();
 
-testWidgets("adding instagram info changes the opacity of the widget", (WidgetTester tester) async{
-      await buildSettingsPage(tester);
-      await tester.tap(find.byKey(const Key("instagramAppGestureKey")));
+    expect(
+        tester.widget(find.byKey(const Key("snapAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.0), BlendMode.srcATop)));
+  });
 
-      await tester.pump();
-      //  opacity first should be 0.4 here
-      expect(tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
-      // entering phone number here
-      await tester.enterText(find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
-      // saving phone number
-      await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
-      await tester.pump();
-      await tester.pumpAndSettle();
-      
-   
-       expect(tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.0), BlendMode.srcATop) ));
-});
+  testWidgets("adding discord info changes the opacity of the widget",
+      (WidgetTester tester) async {
+    await buildSettingsPage(tester);
+    await tester.tap(find.byKey(const Key("discordAppGestureKey")));
 
-testWidgets("clicking cancel after making social media changes and opacity remains the same", (WidgetTester tester) async{
-      await buildSettingsPage(tester);
-      await tester.tap(find.byKey(const Key("instagramAppGestureKey")));
+    await tester.pump();
+    //  opacity first should be 0.4 here
+    expect(
+        tester.widget(find.byKey(const Key("discordAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.4), BlendMode.srcATop)));
+    // entering phone number here
+    await tester.enterText(
+        find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
+    // saving phone number
+    await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
+    await tester.pump();
+    await tester.pumpAndSettle();
 
-      await tester.pump();
-      //  opacity first should be 0.4 here
-      expect(tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
-       isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
-      // entering insta information 
-      await tester.enterText(find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
-      // click cancel
-      await tester.tap(find.byKey(const Key("cancelNewSocialTapKey")));
-      await tester.pump();
-      await tester.pumpAndSettle();
-      
-   
-      expect(tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
-      isA<ColorFiltered>().having((p0) => p0.colorFilter, "new opacity", ColorFilter.mode(Colors.black.withOpacity(0.4), BlendMode.srcATop) ));
-});
+    expect(
+        tester.widget(find.byKey(const Key("discordAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.0), BlendMode.srcATop)));
+  });
 
-// testWidgets("successfully navigating to about page", (WidgetTester tester) async {
-//     await buildSettingsPage(tester);
-//     await tester.tap(find.byKey(const Key("aboutNavigationGestureDetectorKey")));
-//     await tester.pumpAndSettle(const Duration(seconds: 2));
-//     // tester.widget(find.text("About"));
+  testWidgets("adding facebook info changes the opacity of the widget",
+      (WidgetTester tester) async {
+    await buildSettingsPage(tester);
+    await tester.tap(find.byKey(const Key("facebookAppGestureKey")));
 
+    await tester.pump();
+    //  opacity first should be 0.4 here
+    expect(
+        tester.widget(find.byKey(const Key("facebookAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.4), BlendMode.srcATop)));
+    // entering phone number here
+    await tester.enterText(
+        find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
+    // saving phone number
+    await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
+    await tester.pump();
+    await tester.pumpAndSettle();
 
-//     expect(find.byType(About), findsOneWidget);
+    expect(
+        tester.widget(find.byKey(const Key("facebookAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.0), BlendMode.srcATop)));
+  });
 
+  testWidgets("adding instagram info changes the opacity of the widget",
+      (WidgetTester tester) async {
+    await buildSettingsPage(tester);
+    await tester.tap(find.byKey(const Key("instagramAppGestureKey")));
 
-// });
+    await tester.pump();
+    //  opacity first should be 0.4 here
+    expect(
+        tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.4), BlendMode.srcATop)));
+    // entering phone number here
+    await tester.enterText(
+        find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
+    // saving phone number
+    await tester.tap(find.byKey(const Key("saveNewSocialTapKey")));
+    await tester.pump();
+    await tester.pumpAndSettle();
 
-// TODO: not finding the signing out gesture detector for some reason?
-    // testWidgets("signing out", (WidgetTester tester) async {
-      
-    //   await buildSettingsPage(tester);
-    //   await tester.pumpAndSettle();
-    //   await tester.tap(find.byKey( const Key("signOutSettingsGestureDetectorKey")));
+    expect(
+        tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.0), BlendMode.srcATop)));
+  });
 
-    //   // await widgetTester.tap(
-    //   //   find.descendant(of: find.byKey(const Key("paddingsignOutSettingsGestureDetectorKey")) , matching: find.byKey( const Key("signOutSettingsGestureDetectorKey"))));
-      
-    //   await tester.pump();
+  testWidgets(
+      "clicking cancel after making social media changes and opacity remains the same",
+      (WidgetTester tester) async {
+    await buildSettingsPage(tester);
+    await tester.tap(find.byKey(const Key("instagramAppGestureKey")));
 
-    //   expect(find.byType(SignUp), findsOneWidget);
+    await tester.pump();
+    //  opacity first should be 0.4 here
+    expect(
+        tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.4), BlendMode.srcATop)));
+    // entering insta information
+    await tester.enterText(
+        find.byKey(const Key("newSocialEditPlatformAlertKey")), "snapUserName");
+    // click cancel
+    await tester.tap(find.byKey(const Key("cancelNewSocialTapKey")));
+    await tester.pump();
+    await tester.pumpAndSettle();
 
-    // });
-
-
+    expect(
+        tester.widget(find.byKey(const Key("instagramAppOpacityKey"))),
+        isA<ColorFiltered>().having(
+            (p0) => p0.colorFilter,
+            "new opacity",
+            ColorFilter.mode(
+                Colors.black.withOpacity(0.4), BlendMode.srcATop)));
+  });
 }
-
-
-  //  var snapshot = await firebaseDatabase.ref("users/YHrs4PbqEKOentDPS5pOHnA6sp82").get();
-  //     for (var element in snapshot.children) {
-  //       print("${element.key} and ${element.value}" );
-  //     }
-
-
-
-
-  // testing to make sure only a phone number number is accepted - right now taking any value
-    // testing for the length of the phone number
