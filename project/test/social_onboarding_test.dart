@@ -61,6 +61,9 @@ void main(){
     Future<void> buildSocialOnboardingPage(
     WidgetTester tester,
   ) async {
+    final TestWidgetsFlutterBinding binding =
+        TestWidgetsFlutterBinding.ensureInitialized();
+    await binding.setSurfaceSize(const Size(640, 684));
     await tester.pumpWidget(MaterialApp(
       home: SocialOnboarding(
         firebaseDatabase: firebaseDatabase,
