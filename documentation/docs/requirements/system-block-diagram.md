@@ -4,4 +4,22 @@ sidebar_position: 2
 
 # System Block Diagram
 
-![System Block Diagram](https://cdn.discordapp.com/attachments/979937535272816703/1090147077788549212/Round_System_Block_Diagram.drawio.png)
+```mermaid
+graph LR
+    A[User: Initiator]
+    B[Users: Participants]
+    C[Database: Group Data]
+    D[Database: User Data]
+    F[Round App]
+
+    A-->|User creates a group|F
+    F-->|Round generates a code|A
+    B-->|User sends personal availabilities|F
+    F-->|Round generates code|B
+    subgraph Google Firebase [Google Firebase]
+    C-->|Get Data|F
+    F-->|Post Data|C
+    D-->|Get Data|F
+    F-->|Post Data|D
+    end
+```
