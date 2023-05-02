@@ -3,6 +3,8 @@ sidebar_position: 3
 ---
 # Acceptance test
 
+Download the acceptance test checklist [here](https://github.com/Capstone-Projects-2023-Spring/project-groupmeet/files/11377275/Acceptance_Test.docx)
+
 **1. Registration and Login**
 -Expected Result: The user is able to register an account, and login using said account. They will then be routed to a home page, where they can then view their account information and enter in their social media preferences. The user can also integrate calendars, which can all be viewed within Round. Any existing groups they are a part of will also be listed.
 
