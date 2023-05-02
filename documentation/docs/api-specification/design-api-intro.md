@@ -226,5 +226,40 @@ private class _AllGroupsState
 
 **Methods**  
 *grabGroups()*  
-* Returns the groups for the user from the database to be displayed to the user
+* Obtains and returns the groups for the user from the database to be displayed to the user
 * **Returns** a Future List of Maps that contain all groups and their pertinent information.
+
+public class GroupCreation
+============================================================================================================
+**Purpose**  
+The page that allows the user to create a new page.
+
+**Properties**  
+*userID: The user's database ID*  
+*firebaseDatabase: A Database reference that refers to the user's currently stored events.*  
+
+**Methods**  
+*createState()*  
+* Returns a state object for AddEvent.
+
+private class _GroupCreationState
+============================================================================================================
+**Properties**  
+
+**Methods**  
+*createMaterialColor(Color color)*  
+* Creates the color material to be used when displaying the group
+* **Parameters** color - The color chosen by the user.
+* **Returns** A MaterialColor object that contains the information needed to display the color in the future.  
+  
+*buttonPress(BuildContext context)*  
+* **Parameters** context - The page seen by the user.
+* An Asynchronous method that creates the group when the user pressed the button.  
+  
+*_openDialog(String title, Widget content)*  
+* Creates a popup for the user to navigate.  
+* **Parameters** title, content - The information needed to create the information in the popup.  
+  
+*colorTapped()*  
+* Indicates which color code was selected by the user  
+  
