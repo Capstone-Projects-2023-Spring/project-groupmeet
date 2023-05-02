@@ -56,20 +56,23 @@ void main(){
   
 
     Future<void> buildSocialOnboardingPage(
+     
     WidgetTester tester,
   ) async {
+        final TestWidgetsFlutterBinding binding =
+        TestWidgetsFlutterBinding.ensureInitialized();
+    await binding.setSurfaceSize(const Size(640, 684));
     await tester.pumpWidget(MaterialApp(
       home: SocialOnboarding(
         firebaseDatabase: firebaseDatabase,
         firebaseAuth: auth,
       ),
+      
 
     ));
   }
 
-  testWidgets("social media message is present", (WidgetTester tester) async {
-    // render flex exception being thrown
-    // unable to proceed rn :(
+  testWidgets("social media message is present", (WidgetTester tester) async {    
     await buildSocialOnboardingPage(tester);
     find.text("Save third-party usernames to be used with Round (optional)");
 
