@@ -232,7 +232,7 @@ class SignUp extends StatelessWidget {
                       width: 64,
                       child: PlatformIconButton(
                         key: const Key(
-                            "signUpButtonAndGoToCalendarLinkingPageKey"),
+                            "signUpButtonAndGoToSocialMediaPageKey"),
                         icon: Image.asset(
                           "images/OnboardingNext.png",
                           height: 64,

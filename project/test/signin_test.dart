@@ -129,7 +129,7 @@ void main() {
     await buildSignInPage(tester);
     
     await tester.enterText(find.byKey(const Key("emailInputAreaSignInKey")),
-        "nonexist@gmail.com");
+        "@gmail.com");
     await tester.enterText(find.byKey(const Key("passwordInputAreaSignInKey"),),
         "password");    
     await tester.tap(find.byType(PlatformIconButton));
@@ -157,7 +157,7 @@ void main() {
     await tester.enterText(find.byKey(const Key("emailInputAreaSignInKey")),
         "email@gmail.com");
     await tester.enterText(find.byKey(const Key("passwordInputAreaSignInKey"),),
-        "password");    
+        "p");    
     await tester.tap(find.byType(PlatformIconButton));
     await tester.pump();
     expect(

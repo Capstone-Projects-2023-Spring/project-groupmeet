@@ -58,13 +58,6 @@ void main() {
     await Firebase.initializeApp();
   });
 
-  test("unit test example", () {
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
-    var widget = HomeScreen(firebaseDatabase: firebaseDatabase,firebaseAuth: FirebaseAuth.instance,);
-    widget.createElement();
-    expect(widget, "Test");
-  });
-
   testWidgets('Title test for Settings Screen', (WidgetTester tester) async {
     // Tests to write
     Widget testWidget = const MediaQuery(

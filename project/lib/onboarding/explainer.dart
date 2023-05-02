@@ -96,6 +96,7 @@ class Explainer extends StatelessWidget {
                       ),
                       padding: EdgeInsets.zero,
                       onPressed: () => buttonPress(context),
+                      key: const Key("nextButton")
                     )),
                 SizedBox(width: screenWidth, height: 16),
                 PlatformText("© 2023 Round Corp\nFrom Philly with Love 🤍",
