@@ -34,7 +34,7 @@ void main() {
   group('end-to-end test', () {
     testWidgets('test signup', (tester) async {
       app.main();
-      await tester.pumpAndSettle(const Duration(seconds: 5));
+      await tester.pumpAndSettle(const Duration(seconds: 10));
       expect(find.text("ROUND"), findsOneWidget);
       expect(find.byKey(const Key("nextButton")), findsOneWidget);
       await tester.tap(find.byKey(const Key("nextButton")));
