@@ -153,7 +153,7 @@ The page that allows the user to display the code for others to utilize
 *nameId: A dynamic list that contains the ID names.*  
 
 **Methods**
-*buildList(List<dynamic> groupName, List<dynamic> nameId)*  
+*buildList(List groupName, List nameId)*  
 * Creates the group code in a presentable manner for the user to see it
 * **parameters** groupName, nameId - Lists that allow for the QR code to be created.
 * **returns** a Widget to be used to display the QR code  
