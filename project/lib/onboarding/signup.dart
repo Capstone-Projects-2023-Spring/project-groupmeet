@@ -87,8 +87,8 @@ class SignUp extends StatelessWidget {
         platformPageRoute(
             context: context,
             builder: (_) => SocialOnboarding(
-                  firebaseDatabase: FirebaseDatabase.instance,
-                  firebaseAuth: FirebaseAuth.instance,
+                  firebaseDatabase: firebaseDatabase,
+                  firebaseAuth: firebaseAuth,
                 )),
       );
     }).catchError((e) {

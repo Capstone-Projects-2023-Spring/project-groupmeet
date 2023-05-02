@@ -31,7 +31,7 @@ void main(){
   ) async {
     final TestWidgetsFlutterBinding binding =
         TestWidgetsFlutterBinding.ensureInitialized();
-    await binding.setSurfaceSize(const Size(640, 680));
+    await binding.setSurfaceSize(const Size(640, 684));
     await tester.pumpWidget(MaterialApp(
       home: SignUp(
         firebaseDatabase: firebaseDatabase,
