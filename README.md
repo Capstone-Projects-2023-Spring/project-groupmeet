@@ -71,7 +71,7 @@ This document proposes a multi-platform mobile application called "Round" that c
 
 #### Precompiled (Recommended for Users)
 
-Downloaded the latest version's APK [here](https://github.com/Capstone-Projects-2023-Spring/project-groupmeet/releases/download/3.2/app-release.apk)
+Downloaded the latest version's APK [here](https://github.com/Capstone-Projects-2023-Spring/project-groupmeet/releases/download/4.0/app-release.apk)
 
 Older verion's APK binaries can be found under the [Releases](https://github.com/Capstone-Projects-2023-Spring/project-groupmeet/releases) tab on Github.
 
@@ -79,9 +79,11 @@ Further instructions on how to sideload APK files can be found [here](https://ww
 
 #### From Source (For Developers or iOS Users)
 
-Download The Required Packages:`<br/>`
-Android Studios - https://developer.android.com/studio?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh3GLldIaM0FTlhDIounMzKd5c-MJrDKD7v7xqhQNtEqvpgtDDfMWqMaAjDNEALw_wcB&gclsrc=aw.ds `<br/>`
-Flutter SDK - https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh2nAMF4Wf0BBWiHCr23FdQzAFEU5jo0ZYbOUzh4WztsIqaX2AsCFkoaAimtEALw_wcB&gclsrc=aw.ds `<br/>`
+Download The Required Packages:
+
+-Android Studios - [here](https://developer.android.com/studio?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh3GLldIaM0FTlhDIounMzKd5c-MJrDKD7v7xqhQNtEqvpgtDDfMWqMaAjDNEALw_wcB&gclsrc=aw.ds)
+
+-Flutter SDK - [here](https://docs.flutter.dev/get-started/install?gclid=Cj0KCQjwtsCgBhDEARIsAE7RYh2nAMF4Wf0BBWiHCr23FdQzAFEU5jo0ZYbOUzh4WztsIqaX2AsCFkoaAimtEALw_wcB&gclsrc=aw.ds)
 
 Prepare the IDE:
 
